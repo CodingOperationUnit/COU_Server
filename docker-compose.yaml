@@ -1,0 +1,16 @@
+services:
+  mysql:
+    image: mysql:8.4                  # 버전 고정 (latest 금지)
+    container_name: cou-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: cou             # DB 자동 생성
+      TZ: Asia/Seoul
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci   # 한글 아이템 이름 대비
+    ports:
+      - "${DB_PORT:-3306}:3306"       # 포트가 겹치는 팀원은 .env에서 변경
+    volumes:
+      - cou-mysql-data:/var/lib/mysql # 컨테이너를 지워도 데이터 유지
+
+volumes:
+  cou-mysql-data:
