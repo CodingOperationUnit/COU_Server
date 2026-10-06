@@ -13,4 +13,7 @@ public enum ItemGrade {
     public ItemGrade next() {
         return values()[ordinal() + 1];
     }
+    public String toClientName() {
+        return name().charAt(0) + name().substring(1).toLowerCase();
+    }
 }
