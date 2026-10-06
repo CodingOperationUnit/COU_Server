@@ -34,7 +34,6 @@ public class ItemDataLoader implements ApplicationRunner {
                         data.itemId(),
                         data.itemName(),
                         data.description(),
-                        data.iconPath(),
                         EquipSlotType.valueOf(data.slotType().toUpperCase()),
                         ItemGrade.valueOf(data.grade().toUpperCase()),
                         data.hpBonus(),

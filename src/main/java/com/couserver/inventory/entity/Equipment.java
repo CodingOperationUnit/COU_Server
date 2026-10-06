@@ -16,6 +16,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 //플레이어가 보유한 장비
 @Getter
 @Entity
@@ -46,11 +48,16 @@ public class Equipment {
     @Column(nullable = false)
     private boolean equipped = false;
 
+    // 장비 획득 시각
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime acquiredAt;
+
     public static Equipment create(Long playerId, Item item) {
         Equipment equipment = new Equipment();
         equipment.playerId = playerId;
         equipment.item = item;
         equipment.grade = item.getGrade();
+        equipment.acquiredAt = LocalDateTime.now();
         return equipment;
     }
 }

@@ -26,9 +26,6 @@ public class Item {
     @Column(length = 200)
     private String description;
 
-    @Column(length = 200)
-    private String iconPath;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private EquipSlotType slotType;
@@ -46,13 +43,12 @@ public class Item {
     @Column(nullable = false)
     private int moveSpeedBonus;
 
-    public Item(Long id, String name, String description, String iconPath,
+    public Item(Long id, String name, String description,
                 EquipSlotType slotType, ItemGrade grade,
                 int hpBonus, int attackBonus, int moveSpeedBonus) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.iconPath = iconPath;
         this.slotType = slotType;
         this.grade = grade;
         this.hpBonus = hpBonus;
