@@ -24,7 +24,7 @@ public class JwtProvider {
         this.accessTtlSeconds = accessTtlSeconds;
     }
 
-    public String createAccesssToken(Account account) {
+    public String createAccessToken(Account account) {
         Instant now = Instant.now();
         Instant expiresAt = now.plusSeconds(accessTtlSeconds);
 

@@ -5,7 +5,9 @@ import com.couserver.account.dto.LoginRequest;
 import com.couserver.account.dto.LoginResponse;
 import com.couserver.account.dto.SignupRequest;
 import com.couserver.account.entity.Account;
+import com.couserver.account.entity.PlayerProfile;
 import com.couserver.account.repository.AccountRepository;
+import com.couserver.account.repository.PlayerProfileRepository;
 import com.couserver.config.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,17 +22,24 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
+    private final PlayerProfileRepository playerProfileRepository;
 
     @Transactional
     public AccountResponse signup(SignupRequest request) {
         if (accountRepository.existsByAccountLoginId(request.getAccountLoginId())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 사용 중인 아이디입니다.");
         }
+        if (playerProfileRepository.existsByPlayerNickname(request.getPlayerNickname())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 사용 중인 닉네임입니다.");
+        }
 
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         Account account = new Account(request.getAccountLoginId(), encodedPassword);
         Account savedAccount = accountRepository.save(account);
+
+        PlayerProfile profile = new PlayerProfile(savedAccount, request.getPlayerNickname());
+        playerProfileRepository.save(profile);
 
         return new AccountResponse(
                 savedAccount.getAccountId(),
@@ -51,7 +60,7 @@ public class AccountService {
 
         account.recordLogin();
 
-        String accessToken = jwtProvider.createAccesssToken(account);
+        String accessToken = jwtProvider.createAccessToken(account);
         AccountResponse accountResponse = new AccountResponse(
                 account.getAccountId(),
                 account.getAccountLoginId(),

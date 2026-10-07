@@ -9,11 +9,11 @@ import lombok.Getter;
 public class SignupRequest {
     @NotBlank
     @Pattern(regexp = "^[a-z0-9_]{3,20}$")
-    String accountLoginId;
+    private String accountLoginId;
 
     @NotBlank
-    String password;
+    private String password;
 
     @NotBlank @Size(max = 20)
-    String playerNickname;
+    private String playerNickname;
 }
