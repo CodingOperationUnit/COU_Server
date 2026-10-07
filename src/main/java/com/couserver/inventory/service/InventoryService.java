@@ -1,14 +1,18 @@
 package com.couserver.inventory.service;
 
 
+import com.couserver.account.entity.Currency;
+import com.couserver.account.repository.CurrencyRepository;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.inventory.dto.*;
 import com.couserver.inventory.entity.Equipment;
 import com.couserver.inventory.exception.InventoryErrorCode;
 import com.couserver.inventory.repository.EquipmentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +22,14 @@ import java.util.List;
 public class InventoryService {
 
     private final EquipmentRepository equipmentRepository;
-
+    private final CurrencyRepository currencyRepository;
     private static final int SYNTHESIS_MATERIAL_COUNT = 2;   // 합성 재료 개수
 
     @Transactional(readOnly = true)
     public InventoryResponse getInventory(Long playerId) {
+        Currency currency = currencyRepository.findById(playerId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "재화 데이터가 없습니다."));
+
         List<EquipmentResponse> items = equipmentRepository
                 .findByPlayerIdOrderByIdAsc(playerId)
                 .stream()
@@ -34,7 +41,7 @@ public class InventoryService {
                         e.isEquipped()))
                 .toList();
 
-        return new InventoryResponse(0, 0, items); // 임시 재화값
+        return new InventoryResponse(currency.getCurrencyGold(), currency.getCurrencyGem(), items);
     }
 
     // 장비 소유 확인
