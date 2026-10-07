@@ -1,12 +1,12 @@
 package com.couserver.inventory.controller;
 
 
+import com.couserver.inventory.dto.EquipResponse;
+import com.couserver.inventory.dto.EquipmentResponse;
 import com.couserver.inventory.dto.InventoryResponse;
 import com.couserver.inventory.service.InventoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/inventory")
@@ -19,5 +19,15 @@ public class InventoryController {
     @GetMapping
     public InventoryResponse getInventory() {
         return inventoryService.getInventory(TEMP_PLAYER_ID);
+    }
+
+    @PostMapping("/{inventoryId}/equip")
+    public EquipResponse equip(@PathVariable Long inventoryId) {
+        return inventoryService.equip(TEMP_PLAYER_ID, inventoryId);
+    }
+
+    @PostMapping("/{inventoryId}/unequip")
+    public EquipmentResponse unequip(@PathVariable Long inventoryId) {
+        return inventoryService.unequip(TEMP_PLAYER_ID, inventoryId);
     }
 }

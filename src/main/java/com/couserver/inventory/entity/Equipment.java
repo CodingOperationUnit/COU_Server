@@ -60,4 +60,13 @@ public class Equipment {
         equipment.acquiredAt = LocalDateTime.now();
         return equipment;
     }
+
+    public void equip() {
+        this.equipped = true;
+    }
+
+    public void unequip() {
+        this.equipped = false;
+    }
+
 }
