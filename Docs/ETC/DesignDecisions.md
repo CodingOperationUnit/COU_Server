@@ -40,6 +40,7 @@
   - 서버와 함께 쓰는 테이블은 클라이언트가 접속할 때 서버가 내려주고, 클라이언트는 받은 데이터를 쓴다.
   - 클라이언트 전용 테이블(연출용 등)은 서버를 거치지 않고 클라이언트 빌드에 남긴다.
   - 서버가 내려주는 테이블도 클라이언트 빌드에 사본을 남긴다. 서버에서 받으면 사본을 덮어쓴다.
+  - Item도 다른 테이블과 같이 메모리에 둔다. 지금의 DB 적재는 임시이고, 정적 데이터 캐싱을 구현한 뒤 후속 작업으로 바꾼다(아래 "후속 작업: Item").
 
 ### 이유
 - 클라이언트가 서버 사본을 받아 쓰므로 서버와 클라이언트의 데이터가 어긋나지 않는다.
@@ -60,15 +61,65 @@
 - 로그인 전에 받으므로 이 API는 인증 없이 호출할 수 있게 연다(`permitAll`).
 - 클라이언트 `JsonDataManager`는 지금 `Awake`에서 `Resources`를 동기로 읽는다. 빌드 사본으로 먼저 채우고, 서버 응답을 받으면 덮어쓰는 흐름으로 바꾼다.
 
+### 세부 결정
+
+#### 데이터 생성 절차: 원터치 자동화
+- 클라이언트의 `Tools > Google Sheets > JSON Exporter`를 확장한다. 버튼 하나로 시트의 모든 탭을 내보내 클라이언트 `Assets/Resources/JsonFiles`와 서버 레포 `src/main/resources/data/`에 함께 저장한다.
+- 서버 레포의 로컬 경로는 EditorPrefs에 설정한다.
+- 도구는 파일 생성까지만 한다. 커밋은 사람이 diff를 확인하고 한다.
+- 서버 `data/`에 저장하는 탭: AccountConst, Stage, Wave, SpawnPattern, Monster, DropTable, DropItem, Item(`BackendIntegration_DevAkasha.md` 3.6)
+- 이유: 시트 접근(Apps Script, TSV 다운로드)과 형식 검증이 이미 있다. 한 번에 양쪽에 저장하므로 복사를 빠뜨리지 않는다.
+- Exporter는 jyj8943 작성 코드라서 확장은 작성자와 협의한다.
+
+#### 서버 JSON 위치: jar 포함
+- `src/main/resources/data/`에 두고 jar에 넣는다.
+- 이유: 코드와 데이터가 한 빌드로 묶여, 같은 빌드의 인스턴스는 같은 데이터를 쓴다. 외부 저장소는 다시 읽는 로직과 저장소 운영이 필요하다.
+
+#### 데이터 버전: `0.0.0` 3단계
+| 자리 | 올리는 경우 |
+|---|---|
+| 첫째 | 클라이언트 코드를 바꿔야 하는 변경(클라이언트가 읽는 열의 삭제·이름·자료형 변경, 클라이언트가 새로 써야 하는 열 추가) |
+| 둘째 | 테이블·행 추가 |
+| 셋째 | 값 수정 |
+
+- 묶음 전체에 버전 하나를 둔다.
+- 원터치 도구가 서버 `data/`에 버전 파일을 함께 쓴다. 서버 `data/`의 기존 파일과 내용이 다르면 셋째 자리를 자동으로 올린다. 첫째·둘째 자리는 내보낼 때 사람이 고르고, 아랫자리는 0으로 돌린다.
+- 클라이언트 빌드는 자신이 읽을 수 있는 첫째 자리 값을 가진다. 서버 버전의 첫째 자리가 다르면 앱 업데이트를 요구한다.
+- 이유: 사람이 올리기를 빠뜨리면 내용이 달라도 버전이 같아 클라이언트가 새 데이터를 받지 않는다. 그래서 내용이 바뀌면 도구가 최소 셋째 자리를 올린다.
+
+#### 초기값: 정적 데이터 사용
+- 초기 재화는 AccountConst의 initialGold, initialGem, initialStamina를 쓴다. `application.properties`의 `game.initial.*`는 지운다.
+- 첫 스테이지는 Stage의 최소 stageId로 정한다. `game.first-stage-id`는 지운다.
+- 이유: 지금 `application.properties`와 AccountConst에 같은 값이 두 번 정의돼 있다. 스테이지 해금 규칙(첫 스테이지 ~ maxClearedStageId 다음 스테이지)이 이미 stageId 순서를 쓴다.
+- `PlayerService`는 jyj8943 작성 코드라서 작성자와 협의한다.
+
 ### 주의
 - 롤링 배포 중에는 데이터 버전이 다른 서버가 함께 돈다. 전투 입장과 결과 검증이 서로 다른 버전에서 처리될 수 있다.
+- 자동화 전에 시트 AccountConst 탭에 battleStaminaCost 열을 추가한다. 그대로 내보내면 열이 사라져 전투 입장 스태미나 비용이 0이 된다(`GameData_Tags.md` 6.8).
+- 첫째 자리가 바뀌는 변경은 클라이언트 업데이트가 필요하다. "서버만 다시 배포하면 된다"(이유 2)는 둘째·셋째 자리 변경에만 해당한다.
 
-### 미정
-- Item: `Equipment.item`이 Item 엔티티를 참조하므로 DB 적재를 유지할지
-- 시트에서 JSON을 만드는 절차(수작업 / 빌드 자동화)
-- 서버 JSON 위치(jar 포함 / 외부 저장소)
-- 데이터 버전 값의 형식
-- `application.properties`의 `game.initial.energy`, `game.first-stage-id`와 정적 데이터 중 어느 쪽을 쓸지
+### 후속 작업: Item
+- 시점: 정적 데이터 캐싱을 구현한 뒤. 인벤토리 작성자가 바꾼다.
+- 지금 DB에 둔 이유: 장비가 Item을 FK로 참조하고, 장착 슬롯 조회와 합성에서 item을 조인한다. 캐싱 전까지의 임시 처리다(작성자 확인).
+
+#### 조인 없이 처리하는 방법
+- 합성: itemId 값만 비교하고 Item의 다른 열은 쓰지 않는다. 장비 행의 itemId로 조회하면 된다.
+- 장착 슬롯 조회: 장착 중인 장비는 최대 6개다. 모두 가져와 정적 데이터의 slotType으로 거르면 된다. 쿼리 수는 지금과 같다.
+- FK 무결성: 장비는 서버만 만들고(보상, 상점, 합성) itemId를 정적 데이터에서 고르므로, 만들 때 보장된다.
+
+#### 변경 위치
+| 위치 | 변경 |
+|---|---|
+| `Equipment` | `@ManyToOne Item item`을 `Long itemId`(`item_id` 열)로 바꾼다. `create`는 정적 데이터의 Item 행에서 기본 등급을 얻는다 |
+| `EquipmentRepository` | `findByPlayerIdAndItemSlotTypeAndEquippedTrue`를 `findByPlayerIdAndEquippedTrue`로 바꾼다. 합성 쿼리의 `Item_Id`를 `ItemId`로 바꾼다 |
+| `InventoryService` | 장착할 때 장착 중인 장비를 가져와 정적 데이터의 slotType으로 같은 슬롯의 장비를 찾는다 |
+| `getItem().getId()`를 쓰는 곳(`InventoryService`, `InventoryItemResponse`, 합성 응답) | `getItemId()`로 바꾼다 |
+| `Item`, `ItemRepository`, `ItemDataLoader`, `ItemDataFile` | 삭제한다. `ItemData`는 정적 데이터의 Item record로 옮긴다 |
+
+#### 주의
+- 바꾸기 전까지 `ItemDataLoader`는 이미 있는 ID를 건너뛴다. Item 값을 바꾸면 로컬 DB를 초기화해야 서버에 반영된다.
+- `ddl-auto=update`는 `item` 테이블과 `equipment.item_id` FK를 지우지 않는다. 바꾼 뒤 로컬 DB를 초기화한다.
+- 보유 장비가 itemId를 참조하므로 Item 시트에서 행을 지우지 않는다.
 
 ## 3. 서버 시각 기준
 - 결정일: 2026-10-07

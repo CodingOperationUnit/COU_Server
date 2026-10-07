@@ -1,0 +1,53 @@
+{
+  "datas": [
+    {
+      "waveEntryId": 1,
+      "waveId": 1,
+      "patternStartTime": 0.0,
+      "patternId": 1,
+      "monsterId": 11001
+    },
+    {
+      "waveEntryId": 2,
+      "waveId": 1,
+      "patternStartTime": 10.0,
+      "patternId": 2,
+      "monsterId": 11002
+    },
+    {
+      "waveEntryId": 3,
+      "waveId": 1,
+      "patternStartTime": 15.0,
+      "patternId": 3,
+      "monsterId": 12001
+    },
+    {
+      "waveEntryId": 4,
+      "waveId": 1,
+      "patternStartTime": 20.0,
+      "patternId": 4,
+      "monsterId": 11001
+    },
+    {
+      "waveEntryId": 5,
+      "waveId": 1,
+      "patternStartTime": 25.0,
+      "patternId": 3,
+      "monsterId": 12002
+    },
+    {
+      "waveEntryId": 6,
+      "waveId": 1,
+      "patternStartTime": 45.0,
+      "patternId": 5,
+      "monsterId": 13001
+    },
+    {
+      "waveEntryId": 7,
+      "waveId": 1,
+      "patternStartTime": 10.0,
+      "patternId": 6,
+      "monsterId": 14001
+    }
+  ]
+}
