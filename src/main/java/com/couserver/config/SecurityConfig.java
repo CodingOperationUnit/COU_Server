@@ -11,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -20,7 +21,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtProvider jwtProvider) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable) // 쿠키 인증 안 씀 -> CSRF 보호 끄기
                 .sessionManagement(session ->
@@ -33,7 +34,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint((request, response, authException) ->
-                                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED)));
+                                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED)))
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), AuthorizationFilter.class);
 
         return http.build();
     }

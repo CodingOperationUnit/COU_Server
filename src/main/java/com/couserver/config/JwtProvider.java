@@ -1,11 +1,17 @@
 package com.couserver.config;
 
+import com.couserver.account.dto.AuthAccount;
 import com.couserver.account.entity.Account;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
@@ -34,5 +40,19 @@ public class JwtProvider {
                 .expiration(Date.from(expiresAt))            // 만료 시각
                 .signWith(secretKey, Jwts.SIG.HS256)         // 비밀키로 서명
                 .compact();
+    }
+
+    public AuthAccount parseToken(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .verifyWith(secretKey)      // 같은 비밀키로 서명 검증
+                    .build()
+                    .parseSignedClaims(token)   // 서명이 다르거나 만료면 여기서 예외
+                    .getPayload();
+            int accountId = Integer.parseInt(claims.getSubject());
+            return new AuthAccount(accountId);
+        } catch (JwtException | IllegalArgumentException exception) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
     }
 }
