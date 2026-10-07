@@ -4,6 +4,7 @@ import com.couserver.common.exception.BusinessException;
 import com.couserver.master.exception.MasterErrorCode;
 import com.couserver.monster.table.BossAttackTable;
 import com.couserver.monster.table.MonsterTable;
+import com.couserver.monster.table.SpawnPatternTable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,14 @@ public class EnemyMasterController {
 
     private final MonsterTable monsterTable;
     private final BossAttackTable bossAttackTable;
+    private final SpawnPatternTable spawnPatternTable;
 
     @GetMapping("/{tableName}")
     public ResponseEntity<JsonNode> getTable(@PathVariable String tableName) {
         JsonNode body = switch (tableName) {
             case MonsterTable.TABLE_NAME -> monsterTable.original();
             case BossAttackTable.TABLE_NAME -> bossAttackTable.original();
+            case SpawnPatternTable.TABLE_NAME -> spawnPatternTable.original();
             default -> throw new BusinessException(MasterErrorCode.MASTER_TABLE_NOT_FOUND);
         };
         return ResponseEntity.ok(body);
