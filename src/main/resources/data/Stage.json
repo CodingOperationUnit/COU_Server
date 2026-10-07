@@ -1,0 +1,32 @@
+{
+  "datas": [
+    {
+      "stageId": 1,
+      "stageName": "Forest",
+      "stageIllustrationColor": "#4C7A3D",
+      "stageDuration": 150.0,
+      "waveId": 1,
+      "stageDescription": "몬스터가 가득한 숲입니다.",
+      "clearAccountExp": 500,
+      "rewardBoxGradeWeights": [
+        100,
+        0,
+        0
+      ]
+    },
+    {
+      "stageId": 2,
+      "stageName": "Desert",
+      "stageIllustrationColor": "#C9A66B",
+      "stageDuration": 150.0,
+      "waveId": 2,
+      "stageDescription": "햇빛이 뜨거운 사막입니다.",
+      "clearAccountExp": 500,
+      "rewardBoxGradeWeights": [
+        100,
+        0,
+        0
+      ]
+    }
+  ]
+}

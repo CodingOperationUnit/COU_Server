@@ -19,5 +19,5 @@ public class PlayerSaveRequest {
     @NotNull @Valid
     private PlayerStatSaveRequest playerStat;
 
-    // inventoryList는 18단계에서 추가
+    // 장비(inventoryList)는 인벤토리 API에서 저장하므로 받지 않는다
 }

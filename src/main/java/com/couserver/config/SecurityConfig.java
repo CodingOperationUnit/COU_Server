@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/accounts/signup", "/api/accounts/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/master/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/static-data").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint((request, response, authException) ->
