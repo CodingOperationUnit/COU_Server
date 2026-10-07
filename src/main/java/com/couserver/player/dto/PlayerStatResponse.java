@@ -1,6 +1,6 @@
-package com.couserver.account.dto;
+package com.couserver.player.dto;
 
-import com.couserver.account.entity.PlayerStat;
+import com.couserver.player.entity.PlayerStat;
 import lombok.Getter;
 
 @Getter
