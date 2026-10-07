@@ -6,6 +6,7 @@ import com.couserver.account.repository.CurrencyRepository;
 import com.couserver.account.repository.PlayerProfileRepository;
 import com.couserver.account.repository.PlayerStatRepository;
 import com.couserver.account.repository.StageProgressRepository;
+import com.couserver.inventory.repository.EquipmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ public class PlayerService {
     private final CurrencyRepository currencyRepository;
     private final StageProgressRepository stageProgressRepository;
     private final PlayerStatRepository playerStatRepository;
+    private final EquipmentRepository equipmentRepository;
 
     @Value("${game.initial.gold}")
     private int initialGold;
@@ -58,12 +60,25 @@ public class PlayerService {
         PlayerStat playerStat = playerStatRepository.findById(playerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "스탯 데이터가 없습니다."));
 
+        List<InventoryItemResponse> inventoryList = equipmentRepository
+                .findByPlayerIdOrderByIdAsc(playerId)
+                .stream()
+                .map(InventoryItemResponse::new)
+                .toList();
+
         return new PlayerSaveDataResponse(
                 new PlayerProfileResponse(profile),
                 new CurrencyResponse(currency),
-                List.of(),
+                inventoryList,
                 new StageProgressResponse(stageProgress),
                 new PlayerStatResponse(playerStat)
         );
+    }
+
+    @Transactional(readOnly = true)
+    public Long getPlayerId(int accountId) {
+        return playerProfileRepository.findByAccount_AccountId(accountId)
+                .map(PlayerProfile::getPlayerId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "플레이어 데이터가 없습니다."));
     }
 }
