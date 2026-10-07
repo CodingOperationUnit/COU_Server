@@ -69,4 +69,8 @@ public class Equipment {
         this.equipped = false;
     }
 
+    public void upgradeGrade() {
+        this.grade = this.grade.next();
+    }
+
 }

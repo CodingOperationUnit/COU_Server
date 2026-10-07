@@ -27,16 +27,14 @@ public class PlayerProfile {
     @Column(nullable = false)
     private int accountExp = 0;
 
-    // 장착 장비 (FK → Inventory). 비어 있으면 Null
-    private Integer equippedWeaponInventoryId;
-    private Integer equippedArmorInventoryId;
-    private Integer equippedBeltInventoryId;
-    private Integer equippedGlovesInventoryId;
-    private Integer equippedNecklaceInventoryId;
-    private Integer equippedShoesInventoryId;
-
     public PlayerProfile(Account account, String playerNickname) {
         this.account = account;
         this.playerNickname = playerNickname;
+    }
+
+    public void updateProgress(String playerNickname, int accountLevel, int accountExp) {
+        this.playerNickname = playerNickname;
+        this.accountLevel = accountLevel;
+        this.accountExp = accountExp;
     }
 }
