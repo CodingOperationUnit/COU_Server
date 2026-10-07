@@ -1,0 +1,309 @@
+{
+  "datas": [
+    {
+      "itemId": 1001,
+      "itemName": "가죽 갑옷",
+      "description": "낡았지만 아직 버틸만 하다",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Armor/Armor_00",
+      "slotType": "Armor",
+      "grade": "General",
+      "hpBonus": 20,
+      "attackBonus": 0,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "최대 체력 +5%",
+        "최대 체력 +10%",
+        "방어력 +5· 피격 시 5% 확률로 피해 무효"
+      ]
+    },
+    {
+      "itemId": 1002,
+      "itemName": "사슬 갑옷",
+      "description": "촘촘하게 엮은 사슬이 몸을 감싼다",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Armor/Armor_01",
+      "slotType": "Armor",
+      "grade": "Super",
+      "hpBonus": 35,
+      "attackBonus": 0,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "최대 체력 +8%",
+        "최대 체력 +12%",
+        "방어력 +8· 받는 피해 5% 감소"
+      ]
+    },
+    {
+      "itemId": 1003,
+      "itemName": "강화 판금 갑옷",
+      "description": "두꺼운 강판이 웬만한 공격을 튕겨낸다",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Armor/Armor_02",
+      "slotType": "Armor",
+      "grade": "Rare",
+      "hpBonus": 55,
+      "attackBonus": 5,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "최대 체력 +10%",
+        "최대 체력 +15%",
+        "방어력 +12· 받는 피해 8% 감소"
+      ]
+    },
+    {
+      "itemId": 2001,
+      "itemName": "가죽 벨트",
+      "description": "가벼운 움직임을 돕는다",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Belt/Belt_00",
+      "slotType": "Belt",
+      "grade": "General",
+      "hpBonus": 5,
+      "attackBonus": 2,
+      "moveSpeedBonus": 3,
+      "gradeSkills": [
+        "이동속도 +3%",
+        "이동속도 +5%· 공격력 +5%",
+        "회피율 +3%"
+      ]
+    },
+    {
+      "itemId": 2002,
+      "itemName": "사슬 벨트",
+      "description": "허리를 단단히 고정해준다",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Belt/Belt_01",
+      "slotType": "Belt",
+      "grade": "Super",
+      "hpBonus": 10,
+      "attackBonus": 4,
+      "moveSpeedBonus": 4,
+      "gradeSkills": [
+        "이동속도 +4%",
+        "이동속도 +6%· 공격력 +8%",
+        "회피율 +4%"
+      ]
+    },
+    {
+      "itemId": 2003,
+      "itemName": "미스릴 벨트",
+      "description": "은은하게 빛나는 희귀 금속 벨트",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Belt/Belt_02",
+      "slotType": "Belt",
+      "grade": "Rare",
+      "hpBonus": 15,
+      "attackBonus": 8,
+      "moveSpeedBonus": 5,
+      "gradeSkills": [
+        "이동속도 +5%",
+        "이동속도 +8%· 공격력 +12%",
+        "회피율 +5%· 회피 성공 시 다음 공격 피해 +10%"
+      ]
+    },
+    {
+      "itemId": 2004,
+      "itemName": "군용 벨트",
+      "description": "평범한 디자인으로 군에서 흔히 착용",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Belt/Belt_00",
+      "slotType": "Belt",
+      "grade": "General",
+      "hpBonus": 38,
+      "attackBonus": 0,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "HP +10%",
+        "레어/보스를 처치하면 사기를 회복하고 히어로에게 1 즉시 지급",
+        "레벨업 발동 시 3초 동안 무적 상태 획득: 피해 감소 및 이동속도 +100%· 모든 쿨타임 감소 최대화",
+        "HP +15%"
+      ]
+    },
+    {
+      "itemId": 3001,
+      "itemName": "가죽 장갑",
+      "description": "손에 익은 낡은 장갑",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Gloves/Gloves_00",
+      "slotType": "Gloves",
+      "grade": "General",
+      "hpBonus": 0,
+      "attackBonus": 5,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "공격력 +5%",
+        "공격력 +8%· 치명타 확률 +3%",
+        "치명타 피해 +10%"
+      ]
+    },
+    {
+      "itemId": 3002,
+      "itemName": "강철 장갑",
+      "description": "묵직한 강철이 주먹에 힘을 싣는다",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Gloves/Gloves_01",
+      "slotType": "Gloves",
+      "grade": "Super",
+      "hpBonus": 0,
+      "attackBonus": 9,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "공격력 +7%",
+        "공격력 +10%· 치명타 확률 +5%",
+        "치명타 피해 +15%"
+      ]
+    },
+    {
+      "itemId": 3003,
+      "itemName": "발톱 장갑",
+      "description": "맹수의 발톱을 덧댄 전투용 장갑",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Gloves/Gloves_02",
+      "slotType": "Gloves",
+      "grade": "Rare",
+      "hpBonus": 3,
+      "attackBonus": 14,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "공격력 +9%",
+        "공격력 +12%· 치명타 확률 +7%",
+        "치명타 피해 +20%· 적 처치 시 짧은 시간 공격속도 증가"
+      ]
+    },
+    {
+      "itemId": 4001,
+      "itemName": "은 목걸이",
+      "description": "은은한 냉기가 흐르는 목걸이",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Necklace/Necklace_00",
+      "slotType": "Necklace",
+      "grade": "General",
+      "hpBonus": 8,
+      "attackBonus": 3,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "최대 체력 +4%",
+        "최대 체력 +6%· 3초마다 최대 체력의 1% 회복",
+        "받는 치유량 +10%"
+      ]
+    },
+    {
+      "itemId": 4002,
+      "itemName": "부적 목걸이",
+      "description": "액운을 막아준다는 오래된 부적",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Necklace/Necklace_01",
+      "slotType": "Necklace",
+      "grade": "Super",
+      "hpBonus": 15,
+      "attackBonus": 5,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "최대 체력 +6%",
+        "최대 체력 +8%· 3초마다 최대 체력의 1.5% 회복",
+        "받는 치유량 +15%"
+      ]
+    },
+    {
+      "itemId": 4003,
+      "itemName": "용아 목걸이",
+      "description": "전설 속 용의 이빨로 만든 목걸이",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Necklace/Necklace_02",
+      "slotType": "Necklace",
+      "grade": "Rare",
+      "hpBonus": 20,
+      "attackBonus": 10,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "최대 체력 +8%",
+        "최대 체력 +10%· 3초마다 최대 체력의 2% 회복",
+        "받는 치유량 +20%· 체력 30% 이하 시 회복량 2배"
+      ]
+    },
+    {
+      "itemId": 5001,
+      "itemName": "가죽 신발",
+      "description": "발에 착 감기는 낡은 신발",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Shoes/Shoes_00",
+      "slotType": "Shoes",
+      "grade": "General",
+      "hpBonus": 10,
+      "attackBonus": 0,
+      "moveSpeedBonus": 4,
+      "gradeSkills": [
+        "이동속도 +4%",
+        "이동속도 +6%· 조이스틱 반응속도 +5%",
+        "이동 중 회피율 +3%"
+      ]
+    },
+    {
+      "itemId": 5002,
+      "itemName": "군용 부츠",
+      "description": "튼튼하게 발목을 지지해준다",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Shoes/Shoes_01",
+      "slotType": "Shoes",
+      "grade": "Super",
+      "hpBonus": 18,
+      "attackBonus": 2,
+      "moveSpeedBonus": 6,
+      "gradeSkills": [
+        "이동속도 +6%",
+        "이동속도 +8%· 조이스틱 반응속도 +8%",
+        "이동 중 회피율 +5%"
+      ]
+    },
+    {
+      "itemId": 5003,
+      "itemName": "질풍 신발",
+      "description": "바람을 두른 듯 가벼운 신발",
+      "iconPath": "Equip/Inven/Item/Equip/Icon/Shoes/Shoes_02",
+      "slotType": "Shoes",
+      "grade": "Rare",
+      "hpBonus": 25,
+      "attackBonus": 4,
+      "moveSpeedBonus": 8,
+      "gradeSkills": [
+        "이동속도 +8%",
+        "이동속도 +10%· 조이스틱 반응속도 +10%",
+        "이동 중 회피율 +8%· 피격 후 0.5초간 이동속도 +20%"
+      ]
+    },
+    {
+      "itemId": 6001,
+      "itemName": "낡은 검",
+      "description": "오래됐지만 아직 날은 서 있다",
+      "iconPath": "Equip/Inven/Item/Weapon/Icon/Sword",
+      "slotType": "Weapon",
+      "grade": "General",
+      "hpBonus": 0,
+      "attackBonus": 8,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "공격력 +8%",
+        "공격력 +12%· 치명타 확률 +3%",
+        "치명타 피해 +15%"
+      ]
+    },
+    {
+      "itemId": 6002,
+      "itemName": "연발 권총",
+      "description": "손에 익으면 빠르게 갈겨댈 수 있다",
+      "iconPath": "Equip/Inven/Item/Weapon/Icon/Gun",
+      "slotType": "Weapon",
+      "grade": "Super",
+      "hpBonus": 0,
+      "attackBonus": 14,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "공격력 +10%",
+        "공격력 +15%· 치명타 확률 +5%",
+        "치명타 피해 +20%"
+      ]
+    },
+    {
+      "itemId": 6003,
+      "itemName": "그림자 쿠나이",
+      "description": "어둠 속에서 소리 없이 적을 베는 암기",
+      "iconPath": "Equip/Inven/Item/Weapon/Icon/kunai",
+      "slotType": "Weapon",
+      "grade": "Rare",
+      "hpBonus": 5,
+      "attackBonus": 22,
+      "moveSpeedBonus": 0,
+      "gradeSkills": [
+        "공격력 +12%",
+        "공격력 +18%· 치명타 확률 +8%",
+        "치명타 피해 +25%· 적 처치 시 짧은 시간 공격력 +10%"
+      ]
+    }
+  ]
+}
