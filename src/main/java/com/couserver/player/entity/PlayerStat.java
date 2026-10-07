@@ -1,4 +1,4 @@
-package com.couserver.account.entity;
+package com.couserver.player.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

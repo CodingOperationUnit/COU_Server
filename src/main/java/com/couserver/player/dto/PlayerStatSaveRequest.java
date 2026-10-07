@@ -1,4 +1,4 @@
-package com.couserver.account.dto;
+package com.couserver.player.dto;
 
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
