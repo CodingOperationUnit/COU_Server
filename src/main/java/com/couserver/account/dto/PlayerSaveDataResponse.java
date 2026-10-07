@@ -1,6 +1,6 @@
 package com.couserver.account.dto;
 
-import com.couserver.inventory.dto.InventoryResponse;
+import com.couserver.player.dto.PlayerStatResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

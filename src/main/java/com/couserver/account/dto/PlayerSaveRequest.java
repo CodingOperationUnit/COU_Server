@@ -1,5 +1,6 @@
 package com.couserver.account.dto;
 
+import com.couserver.player.dto.PlayerStatSaveRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
