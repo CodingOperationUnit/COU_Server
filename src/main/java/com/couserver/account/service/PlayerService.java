@@ -8,8 +8,6 @@ import com.couserver.player.dto.PlayerStatResponse;
 import com.couserver.player.dto.PlayerStatSaveRequest;
 import com.couserver.player.repository.PlayerStatRepository;
 import com.couserver.account.repository.StageProgressRepository;
-import com.couserver.inventory.entity.Equipment;
-import com.couserver.inventory.repository.EquipmentRepository;
 import com.couserver.player.entity.PlayerStat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class PlayerService {
@@ -27,7 +23,6 @@ public class PlayerService {
     private final CurrencyRepository currencyRepository;
     private final StageProgressRepository stageProgressRepository;
     private final PlayerStatRepository playerStatRepository;
-    private final EquipmentRepository equipmentRepository;
 
     @Value("${game.initial.gold}")
     private int initialGold;
@@ -63,16 +58,9 @@ public class PlayerService {
         PlayerStat playerStat = playerStatRepository.findById(playerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "스탯 데이터가 없습니다."));
 
-        List<Equipment> equipments = equipmentRepository.findByPlayerIdOrderByIdAsc(playerId);   // ← 한 번만 조회
-
-        List<InventoryItemResponse> inventoryList = equipments.stream()
-                .map(InventoryItemResponse::new)
-                .toList();
-
         return new PlayerSaveDataResponse(
-                new PlayerProfileResponse(profile, equipments),
+                new PlayerProfileResponse(profile),
                 new CurrencyResponse(currency),
-                inventoryList,
                 new StageProgressResponse(stageProgress),
                 new PlayerStatResponse(playerStat)
         );
@@ -116,8 +104,6 @@ public class PlayerService {
                 statRequest.getPlayerStatAttackLevel(),
                 statRequest.getPlayerStatHpLevel(),
                 statRequest.getPlayerStatDefenseLevel());
-
-        // TODO(18단계): inventoryList 반영
 
         // 4) 저장된 결과를 S1과 같은 모양으로 돌려줌
         return loadSave(playerId);
