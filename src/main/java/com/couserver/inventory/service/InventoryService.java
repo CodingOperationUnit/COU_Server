@@ -1,10 +1,12 @@
 package com.couserver.inventory.service;
 
 
+import com.couserver.common.exception.BusinessException;
 import com.couserver.inventory.dto.EquipResponse;
 import com.couserver.inventory.dto.EquipmentResponse;
 import com.couserver.inventory.dto.InventoryResponse;
 import com.couserver.inventory.entity.Equipment;
+import com.couserver.inventory.excpetion.InventoryErrorCode;
 import com.couserver.inventory.repository.EquipmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,9 +41,9 @@ public class InventoryService {
     // 장비 소유 확인
     private Equipment getOwned(Long playerId, Long inventoryId) {
         Equipment equipment = equipmentRepository.findById(inventoryId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "INVENTORY_NOT_FOUND"));
+                .orElseThrow(() -> new BusinessException(InventoryErrorCode.INVENTORY_NOT_FOUND));
         if (!equipment.getPlayerId().equals(playerId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "NOT_OWNED_INVENTORY");
+            throw new BusinessException(InventoryErrorCode.NOT_OWNED_INVENTORY);
         }
         return equipment;
     }
@@ -83,7 +85,7 @@ public class InventoryService {
         Equipment target = getOwned(playerId, inventoryId);
 
         if (!target.isEquipped()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "NOT_EQUIPPED");
+            throw new BusinessException(InventoryErrorCode.NOT_EQUIPPED);
         }
         target.unequip();
         return toResponse(target);
