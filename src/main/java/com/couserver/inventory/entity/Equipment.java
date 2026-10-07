@@ -72,5 +72,6 @@ public class Equipment {
     public void upgradeGrade() {
         this.grade = this.grade.next();
     }
+    public void levelUp() {this.level++;}
 
 }

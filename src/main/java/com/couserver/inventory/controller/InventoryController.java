@@ -39,5 +39,16 @@ public class InventoryController {
         return inventoryService.synthesizeBatch(authAccount.getPlayerId(), inventoryId);
     }
 
+    @PostMapping("/{inventoryId}/levelup")
+    public LevelUpResponse levelUp(@AuthenticationPrincipal AuthAccount authAccount,
+                                   @PathVariable Long inventoryId) {
+        return inventoryService.levelUp(authAccount.getPlayerId(), inventoryId);
+    }
+
+    @PostMapping("/{inventoryId}/levelup/batch")
+    public LevelUpBatchResponse levelUpBatch(@AuthenticationPrincipal AuthAccount authAccount,
+                                             @PathVariable Long inventoryId) {
+        return inventoryService.levelUpBatch(authAccount.getPlayerId(), inventoryId);
+    }
 
 }

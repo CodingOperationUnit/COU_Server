@@ -24,6 +24,8 @@ public class InventoryService {
     private final EquipmentRepository equipmentRepository;
     private final CurrencyRepository currencyRepository;
     private static final int SYNTHESIS_MATERIAL_COUNT = 2;   // 합성 재료 개수
+    private static final int MAX_LEVEL = 10;
+    private static final int LEVEL_UP_BASE_COST = 1000;
 
     @Transactional(readOnly = true)
     public InventoryResponse getInventory(Long playerId) {
@@ -97,6 +99,59 @@ public class InventoryService {
         return toResponse(target);
     }
 
+    // 단일 레벨업
+    @Transactional
+    public LevelUpResponse levelUp(Long playerId, Long inventoryId) {
+        Equipment target = getOwned(playerId, inventoryId);
+
+        if (target.getLevel() >= MAX_LEVEL) {
+            throw new BusinessException(InventoryErrorCode.MAX_LEVEL_REACHED);
+        }
+
+        Currency currency = getCurrency(playerId);
+        int cost = levelUpCost(target.getLevel());
+        if (currency.getCurrencyGold() < cost) {
+            throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_GOLD);
+        }
+
+        currency.spendGold(cost);    // 골드 차감과 레벨업이 한 트랜잭션: 중간에 실패하면 전부 롤백
+        target.levelUp();
+
+        return new LevelUpResponse(target.getId(), target.getLevel(), cost, currency.getCurrencyGold());
+    }
+
+    // 일괄 레벨업
+    @Transactional
+    public LevelUpBatchResponse levelUpBatch(Long playerId, Long inventoryId) {
+        Equipment target = getOwned(playerId, inventoryId);
+
+        if (target.getLevel() >= MAX_LEVEL) {
+            throw new BusinessException(InventoryErrorCode.MAX_LEVEL_REACHED);
+        }
+
+        Currency currency = getCurrency(playerId);
+        int spentGold = 0;
+        int levelsGained = 0;
+
+        while (target.getLevel() < MAX_LEVEL) {
+            int cost = levelUpCost(target.getLevel());
+            if (currency.getCurrencyGold() < cost) {
+                break;                                   // 골드 부족
+            }
+            currency.spendGold(cost);
+            target.levelUp();
+            spentGold += cost;
+            levelsGained++;
+        }
+
+        if (levelsGained == 0) {                         // 한 레벨도 못 올림
+            throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_GOLD);
+        }
+
+        return new LevelUpBatchResponse(
+                target.getId(), target.getLevel(), levelsGained, spentGold, currency.getCurrencyGold());
+    }
+
 
     // 장비 합성 로직(단일 합성)
     @Transactional
@@ -167,4 +222,14 @@ public class InventoryService {
         return consumedIds;
     }
 
+    // 레벨업 비용 계산
+    private int levelUpCost(int level) {
+        return LEVEL_UP_BASE_COST * level;
+    }
+
+    // 재화 가져오기
+    private Currency getCurrency(Long playerId) {
+        return currencyRepository.findById(playerId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "재화 데이터가 없습니다."));
+    }
 }
