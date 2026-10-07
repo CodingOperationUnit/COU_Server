@@ -1,0 +1,15 @@
+{
+  "datas": [
+    {
+      "maxLevel": 10,
+      "levelUpBaseCost": 1000,
+      "statGrowthPerLevel": 0.1,
+      "synthesisMaterialCount": 2,
+      "gradeStatMultiplier": [
+        1.0,
+        1.75,
+        2.75
+      ]
+    }
+  ]
+}

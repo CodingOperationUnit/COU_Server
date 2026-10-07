@@ -160,10 +160,9 @@ public class BattleService {
 
 ### 5.2 데이터 추가·수정
 1. 구글 시트를 수정한다.
-2. 클라이언트의 `Tools > Google Sheets > JSON Exporter`로 JSON을 만든다. Exporter가 서버 레포에 함께 저장하도록 확장되기 전이라면 서버 `src/main/resources/data/`로 직접 복사한다.
-3. `data/version.txt`를 아래 규칙으로 올린다. 올리지 않으면 클라이언트가 204를 받아 새 데이터를 받지 않는다.
-4. 서버를 실행해 시작 검사를 통과하는지 확인한다. 실패하면 `IllegalStateException` 메시지에 테이블과 ID가 나온다.
-5. diff를 확인하고 커밋·배포한다.
+2. SheetExporter(5.3)에서 아래 규칙에 맞는 데이터 버전을 고르고 Export한다. JSON과 `version.txt`가 함께 갱신된다. 버전이 오르지 않으면 클라이언트가 204를 받아 새 데이터를 받지 않는다.
+3. 서버를 실행해 시작 검사를 통과하는지 확인한다. 실패하면 `IllegalStateException` 메시지에 테이블과 ID가 나온다.
+4. diff를 확인하고 커밋·배포한다.
 
 | 버전 자리 | 올리는 경우 | 클라이언트 업데이트 |
 |---|---|---|
@@ -175,7 +174,33 @@ public class BattleService {
 
 새 테이블을 클라이언트에 내려보내려면 `StaticDataService.TABLE_NAMES`에 이름을 추가한다. 서버도 읽어야 하면 record와 맵 필드, 검사를 함께 추가한다.
 
-### 5.3 시작 시 검사
+### 5.3 SheetExporter
+시트의 모든 탭을 `<탭 이름>.json`으로 변환해 서버 `data/`(선택 시 클라이언트에도)에 저장하는 Windows 도구다.
+
+- 실행: `Tools/SheetExporter/publish/SheetExporter.exe`. .NET 10 Desktop Runtime이 필요하다.
+- 다시 빌드: `Tools/SheetExporter`에서 `dotnet publish -c Release -o publish`
+
+| 입력 | 값 |
+|---|---|
+| 저장 위치 | 서버 레포 `src/main/resources/data`. `version.txt`가 있어야 한다. |
+| 구글 시트 주소 | 스프레드시트 주소. 처음 실행 시 기본값이 채워져 있다. |
+| Apps Script 주소 | 탭 목록을 주는 `https://script.google.com/.../exec` 배포 주소. 처음 실행 시 기본값이 채워져 있다. |
+| 클라이언트 데이터 위치 | 클라이언트 레포 `Assets/Resources/JsonFiles` |
+| 클라이언트 복제 | 체크하면 클라이언트 데이터 위치에도 같은 JSON을 쓴다. `version.txt`는 쓰지 않는다. |
+| 데이터 버전 | 자동: 서버 JSON이 바뀌었을 때만 셋째 자리 +1 / 둘째 자리 +1 / 첫째 자리 +1 |
+
+- 한 탭이라도 검증에 실패하면 아무 파일도 쓰지 않는다. 탭별 결과와 오류는 하단 로그에 나온다.
+- 내용이 바뀐 파일만 쓴다. 줄바꿈(CRLF/LF) 차이는 무시한다.
+- 둘째·첫째 자리 선택은 한 번 적용되고 자동으로 돌아간다.
+- 입력값은 사용자별로 `%LocalAppData%\COU\SheetExporter\settings.json`에 저장된다. Export를 누를 때와 창을 닫을 때 저장한다.
+
+시트 형식:
+- 1행 설명, 2행 필드명, 3행 자료형, 4행부터 데이터다.
+- 자료형: `string`, `int`, `long`, `float`, `double`, `bool`, `string[]`, `int[]`, `float[]`. 배열은 쉼표로 구분한다.
+- 1행에 `DB_IGNORE`를 쓰면 그 열을, A열에 쓰면 그 행을 제외한다.
+- 숫자·bool 셀은 비워 둘 수 없다.
+
+### 5.4 시작 시 검사
 | 테이블 | 검사 |
 |---|---|
 | 공통 | `datas` 배열이 비어 있지 않음, 서버가 읽는 열이 모두 있음 |

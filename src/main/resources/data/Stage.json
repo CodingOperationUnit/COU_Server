@@ -13,20 +13,6 @@
         0,
         0
       ]
-    },
-    {
-      "stageId": 2,
-      "stageName": "Desert",
-      "stageIllustrationColor": "#C9A66B",
-      "stageDuration": 150.0,
-      "waveId": 2,
-      "stageDescription": "햇빛이 뜨거운 사막입니다.",
-      "clearAccountExp": 500,
-      "rewardBoxGradeWeights": [
-        100,
-        0,
-        0
-      ]
     }
   ]
 }

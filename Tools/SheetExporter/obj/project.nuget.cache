@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "anfRLDyLAzM=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\minyoung\\COU_Server\\Tools\\SheetExporter\\SheetExporter.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\minyoung\\.nuget\\packages\\microsoft.net.illink.tasks\\10.0.12\\microsoft.net.illink.tasks.10.0.12.nupkg.sha512",
+    "C:\\Users\\minyoung\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512",
+    "C:\\Users\\minyoung\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.12\\microsoft.netcore.app.runtime.win-x64.10.0.12.nupkg.sha512",
+    "C:\\Users\\minyoung\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.12\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.12.nupkg.sha512",
+    "C:\\Users\\minyoung\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.12\\microsoft.aspnetcore.app.runtime.win-x64.10.0.12.nupkg.sha512"
+  ],
+  "logs": []
+}
