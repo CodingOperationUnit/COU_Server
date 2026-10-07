@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum MasterErrorCode implements ErrorCode {
-    MAXTER_TABLE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 데이터 테이블입니다.");
+    MASTER_TABLE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 데이터 테이블입니다.");
 
     private final HttpStatus status;
     private final String message;
