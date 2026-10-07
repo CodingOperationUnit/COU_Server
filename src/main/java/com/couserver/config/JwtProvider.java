@@ -30,12 +30,13 @@ public class JwtProvider {
         this.accessTtlSeconds = accessTtlSeconds;
     }
 
-    public String createAccessToken(Account account) {
+    public String createAccessToken(Account account, Long playerId) {
         Instant now = Instant.now();
         Instant expiresAt = now.plusSeconds(accessTtlSeconds);
 
         return Jwts.builder()
                 .subject(account.getAccountId().toString())  // 토큰 주인 = accountId
+                .claim("playerId", playerId.toString())     // 게임 API에서 쓸 playerId
                 .issuedAt(Date.from(now))                    // 발급 시각
                 .expiration(Date.from(expiresAt))            // 만료 시각
                 .signWith(secretKey, Jwts.SIG.HS256)         // 비밀키로 서명
@@ -50,7 +51,8 @@ public class JwtProvider {
                     .parseSignedClaims(token)   // 서명이 다르거나 만료면 여기서 예외
                     .getPayload();
             int accountId = Integer.parseInt(claims.getSubject());
-            return new AuthAccount(accountId);
+            Long playerId = Long.parseLong(claims.get("playerId", String.class));   // 없으면 예외 → 401
+            return new AuthAccount(accountId, playerId);
         } catch (JwtException | IllegalArgumentException exception) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
