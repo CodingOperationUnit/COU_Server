@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "player_base_stat")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlayerBaseStat {
-    public static final Long SINGLE_ID = 1l;
+    public static final Long SINGLE_ID = 1L;
 
     @Id
     private Long id;
