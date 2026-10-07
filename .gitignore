@@ -38,3 +38,7 @@ out/
 
 ### Env ###
 .env
+
+### Claude ###
+CLAUDE.md
+.claude/
