@@ -5,14 +5,13 @@ import com.couserver.common.exception.BusinessException;
 import com.couserver.inventory.dto.EquipResponse;
 import com.couserver.inventory.dto.EquipmentResponse;
 import com.couserver.inventory.dto.InventoryResponse;
+import com.couserver.inventory.dto.SynthesizeResponse;
 import com.couserver.inventory.entity.Equipment;
-import com.couserver.inventory.excpetion.InventoryErrorCode;
+import com.couserver.inventory.exception.InventoryErrorCode;
 import com.couserver.inventory.repository.EquipmentRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -21,6 +20,8 @@ import java.util.List;
 public class InventoryService {
 
     private final EquipmentRepository equipmentRepository;
+
+    private static final int SYNTHESIS_MATERIAL_COUNT = 2;   // 합성 재료 개수
 
     @Transactional(readOnly = true)
     public InventoryResponse getInventory(Long playerId) {
@@ -91,5 +92,37 @@ public class InventoryService {
         return toResponse(target);
     }
 
+
+    // 장비 합성 로직
+    @Transactional
+    public SynthesizeResponse synthesize(Long playerId, Long inventoryId) {
+        Equipment target = getOwned(playerId, inventoryId);
+
+        // 최고등급이면 합성안됨
+        if (!target.getGrade().canSynthesize()) {
+            throw new BusinessException(InventoryErrorCode.CANNOT_SYNTHESIZE_MAX_GRADE);
+        }
+
+        // 장비 재료 찾기
+        List<Equipment> materials = equipmentRepository
+                .findTop2ByPlayerIdAndItem_IdAndGradeAndEquippedFalseAndIdNotOrderByIdAsc(
+                        playerId, target.getItem().getId(), target.getGrade(), target.getId());
+        if (materials.size() < SYNTHESIS_MATERIAL_COUNT) {
+            throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_MATERIAL);
+        }
+
+        // 3) 합성가능하면 재료삭제(실패 시 전부 롤백)
+        List<Long> consumedIds = materials.stream().map(Equipment::getId).toList();
+        equipmentRepository.deleteAll(materials);
+        target.upgradeGrade();
+
+        return new SynthesizeResponse(
+                target.getId(),
+                target.getItem().getId(),
+                target.getLevel(),
+                target.getGrade().toClientName(),  // 등급을 올린 뒤 합성
+                target.isEquipped(),
+                consumedIds);
+    }
 
 }

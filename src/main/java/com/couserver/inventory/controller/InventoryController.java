@@ -4,6 +4,7 @@ package com.couserver.inventory.controller;
 import com.couserver.inventory.dto.EquipResponse;
 import com.couserver.inventory.dto.EquipmentResponse;
 import com.couserver.inventory.dto.InventoryResponse;
+import com.couserver.inventory.dto.SynthesizeResponse;
 import com.couserver.inventory.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,5 +30,10 @@ public class InventoryController {
     @PostMapping("/{inventoryId}/unequip")
     public EquipmentResponse unequip(@PathVariable Long inventoryId) {
         return inventoryService.unequip(TEMP_PLAYER_ID, inventoryId);
+    }
+
+    @PostMapping("/{inventoryId}/synthesize")
+    public SynthesizeResponse synthesize(@PathVariable Long inventoryId) {
+        return inventoryService.synthesize(TEMP_PLAYER_ID, inventoryId);
     }
 }
