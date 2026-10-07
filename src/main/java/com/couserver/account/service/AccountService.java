@@ -23,6 +23,7 @@ public class AccountService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final PlayerProfileRepository playerProfileRepository;
+    private final PlayerService playerService;
 
     @Transactional
     public AccountResponse signup(SignupRequest request) {
@@ -38,8 +39,7 @@ public class AccountService {
         Account account = new Account(request.getAccountLoginId(), encodedPassword);
         Account savedAccount = accountRepository.save(account);
 
-        PlayerProfile profile = new PlayerProfile(savedAccount, request.getPlayerNickname());
-        playerProfileRepository.save(profile);
+        playerService.createInitialData(savedAccount, request.getPlayerNickname());
 
         return new AccountResponse(
                 savedAccount.getAccountId(),

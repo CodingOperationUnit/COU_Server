@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class PlayerProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer playerId;
+    private Long playerId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "account_id", nullable = false, unique = true)
