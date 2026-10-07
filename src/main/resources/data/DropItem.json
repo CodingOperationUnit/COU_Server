@@ -1,0 +1,54 @@
+{
+  "datas": [
+    {
+      "dropItemId": 1,
+      "dropItemType": "ExpGem1",
+      "value": 3
+    },
+    {
+      "dropItemId": 2,
+      "dropItemType": "ExpGem2",
+      "value": 5
+    },
+    {
+      "dropItemId": 3,
+      "dropItemType": "ExpGem3",
+      "value": 10
+    },
+    {
+      "dropItemId": 4,
+      "dropItemType": "ExpGem4",
+      "value": 100
+    },
+    {
+      "dropItemId": 5,
+      "dropItemType": "Gold1",
+      "value": 10
+    },
+    {
+      "dropItemId": 6,
+      "dropItemType": "Gold2",
+      "value": 30
+    },
+    {
+      "dropItemId": 7,
+      "dropItemType": "Gold3",
+      "value": 100
+    },
+    {
+      "dropItemId": 8,
+      "dropItemType": "Gold4",
+      "value": 300
+    },
+    {
+      "dropItemId": 9,
+      "dropItemType": "Bomb",
+      "value": 50
+    },
+    {
+      "dropItemId": 10,
+      "dropItemType": "Potion",
+      "value": 50
+    }
+  ]
+}
