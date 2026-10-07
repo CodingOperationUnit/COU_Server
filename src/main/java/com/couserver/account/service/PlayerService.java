@@ -49,10 +49,9 @@ public class PlayerService {
     }
 
     @Transactional(readOnly = true)
-    public PlayerSaveDataResponse loadSave(int accountId) {
-        PlayerProfile profile = playerProfileRepository.findByAccount_AccountId(accountId)
+    public PlayerSaveDataResponse loadSave(Long playerId) {
+        PlayerProfile profile = playerProfileRepository.findById(playerId)   // ← findById로 변경
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "플레이어 데이터가 없습니다."));
-        Long playerId = profile.getPlayerId();
 
         Currency currency = currencyRepository.findById(playerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "재화 데이터가 없습니다."));
@@ -74,6 +73,66 @@ public class PlayerService {
                 new StageProgressResponse(stageProgress),
                 new PlayerStatResponse(playerStat)
         );
+    }
+
+    @Transactional
+    public PlayerSaveDataResponse save(Long playerId, PlayerSaveRequest request) {
+        PlayerProfile profile = playerProfileRepository.findById(playerId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "플레이어 데이터가 없습니다."));
+
+        // 1) 닉네임: 바꿨을 때만 중복 검사
+        ProfileSaveRequest profileRequest = request.getProfile();
+        String newNickname = profileRequest.getPlayerNickname();
+        if (!newNickname.equals(profile.getPlayerNickname())
+                && playerProfileRepository.existsByPlayerNickname(newNickname)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 사용 중인 닉네임입니다.");
+        }
+
+        // 2) 스테이지: 해금된 스테이지인지 검사
+        StageProgressSaveRequest stageRequest = request.getStageProgress();
+        Integer maxCleared = stageRequest.getMaxClearedStageId();
+        int maxPlayable = (maxCleared == null) ? firstStageId : maxCleared + 1;
+        if (stageRequest.getCurrentStageId() > maxPlayable) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "해금되지 않은 스테이지입니다.");
+        }
+
+        // 3) 검사를 모두 통과한 뒤에 반영 (변경 감지로 자동 UPDATE)
+        profile.updateProgress(newNickname, profileRequest.getAccountLevel(), profileRequest.getAccountExp());
+
+        CurrencySaveRequest currencyRequest = request.getCurrency();
+        getCurrency(playerId).update(
+                currencyRequest.getCurrencyGold(),
+                currencyRequest.getCurrencyGem(),
+                currencyRequest.getCurrencyEnergy(),
+                currencyRequest.getCurrencyEnergyUpdatedAt());
+
+        getStageProgress(playerId).update(stageRequest.getCurrentStageId(), maxCleared);
+
+        PlayerStatSaveRequest statRequest = request.getPlayerStat();
+        getPlayerStat(playerId).update(
+                statRequest.getPlayerStatAttackLevel(),
+                statRequest.getPlayerStatHpLevel(),
+                statRequest.getPlayerStatDefenseLevel());
+
+        // TODO(18단계): inventoryList 반영
+
+        // 4) 저장된 결과를 S1과 같은 모양으로 돌려줌
+        return loadSave(playerId);
+    }
+
+    private Currency getCurrency(Long playerId) {
+        return currencyRepository.findById(playerId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "재화 데이터가 없습니다."));
+    }
+
+    private StageProgress getStageProgress(Long playerId) {
+        return stageProgressRepository.findById(playerId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "스테이지 데이터가 없습니다."));
+    }
+
+    private PlayerStat getPlayerStat(Long playerId) {
+        return playerStatRepository.findById(playerId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "스탯 데이터가 없습니다."));
     }
 
     @Transactional(readOnly = true)
