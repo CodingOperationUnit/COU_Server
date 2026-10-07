@@ -4,11 +4,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -26,13 +25,13 @@ public class MasterTableVersion {
     private String contentHash;
 
     @Column(nullable = false)
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
-    public static MasterTableVersion create(String tableName, String contentHash){
+    public static MasterTableVersion create(String tableName, String contentHash, Instant now){
         MasterTableVersion v = new MasterTableVersion();
         v.tableName = tableName;
         v.contentHash = contentHash;
-        v.updatedAt = LocalDateTime.now();
+        v.updatedAt = now;
         return v;
     }
 
@@ -40,9 +39,9 @@ public class MasterTableVersion {
         return this.contentHash.equals(contentHash);
     }
 
-    public void increaseVersion(String newContentHase){
+    public void increaseVersion(String newContentHase, Instant now){
        this.version++;
        this.contentHash = newContentHase;
-       this.updatedAt = LocalDateTime.now();
+       this.updatedAt = now;
     }
 }

@@ -17,6 +17,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.databind.ObjectMapper;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 // 앱 시작 시 PlayerBaseStat.json을 DB에 반영한다.
 // 내용이 바뀌었을 때만 데이터를 갱신하고 버전을 1 올린다.
@@ -31,6 +34,8 @@ public class PlayerBaseStatDataLoader implements ApplicationRunner {
     private final PlayerBaseStatRepository playerBaseStatRepository;
     private final MasterTableVersionRepository masterTableVersionRepository;
     private final ObjectMapper objectMapper;
+    private final Clock clock;
+
 
     @Override
     @Transactional
@@ -52,11 +57,13 @@ public class PlayerBaseStatDataLoader implements ApplicationRunner {
 
         saveStat(data);
 
+        Instant now = Instant.now(clock).truncatedTo(ChronoUnit.SECONDS);
+
         if (version == null) {
-            masterTableVersionRepository.save(MasterTableVersion.create(TABLE_NAME, hash));
+            masterTableVersionRepository.save(MasterTableVersion.create(TABLE_NAME, hash, now));
             log.info("[{}] 최초 반영 (version 1)", TABLE_NAME);
         } else {
-            version.increaseVersion(hash);
+            version.increaseVersion(hash, now);
             log.info("[{}] 변경 반영 (version {})", TABLE_NAME, version.getVersion());
         }
     }
