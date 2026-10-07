@@ -6,6 +6,7 @@ import com.couserver.account.repository.CurrencyRepository;
 import com.couserver.account.repository.PlayerProfileRepository;
 import com.couserver.account.repository.PlayerStatRepository;
 import com.couserver.account.repository.StageProgressRepository;
+import com.couserver.inventory.entity.Equipment;
 import com.couserver.inventory.repository.EquipmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,14 +61,14 @@ public class PlayerService {
         PlayerStat playerStat = playerStatRepository.findById(playerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "스탯 데이터가 없습니다."));
 
-        List<InventoryItemResponse> inventoryList = equipmentRepository
-                .findByPlayerIdOrderByIdAsc(playerId)
-                .stream()
+        List<Equipment> equipments = equipmentRepository.findByPlayerIdOrderByIdAsc(playerId);   // ← 한 번만 조회
+
+        List<InventoryItemResponse> inventoryList = equipments.stream()
                 .map(InventoryItemResponse::new)
                 .toList();
 
         return new PlayerSaveDataResponse(
-                new PlayerProfileResponse(profile),
+                new PlayerProfileResponse(profile, equipments),
                 new CurrencyResponse(currency),
                 inventoryList,
                 new StageProgressResponse(stageProgress),
