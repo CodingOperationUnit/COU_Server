@@ -25,4 +25,9 @@ public class StageProgress {
         this.playerId = playerId;
         this.currentStageId = firstStageId;
     }
+
+    public void update(int currentStageId, Integer maxClearedStageId) {
+        this.currentStageId = currentStageId;
+        this.maxClearedStageId = maxClearedStageId;
+    }
 }

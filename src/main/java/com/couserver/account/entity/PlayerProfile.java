@@ -31,4 +31,10 @@ public class PlayerProfile {
         this.account = account;
         this.playerNickname = playerNickname;
     }
+
+    public void updateProgress(String playerNickname, int accountLevel, int accountExp) {
+        this.playerNickname = playerNickname;
+        this.accountLevel = accountLevel;
+        this.accountExp = accountExp;
+    }
 }

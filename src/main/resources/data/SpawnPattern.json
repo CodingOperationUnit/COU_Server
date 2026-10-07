@@ -1,0 +1,85 @@
+{
+  "datas": [
+    {
+      "patternId": 1,
+      "eventType": "Normal",
+      "formation": "Random",
+      "spawnCount": 1,
+      "spawnInterval": 1.0,
+      "patternDuration": 10.0,
+      "dropTableId": 1
+    },
+    {
+      "patternId": 2,
+      "eventType": "Normal",
+      "formation": "Random",
+      "spawnCount": 2,
+      "spawnInterval": 2.0,
+      "patternDuration": 10.0,
+      "dropTableId": 1
+    },
+    {
+      "patternId": 3,
+      "eventType": "Elite",
+      "formation": "Random",
+      "spawnCount": 1,
+      "spawnInterval": 0.0,
+      "patternDuration": 0.0,
+      "dropTableId": 2
+    },
+    {
+      "patternId": 4,
+      "eventType": "Horde",
+      "formation": "Random",
+      "spawnCount": 3,
+      "spawnInterval": 0.5,
+      "patternDuration": 10.0,
+      "dropTableId": 1
+    },
+    {
+      "patternId": 5,
+      "eventType": "Boss",
+      "formation": "Random",
+      "spawnCount": 1,
+      "spawnInterval": 0.0,
+      "patternDuration": 0.0,
+      "dropTableId": 3
+    },
+    {
+      "patternId": 6,
+      "eventType": "Normal",
+      "formation": "Screen",
+      "spawnCount": 1,
+      "spawnInterval": 20.0,
+      "patternDuration": 140.0,
+      "dropTableId": 4
+    },
+    {
+      "patternId": 7,
+      "eventType": "Horde",
+      "formation": "Ring",
+      "spawnCount": 12,
+      "spawnInterval": 0.0,
+      "patternDuration": 0.0,
+      "dropTableId": 5
+    },
+    {
+      "patternId": 8,
+      "eventType": "Horde",
+      "formation": "Line",
+      "spawnCount": 8,
+      "spawnInterval": 0.0,
+      "patternDuration": 0.0,
+      "dropTableId": 5
+    },
+    {
+      "patternId": 9,
+      "eventType": "Horde",
+      "formation": "Cluster",
+      "spawnCount": 6,
+      "spawnInterval": 0.0,
+      "patternDuration": 0.0,
+      "dropTableId": 5
+    }
+  ]
+}

@@ -40,4 +40,11 @@ public class Currency {
     public void spendGold(int amount) {
         this.currencyGold -= amount;
     }
+
+    public void update(int gold, int gem, int energy, LocalDateTime energyUpdatedAt) {
+        this.currencyGold = gold;
+        this.currencyGem = gem;
+        this.currencyEnergy = energy;
+        this.currencyEnergyUpdatedAt = energyUpdatedAt;
+    }
 }

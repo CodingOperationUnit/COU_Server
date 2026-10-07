@@ -1,0 +1,116 @@
+{
+  "datas": [
+    {
+      "dropTableId": 1,
+      "dropGroup": 0,
+      "dropItemType": "ExpGem1",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "dropTableId": 2,
+      "dropGroup": 0,
+      "dropItemType": "ExpGem1",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "dropTableId": 2,
+      "dropGroup": 1,
+      "dropItemType": "LuckyBox",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "dropTableId": 2,
+      "dropGroup": 2,
+      "dropItemType": "RewardBox",
+      "weight": 1,
+      "count": 2
+    },
+    {
+      "dropTableId": 3,
+      "dropGroup": 0,
+      "dropItemType": "ExpGem1",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "dropTableId": 3,
+      "dropGroup": 1,
+      "dropItemType": "RewardBox",
+      "weight": 1,
+      "count": 5
+    },
+    {
+      "dropTableId": 4,
+      "dropGroup": 0,
+      "dropItemType": "Gold1",
+      "weight": 31,
+      "count": 1
+    },
+    {
+      "dropTableId": 4,
+      "dropGroup": 0,
+      "dropItemType": "Gold2",
+      "weight": 5,
+      "count": 1
+    },
+    {
+      "dropTableId": 4,
+      "dropGroup": 0,
+      "dropItemType": "Gold3",
+      "weight": 3,
+      "count": 1
+    },
+    {
+      "dropTableId": 4,
+      "dropGroup": 0,
+      "dropItemType": "Gold4",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "dropTableId": 4,
+      "dropGroup": 0,
+      "dropItemType": "Bomb",
+      "weight": 20,
+      "count": 1
+    },
+    {
+      "dropTableId": 4,
+      "dropGroup": 0,
+      "dropItemType": "Potion",
+      "weight": 20,
+      "count": 1
+    },
+    {
+      "dropTableId": 4,
+      "dropGroup": 0,
+      "dropItemType": "Magnet",
+      "weight": 20,
+      "count": 1
+    },
+    {
+      "dropTableId": 5,
+      "dropGroup": 0,
+      "dropItemType": "ExpGem1",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "dropTableId": 5,
+      "dropGroup": 1,
+      "dropItemType": "None",
+      "weight": 50,
+      "count": 1
+    },
+    {
+      "dropTableId": 5,
+      "dropGroup": 1,
+      "dropItemType": "Potion",
+      "weight": 50,
+      "count": 1
+    }
+  ]
+}

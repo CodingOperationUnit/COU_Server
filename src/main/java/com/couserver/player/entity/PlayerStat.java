@@ -1,4 +1,4 @@
-package com.couserver.account.entity;
+package com.couserver.player.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,5 +27,11 @@ public class PlayerStat {
 
     public PlayerStat(Long playerId) {
         this.playerId = playerId;
+    }
+
+    public void update(int attackLevel, int hpLevel, int defenseLevel) {
+        this.playerStatAttackLevel = attackLevel;
+        this.playerStatHpLevel = hpLevel;
+        this.playerStatDefenseLevel = defenseLevel;
     }
 }
