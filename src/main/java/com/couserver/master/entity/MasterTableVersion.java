@@ -39,9 +39,9 @@ public class MasterTableVersion {
         return this.contentHash.equals(contentHash);
     }
 
-    public void increaseVersion(String newContentHase, Instant now){
+    public void increaseVersion(String newContentHash, Instant now){
        this.version++;
-       this.contentHash = newContentHase;
+       this.contentHash = newContentHash;
        this.updatedAt = now;
     }
 }
