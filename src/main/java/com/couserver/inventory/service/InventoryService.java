@@ -2,10 +2,7 @@ package com.couserver.inventory.service;
 
 
 import com.couserver.common.exception.BusinessException;
-import com.couserver.inventory.dto.EquipResponse;
-import com.couserver.inventory.dto.EquipmentResponse;
-import com.couserver.inventory.dto.InventoryResponse;
-import com.couserver.inventory.dto.SynthesizeResponse;
+import com.couserver.inventory.dto.*;
 import com.couserver.inventory.entity.Equipment;
 import com.couserver.inventory.exception.InventoryErrorCode;
 import com.couserver.inventory.repository.EquipmentRepository;
@@ -13,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -93,36 +91,73 @@ public class InventoryService {
     }
 
 
-    // 장비 합성 로직
+    // 장비 합성 로직(단일 합성)
     @Transactional
     public SynthesizeResponse synthesize(Long playerId, Long inventoryId) {
         Equipment target = getOwned(playerId, inventoryId);
 
-        // 최고등급이면 합성안됨
         if (!target.getGrade().canSynthesize()) {
             throw new BusinessException(InventoryErrorCode.CANNOT_SYNTHESIZE_MAX_GRADE);
         }
 
-        // 장비 재료 찾기
-        List<Equipment> materials = equipmentRepository
-                .findTop2ByPlayerIdAndItem_IdAndGradeAndEquippedFalseAndIdNotOrderByIdAsc(
-                        playerId, target.getItem().getId(), target.getGrade(), target.getId());
+        List<Equipment> materials = findMaterials(playerId, target);
         if (materials.size() < SYNTHESIS_MATERIAL_COUNT) {
             throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_MATERIAL);
         }
 
-        // 3) 합성가능하면 재료삭제(실패 시 전부 롤백)
+        List<Long> consumedIds = synthesizeOnce(target, materials);
+
+        return new SynthesizeResponse(
+                target.getId(), target.getItem().getId(), target.getLevel(),
+                target.getGrade().toClientName(), target.isEquipped(), consumedIds);
+    }
+
+    // 장비 합성 로직(일괄 합성)
+    @Transactional
+    public SynthesizeBatchResponse synthesizeBatch(Long playerId, Long inventoryId) {
+        Equipment target = getOwned(playerId, inventoryId);
+
+        // 최고 등급일 때 예외처리
+        if (!target.getGrade().canSynthesize()) {
+            throw new BusinessException(InventoryErrorCode.CANNOT_SYNTHESIZE_MAX_GRADE);
+        }
+
+        List<Long> allConsumed = new ArrayList<>();
+        int tiersGained = 0;
+
+        while (target.getGrade().canSynthesize()) {
+            List<Equipment> materials = findMaterials(playerId, target);   // 현재 등급 기준으로 매번 재조회
+            if (materials.size() < SYNTHESIS_MATERIAL_COUNT) {
+                break;                                                      // 재료부족 시 강제 종료
+            }
+            allConsumed.addAll(synthesizeOnce(target, materials));
+            tiersGained++;
+        }
+
+        if (tiersGained == 0) {                                             // 한 단계도 못 올림
+            throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_MATERIAL);
+        }
+
+        return new SynthesizeBatchResponse(
+                target.getId(), target.getItem().getId(), target.getLevel(),
+                target.getGrade().toClientName(), target.isEquipped(),
+                tiersGained, allConsumed);
+    }
+
+
+    // 재료 조회
+    private List<Equipment> findMaterials(Long playerId, Equipment target) {
+        return equipmentRepository
+                .findTop2ByPlayerIdAndItem_IdAndGradeAndEquippedFalseAndIdNotOrderByIdAsc(
+                        playerId, target.getItem().getId(), target.getGrade(), target.getId());
+    }
+
+    // 1단계 합성 실행
+    private List<Long> synthesizeOnce(Equipment target, List<Equipment> materials) {
         List<Long> consumedIds = materials.stream().map(Equipment::getId).toList();
         equipmentRepository.deleteAll(materials);
         target.upgradeGrade();
-
-        return new SynthesizeResponse(
-                target.getId(),
-                target.getItem().getId(),
-                target.getLevel(),
-                target.getGrade().toClientName(),  // 등급을 올린 뒤 합성
-                target.isEquipped(),
-                consumedIds);
+        return consumedIds;
     }
 
 }
