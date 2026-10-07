@@ -1,0 +1,28 @@
+{
+  "datas": [
+    {
+      "bossAttackId": 1,
+      "monsterId": 13001,
+      "bossAttackType": "Melee",
+      "bossAttackCooldown": 5.0,
+      "bossAttackRange": 3.0,
+      "bossAttackDamage": 10
+    },
+    {
+      "bossAttackId": 2,
+      "monsterId": 13001,
+      "bossAttackType": "Ranged",
+      "bossAttackCooldown": 3.0,
+      "bossAttackRange": 5.0,
+      "bossAttackDamage": 10
+    },
+    {
+      "bossAttackId": 3,
+      "monsterId": 13001,
+      "bossAttackType": "Area",
+      "bossAttackCooldown": 8.0,
+      "bossAttackRange": 2.0,
+      "bossAttackDamage": 10
+    }
+  ]
+}
