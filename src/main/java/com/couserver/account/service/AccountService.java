@@ -60,7 +60,8 @@ public class AccountService {
 
         account.recordLogin();
 
-        String accessToken = jwtProvider.createAccessToken(account);
+        Long playerId = playerService.getPlayerId(account.getAccountId());
+        String accessToken = jwtProvider.createAccessToken(account, playerId);
         AccountResponse accountResponse = new AccountResponse(
                 account.getAccountId(),
                 account.getAccountLoginId(),
