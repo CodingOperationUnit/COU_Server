@@ -36,4 +36,11 @@ public class Currency {
         this.currencyEnergy = currencyEnergy;
         this.currencyEnergyUpdatedAt = LocalDateTime.now();
     }
+
+    public void update(int gold, int gem, int energy, LocalDateTime energyUpdatedAt) {
+        this.currencyGold = gold;
+        this.currencyGem = gem;
+        this.currencyEnergy = energy;
+        this.currencyEnergyUpdatedAt = energyUpdatedAt;
+    }
 }

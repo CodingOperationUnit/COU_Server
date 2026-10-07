@@ -28,4 +28,10 @@ public class PlayerStat {
     public PlayerStat(Long playerId) {
         this.playerId = playerId;
     }
+
+    public void update(int attackLevel, int hpLevel, int defenseLevel) {
+        this.playerStatAttackLevel = attackLevel;
+        this.playerStatHpLevel = hpLevel;
+        this.playerStatDefenseLevel = defenseLevel;
+    }
 }
