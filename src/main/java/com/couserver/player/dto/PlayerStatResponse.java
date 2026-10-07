@@ -9,11 +9,13 @@ public class PlayerStatResponse {
     private final int playerStatAttackLevel;
     private final int playerStatHpLevel;
     private final int playerStatDefenseLevel;
+    private final int playerStatPotionRecoveryLevel;
 
     public PlayerStatResponse(PlayerStat playerStat) {
         this.playerId = playerStat.getPlayerId();
         this.playerStatAttackLevel = playerStat.getPlayerStatAttackLevel();
         this.playerStatHpLevel = playerStat.getPlayerStatHpLevel();
         this.playerStatDefenseLevel = playerStat.getPlayerStatDefenseLevel();
+        this.playerStatPotionRecoveryLevel = playerStat.getPlayerStatPotionRecoveryLevel();
     }
 }
