@@ -14,6 +14,7 @@ public class SignupRequest {
     @NotBlank
     private String password;
 
-    @NotBlank @Size(max = 20)
-    private String playerNickname;
+    // playerNickname 제거: 닉네임은 서버가 "플레이어{accountId}"로 정한다
+    // @NotBlank @Size(max = 20)
+    // private String playerNickname;
 }
