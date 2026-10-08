@@ -41,6 +41,7 @@ public class StaticDataService {
 
     private final AccountConstData accountConst;
     private final Map<Integer, StageData> stages;
+    private final int firstStageId;                                     // 가장 작은 stageId
     private final Map<Integer, List<WaveEntryData>> waves;              // key: waveId
     private final Map<Integer, SpawnPatternData> spawnPatterns;
     private final Map<Integer, MonsterData> monsters;
@@ -73,6 +74,7 @@ public class StaticDataService {
         requireIds("Stage", stageRows, StageData::stageId);
         stages = stageRows.stream()
                 .collect(Collectors.toUnmodifiableMap(StageData::stageId, Function.identity()));
+        firstStageId = Collections.min(stages.keySet());
 
         List<WaveEntryData> waveRows = rows(rowMapper, "Wave", WaveEntryData.class);
         requireIds("Wave", waveRows, WaveEntryData::waveEntryId);

@@ -8,13 +8,20 @@ import com.couserver.player.dto.PlayerStatResponse;
 import com.couserver.player.dto.PlayerStatSaveRequest;
 import com.couserver.player.repository.PlayerStatRepository;
 import com.couserver.account.repository.StageProgressRepository;
+import com.couserver.battle.dto.StageRecordResponse;
+import com.couserver.battle.repository.StageRecordRepository;
 import com.couserver.player.entity.PlayerStat;
+import com.couserver.staticdata.dto.AccountConstData;
+import com.couserver.staticdata.service.StaticDataService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.time.Clock;
+import java.time.Instant;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,26 +30,19 @@ public class PlayerService {
     private final CurrencyRepository currencyRepository;
     private final StageProgressRepository stageProgressRepository;
     private final PlayerStatRepository playerStatRepository;
-
-    @Value("${game.initial.gold}")
-    private int initialGold;
-
-    @Value("${game.initial.gem}")
-    private int initialGem;
-
-    @Value("${game.initial.energy}")
-    private int initialEnergy;
-
-    @Value("${game.first-stage-id}")
-    private int firstStageId;
+    private final StageRecordRepository stageRecordRepository;
+    private final StaticDataService staticDataService;
+    private final Clock clock;
 
     @Transactional
     public void createInitialData(Account account,String playerNickname) {
         PlayerProfile profile = playerProfileRepository.save(new PlayerProfile(account, playerNickname));
         Long playerId = profile.getPlayerId();
 
-        currencyRepository.save(new Currency(playerId, initialGold, initialGem, initialEnergy));
-        stageProgressRepository.save(new StageProgress(playerId, firstStageId));
+        AccountConstData accountConst = staticDataService.getAccountConst();
+        currencyRepository.save(new Currency(playerId, accountConst.initialGold(), accountConst.initialGem(),
+                accountConst.initialStamina(), Instant.now(clock)));
+        stageProgressRepository.save(new StageProgress(playerId, staticDataService.getFirstStageId()));
         playerStatRepository.save(new PlayerStat(playerId));
     }
 
@@ -57,12 +57,21 @@ public class PlayerService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "스테이지 데이터가 없습니다."));
         PlayerStat playerStat = playerStatRepository.findById(playerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "스탯 데이터가 없습니다."));
+        List<StageRecordResponse> stageRecords = stageRecordRepository.findByPlayerIdOrderByStageIdAsc(playerId)
+                .stream()
+                .map(StageRecordResponse::new)
+                .toList();
+
+        // 회복한 스태미나를 응답에 반영한다. 읽기 전용이라 저장하지 않지만, 같은 시각과 공식이라 언제 계산해도 결과가 같다
+        AccountConstData accountConst = staticDataService.getAccountConst();
+        currency.recoverEnergy(Instant.now(clock), accountConst.maxStamina(), accountConst.staminaRecoverySeconds());
 
         return new PlayerSaveDataResponse(
                 new PlayerProfileResponse(profile),
                 new CurrencyResponse(currency),
                 new StageProgressResponse(stageProgress),
-                new PlayerStatResponse(playerStat)
+                new PlayerStatResponse(playerStat),
+                stageRecords
         );
     }
 
@@ -82,7 +91,7 @@ public class PlayerService {
         // 2) 스테이지: 해금된 스테이지인지 검사
         StageProgressSaveRequest stageRequest = request.getStageProgress();
         Integer maxCleared = stageRequest.getMaxClearedStageId();
-        int maxPlayable = (maxCleared == null) ? firstStageId : maxCleared + 1;
+        int maxPlayable = (maxCleared == null) ? staticDataService.getFirstStageId() : maxCleared + 1;
         if (stageRequest.getCurrentStageId() > maxPlayable) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "해금되지 않은 스테이지입니다.");
         }

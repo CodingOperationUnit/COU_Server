@@ -30,4 +30,12 @@ public class StageProgress {
         this.currentStageId = currentStageId;
         this.maxClearedStageId = maxClearedStageId;
     }
+
+    // 전투한 스테이지를 현재 스테이지로 두고, 승리했고 더 높으면 최고 클리어 스테이지를 갱신한다
+    public void recordBattle(int stageId, boolean victory) {
+        this.currentStageId = stageId;
+        if (victory && (maxClearedStageId == null || stageId > maxClearedStageId)) {
+            this.maxClearedStageId = stageId;
+        }
+    }
 }
