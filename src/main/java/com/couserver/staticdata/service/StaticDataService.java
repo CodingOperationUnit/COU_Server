@@ -9,6 +9,8 @@ import com.couserver.staticdata.dto.MonsterData;
 import com.couserver.staticdata.dto.SpawnPatternData;
 import com.couserver.staticdata.dto.StageData;
 import com.couserver.staticdata.dto.WaveEntryData;
+import com.couserver.staticdata.dto.ProductType;
+import com.couserver.staticdata.dto.ShopProductData;
 import lombok.Getter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,7 @@ import java.util.stream.Collectors;
 @Service
 public class StaticDataService {
     private static final List<String> TABLE_NAMES = List.of(
-            "AccountConst", "Stage", "Wave", "SpawnPattern", "Monster", "DropTable", "DropItem", "Item");
+            "AccountConst", "Stage", "Wave", "SpawnPattern", "Monster", "DropTable", "DropItem", "Item", "Shop");
 
     private final String version;
     private final Map<String, JsonNode> tables;
@@ -48,6 +50,7 @@ public class StaticDataService {
     private final Map<Integer, List<DropTableEntryData>> dropTables;    // key: dropTableId
     private final Map<DropItemType, DropItemData> dropItems;            // key: dropItemType
     private final Map<Long, ItemData> items;
+    private final Map<Integer, ShopProductData> shopProducts;
 
     public StaticDataService(ObjectMapper objectMapper) throws IOException {
         version = new ClassPathResource("data/version.txt").getContentAsString(StandardCharsets.UTF_8).trim();
@@ -116,6 +119,27 @@ public class StaticDataService {
         requireIds("Item", itemRows, ItemData::itemId);
         items = itemRows.stream()
                 .collect(Collectors.toUnmodifiableMap(ItemData::itemId, Function.identity()));
+
+        List<ShopProductData> shopRows = rows(rowMapper, "Shop", ShopProductData.class);
+        requireIds("Shop", shopRows, ShopProductData::productId);
+
+        Map<Integer, ShopProductData> shopMap = new LinkedHashMap<>();   // 시트 순서 유지
+        for (ShopProductData row : shopRows) {
+            require(row.priceGem() >= 0, "Shop " + row.productId() + "의 priceGem은 0 이상이어야 합니다.");
+            if (row.productType() == ProductType.RANDOMITEM) {
+                require(row.minGrade().ordinal() <= row.maxGrade().ordinal(),
+                        "Shop " + row.productId() + "의 minGrade가 maxGrade보다 높습니다.");
+                require(items.values().stream().anyMatch(i ->
+                                i.grade().ordinal() >= row.minGrade().ordinal()
+                                        && i.grade().ordinal() <= row.maxGrade().ordinal()),
+                        "Shop " + row.productId() + "의 등급 범위에 해당하는 Item이 없습니다.");
+            } else {
+                require(row.rewardAmount() >= 1,
+                        "Shop " + row.productId() + "의 rewardAmount는 1 이상이어야 합니다.");
+            }
+            shopMap.put(row.productId(), row);
+        }
+        shopProducts = Collections.unmodifiableMap(shopMap);
 
         for (StageData row : stageRows) {
             require(waves.containsKey(row.waveId()),

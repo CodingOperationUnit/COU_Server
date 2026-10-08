@@ -46,6 +46,14 @@ public class Currency {
         this.currencyGold += amount;
     }
 
+    public void spendGem(int amount) {
+        this.currencyGem -= amount;
+    }
+
+    public void addGem(int amount) {
+        this.currencyGem += amount;
+    }
+
     // 마지막 갱신 이후 지난 시간만큼 스태미나를 회복한다. 회복하고 남은 시간은 다음 회복에 이어서 쓴다
     public void recoverEnergy(Instant now, int maxStamina, int recoverySeconds) {
         if (currencyEnergyUpdatedAt == null || currencyEnergy >= maxStamina) {
