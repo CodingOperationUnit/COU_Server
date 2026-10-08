@@ -19,6 +19,8 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 @RequiredArgsConstructor
 public class AccountService {
+    private static final String DEFAULT_NICKNAME_PREFIX = "플레이어";
+
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
@@ -30,16 +32,18 @@ public class AccountService {
         if (accountRepository.existsByAccountLoginId(request.getAccountLoginId())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 사용 중인 아이디입니다.");
         }
-        if (playerProfileRepository.existsByPlayerNickname(request.getPlayerNickname())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 사용 중인 닉네임입니다.");
-        }
+        // 닉네임 중복 검사 제거: accountId가 겹치지 않으므로 기본 닉네임도 겹치지 않는다
+        // if (playerProfileRepository.existsByPlayerNickname(request.getPlayerNickname())) {
+        //     throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 사용 중인 닉네임입니다.");
+        // }
 
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         Account account = new Account(request.getAccountLoginId(), encodedPassword);
         Account savedAccount = accountRepository.save(account);
 
-        playerService.createInitialData(savedAccount, request.getPlayerNickname());
+        String defaultNickname = DEFAULT_NICKNAME_PREFIX + savedAccount.getAccountId();   // 예: "플레이어3"
+        playerService.createInitialData(savedAccount, defaultNickname);
 
         return new AccountResponse(
                 savedAccount.getAccountId(),
