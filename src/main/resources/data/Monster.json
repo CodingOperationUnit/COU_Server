@@ -6,7 +6,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 10,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 1,
+      "monsterContactDamage": 1,
       "monsterAsset": "Enemy/goblin"
     },
     {
@@ -15,7 +15,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 14,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 1,
+      "monsterContactDamage": 1,
       "monsterAsset": "Enemy/slime"
     },
     {
@@ -24,7 +24,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 20,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 2,
+      "monsterContactDamage": 2,
       "monsterAsset": "Enemy/orange_slime_slime"
     },
     {
@@ -33,7 +33,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 24,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 2,
+      "monsterContactDamage": 2,
       "monsterAsset": "Enemy/goblin"
     },
     {
@@ -42,7 +42,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 28,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 2,
+      "monsterContactDamage": 2,
       "monsterAsset": "Enemy/slime"
     },
     {
@@ -51,7 +51,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 34,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 3,
+      "monsterContactDamage": 3,
       "monsterAsset": "Enemy/orange_slime_slime"
     },
     {
@@ -60,7 +60,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 38,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 3,
+      "monsterContactDamage": 3,
       "monsterAsset": "Enemy/goblin"
     },
     {
@@ -69,7 +69,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 44,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 4,
+      "monsterContactDamage": 4,
       "monsterAsset": "Enemy/slime"
     },
     {
@@ -78,7 +78,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 50,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 4,
+      "monsterContactDamage": 4,
       "monsterAsset": "Enemy/orange_slime_slime"
     },
     {
@@ -87,7 +87,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 56,
       "monsterMoveSpeed": 2.5,
-      "monsterAttackPoint": 4,
+      "monsterContactDamage": 4,
       "monsterAsset": "Enemy/goblin_archer"
     },
     {
@@ -96,7 +96,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 62,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 5,
+      "monsterContactDamage": 5,
       "monsterAsset": "Enemy/goblin"
     },
     {
@@ -105,7 +105,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 68,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 5,
+      "monsterContactDamage": 5,
       "monsterAsset": "Enemy/slime"
     },
     {
@@ -114,7 +114,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 75,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 6,
+      "monsterContactDamage": 6,
       "monsterAsset": "Enemy/orange_slime_slime"
     },
     {
@@ -123,7 +123,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 82,
       "monsterMoveSpeed": 2.5,
-      "monsterAttackPoint": 6,
+      "monsterContactDamage": 6,
       "monsterAsset": "Enemy/goblin_archer"
     },
     {
@@ -132,7 +132,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 90,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 7,
+      "monsterContactDamage": 7,
       "monsterAsset": "Enemy/goblin"
     },
     {
@@ -141,7 +141,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 98,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 7,
+      "monsterContactDamage": 7,
       "monsterAsset": "Enemy/slime"
     },
     {
@@ -150,7 +150,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 108,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 8,
+      "monsterContactDamage": 8,
       "monsterAsset": "Enemy/orange_slime_slime"
     },
     {
@@ -159,7 +159,7 @@
       "monsterType": "Normal",
       "monsterMaxHealthPoint": 120,
       "monsterMoveSpeed": 2.5,
-      "monsterAttackPoint": 9,
+      "monsterContactDamage": 9,
       "monsterAsset": "Enemy/goblin_archer"
     },
     {
@@ -168,7 +168,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 40,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 4,
+      "monsterContactDamage": 4,
       "monsterAsset": "Enemy/goblin_green_warrior"
     },
     {
@@ -177,7 +177,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 50,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 5,
+      "monsterContactDamage": 5,
       "monsterAsset": "Enemy/orange_slime_king"
     },
     {
@@ -186,7 +186,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 60,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 6,
+      "monsterContactDamage": 6,
       "monsterAsset": "Enemy/skull"
     },
     {
@@ -195,7 +195,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 70,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 7,
+      "monsterContactDamage": 7,
       "monsterAsset": "Enemy/goblin_green_warrior"
     },
     {
@@ -204,7 +204,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 80,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 8,
+      "monsterContactDamage": 8,
       "monsterAsset": "Enemy/orange_slime_king"
     },
     {
@@ -213,7 +213,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 90,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 9,
+      "monsterContactDamage": 9,
       "monsterAsset": "Enemy/skull"
     },
     {
@@ -222,7 +222,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 100,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 10,
+      "monsterContactDamage": 10,
       "monsterAsset": "Enemy/goblin_green_warrior"
     },
     {
@@ -231,7 +231,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 110,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 11,
+      "monsterContactDamage": 11,
       "monsterAsset": "Enemy/orange_slime_king"
     },
     {
@@ -240,7 +240,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 120,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 12,
+      "monsterContactDamage": 12,
       "monsterAsset": "Enemy/skull"
     },
     {
@@ -249,7 +249,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 130,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 13,
+      "monsterContactDamage": 13,
       "monsterAsset": "Enemy/goblin_green_warrior"
     },
     {
@@ -258,7 +258,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 140,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 14,
+      "monsterContactDamage": 14,
       "monsterAsset": "Enemy/orange_slime_king"
     },
     {
@@ -267,7 +267,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 150,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 15,
+      "monsterContactDamage": 15,
       "monsterAsset": "Enemy/skull"
     },
     {
@@ -276,7 +276,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 165,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 16,
+      "monsterContactDamage": 16,
       "monsterAsset": "Enemy/goblin_green_warrior"
     },
     {
@@ -285,7 +285,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 180,
       "monsterMoveSpeed": 1.0,
-      "monsterAttackPoint": 17,
+      "monsterContactDamage": 17,
       "monsterAsset": "Enemy/orange_slime_king"
     },
     {
@@ -294,7 +294,7 @@
       "monsterType": "Elite",
       "monsterMaxHealthPoint": 200,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 18,
+      "monsterContactDamage": 18,
       "monsterAsset": "Enemy/skull"
     },
     {
@@ -303,7 +303,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 100,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 10,
+      "monsterContactDamage": 10,
       "monsterAsset": "Enemy/skull_archer"
     },
     {
@@ -312,7 +312,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 130,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 12,
+      "monsterContactDamage": 12,
       "monsterAsset": "Enemy/skull_warrior"
     },
     {
@@ -321,7 +321,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 165,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 14,
+      "monsterContactDamage": 14,
       "monsterAsset": "Enemy/skull_posion_posion"
     },
     {
@@ -330,7 +330,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 200,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 16,
+      "monsterContactDamage": 16,
       "monsterAsset": "Enemy/skull_archer"
     },
     {
@@ -339,7 +339,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 240,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 18,
+      "monsterContactDamage": 18,
       "monsterAsset": "Enemy/skull_warrior"
     },
     {
@@ -348,7 +348,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 280,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 20,
+      "monsterContactDamage": 20,
       "monsterAsset": "Enemy/skull_posion_posion"
     },
     {
@@ -357,7 +357,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 320,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 22,
+      "monsterContactDamage": 22,
       "monsterAsset": "Enemy/skull_archer"
     },
     {
@@ -366,7 +366,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 360,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 24,
+      "monsterContactDamage": 24,
       "monsterAsset": "Enemy/skull_warrior"
     },
     {
@@ -375,7 +375,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 400,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 26,
+      "monsterContactDamage": 26,
       "monsterAsset": "Enemy/skull_posion_posion"
     },
     {
@@ -384,7 +384,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 450,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 28,
+      "monsterContactDamage": 28,
       "monsterAsset": "Enemy/skull_archer"
     },
     {
@@ -393,7 +393,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 500,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 30,
+      "monsterContactDamage": 30,
       "monsterAsset": "Enemy/skull_warrior"
     },
     {
@@ -402,7 +402,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 550,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 32,
+      "monsterContactDamage": 32,
       "monsterAsset": "Enemy/skull_posion_posion"
     },
     {
@@ -411,7 +411,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 600,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 34,
+      "monsterContactDamage": 34,
       "monsterAsset": "Enemy/skull_archer"
     },
     {
@@ -420,7 +420,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 650,
       "monsterMoveSpeed": 1.5,
-      "monsterAttackPoint": 36,
+      "monsterContactDamage": 36,
       "monsterAsset": "Enemy/skull_warrior"
     },
     {
@@ -429,7 +429,7 @@
       "monsterType": "Boss",
       "monsterMaxHealthPoint": 700,
       "monsterMoveSpeed": 2.0,
-      "monsterAttackPoint": 38,
+      "monsterContactDamage": 38,
       "monsterAsset": "Enemy/skull_posion_posion"
     },
     {
@@ -438,7 +438,7 @@
       "monsterType": "Box",
       "monsterMaxHealthPoint": 1,
       "monsterMoveSpeed": 0.0,
-      "monsterAttackPoint": 0,
+      "monsterContactDamage": 0,
       "monsterAsset": "Enemy/box"
     }
   ]
