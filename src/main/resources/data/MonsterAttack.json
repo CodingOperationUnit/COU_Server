@@ -8,7 +8,8 @@
       "monsterAttackTriggerRange": 3.0,
       "monsterAttackDamage": 1,
       "monsterAttackCount": 1,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 3.0
     },
     {
       "monsterAttackId": 110081,
@@ -18,7 +19,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 3,
       "monsterAttackCount": 1,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 110121,
@@ -28,27 +30,52 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 6,
       "monsterAttackCount": 1,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 110161,
-      "monsterId": 11016,
-      "monsterAttackType": "Ranged",
-      "monsterAttackCooldown": 3.5,
-      "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 5,
-      "monsterAttackCount": 3,
-      "monsterAttackAngle": 30.0
-    },
-    {
-      "monsterAttackId": 110162,
       "monsterId": 11016,
       "monsterAttackType": "Trap",
       "monsterAttackCooldown": 5.0,
       "monsterAttackTriggerRange": 3.0,
       "monsterAttackDamage": 3,
       "monsterAttackCount": 1,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 4.0
+    },
+    {
+      "monsterAttackId": 120091,
+      "monsterId": 12009,
+      "monsterAttackType": "Ranged",
+      "monsterAttackCooldown": 3.5,
+      "monsterAttackTriggerRange": 7.0,
+      "monsterAttackDamage": 7,
+      "monsterAttackCount": 3,
+      "monsterAttackAngle": 40.0,
+      "monsterAttackDuration": 0.0
+    },
+    {
+      "monsterAttackId": 120121,
+      "monsterId": 12012,
+      "monsterAttackType": "Trap",
+      "monsterAttackCooldown": 4.0,
+      "monsterAttackTriggerRange": 5.0,
+      "monsterAttackDamage": 6,
+      "monsterAttackCount": 1,
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 5.0
+    },
+    {
+      "monsterAttackId": 120151,
+      "monsterId": 12015,
+      "monsterAttackType": "Area",
+      "monsterAttackCooldown": 6.0,
+      "monsterAttackTriggerRange": 7.0,
+      "monsterAttackDamage": 27,
+      "monsterAttackCount": 3,
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130011,
@@ -58,7 +85,8 @@
       "monsterAttackTriggerRange": 7.0,
       "monsterAttackDamage": 6,
       "monsterAttackCount": 3,
-      "monsterAttackAngle": 40.0
+      "monsterAttackAngle": 40.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130012,
@@ -68,7 +96,8 @@
       "monsterAttackTriggerRange": 4.0,
       "monsterAttackDamage": 15,
       "monsterAttackCount": 0,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130021,
@@ -78,7 +107,8 @@
       "monsterAttackTriggerRange": 5.0,
       "monsterAttackDamage": 18,
       "monsterAttackCount": 0,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130022,
@@ -88,7 +118,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 18,
       "monsterAttackCount": 1,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130031,
@@ -98,7 +129,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 6,
       "monsterAttackCount": 1,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 5.0
     },
     {
       "monsterAttackId": 130032,
@@ -108,7 +140,8 @@
       "monsterAttackTriggerRange": 7.0,
       "monsterAttackDamage": 8,
       "monsterAttackCount": 3,
-      "monsterAttackAngle": 30.0
+      "monsterAttackAngle": 30.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130041,
@@ -118,7 +151,8 @@
       "monsterAttackTriggerRange": 7.0,
       "monsterAttackDamage": 10,
       "monsterAttackCount": 5,
-      "monsterAttackAngle": 60.0
+      "monsterAttackAngle": 60.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130042,
@@ -128,7 +162,8 @@
       "monsterAttackTriggerRange": 8.0,
       "monsterAttackDamage": 8,
       "monsterAttackCount": 8,
-      "monsterAttackAngle": 360.0
+      "monsterAttackAngle": 360.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130043,
@@ -138,7 +173,8 @@
       "monsterAttackTriggerRange": 4.0,
       "monsterAttackDamage": 24,
       "monsterAttackCount": 0,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130051,
@@ -148,7 +184,8 @@
       "monsterAttackTriggerRange": 5.0,
       "monsterAttackDamage": 27,
       "monsterAttackCount": 0,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130052,
@@ -158,7 +195,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 27,
       "monsterAttackCount": 3,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130053,
@@ -168,7 +206,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 9,
       "monsterAttackCount": 6,
-      "monsterAttackAngle": 360.0
+      "monsterAttackAngle": 360.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130061,
@@ -178,7 +217,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 8,
       "monsterAttackCount": 2,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 5.0
     },
     {
       "monsterAttackId": 130062,
@@ -188,7 +228,8 @@
       "monsterAttackTriggerRange": 7.0,
       "monsterAttackDamage": 30,
       "monsterAttackCount": 3,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130063,
@@ -198,7 +239,8 @@
       "monsterAttackTriggerRange": 7.0,
       "monsterAttackDamage": 12,
       "monsterAttackCount": 3,
-      "monsterAttackAngle": 30.0
+      "monsterAttackAngle": 30.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130071,
@@ -208,7 +250,8 @@
       "monsterAttackTriggerRange": 7.0,
       "monsterAttackDamage": 13,
       "monsterAttackCount": 5,
-      "monsterAttackAngle": 60.0
+      "monsterAttackAngle": 60.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130072,
@@ -218,7 +261,8 @@
       "monsterAttackTriggerRange": 8.0,
       "monsterAttackDamage": 11,
       "monsterAttackCount": 12,
-      "monsterAttackAngle": 360.0
+      "monsterAttackAngle": 360.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130073,
@@ -228,7 +272,8 @@
       "monsterAttackTriggerRange": 8.0,
       "monsterAttackDamage": 33,
       "monsterAttackCount": 3,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130081,
@@ -238,7 +283,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 36,
       "monsterAttackCount": 0,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130082,
@@ -248,7 +294,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 36,
       "monsterAttackCount": 3,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130083,
@@ -258,7 +305,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 12,
       "monsterAttackCount": 8,
-      "monsterAttackAngle": 360.0
+      "monsterAttackAngle": 360.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130091,
@@ -268,7 +316,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 10,
       "monsterAttackCount": 3,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 6.0
     },
     {
       "monsterAttackId": 130092,
@@ -278,7 +327,8 @@
       "monsterAttackTriggerRange": 7.0,
       "monsterAttackDamage": 39,
       "monsterAttackCount": 3,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130093,
@@ -288,7 +338,8 @@
       "monsterAttackTriggerRange": 8.0,
       "monsterAttackDamage": 13,
       "monsterAttackCount": 8,
-      "monsterAttackAngle": 360.0
+      "monsterAttackAngle": 360.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130101,
@@ -298,7 +349,8 @@
       "monsterAttackTriggerRange": 7.0,
       "monsterAttackDamage": 17,
       "monsterAttackCount": 7,
-      "monsterAttackAngle": 75.0
+      "monsterAttackAngle": 75.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130102,
@@ -308,7 +360,8 @@
       "monsterAttackTriggerRange": 8.0,
       "monsterAttackDamage": 14,
       "monsterAttackCount": 12,
-      "monsterAttackAngle": 360.0
+      "monsterAttackAngle": 360.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130103,
@@ -318,7 +371,8 @@
       "monsterAttackTriggerRange": 8.0,
       "monsterAttackDamage": 42,
       "monsterAttackCount": 4,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130111,
@@ -328,7 +382,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 45,
       "monsterAttackCount": 0,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130112,
@@ -338,7 +393,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 45,
       "monsterAttackCount": 4,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130113,
@@ -348,7 +404,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 15,
       "monsterAttackCount": 10,
-      "monsterAttackAngle": 360.0
+      "monsterAttackAngle": 360.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130121,
@@ -358,7 +415,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 13,
       "monsterAttackCount": 3,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 6.0
     },
     {
       "monsterAttackId": 130122,
@@ -368,7 +426,8 @@
       "monsterAttackTriggerRange": 7.0,
       "monsterAttackDamage": 48,
       "monsterAttackCount": 4,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130123,
@@ -378,7 +437,8 @@
       "monsterAttackTriggerRange": 7.0,
       "monsterAttackDamage": 19,
       "monsterAttackCount": 5,
-      "monsterAttackAngle": 60.0
+      "monsterAttackAngle": 60.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130131,
@@ -388,7 +448,8 @@
       "monsterAttackTriggerRange": 7.0,
       "monsterAttackDamage": 20,
       "monsterAttackCount": 7,
-      "monsterAttackAngle": 90.0
+      "monsterAttackAngle": 90.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130132,
@@ -398,7 +459,8 @@
       "monsterAttackTriggerRange": 8.0,
       "monsterAttackDamage": 17,
       "monsterAttackCount": 16,
-      "monsterAttackAngle": 360.0
+      "monsterAttackAngle": 360.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130133,
@@ -408,7 +470,8 @@
       "monsterAttackTriggerRange": 8.0,
       "monsterAttackDamage": 51,
       "monsterAttackCount": 5,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130141,
@@ -418,7 +481,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 54,
       "monsterAttackCount": 0,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130142,
@@ -428,7 +492,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 54,
       "monsterAttackCount": 5,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130143,
@@ -438,7 +503,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 18,
       "monsterAttackCount": 12,
-      "monsterAttackAngle": 360.0
+      "monsterAttackAngle": 360.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130151,
@@ -448,7 +514,8 @@
       "monsterAttackTriggerRange": 6.0,
       "monsterAttackDamage": 15,
       "monsterAttackCount": 4,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 7.0
     },
     {
       "monsterAttackId": 130152,
@@ -458,7 +525,8 @@
       "monsterAttackTriggerRange": 7.0,
       "monsterAttackDamage": 57,
       "monsterAttackCount": 5,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130153,
@@ -468,17 +536,19 @@
       "monsterAttackTriggerRange": 8.0,
       "monsterAttackDamage": 19,
       "monsterAttackCount": 12,
-      "monsterAttackAngle": 360.0
+      "monsterAttackAngle": 360.0,
+      "monsterAttackDuration": 0.0
     },
     {
       "monsterAttackId": 130154,
       "monsterId": 13015,
       "monsterAttackType": "Melee",
-      "monsterAttackCooldown": 3.0,
-      "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 54,
+      "monsterAttackCooldown": 5.0,
+      "monsterAttackTriggerRange": 5.0,
+      "monsterAttackDamage": 57,
       "monsterAttackCount": 0,
-      "monsterAttackAngle": 0.0
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     }
   ]
 }
