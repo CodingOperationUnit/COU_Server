@@ -6,5 +6,7 @@ import com.couserver.inventory.entity.ItemGrade;
 public record ItemData(
         long itemId,
         EquipSlotType slotType,
-        ItemGrade grade) {
+        ItemGrade grade,
+        int hpBonus,
+        int attackBonus) {
 }

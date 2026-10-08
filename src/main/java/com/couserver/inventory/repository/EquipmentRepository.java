@@ -12,7 +12,7 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
 
     List<Equipment> findByPlayerId(Long playerId);
     List<Equipment> findByPlayerIdOrderByIdAsc(Long playerId);
-    Optional<Equipment> findByPlayerIdAndItemSlotTypeAndEquippedTrue(Long playerId, EquipSlotType slotType);
-    List<Equipment> findTop2ByPlayerIdAndItem_IdAndGradeAndEquippedFalseAndIdNotOrderByIdAsc(
+    List<Equipment> findByPlayerIdAndEquippedTrue(Long playerId);
+    List<Equipment> findTop2ByPlayerIdAndItemIdAndGradeAndEquippedFalseAndIdNotOrderByIdAsc(
             Long playerId, Long itemId, ItemGrade grade, Long id);
 }

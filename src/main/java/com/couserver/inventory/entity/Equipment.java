@@ -1,17 +1,7 @@
 package com.couserver.inventory.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.couserver.staticdata.dto.ItemData;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,9 +24,8 @@ public class Equipment {
     @Column(nullable = false)
     private Long playerId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "item_id", nullable = false)
-    private Item item;
+    @Column(name = "item_id", nullable = false)
+    private Long itemId;
 
     @Column(nullable = false)
     private int level = 1;
@@ -52,11 +41,11 @@ public class Equipment {
     @Column(nullable = false, updatable = false)
     private LocalDateTime acquiredAt;
 
-    public static Equipment create(Long playerId, Item item) {
+    public static Equipment create(Long playerId, ItemData item) {
         Equipment equipment = new Equipment();
         equipment.playerId = playerId;
-        equipment.item = item;
-        equipment.grade = item.getGrade();
+        equipment.itemId = item.itemId();
+        equipment.grade = item.grade();
         equipment.acquiredAt = LocalDateTime.now();
         return equipment;
     }

@@ -5,9 +5,11 @@ import com.couserver.account.entity.Currency;
 import com.couserver.account.repository.CurrencyRepository;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.inventory.dto.*;
+import com.couserver.inventory.entity.EquipSlotType;
 import com.couserver.inventory.entity.Equipment;
 import com.couserver.inventory.exception.InventoryErrorCode;
 import com.couserver.inventory.repository.EquipmentRepository;
+import com.couserver.staticdata.service.StaticDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ public class InventoryService {
 
     private final EquipmentRepository equipmentRepository;
     private final CurrencyRepository currencyRepository;
+    private final StaticDataService staticDataService;
     private static final int SYNTHESIS_MATERIAL_COUNT = 2;   // 합성 재료 개수
     private static final int MAX_LEVEL = 10;
     private static final int LEVEL_UP_BASE_COST = 1000;
@@ -37,7 +40,7 @@ public class InventoryService {
                 .stream()
                 .map(e -> new EquipmentResponse(
                         e.getId(),
-                        e.getItem().getId(),
+                        e.getItemId(),
                         e.getLevel(),
                         e.getGrade().toClientName(),
                         e.isEquipped()))
@@ -60,7 +63,7 @@ public class InventoryService {
     private EquipmentResponse toResponse(Equipment e) {
         return new EquipmentResponse(
                 e.getId(),
-                e.getItem().getId(),
+                e.getItemId(),
                 e.getLevel(),
                 e.getGrade().toClientName(),
                 e.isEquipped());
@@ -75,9 +78,14 @@ public class InventoryService {
             return new EquipResponse(toResponse(target), null);
         }
 
-        Equipment previous = equipmentRepository
-                .findByPlayerIdAndItemSlotTypeAndEquippedTrue(playerId, target.getItem().getSlotType())
-                .orElse(null);                           // 같은 슬롯에 장착 중인 장비
+        // 대상 장비의 슬롯 (정적 데이터에서 조회)
+        EquipSlotType slot = staticDataService.getItems().get(target.getItemId()).slotType();
+
+        // 장착 중인 장비들 중 같은 슬롯인 것
+        Equipment previous = equipmentRepository.findByPlayerIdAndEquippedTrue(playerId).stream()
+                .filter(e -> staticDataService.getItems().get(e.getItemId()).slotType() == slot)
+                .findFirst()
+                .orElse(null);
 
         if (previous != null) {
             previous.unequip();
@@ -170,7 +178,7 @@ public class InventoryService {
         List<Long> consumedIds = synthesizeOnce(target, materials);
 
         return new SynthesizeResponse(
-                target.getId(), target.getItem().getId(), target.getLevel(),
+                target.getId(), target.getItemId(), target.getLevel(),
                 target.getGrade().toClientName(), target.isEquipped(), consumedIds);
     }
 
@@ -201,7 +209,7 @@ public class InventoryService {
         }
 
         return new SynthesizeBatchResponse(
-                target.getId(), target.getItem().getId(), target.getLevel(),
+                target.getId(), target.getItemId(), target.getLevel(),
                 target.getGrade().toClientName(), target.isEquipped(),
                 tiersGained, allConsumed);
     }
@@ -210,8 +218,8 @@ public class InventoryService {
     // 재료 조회
     private List<Equipment> findMaterials(Long playerId, Equipment target) {
         return equipmentRepository
-                .findTop2ByPlayerIdAndItem_IdAndGradeAndEquippedFalseAndIdNotOrderByIdAsc(
-                        playerId, target.getItem().getId(), target.getGrade(), target.getId());
+                .findTop2ByPlayerIdAndItemIdAndGradeAndEquippedFalseAndIdNotOrderByIdAsc(
+                        playerId, target.getItemId(), target.getGrade(), target.getId());
     }
 
     // 1단계 합성 실행
