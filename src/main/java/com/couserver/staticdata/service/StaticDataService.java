@@ -6,6 +6,7 @@ import com.couserver.staticdata.dto.DropItemType;
 import com.couserver.staticdata.dto.DropTableEntryData;
 import com.couserver.staticdata.dto.ItemData;
 import com.couserver.staticdata.dto.MonsterData;
+import com.couserver.staticdata.dto.SkillData;
 import com.couserver.staticdata.dto.SpawnPatternData;
 import com.couserver.staticdata.dto.StageData;
 import com.couserver.staticdata.dto.WaveEntryData;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 @Service
 public class StaticDataService {
     private static final List<String> TABLE_NAMES = List.of(
-            "AccountConst", "Stage", "Wave", "SpawnPattern", "Monster", "DropTable", "DropItem", "Item");
+            "AccountConst", "Stage", "Wave", "SpawnPattern", "Monster", "DropTable", "DropItem", "Item", "Skill");
 
     private final String version;
     private final Map<String, JsonNode> tables;
@@ -48,6 +49,7 @@ public class StaticDataService {
     private final Map<Integer, List<DropTableEntryData>> dropTables;    // key: dropTableId
     private final Map<DropItemType, DropItemData> dropItems;            // key: dropItemType
     private final Map<Long, ItemData> items;
+    private final Map<Long, SkillData> skills;
 
     public StaticDataService(ObjectMapper objectMapper) throws IOException {
         version = new ClassPathResource("data/version.txt").getContentAsString(StandardCharsets.UTF_8).trim();
@@ -116,6 +118,15 @@ public class StaticDataService {
         requireIds("Item", itemRows, ItemData::itemId);
         items = itemRows.stream()
                 .collect(Collectors.toUnmodifiableMap(ItemData::itemId, Function.identity()));
+
+        List<SkillData> skillRows = rows(rowMapper, "Skill", SkillData.class);
+        requireIds("Skill", skillRows, SkillData::skillId);
+        for (SkillData row : skillRows) {
+            require(row.skillCategory() == 0 || row.skillCategory() == 1,
+                    "Skill " + row.skillId() + "의 skillCategory는 0 또는 1이어야 합니다: " + row.skillCategory());
+        }
+        skills = skillRows.stream()
+                .collect(Collectors.toUnmodifiableMap(SkillData::skillId, Function.identity()));
 
         for (StageData row : stageRows) {
             require(waves.containsKey(row.waveId()),
