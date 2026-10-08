@@ -72,6 +72,7 @@ public class InventoryService {
     // 장착
     @Transactional
     public EquipResponse equip(Long playerId, Long inventoryId) {
+        lockPlayer(playerId);
         Equipment target = getOwned(playerId, inventoryId);
 
         if (target.isEquipped()) {                       // 이미 장착 중이면 변화 없음
@@ -98,6 +99,7 @@ public class InventoryService {
     // 해제
     @Transactional
     public EquipmentResponse unequip(Long playerId, Long inventoryId) {
+        lockPlayer(playerId);
         Equipment target = getOwned(playerId, inventoryId);
 
         if (!target.isEquipped()) {
@@ -110,13 +112,13 @@ public class InventoryService {
     // 단일 레벨업
     @Transactional
     public LevelUpResponse levelUp(Long playerId, Long inventoryId) {
+        Currency currency = getCurrency(playerId);
         Equipment target = getOwned(playerId, inventoryId);
 
         if (target.getLevel() >= MAX_LEVEL) {
             throw new BusinessException(InventoryErrorCode.MAX_LEVEL_REACHED);
         }
 
-        Currency currency = getCurrency(playerId);
         int cost = levelUpCost(target.getLevel());
         if (currency.getCurrencyGold() < cost) {
             throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_GOLD);
@@ -131,13 +133,13 @@ public class InventoryService {
     // 일괄 레벨업
     @Transactional
     public LevelUpBatchResponse levelUpBatch(Long playerId, Long inventoryId) {
+        Currency currency = getCurrency(playerId);
         Equipment target = getOwned(playerId, inventoryId);
 
         if (target.getLevel() >= MAX_LEVEL) {
             throw new BusinessException(InventoryErrorCode.MAX_LEVEL_REACHED);
         }
 
-        Currency currency = getCurrency(playerId);
         int spentGold = 0;
         int levelsGained = 0;
 
@@ -164,6 +166,7 @@ public class InventoryService {
     // 장비 합성 로직(단일 합성)
     @Transactional
     public SynthesizeResponse synthesize(Long playerId, Long inventoryId) {
+        lockPlayer(playerId);
         Equipment target = getOwned(playerId, inventoryId);
 
         if (!target.getGrade().canSynthesize()) {
@@ -185,6 +188,7 @@ public class InventoryService {
     // 장비 합성 로직(일괄 합성)
     @Transactional
     public SynthesizeBatchResponse synthesizeBatch(Long playerId, Long inventoryId) {
+        lockPlayer(playerId);
         Equipment target = getOwned(playerId, inventoryId);
 
         // 최고 등급일 때 예외처리
@@ -235,9 +239,14 @@ public class InventoryService {
         return LEVEL_UP_BASE_COST * level;
     }
 
+    // 플레이어 단위 락
+    private void lockPlayer(Long playerId) {
+        getCurrency(playerId);
+    }
+
     // 재화 가져오기
     private Currency getCurrency(Long playerId) {
-        return currencyRepository.findById(playerId)
+        return currencyRepository.findForUpdate(playerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "재화 데이터가 없습니다."));
     }
 }
