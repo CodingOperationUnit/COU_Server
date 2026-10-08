@@ -36,9 +36,6 @@ import java.util.stream.Collectors;
 @Getter
 @Service
 public class StaticDataService {
-    private static final List<String> TABLE_NAMES = List.of(
-            "AccountConst", "Stage", "Wave", "SpawnPattern", "Monster", "DropTable", "DropItem", "Item", "Shop", "Skill");
-
     private final String version;
     private final Map<String, JsonNode> tables;
 
@@ -57,8 +54,12 @@ public class StaticDataService {
     public StaticDataService(ObjectMapper objectMapper) throws IOException {
         version = new ClassPathResource("data/version.txt").getContentAsString(StandardCharsets.UTF_8).trim();
 
+        // SheetExporter가 쓴 탭 이름 목록
+        List<String> tableNames = new ClassPathResource("data/tables.txt").getContentAsString(StandardCharsets.UTF_8)
+                .lines().map(String::trim).filter(name -> !name.isEmpty()).toList();
+
         Map<String, JsonNode> loaded = new LinkedHashMap<>();
-        for (String name : TABLE_NAMES) {
+        for (String name : tableNames) {
             try (InputStream in = new ClassPathResource("data/" + name + ".json").getInputStream()) {
                 loaded.put(name, objectMapper.readTree(in));
             }

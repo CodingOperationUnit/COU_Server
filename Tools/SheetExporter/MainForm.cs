@@ -10,9 +10,11 @@ using System.Windows.Forms;
 namespace COU.SheetExporter
 {
     // 시트의 모든 탭을 JSON으로 변환해 저장 위치(선택 시 클라이언트 데이터 위치)에 쓴다. 저장 위치에 version.txt가 있어야 한다.
+    // 서버가 내려줄 테이블을 알 수 있도록 탭 이름 목록을 저장 위치의 tables.txt에 함께 쓴다.
     internal sealed class MainForm : Form
     {
         private const string VersionFileName = "version.txt";
+        private const string TableListFileName = "tables.txt";
 
         private readonly TextBox saveFolderBox = new TextBox { Anchor = AnchorStyles.Left | AnchorStyles.Right };
         private readonly TextBox spreadsheetUrlBox = new TextBox { Anchor = AnchorStyles.Left | AnchorStyles.Right };
@@ -171,18 +173,24 @@ namespace COU.SheetExporter
             var clientWrites = clientFolder == null ? new List<(string Name, string Json)>()
                 : tables.Where(t => !SameContent(Path.Combine(clientFolder, t.Name + ".json"), t.Json)).ToList();
 
-            if (serverWrites.Count == 0 && clientWrites.Count == 0 && next == current)
+            string tableList = string.Join(Environment.NewLine, tables.Select(t => t.Name)) + Environment.NewLine;
+            string tableListPath = Path.Combine(serverFolder, TableListFileName);
+            bool tableListChanged = !SameContent(tableListPath, tableList);
+
+            if (serverWrites.Count == 0 && clientWrites.Count == 0 && !tableListChanged && next == current)
             {
                 Log("변경 없음");
                 return;
             }
             foreach (var t in serverWrites) Write(Path.Combine(serverFolder, t.Name + ".json"), t.Json);
+            if (tableListChanged) Write(tableListPath, tableList);
             foreach (var t in clientWrites) Write(Path.Combine(clientFolder, t.Name + ".json"), t.Json);
             if (next != current) Write(versionFile, next + Environment.NewLine);
             // 수동 버전 선택은 1회만 적용한다
             versionBox.SelectedIndex = 0;
 
             Log("서버: " + (serverWrites.Count > 0 ? string.Join(", ", serverWrites.Select(t => t.Name)) : "변경 없음"));
+            if (tableListChanged) Log($"{TableListFileName}: 탭 목록 갱신");
             if (clientFolder != null)
                 Log("클라이언트: " + (clientWrites.Count > 0 ? string.Join(", ", clientWrites.Select(t => t.Name)) : "변경 없음"));
             Log(next != current ? $"버전: {current} → {next}" : $"버전: {current} (유지)");
