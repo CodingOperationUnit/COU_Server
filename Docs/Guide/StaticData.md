@@ -33,7 +33,7 @@
 
 | 테이블 | 서버 record | 서버가 읽는 열 |
 |---|---|---|
-| AccountConst | `AccountConstData` (행 1개) | initialGold, initialGem, initialStamina, maxStamina, accountBaseRequiredExp, accountRequiredExpIncrement, maxAccountLevel, battleStaminaCost |
+| AccountConst | `AccountConstData` (행 1개) | initialGold, initialGem, initialStamina, maxStamina, accountBaseRequiredExp, accountRequiredExpIncrement, maxAccountLevel, battleStaminaCost, staminaRecoverySeconds, accountExpPerKill, accountExpPerSecond, luckTrainGoldMax |
 | Stage | `StageData` | stageId, stageDuration, waveId, clearAccountExp, rewardBoxGradeWeights |
 | Wave | `WaveEntryData` | waveEntryId, waveId, patternStartTime, patternId, monsterId |
 | SpawnPattern | `SpawnPatternData` | patternId, eventType, spawnCount, spawnInterval, patternDuration, dropTableId |
@@ -156,7 +156,7 @@ public class BattleService {
 }
 ```
 
-지금은 이 API 외에 `StaticDataService`를 쓰는 코드가 없다. `PlayerService`는 아직 `application.properties`의 `game.initial.*`, `game.first-stage-id`를 쓴다.
+지금 `StaticDataService`를 쓰는 코드는 `PlayerService`(초기 재화, 첫 스테이지 `getFirstStageId()`), `InventoryService`(Item), `BattleService`(전투 입장·결과 검증)다.
 
 ### 5.2 데이터 추가·수정
 1. 구글 시트를 수정한다.
@@ -218,6 +218,7 @@ public class BattleService {
 - **시트의 enum 값 대소문자는?** 구분하지 않는다. 시트의 `Armor`는 서버에서 `ARMOR`로 읽힌다.
 - **클라이언트 전용 열을 추가해도 되나?** 된다. 서버는 무시하고 응답에는 그대로 넣는다. 반대로 서버가 읽는 열이 빠지면 서버가 시작하지 않는다.
 - **AccountConst의 battleStaminaCost:** 시트 AccountConst 탭에 이 열이 없다면 내보내기 전에 추가한다. 열이 없는 JSON으로는 서버가 시작하지 않는다.
+- **AccountConst의 staminaRecoverySeconds, accountExpPerKill, accountExpPerSecond, luckTrainGoldMax:** 전투 API(`Battle.md`)용으로 서버 JSON에만 임시로 넣었다. dev 머지 때 시트에 열을 추가한 뒤 내보낸다.
 - **Item:** 지금은 `ItemDataLoader`가 같은 `Item.json`을 DB에도 적재한다(임시). 이미 있는 ID는 건너뛰므로, Item 값을 바꾸면 로컬 DB를 초기화해야 인벤토리에 반영된다. 보유 장비가 itemId를 참조하므로 Item 행은 지우지 않는다.
 - **PlayerBaseStat.json은?** `data/`에 있지만 이 API에 포함되지 않는다. 별도 `PlayerBaseStatDataLoader`가 DB에 적재한다.
 - **롤링 배포 중에는?** 데이터 버전이 다른 서버가 함께 돌 수 있다. 전투 입장과 결과 검증이 서로 다른 버전에서 처리될 수 있다.

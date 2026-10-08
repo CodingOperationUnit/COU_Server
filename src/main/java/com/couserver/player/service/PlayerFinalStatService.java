@@ -13,6 +13,8 @@ import com.couserver.player.entity.PlayerStat;
 import com.couserver.player.entity.PlayerStatType;
 import com.couserver.player.exception.PlayerErrorCode;
 import com.couserver.player.repository.PlayerStatRepository;
+import com.couserver.staticdata.dto.ItemData;
+import com.couserver.staticdata.service.StaticDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ public class PlayerFinalStatService {
     private final PlayerBaseStatRepository playerBaseStatRepository;
     private final PlayerStatRepository playerStatRepository;
     private final EquipmentRepository equipmentRepository;
+
+    private final StaticDataService staticDataService;
 
     public PlayerFinalStatResponse getFinalStat(Long playerId){
         PlayerBaseStat baseStat = playerBaseStatRepository.findById(PlayerBaseStat.SINGLE_ID)
@@ -66,9 +70,10 @@ public class PlayerFinalStatService {
 
     // 장비 1개가 주는 스탯 - 장비 스탯을 꺼내는 곳은 여기 한 곳 뿐
     private StatSource statOf(Equipment equipment){
+        ItemData item = staticDataService.getItems().get(equipment.getItemId());   // 정적 데이터에서 아이템 정보 조회
         return new StatSource(
-                equipment.getItem().getAttackBonus(),
-                equipment.getItem().getHpBonus(),
+                item.attackBonus(),
+                item.hpBonus(),
                 0,
                 0
         );

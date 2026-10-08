@@ -8,7 +8,11 @@
       "accountBaseRequiredExp": 100,
       "accountRequiredExpIncrement": 100,
       "maxAccountLevel": 20,
-      "battleStaminaCost": 5
+      "battleStaminaCost": 5,
+      "staminaRecoverySeconds": 300,
+      "accountExpPerKill": 1,
+      "accountExpPerSecond": 1,
+      "luckTrainGoldMax": 300
     }
   ]
 }

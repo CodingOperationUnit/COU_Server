@@ -3,7 +3,7 @@ package com.couserver.account.dto;
 import com.couserver.account.entity.Currency;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Getter
 public class CurrencyResponse {
@@ -11,7 +11,7 @@ public class CurrencyResponse {
     private final int currencyGold;
     private final int currencyGem;
     private final int currencyEnergy;
-    private final LocalDateTime currencyEnergyUpdatedAt;
+    private final Instant currencyEnergyUpdatedAt;
 
     public CurrencyResponse(Currency currency) {
         this.playerId = currency.getPlayerId();

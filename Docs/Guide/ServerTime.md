@@ -111,8 +111,8 @@ DateTimeOffset ServerNow => DateTimeOffset.UtcNow + serverTimeOffset;
 - 서버가 여러 대면 서버 시계를 NTP로 맞춘다.
 
 ## 7. 현재 반영 상태
-- 반영: `Clock` 빈, `X-Server-Time` 헤더, `hibernate.jdbc.time_zone=UTC`
+- 반영: `Clock` 빈, `X-Server-Time` 헤더, `hibernate.jdbc.time_zone=UTC`, `Currency`·`CurrencyResponse`·`CurrencySaveRequest`의 `Instant` 전환
 - 미반영
-  - `Account`, `Currency`, `Equipment`의 `LocalDateTime` 필드와 `AccountResponse`, `CurrencyResponse`. 작성자와 협의한 뒤 `Instant`로 바꾼다. 그전까지 이 필드는 `Z` 없이 나간다.
+  - `Account`, `Equipment`의 `LocalDateTime` 필드와 `AccountResponse`. 작성자와 협의한 뒤 `Instant`로 바꾼다. 그전까지 이 필드는 `Z` 없이 나간다.
   - `JwtProvider.createAccessToken`은 `Instant.now()`를 직접 부른다.
 - 기존 로컬 DB의 시각 값은 KST로 들어가 있어 지금 설정으로 읽으면 9시간 어긋난다. 로컬 DB를 초기화한다.
