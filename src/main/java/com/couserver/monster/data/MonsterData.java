@@ -8,9 +8,8 @@ public record MonsterData(
         String monsterName,
         MonsterType monsterType,
         int monsterMaxHealthPoint,
-        int monsterExp,
         float monsterMoveSpeed,
-        int monsterAttackPoint,
+        int monsterContactDamage,
         String monsterAsset
 ) {
 }
