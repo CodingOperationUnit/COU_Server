@@ -2,7 +2,7 @@ package com.couserver.monster.controller;
 
 import com.couserver.common.exception.BusinessException;
 import com.couserver.master.exception.MasterErrorCode;
-import com.couserver.monster.table.BossAttackTable;
+import com.couserver.monster.table.MonsterAttackTable;
 import com.couserver.monster.table.MonsterTable;
 import com.couserver.monster.table.SpawnPatternTable;
 import com.couserver.monster.table.WaveTable;
@@ -20,7 +20,7 @@ import tools.jackson.databind.JsonNode;
 public class EnemyMasterController {
 
     private final MonsterTable monsterTable;
-    private final BossAttackTable bossAttackTable;
+    private final MonsterAttackTable monsterAttackTable;
     private final SpawnPatternTable spawnPatternTable;
     private final WaveTable waveTable;
 
@@ -28,7 +28,7 @@ public class EnemyMasterController {
     public ResponseEntity<JsonNode> getTable(@PathVariable String tableName) {
         JsonNode body = switch (tableName) {
             case MonsterTable.TABLE_NAME -> monsterTable.original();
-            case BossAttackTable.TABLE_NAME -> bossAttackTable.original();
+            case MonsterAttackTable.TABLE_NAME -> monsterAttackTable.original();
             case SpawnPatternTable.TABLE_NAME -> spawnPatternTable.original();
             case WaveTable.TABLE_NAME         -> waveTable.original();
             default -> throw new BusinessException(MasterErrorCode.MASTER_TABLE_NOT_FOUND);

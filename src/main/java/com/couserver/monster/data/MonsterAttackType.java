@@ -1,7 +1,8 @@
 package com.couserver.monster.data;
 
-public enum BossAttackType {
+public enum MonsterAttackType {
     Melee,
     Ranged,
-    Area
+    Area,
+    Trap
 }
