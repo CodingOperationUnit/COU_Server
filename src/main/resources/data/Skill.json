@@ -10,11 +10,11 @@
       "skillDamage": 1.0,
       "skillRange": 5.0,
       "skillDescription": "수리검",
-      "level1SkillDescription": "",
-      "level2SkillDescription": "",
-      "level3SkillDescription": "",
-      "level4SkillDescription": "",
-      "level5SkillDescription": ""
+      "level1SkillDescription": "레벨1 설명",
+      "level2SkillDescription": "레벨2 설명",
+      "level3SkillDescription": "레벨3 설명",
+      "level4SkillDescription": "레벨4 설명",
+      "level5SkillDescription": "레벨5 설명"
     },
     {
       "skillId": 20020,

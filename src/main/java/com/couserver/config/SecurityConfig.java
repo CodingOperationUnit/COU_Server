@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/accounts/signup", "/api/accounts/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/master/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/static-data").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/data/versions", "/api/v1/data/skills").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint((request, response, authException) ->
