@@ -72,19 +72,22 @@ public class BattleService {
     private final StageProgressRepository stageProgressRepository;
     private final EquipmentRepository equipmentRepository;
 
-    private Map<Integer, StageLimit> stageLimits;   // key: stageId
+    private Map<Integer, StageLimit> stageLimits;           // key: stageId
+    private Map<ItemGrade, List<ItemData>> itemsByGrade;    // 보상상자 장비 후보
 
     // 스테이지 한 판에서 클라이언트가 보낼 수 있는 값의 상한
     private record StageLimit(int kills, int gold, int rewardBoxes) {
     }
 
     @PostConstruct
-    void computeStageLimits() {
+    void computeFromStaticData() {
         stageLimits = staticDataService.getStages().values().stream()
                 .collect(Collectors.toUnmodifiableMap(StageData::stageId, this::computeStageLimit));
+        itemsByGrade = Map.copyOf(staticDataService.getItems().values().stream()
+                .collect(Collectors.groupingBy(ItemData::grade, Collectors.toUnmodifiableList())));
     }
 
-    // 전투 입장: 해금 검증 → 스태미나 회복 계산 → 차감 → 진행 중인 전투 만료 → 세션 생성
+    // 전투 입장: 해금 검증 → 스태미나 회복 계산 → 차감 → 이전 세션 삭제 → 세션 생성
     @Transactional
     public BattleEnterResponse enter(Long playerId, int stageId) {
         if (!staticDataService.getStages().containsKey(stageId)) {
@@ -106,7 +109,7 @@ public class BattleService {
         }
         currency.spendEnergy(accountConst.battleStaminaCost());
 
-        battleSessionRepository.updateStatus(playerId, BattleStatus.IN_PROGRESS, BattleStatus.EXPIRED);
+        battleSessionRepository.deleteByPlayerId(playerId);
         BattleSession session = battleSessionRepository.save(new BattleSession(playerId, stageId, now));
 
         return new BattleEnterResponse(session.getBattleId(), new CurrencyResponse(currency));
@@ -124,9 +127,6 @@ public class BattleService {
         }
         if (session.getStatus() == BattleStatus.COMPLETED) {
             throw new BusinessException(BattleErrorCode.BATTLE_ALREADY_COMPLETED);
-        }
-        if (session.getStatus() == BattleStatus.EXPIRED) {
-            throw new BusinessException(BattleErrorCode.BATTLE_EXPIRED);
         }
 
         int stageId = session.getStageId();
@@ -191,9 +191,6 @@ public class BattleService {
 
     // 상자마다 스테이지 가중치로 등급을 뽑고, 그 등급이 기본 등급인 장비 중 하나를 균등하게 고른다
     private List<Equipment> rollRewardBoxes(Long playerId, StageData stage, int count) {
-        Map<ItemGrade, List<ItemData>> itemsByGrade = staticDataService.getItems().values().stream()
-                .collect(Collectors.groupingBy(ItemData::grade));
-
         List<Equipment> rewards = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             List<ItemData> pool = itemsByGrade.getOrDefault(rollGrade(stage.rewardBoxGradeWeights()), List.of());
