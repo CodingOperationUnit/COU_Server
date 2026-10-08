@@ -1,0 +1,114 @@
+{
+  "datas": [
+    {
+      "productId": 50001,
+      "productName": "군 자원상자",
+      "productType": "RandomItem",
+      "priceGem": 50,
+      "rewardAmount": 0,
+      "minGrade": "General",
+      "maxGrade": "Super",
+      "active": true
+    },
+    {
+      "productId": 50002,
+      "productName": "지구 방위 보급품",
+      "productType": "RandomItem",
+      "priceGem": 150,
+      "rewardAmount": 0,
+      "minGrade": "Super",
+      "maxGrade": "Rare",
+      "active": true
+    },
+    {
+      "productId": 50011,
+      "productName": "골드 12000",
+      "productType": "Gold",
+      "priceGem": 30,
+      "rewardAmount": 12000,
+      "minGrade": "General",
+      "maxGrade": "General",
+      "active": true
+    },
+    {
+      "productId": 50012,
+      "productName": "골드 36000",
+      "productType": "Gold",
+      "priceGem": 90,
+      "rewardAmount": 36000,
+      "minGrade": "General",
+      "maxGrade": "General",
+      "active": true
+    },
+    {
+      "productId": 50013,
+      "productName": "골드 144000",
+      "productType": "Gold",
+      "priceGem": 288,
+      "rewardAmount": 144000,
+      "minGrade": "General",
+      "maxGrade": "General",
+      "active": true
+    },
+    {
+      "productId": 50021,
+      "productName": "보석 80",
+      "productType": "Gem",
+      "priceGem": 0,
+      "rewardAmount": 80,
+      "minGrade": "General",
+      "maxGrade": "General",
+      "active": true
+    },
+    {
+      "productId": 50022,
+      "productName": "보석 500",
+      "productType": "Gem",
+      "priceGem": 0,
+      "rewardAmount": 500,
+      "minGrade": "General",
+      "maxGrade": "General",
+      "active": true
+    },
+    {
+      "productId": 50023,
+      "productName": "보석 1200",
+      "productType": "Gem",
+      "priceGem": 0,
+      "rewardAmount": 1200,
+      "minGrade": "General",
+      "maxGrade": "General",
+      "active": true
+    },
+    {
+      "productId": 50024,
+      "productName": "보석 2500",
+      "productType": "Gem",
+      "priceGem": 0,
+      "rewardAmount": 2500,
+      "minGrade": "General",
+      "maxGrade": "General",
+      "active": true
+    },
+    {
+      "productId": 50025,
+      "productName": "보석 6500",
+      "productType": "Gem",
+      "priceGem": 0,
+      "rewardAmount": 6500,
+      "minGrade": "General",
+      "maxGrade": "General",
+      "active": true
+    },
+    {
+      "productId": 50026,
+      "productName": "보석 14000",
+      "productType": "Gem",
+      "priceGem": 0,
+      "rewardAmount": 14000,
+      "minGrade": "General",
+      "maxGrade": "General",
+      "active": true
+    }
+  ]
+}
