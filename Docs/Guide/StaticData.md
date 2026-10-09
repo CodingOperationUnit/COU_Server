@@ -41,9 +41,13 @@
 | DropTable | `DropTableEntryData` | dropTableId, dropGroup, dropItemType, weight, count |
 | DropItem | `DropItemData` | dropItemId, dropItemType, value |
 | Item | `ItemData` | itemId, slotType, grade |
+| Shop | `ShopProductData` | productId, productType, priceGem, rewardAmount, minGrade, maxGrade, active |
+| Skill | `SkillData` | skillId, skillName, skillCategory, skillType, skillCooldown, skillSpeed, skillDamage, skillRange, skillDescription, level1SkillDescription ~ level5SkillDescription |
+| MonsterAttack | `MonsterAttackData` (검사만, 맵 없음) | monsterAttackId, monsterId, monsterAttackType |
+| PlayerBaseStat | `PlayerBaseStatData` (행 1개) | playerBaseAttack, playerBaseHp, playerBaseCriticalDamage, playerBaseCriticalChance, playerBaseSkillDamage, playerBaseMoveSpeed, playerBaseMaxMoveSpeed, playerBaseLootRadius |
 
 ## 3. 요청·응답 예시
-로컬 서버(기본 포트 8080) 기준이다. 서버 버전은 현재 `1.0.0`이다.
+로컬 서버(기본 포트 8080) 기준이다. 서버 버전은 현재 `2.2.0`이다.
 
 ```bash
 # 처음 받을 때(버전 없음) → 200 + 전체 데이터
@@ -53,14 +57,14 @@ curl -i "http://localhost:8080/api/static-data"
 curl -i "http://localhost:8080/api/static-data?version=0.9.0"
 
 # 가진 버전이 서버와 같음 → 204, 본문 없음
-curl -i "http://localhost:8080/api/static-data?version=1.0.0"
+curl -i "http://localhost:8080/api/static-data?version=2.2.0"
 ```
 
 200 응답(일부 생략):
 
 ```json
 {
-  "version": "1.0.0",
+  "version": "2.2.0",
   "tables": {
     "AccountConst": {
       "datas": [
@@ -136,6 +140,9 @@ flowchart TD
 | `getDropTables()` | `Map<Integer, List<DropTableEntryData>>` | dropTableId |
 | `getDropItems()` | `Map<DropItemType, DropItemData>` | dropItemType |
 | `getItems()` | `Map<Long, ItemData>` | itemId |
+| `getShopProducts()` | `Map<Integer, ShopProductData>` | productId |
+| `getSkills()` | `Map<Long, SkillData>` | skillId |
+| `getPlayerBaseStat()` | `PlayerBaseStatData` | 없음(단일 행) |
 | `getVersion()` | `String` | 없음 |
 | `getTables()` | `Map<String, JsonNode>` | 테이블 이름(클라이언트 전송용 원본) |
 
@@ -156,7 +163,7 @@ public class BattleService {
 }
 ```
 
-지금 `StaticDataService`를 쓰는 코드는 `PlayerService`(초기 재화, 첫 스테이지 `getFirstStageId()`), `InventoryService`(Item), `BattleService`(전투 입장·결과 검증)다.
+지금 `StaticDataService`를 쓰는 코드는 `PlayerService`(초기 재화, 첫 스테이지 `getFirstStageId()`), `InventoryService`(Item), `BattleService`(전투 입장·결과 검증), `ShopService`(Shop), `PlayerFinalStatService`(PlayerBaseStat)다.
 
 ### 5.2 데이터 추가·수정
 1. 구글 시트를 수정한다.
@@ -191,7 +198,7 @@ public class BattleService {
 
 - 한 탭이라도 검증에 실패하면 아무 파일도 쓰지 않는다. 탭별 결과와 오류는 하단 로그에 나온다.
 - 내용이 바뀐 파일만 쓴다. 줄바꿈(CRLF/LF) 차이는 무시한다.
-- 탭 이름 목록을 저장 위치의 `tables.txt`(줄당 하나)에 함께 쓴다. 서버는 이 목록으로 클라이언트에 내려줄 테이블을 정한다. 시트와 무관한 `PlayerBaseStat.json` 같은 파일은 목록에 없으므로 내려가지 않는다.
+- 탭 이름 목록을 저장 위치의 `tables.txt`(줄당 하나)에 함께 쓴다. 서버는 이 목록으로 클라이언트에 내려줄 테이블을 정한다.
 - 둘째·첫째 자리 선택은 한 번 적용되고 자동으로 돌아간다.
 - 입력값은 사용자별로 `%LocalAppData%\COU\SheetExporter\settings.json`에 저장된다. Export를 누를 때와 창을 닫을 때 저장한다.
 
@@ -205,13 +212,16 @@ public class BattleService {
 | 테이블 | 검사 |
 |---|---|
 | 공통 | `datas` 배열이 비어 있지 않음, 서버가 읽는 열이 모두 있음 |
-| AccountConst | 행이 정확히 1개 |
-| Stage, Wave, SpawnPattern, Monster, DropItem, Item | ID가 1 이상이고 중복 없음 |
+| AccountConst, PlayerBaseStat | 행이 정확히 1개 |
+| Stage, Wave, SpawnPattern, Monster, MonsterAttack, DropItem, Item, Shop, Skill | ID가 1 이상이고 중복 없음 |
 | Stage | waveId가 Wave에 있음 |
-| Wave | patternId가 SpawnPattern에, monsterId가 Monster에 있음 |
-| SpawnPattern | spawnCount ≥ 1, dropTableId가 0이거나 DropTable에 있음 |
+| Wave | patternId가 SpawnPattern에, monsterId가 Monster에 있음, patternStartTime ≥ 0 |
+| SpawnPattern | spawnCount ≥ 1, patternDuration ≥ 0, patternDuration > 0(반복 패턴)이면 spawnInterval > 0, dropTableId가 0이거나 DropTable에 있음 |
+| MonsterAttack | monsterId가 Monster에 있음, 그 몬스터의 monsterType이 BOX가 아님, BOSS가 아니면 monsterAttackType이 MELEE가 아님 |
 | DropTable | dropTableId ≥ 1, dropGroup ≥ 0, weight ≥ 1, count ≥ 1 |
 | DropItem | dropItemType이 None이 아님 |
+| Shop | priceGem ≥ 0, RANDOMITEM이면 minGrade ≤ maxGrade이고 그 등급 범위의 Item이 있음, 그 밖에는 rewardAmount ≥ 1 |
+| Skill | skillCategory가 0 또는 1 |
 
 ## 6. 주의사항 및 FAQ
 - **버전 비교 방식은?** 문자열 완전 일치다. 크고 작음을 비교하지 않는다. 글자 하나라도 다르면 200으로 전체를 내려준다.
@@ -221,6 +231,5 @@ public class BattleService {
 - **AccountConst의 battleStaminaCost:** 시트 AccountConst 탭에 이 열이 없다면 내보내기 전에 추가한다. 열이 없는 JSON으로는 서버가 시작하지 않는다.
 - **AccountConst의 staminaRecoverySeconds, accountExpPerKill, accountExpPerSecond, luckTrainGoldMax:** 전투 API(`Battle.md`)용으로 서버 JSON에만 임시로 넣었다. dev 머지 때 시트에 열을 추가한 뒤 내보낸다.
 - **Item:** 지금은 `ItemDataLoader`가 같은 `Item.json`을 DB에도 적재한다(임시). 이미 있는 ID는 건너뛰므로, Item 값을 바꾸면 로컬 DB를 초기화해야 인벤토리에 반영된다. 보유 장비가 itemId를 참조하므로 Item 행은 지우지 않는다.
-- **PlayerBaseStat.json은?** `data/`에 있지만 이 API에 포함되지 않는다. 별도 `PlayerBaseStatDataLoader`가 DB에 적재한다.
 - **롤링 배포 중에는?** 데이터 버전이 다른 서버가 함께 돌 수 있다. 전투 입장과 결과 검증이 서로 다른 버전에서 처리될 수 있다.
 - **설계 배경은?** `Docs/ETC/DesignDecisions.md` 2번 "정적 데이터의 원천과 전달 방식"에 있다.

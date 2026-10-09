@@ -1,4 +1,4 @@
-package com.couserver.master.dto;
+package com.couserver.staticdata.dto;
 
 public record PlayerBaseStatData(int playerBaseAttack,
                                  int playerBaseHp,

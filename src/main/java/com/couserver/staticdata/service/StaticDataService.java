@@ -5,7 +5,11 @@ import com.couserver.staticdata.dto.DropItemData;
 import com.couserver.staticdata.dto.DropItemType;
 import com.couserver.staticdata.dto.DropTableEntryData;
 import com.couserver.staticdata.dto.ItemData;
+import com.couserver.staticdata.dto.MonsterAttackData;
+import com.couserver.staticdata.dto.MonsterAttackType;
 import com.couserver.staticdata.dto.MonsterData;
+import com.couserver.staticdata.dto.MonsterType;
+import com.couserver.staticdata.dto.PlayerBaseStatData;
 import com.couserver.staticdata.dto.SkillData;
 import com.couserver.staticdata.dto.SpawnPatternData;
 import com.couserver.staticdata.dto.StageData;
@@ -40,6 +44,7 @@ public class StaticDataService {
     private final Map<String, JsonNode> tables;
 
     private final AccountConstData accountConst;
+    private final PlayerBaseStatData playerBaseStat;
     private final Map<Integer, StageData> stages;
     private final int firstStageId;                                     // 가장 작은 stageId
     private final Map<Integer, List<WaveEntryData>> waves;              // key: waveId
@@ -76,6 +81,10 @@ public class StaticDataService {
         require(accountConstRows.size() == 1, "AccountConst 데이터는 행이 하나여야 합니다.");
         accountConst = accountConstRows.getFirst();
 
+        List<PlayerBaseStatData> playerBaseStatRows = rows(rowMapper, "PlayerBaseStat", PlayerBaseStatData.class);
+        require(playerBaseStatRows.size() == 1, "PlayerBaseStat 데이터는 행이 하나여야 합니다.");
+        playerBaseStat = playerBaseStatRows.getFirst();
+
         List<StageData> stageRows = rows(rowMapper, "Stage", StageData.class);
         requireIds("Stage", stageRows, StageData::stageId);
         stages = stageRows.stream()
@@ -86,11 +95,18 @@ public class StaticDataService {
         requireIds("Wave", waveRows, WaveEntryData::waveEntryId);
         waves = Map.copyOf(waveRows.stream()
                 .collect(Collectors.groupingBy(WaveEntryData::waveId, Collectors.toUnmodifiableList())));
+        for (WaveEntryData row : waveRows) {
+            require(row.patternStartTime() >= 0, "Wave " + row.waveEntryId() + "의 patternStartTime은 0 이상이어야 합니다.");
+        }
 
         List<SpawnPatternData> spawnPatternRows = rows(rowMapper, "SpawnPattern", SpawnPatternData.class);
         requireIds("SpawnPattern", spawnPatternRows, SpawnPatternData::patternId);
         for (SpawnPatternData row : spawnPatternRows) {
             require(row.spawnCount() >= 1, "SpawnPattern " + row.patternId() + "의 spawnCount는 1 이상이어야 합니다.");
+            require(row.patternDuration() >= 0, "SpawnPattern " + row.patternId() + "의 patternDuration은 0 이상이어야 합니다.");
+            // 반복 패턴(patternDuration > 0)인데 간격이 0이면 같은 순간에 끝없이 생성될 수 있다
+            require(row.patternDuration() <= 0 || row.spawnInterval() > 0,
+                    "SpawnPattern " + row.patternId() + "은(는) 반복 패턴이라 spawnInterval이 0보다 커야 합니다.");
         }
         spawnPatterns = spawnPatternRows.stream()
                 .collect(Collectors.toUnmodifiableMap(SpawnPatternData::patternId, Function.identity()));
@@ -99,6 +115,19 @@ public class StaticDataService {
         requireIds("Monster", monsterRows, MonsterData::monsterId);
         monsters = monsterRows.stream()
                 .collect(Collectors.toUnmodifiableMap(MonsterData::monsterId, Function.identity()));
+
+        // 서버에서 쓰는 곳이 없어 맵 없이 검사만 한다
+        List<MonsterAttackData> monsterAttackRows = rows(rowMapper, "MonsterAttack", MonsterAttackData.class);
+        requireIds("MonsterAttack", monsterAttackRows, MonsterAttackData::monsterAttackId);
+        for (MonsterAttackData row : monsterAttackRows) {
+            MonsterData monster = monsters.get(row.monsterId());
+            require(monster != null,
+                    "MonsterAttack " + row.monsterAttackId() + "의 monsterId " + row.monsterId() + "을(를) Monster에서 찾을 수 없습니다.");
+            require(monster.monsterType() != MonsterType.BOX,
+                    "MonsterAttack " + row.monsterAttackId() + ": 상자(monsterId " + row.monsterId() + ")는 공격을 가질 수 없습니다.");
+            require(monster.monsterType() == MonsterType.BOSS || row.monsterAttackType() != MonsterAttackType.MELEE,
+                    "MonsterAttack " + row.monsterAttackId() + ": 보스가 아닌 몬스터(monsterId " + row.monsterId() + ")는 MELEE를 쓸 수 없습니다.");
+        }
 
         List<DropTableEntryData> dropTableRows = rows(rowMapper, "DropTable", DropTableEntryData.class);
         for (DropTableEntryData row : dropTableRows) {

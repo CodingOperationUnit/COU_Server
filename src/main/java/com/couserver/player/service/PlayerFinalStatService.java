@@ -3,8 +3,6 @@ package com.couserver.player.service;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.inventory.entity.Equipment;
 import com.couserver.inventory.repository.EquipmentRepository;
-import com.couserver.master.entity.PlayerBaseStat;
-import com.couserver.master.repository.PlayerBaseStatRepository;
 import com.couserver.player.dto.PlayerFinalStatResponse;
 import com.couserver.player.dto.PlayerFinalStatResponse.Breakdown;
 import com.couserver.player.dto.PlayerFinalStatResponse.StatSource;
@@ -14,6 +12,7 @@ import com.couserver.player.entity.PlayerStatType;
 import com.couserver.player.exception.PlayerErrorCode;
 import com.couserver.player.repository.PlayerStatRepository;
 import com.couserver.staticdata.dto.ItemData;
+import com.couserver.staticdata.dto.PlayerBaseStatData;
 import com.couserver.staticdata.service.StaticDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,20 +27,18 @@ public class PlayerFinalStatService {
     // TODO: 등급 스킬 규칙이 정해지면 장비에서 계산
     private static final int BONUS_PERCENT = 0;
 
-    private final PlayerBaseStatRepository playerBaseStatRepository;
     private final PlayerStatRepository playerStatRepository;
     private final EquipmentRepository equipmentRepository;
 
     private final StaticDataService staticDataService;
 
     public PlayerFinalStatResponse getFinalStat(Long playerId){
-        PlayerBaseStat baseStat = playerBaseStatRepository.findById(PlayerBaseStat.SINGLE_ID)
-                .orElseThrow(() -> new IllegalStateException("player-base-stat 데이터가 없습니다."));
+        PlayerBaseStatData baseStat = staticDataService.getPlayerBaseStat();
 
         PlayerStat playerStat = playerStatRepository.findById(playerId)
                 .orElseThrow(() -> new BusinessException(PlayerErrorCode.PLAYER_STAT_NOT_FOUND));
 
-        StatSource base = new StatSource(baseStat.getPlayerBaseAttack(), baseStat.getPlayerBaseHp(), 0, 0);
+        StatSource base = new StatSource(baseStat.playerBaseAttack(), baseStat.playerBaseHp(), 0, 0);
         StatSource equipment = sumEquipped(playerId);
         StatSource evolution = evolutionOf(playerStat);
         StatSource total = base.plus(equipment).plus(evolution);
@@ -51,12 +48,12 @@ public class PlayerFinalStatService {
                 applyBonus(total.hp()),
                 applyBonus(total.defense()),
                 applyBonus(total.potionRecovery()),
-                baseStat.getPlayerBaseCriticalDamage(),
-                baseStat.getPlayerBaseCriticalChance(),
-                baseStat.getPlayerBaseSkillDamage(),
-                baseStat.getPlayerBaseMoveSpeed(),
-                baseStat.getPlayerBaseMaxMoveSpeed(),
-                baseStat.getPlayerBaseLootRadius(),
+                baseStat.playerBaseCriticalDamage(),
+                baseStat.playerBaseCriticalChance(),
+                baseStat.playerBaseSkillDamage(),
+                baseStat.playerBaseMoveSpeed(),
+                baseStat.playerBaseMaxMoveSpeed(),
+                baseStat.playerBaseLootRadius(),
                 new Breakdown(base, equipment, evolution));
     }
 

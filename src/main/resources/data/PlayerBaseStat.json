@@ -1,10 +1,14 @@
 {
-  "playerBaseAttack": 100,
-  "playerBaseHp": 1000,
-  "playerBaseCriticalDamage": 200,
-  "playerBaseCriticalChance": 5,
-  "playerBaseSkillDamage": 100,
-  "playerBaseMoveSpeed": 9.0,
-  "playerBaseMaxMoveSpeed": 16.0,
-  "playerBaseLootRadius": 2.0
+  "datas": [
+    {
+      "playerBaseAttack": 100,
+      "playerBaseHp": 1000,
+      "playerBaseCriticalDamage": 200,
+      "playerBaseCriticalChance": 5,
+      "playerBaseSkillDamage": 100,
+      "playerBaseMoveSpeed": 9.0,
+      "playerBaseMaxMoveSpeed": 16.0,
+      "playerBaseLootRadius": 2.0
+    }
+  ]
 }
