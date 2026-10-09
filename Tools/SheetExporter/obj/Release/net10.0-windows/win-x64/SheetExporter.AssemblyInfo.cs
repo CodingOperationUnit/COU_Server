@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SheetExporter")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1aeba89c5138e9a9ab4a37d8ebb8e60631de33c5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+605fe2a23c758780b852a54ad7cc9f1512e89ffd")]
 [assembly: System.Reflection.AssemblyProductAttribute("SheetExporter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SheetExporter")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
