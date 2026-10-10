@@ -2,6 +2,7 @@ package com.couserver.player.service;
 
 import com.couserver.common.exception.BusinessException;
 import com.couserver.inventory.entity.Equipment;
+import com.couserver.inventory.entity.ItemGrade;
 import com.couserver.inventory.repository.EquipmentRepository;
 import com.couserver.player.dto.PlayerFinalStatResponse;
 import com.couserver.player.dto.PlayerFinalStatResponse.Breakdown;
@@ -31,6 +32,7 @@ public class PlayerFinalStatService {
     private final EquipmentRepository equipmentRepository;
 
     private final StaticDataService staticDataService;
+    private final EquipmentStatCalculator equipmentStatCalculator;
 
     public PlayerFinalStatResponse getFinalStat(Long playerId){
         PlayerBaseStatData baseStat = staticDataService.getPlayerBaseStat();
@@ -68,9 +70,13 @@ public class PlayerFinalStatService {
     // 장비 1개가 주는 스탯 - 장비 스탯을 꺼내는 곳은 여기 한 곳 뿐
     private StatSource statOf(Equipment equipment){
         ItemData item = staticDataService.getItems().get(equipment.getItemId());   // 정적 데이터에서 아이템 정보 조회
+        if (item == null)
+            throw new IllegalStateException("정적 데이터에 없는 아이템입니다: " + equipment.getItemId());
+        int level = equipment.getLevel();
+        ItemGrade grade = equipment.getGrade();
         return new StatSource(
-                item.attackBonus(),
-                item.hpBonus(),
+                equipmentStatCalculator.scale(item.attackBonus(), level, grade),
+                equipmentStatCalculator.scale(item.hpBonus(), level, grade),
                 0,
                 0
         );
