@@ -7,11 +7,11 @@ import com.couserver.inventory.repository.EquipmentRepository;
 import com.couserver.player.dto.PlayerFinalStatResponse;
 import com.couserver.player.dto.PlayerFinalStatResponse.Breakdown;
 import com.couserver.player.dto.PlayerFinalStatResponse.StatSource;
-import com.couserver.player.dummy.EvolutionDummyData;
 import com.couserver.player.entity.PlayerStat;
 import com.couserver.player.entity.PlayerStatType;
 import com.couserver.player.exception.PlayerErrorCode;
 import com.couserver.player.repository.PlayerStatRepository;
+import com.couserver.staticdata.dto.EvolutionData;
 import com.couserver.staticdata.dto.ItemData;
 import com.couserver.staticdata.dto.PlayerBaseStatData;
 import com.couserver.staticdata.service.StaticDataService;
@@ -83,13 +83,13 @@ public class PlayerFinalStatService {
     }
 
     // 진화레벨 x 레벨당 상승량 (더미데이터)
-    private StatSource evolutionOf(PlayerStat stat){
+    private StatSource evolutionOf(PlayerStat stat) {
+        EvolutionData evolution = staticDataService.getEvolution();
         return new StatSource(
-                stat.getPlayerStatAttackLevel() * EvolutionDummyData.getIncreasePerLevel(PlayerStatType.ATTACK),
-                stat.getPlayerStatHpLevel() * EvolutionDummyData.getIncreasePerLevel(PlayerStatType.HP),
-                stat.getPlayerStatDefenseLevel() * EvolutionDummyData.getIncreasePerLevel(PlayerStatType.DEFENSE),
-                stat.getPlayerStatPotionRecoveryLevel() * EvolutionDummyData.getIncreasePerLevel(PlayerStatType.POTION_RECOVERY)
-        );
+                stat.getPlayerStatAttackLevel() * evolution.increasePerLevel(PlayerStatType.ATTACK),
+                stat.getPlayerStatHpLevel() * evolution.increasePerLevel(PlayerStatType.HP),
+                stat.getPlayerStatDefenseLevel() * evolution.increasePerLevel(PlayerStatType.DEFENSE),
+                stat.getPlayerStatPotionRecoveryLevel() * evolution.increasePerLevel(PlayerStatType.POTION_RECOVERY));
     }
 
     // 정수 나눗셈으로 버림

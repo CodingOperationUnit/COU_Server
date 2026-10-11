@@ -5,7 +5,6 @@ import com.couserver.account.entity.Currency;
 import com.couserver.account.repository.CurrencyRepository;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.player.dto.EvolutionUpgradeResponse;
-import com.couserver.player.dummy.EvolutionDummyData;
 import com.couserver.player.entity.PlayerStat;
 import com.couserver.player.entity.PlayerStatType;
 import com.couserver.player.exception.PlayerErrorCode;
