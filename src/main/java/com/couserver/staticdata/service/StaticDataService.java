@@ -16,6 +16,8 @@ import com.couserver.staticdata.dto.StageData;
 import com.couserver.staticdata.dto.WaveEntryData;
 import com.couserver.staticdata.dto.ProductType;
 import com.couserver.staticdata.dto.ShopProductData;
+import com.couserver.player.entity.PlayerStatType;
+import com.couserver.staticdata.dto.EvolutionData;
 import lombok.Getter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.EnumSet;
 
 // 시작할 때 data/의 정적 데이터를 읽고 검증해 메모리에 둔다. 원본 JSON은 클라이언트에 그대로 보내기 위해 함께 둔다.
 @Getter
@@ -55,6 +58,7 @@ public class StaticDataService {
     private final Map<Long, ItemData> items;
     private final Map<Integer, ShopProductData> shopProducts;
     private final Map<Long, SkillData> skills;
+    private final EvolutionData evolution;
 
     public StaticDataService(ObjectMapper objectMapper) throws IOException {
         version = new ClassPathResource("data/version.txt").getContentAsString(StandardCharsets.UTF_8).trim();
@@ -181,6 +185,22 @@ public class StaticDataService {
         }
         skills = skillRows.stream()
                 .collect(Collectors.toUnmodifiableMap(SkillData::skillId, Function.identity()));
+
+        List<EvolutionData> evolutionRows = rows(rowMapper, "Evolution", EvolutionData.class);
+        require(evolutionRows.size() == 1, "Evolution 데이터는 행이 하나여야 합니다.");
+        evolution = evolutionRows.getFirst();
+        require(evolution.evolutionStatOrder() != null && evolution.evolutionIncreasePerLevel() != null
+                        && evolution.evolutionStatOrder().size() == evolution.evolutionIncreasePerLevel().size(),
+                "Evolution의 evolutionStatOrder와 evolutionIncreasePerLevel은 개수가 같아야 합니다.");
+        require(evolution.evolutionStatOrder().size() == PlayerStatType.values().length
+                        && EnumSet.copyOf(evolution.evolutionStatOrder()).equals(EnumSet.allOf(PlayerStatType.class)),
+                "Evolution의 evolutionStatOrder에는 모든 스탯(" + EnumSet.allOf(PlayerStatType.class) + ")이 한 번씩 있어야 합니다.");
+        for (Integer increase : evolution.evolutionIncreasePerLevel()) {
+            require(increase != null && increase >= 0, "Evolution의 evolutionIncreasePerLevel은 0 이상이어야 합니다.");
+        }
+        require(evolution.evolutionBaseCost() >= 0, "Evolution의 evolutionBaseCost는 0 이상이어야 합니다.");
+        require(evolution.evolutionCostPerStep() >= 0, "Evolution의 evolutionCostPerStep은 0 이상이어야 합니다.");
+        require(evolution.evolutionMaxStep() >= 0, "Evolution의 evolutionMaxStep은 0 이상이어야 합니다.");
 
         for (StageData row : stageRows) {
             require(waves.containsKey(row.waveId()),
