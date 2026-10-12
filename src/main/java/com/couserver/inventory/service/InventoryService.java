@@ -9,8 +9,10 @@ import com.couserver.inventory.entity.EquipSlotType;
 import com.couserver.inventory.entity.Equipment;
 import com.couserver.inventory.exception.InventoryErrorCode;
 import com.couserver.inventory.repository.EquipmentRepository;
+import com.couserver.ranking.event.RankingChangedEvent;
 import com.couserver.staticdata.service.StaticDataService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,7 @@ public class InventoryService {
     private final EquipmentRepository equipmentRepository;
     private final CurrencyRepository currencyRepository;
     private final StaticDataService staticDataService;
+    private final ApplicationEventPublisher eventPublisher;
     private static final int SYNTHESIS_MATERIAL_COUNT = 2;   // 합성 재료 개수
     private static final int MAX_LEVEL = 10;
     private static final int LEVEL_UP_BASE_COST = 1000;
@@ -92,6 +95,7 @@ public class InventoryService {
             previous.unequip();
         }
         target.equip();
+        publishRankingChanged(playerId);   // 장착 장비가 바뀌면 전투력이 달라진다
 
         return new EquipResponse(toResponse(target), previous == null ? null : toResponse(previous));
     }
@@ -106,6 +110,8 @@ public class InventoryService {
             throw new BusinessException(InventoryErrorCode.NOT_EQUIPPED);
         }
         target.unequip();
+        publishRankingChanged(playerId);
+
         return toResponse(target);
     }
 
@@ -126,6 +132,7 @@ public class InventoryService {
 
         currency.spendGold(cost);    // 골드 차감과 레벨업이 한 트랜잭션: 중간에 실패하면 전부 롤백
         target.levelUp();
+        if (target.isEquipped()) publishRankingChanged(playerId);   // 장착 중인 장비만 전투력에 영향
 
         return new LevelUpResponse(target.getId(), target.getLevel(), cost, currency.getCurrencyGold());
     }
@@ -158,6 +165,8 @@ public class InventoryService {
             throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_GOLD);
         }
 
+        if (target.isEquipped()) publishRankingChanged(playerId);
+
         return new LevelUpBatchResponse(
                 target.getId(), target.getLevel(), levelsGained, spentGold, currency.getCurrencyGold());
     }
@@ -179,6 +188,7 @@ public class InventoryService {
         }
 
         List<Long> consumedIds = synthesizeOnce(target, materials);
+        if (target.isEquipped()) publishRankingChanged(playerId);
 
         return new SynthesizeResponse(
                 target.getId(), target.getItemId(), target.getLevel(),
@@ -212,12 +222,19 @@ public class InventoryService {
             throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_MATERIAL);
         }
 
+        if (target.isEquipped()) publishRankingChanged(playerId);
+
         return new SynthesizeBatchResponse(
                 target.getId(), target.getItemId(), target.getLevel(),
                 target.getGrade().toClientName(), target.isEquipped(),
                 tiersGained, allConsumed);
     }
 
+
+    // 전투력 랭킹 갱신 요청: 트랜잭션이 커밋된 뒤 Redis에 반영된다
+    private void publishRankingChanged(Long playerId) {
+        eventPublisher.publishEvent(new RankingChangedEvent(playerId));
+    }
 
     // 재료 조회
     private List<Equipment> findMaterials(Long playerId, Equipment target) {

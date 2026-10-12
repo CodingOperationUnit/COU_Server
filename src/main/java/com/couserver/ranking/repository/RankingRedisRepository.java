@@ -14,6 +14,7 @@ import java.util.Set;
 public class RankingRedisRepository {
     public static final String ACCOUNT_LEVEL_KEY = "ranking:account-level";
     public static final String MAX_STAGE_KEY = "ranking:max-stage";
+    public static final String COMBAT_POWER_KEY = "ranking:combat-power";
     private static final String STAGE_SURVIVAL_PREFIX = "ranking:stage-survival:";
     private static final long EXP_RANGE = 1_000_000L;
 

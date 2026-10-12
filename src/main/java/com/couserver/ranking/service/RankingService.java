@@ -73,7 +73,7 @@ public class RankingService {
             case ACCOUNT_LEVEL  -> RankingRedisRepository.ACCOUNT_LEVEL_KEY;
             case MAX_STAGE      -> RankingRedisRepository.MAX_STAGE_KEY;
             case STAGE_SURVIVAL -> RankingRedisRepository.stageSurvivalKey(stageId);
-            case COMBAT_POWER   -> throw new BusinessException(RankingErrorCode.UNSUPPORTED_RANKING_TYPE);
+            case COMBAT_POWER   -> RankingRedisRepository.COMBAT_POWER_KEY;
         };
     }
 
