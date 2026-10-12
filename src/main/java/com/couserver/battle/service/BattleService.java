@@ -24,6 +24,7 @@ import com.couserver.inventory.dto.EquipmentResponse;
 import com.couserver.inventory.entity.Equipment;
 import com.couserver.inventory.entity.ItemGrade;
 import com.couserver.inventory.repository.EquipmentRepository;
+import com.couserver.ranking.event.RankingChangedEvent;
 import com.couserver.staticdata.dto.AccountConstData;
 import com.couserver.staticdata.dto.DropItemType;
 import com.couserver.staticdata.dto.DropTableEntryData;
@@ -36,6 +37,7 @@ import com.couserver.staticdata.service.StaticDataService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,6 +66,7 @@ public class BattleService {
             EnumSet.of(DropItemType.GOLD1, DropItemType.GOLD2, DropItemType.GOLD3, DropItemType.GOLD4);
 
     private final StaticDataService staticDataService;
+    private final ApplicationEventPublisher eventPublisher;
     private final Clock clock;
     private final BattleSessionRepository battleSessionRepository;
     private final StageRecordRepository stageRecordRepository;
@@ -160,7 +163,8 @@ public class BattleService {
         List<Equipment> rewards = equipmentRepository.saveAll(rollRewardBoxes(playerId, stage, rewardBoxes));
 
         session.complete();
-
+        // 랭킹값 변경알림(Redis에 갱신)
+        eventPublisher.publishEvent(new RankingChangedEvent(playerId));
         return new BattleResultResponse(
                 gold,
                 exp,
