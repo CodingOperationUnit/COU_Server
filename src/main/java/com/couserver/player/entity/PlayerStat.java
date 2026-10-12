@@ -43,19 +43,12 @@ public class PlayerStat {
         return playerStatAttackLevel + playerStatHpLevel + playerStatDefenseLevel + playerStatPotionRecoveryLevel;
     }
 
-    public PlayerStatType nextUpgradeType(){
-        return PlayerStatType.ofStep(getEvolutionStep());
-    }
-
-    public PlayerStatType upgradeNext(){
-        PlayerStatType type = nextUpgradeType();
+    public void increaseLevel(PlayerStatType type){
         switch (type){
             case ATTACK -> playerStatAttackLevel++;
             case HP -> playerStatHpLevel++;
             case DEFENSE -> playerStatDefenseLevel++;
             case POTION_RECOVERY -> playerStatPotionRecoveryLevel++;
         }
-
-        return type;
     }
 }

@@ -1,5 +1,6 @@
 package com.couserver.player.dto;
 
+import com.couserver.account.dto.CurrencyResponse;
 import com.couserver.player.entity.PlayerStat;
 import com.couserver.player.entity.PlayerStatType;
 
@@ -8,15 +9,18 @@ public record EvolutionUpgradeResponse(
         int evolutionStep,
         PlayerStatType nextStatType,
         int goldSpent,
-        PlayerStatResponse playerStat
+        PlayerStatResponse playerStat,
+        CurrencyResponse currency
 ) {
-    public static EvolutionUpgradeResponse of(PlayerStatType upgraded, PlayerStat stat, int goldSpent){
+    public static EvolutionUpgradeResponse of(PlayerStatType upgraded, PlayerStatType next,
+                                              PlayerStat stat, int goldSpent, CurrencyResponse currency) {
         return new EvolutionUpgradeResponse(
                 upgraded,
                 stat.getEvolutionStep(),
-                stat.nextUpgradeType(),
+                next,
                 goldSpent,
-                new PlayerStatResponse(stat)
+                new PlayerStatResponse(stat),
+                currency
         );
     }
 }

@@ -1,0 +1,21 @@
+{
+  "datas": [
+    {
+      "evolutionStatOrder": [
+        "ATTACK",
+        "HP",
+        "DEFENSE",
+        "POTION_RECOVERY"
+      ],
+      "evolutionIncreasePerLevel": [
+        5,
+        50,
+        2,
+        20
+      ],
+      "evolutionBaseCost": 500,
+      "evolutionCostPerStep": 100,
+      "evolutionMaxStep": 0
+    }
+  ]
+}
