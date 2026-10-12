@@ -15,6 +15,7 @@ public class RankingRedisRepository {
     public static final String ACCOUNT_LEVEL_KEY = "ranking:account-level";
     public static final String MAX_STAGE_KEY = "ranking:max-stage";
     private static final String STAGE_SURVIVAL_PREFIX = "ranking:stage-survival:";
+    private static final long EXP_RANGE = 1_000_000L;
 
     private static final long ID_RANGE = 10_000_000L;
 
@@ -53,6 +54,22 @@ public class RankingRedisRepository {
     public Long value(String key, long playerId) {
         Double score = redis.opsForZSet().score(key, String.valueOf(playerId));
         return score == null ? null : toValue(score);
+    }
+
+    // 계정 레벨 랭킹의 value: 레벨이 우선, 같으면 경험치
+    public static long accountLevelValue(int level, int exp) {
+        return level * EXP_RANGE + exp;
+    }
+
+    // value에서 레벨만 꺼내기 (화면에 보여줄 값)
+    public static int levelOf(long value) {
+        return (int) (value / EXP_RANGE);
+    }
+
+    // ranking: 으로 시작하는 키 전부 삭제 (백필 전에 비우기)
+    public void clearAll() {
+        Set<String> keys = redis.keys("ranking:*");
+        if (keys != null && !keys.isEmpty()) redis.delete(keys);
     }
 
 
