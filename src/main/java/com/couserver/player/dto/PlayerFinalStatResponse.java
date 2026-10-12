@@ -5,6 +5,7 @@ public record PlayerFinalStatResponse(
         int finalHp,
         int finalDefense,
         int finalPotionRecovery,
+        int combatPower,
         // 아래는 기초 스탯 그대로 (장비·진화 반영 없음)
         int criticalDamage,
         int criticalChance,
