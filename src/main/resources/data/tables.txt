@@ -13,3 +13,5 @@ DropItem
 AccountConst
 ItemConst
 Evolution
+Achievement
+CombatPower

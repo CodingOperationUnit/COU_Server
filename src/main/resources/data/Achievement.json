@@ -1,0 +1,206 @@
+{
+  "datas": [
+    {
+      "achievementId": 61003,
+      "achievementName": "카타나 마스터",
+      "achievementDescription": "카타나로 몬스터 {0}마리 처치",
+      "achievementConditionType": "KillBySkill",
+      "targetSkillId": 20030,
+      "targetDropItemType": "None",
+      "targetValue": [
+        50,
+        100,
+        200,
+        400
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 61001,
+      "achievementName": "수리검 마스터",
+      "achievementDescription": "수리검으로 몬스터 {0}마리 처치",
+      "achievementConditionType": "KillBySkill",
+      "targetSkillId": 20010,
+      "targetDropItemType": "None",
+      "targetValue": [
+        50,
+        100,
+        200,
+        400
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 62001,
+      "achievementName": "폭탄 수집가",
+      "achievementDescription": "전투 중 폭탄 {0}회 획득",
+      "achievementConditionType": "PickupDropItem",
+      "targetSkillId": 0,
+      "targetDropItemType": "Bomb",
+      "targetValue": [
+        5,
+        10,
+        20,
+        40
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 62002,
+      "achievementName": "자석 수집가",
+      "achievementDescription": "전투 중 자석 {0}회 획득",
+      "achievementConditionType": "PickupDropItem",
+      "targetSkillId": 0,
+      "targetDropItemType": "Magnet",
+      "targetValue": [
+        5,
+        10,
+        20,
+        40
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 63003,
+      "achievementName": "카타나 연마",
+      "achievementDescription": "카타나 {0}회 업그레이드",
+      "achievementConditionType": "UpgradeSkill",
+      "targetSkillId": 20030,
+      "targetDropItemType": "None",
+      "targetValue": [
+        10,
+        20,
+        40,
+        80
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 63002,
+      "achievementName": "리볼버 연마",
+      "achievementDescription": "리볼버 {0}회 업그레이드",
+      "achievementConditionType": "UpgradeSkill",
+      "targetSkillId": 20020,
+      "targetDropItemType": "None",
+      "targetValue": [
+        10,
+        20,
+        40,
+        80
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 64001,
+      "achievementName": "성장의 길",
+      "achievementDescription": "전투 경험치 {0} 획득",
+      "achievementConditionType": "GainBattleExp",
+      "targetSkillId": 0,
+      "targetDropItemType": "None",
+      "targetValue": [
+        5000,
+        10000,
+        20000,
+        40000
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 64002,
+      "achievementName": "끝없는 성장",
+      "achievementDescription": "전투 경험치 {0} 획득",
+      "achievementConditionType": "GainBattleExp",
+      "targetSkillId": 0,
+      "targetDropItemType": "None",
+      "targetValue": [
+        80000,
+        160000
+      ],
+      "rewardItemType": [
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        100,
+        200
+      ]
+    }
+  ]
+}
