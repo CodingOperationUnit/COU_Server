@@ -45,11 +45,20 @@ public class PlayerFinalStatService {
         StatSource evolution = evolutionOf(playerStat);
         StatSource total = base.plus(equipment).plus(evolution);
 
+        int finalAttack = applyBonus(total.attack());
+        int finalHp = applyBonus(total.hp());
+        int finalDefense = applyBonus(total.defense());
+        int finalPotionRecovery = applyBonus(total.potionRecovery());
+
+        // 전투력은 보너스% 적용 후의 최종값으로 계산한다 (클라이언트 장비창 표시와 같은 기준)
+        int combatPower = staticDataService.getCombatPower().calculate(finalAttack, finalHp, finalDefense);
+
         return new PlayerFinalStatResponse(
-                applyBonus(total.attack()),
-                applyBonus(total.hp()),
-                applyBonus(total.defense()),
-                applyBonus(total.potionRecovery()),
+                finalAttack,
+                finalHp,
+                finalDefense,
+                finalPotionRecovery,
+                combatPower,
                 baseStat.playerBaseCriticalDamage(),
                 baseStat.playerBaseCriticalChance(),
                 baseStat.playerBaseSkillDamage(),

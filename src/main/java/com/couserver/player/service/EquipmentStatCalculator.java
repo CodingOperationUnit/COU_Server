@@ -10,8 +10,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-// 장비 1개의 스탯에 레벨/등급 배율을 적용
-// 스탯 = round(값 x (1 + statGrowPerLevel x (level - 1)) x gradeStatMultiplier[grade])
+// 장비 1개의 스탯에 레벨·등급 배율을 적용한다 (클라이언트 OwnedItem과 같은 공식)
+// 스탯 = round(값 × (1 + statGrowthPerLevel × (level − 1)) × gradeStatMultiplier[grade])
+// 부동소수 오차가 없도록 BigDecimal로 계산하고, 0.5는 짝수 쪽으로 반올림(HALF_EVEN)한다
+// (클라이언트 Mathf.RoundToInt·decimal Math.Round와 같은 규칙: 38.5 → 38, 39.5 → 40)
 @Component
 public class EquipmentStatCalculator {
     private static final String TABLE_NAME = "ItemConst";
@@ -56,7 +58,7 @@ public class EquipmentStatCalculator {
                 .multiply(levelFactor)
                 .multiply(gradeStatMultiplier.get(grade.ordinal()));
 
-        return result.setScale(0, RoundingMode.HALF_UP).intValueExact();
+        return result.setScale(0, RoundingMode.HALF_EVEN).intValueExact();
     }
 
     private static void require(boolean condition, String message){

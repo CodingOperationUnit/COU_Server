@@ -1,0 +1,10 @@
+{
+  "datas": [
+    {
+      "combatPowerAttackWeight": 10,
+      "combatPowerHpWeight": 1,
+      "combatPowerDefenseWeight": 0,
+      "combatPowerUseCritical": false
+    }
+  ]
+}
