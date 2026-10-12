@@ -219,26 +219,25 @@ public class BattleService {
         return ItemGrade.GENERAL;
     }
 
-    // 웨이브의 모든 스폰을 처치하고, 드롭 테이블마다 가장 많이 나오는 행이 뽑힌 경우를 더한다
+    // 웨이브의 모든 스폰을 처치하고, 몬스터 역할별 드롭 테이블마다 가장 많이 나오는 행이 뽑힌 경우를 더한다
     private StageLimit computeStageLimit(StageData stage) {
         int kills = 0;
         int gold = 0;
         int rewardBoxes = 0;
         int luckyBoxes = 0;
 
+        Map<String, Integer> roster = staticDataService.getStageRosters().get(stage.stageId());
         for (WaveEntryData entry : staticDataService.getWaves().get(stage.waveId())) {
             SpawnPatternData pattern = staticDataService.getSpawnPatterns().get(entry.patternId());
-            int spawns = maxSpawnCount(pattern);
+            MonsterType monsterType = staticDataService.getMonsters().get(roster.get(entry.monsterSlot())).monsterType();
+            int spawns = maxSpawnCount(entry, pattern);
 
             // 상자는 킬 수에 들어가지 않는다 (클라이언트 Box.GiveReward)
-            if (staticDataService.getMonsters().get(entry.monsterId()).monsterType() != MonsterType.BOX) {
+            if (monsterType != MonsterType.BOX) {
                 kills += spawns;
             }
-            if (pattern.dropTableId() <= 0) {
-                continue;
-            }
 
-            List<DropTableEntryData> dropTable = staticDataService.getDropTables().get(pattern.dropTableId());
+            List<DropTableEntryData> dropTable = staticDataService.getDropTables().get(monsterType);
             gold += spawns * maxDrop(dropTable, this::goldOf);
             rewardBoxes += spawns * maxDrop(dropTable, row -> countOf(row, DropItemType.REWARDBOX));
             luckyBoxes += spawns * maxDrop(dropTable, row -> countOf(row, DropItemType.LUCKYBOX));
@@ -251,12 +250,12 @@ public class BattleService {
 
     // WaveManager와 같은 규칙: patternDuration이 0이면 한 번, 아니면 [시작, 시작 + patternDuration) 동안 간격마다 스폰한다.
     // 클라이언트는 간격을 float로 누적하므로, 나누어떨어질 때 한 번 더 나올 수 있게 floor + 1로 센다
-    private static int maxSpawnCount(SpawnPatternData pattern) {
-        if (pattern.patternDuration() <= 0) {
+    private static int maxSpawnCount(WaveEntryData entry, SpawnPatternData pattern) {
+        if (entry.patternDuration() <= 0) {
             return pattern.spawnCount();
         }
-        double interval = Math.max(pattern.spawnInterval(), MIN_SPAWN_INTERVAL);
-        return ((int) (pattern.patternDuration() / interval) + 1) * pattern.spawnCount();
+        double interval = Math.max(entry.spawnInterval(), MIN_SPAWN_INTERVAL);
+        return ((int) (entry.patternDuration() / interval) + 1) * pattern.spawnCount();
     }
 
     // 드롭 테이블 한 번의 판정에서 나올 수 있는 최대값.
