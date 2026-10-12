@@ -1,7 +1,7 @@
 package com.couserver.staticdata.dto;
 
 public record DropTableEntryData(
-        int dropTableId,
+        MonsterType monsterType,
         int dropGroup,
         DropItemType dropItemType,
         int weight,
