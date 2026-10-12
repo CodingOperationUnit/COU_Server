@@ -1,24 +1,7 @@
 package com.couserver.staticdata.service;
 
-import com.couserver.staticdata.dto.AccountConstData;
-import com.couserver.staticdata.dto.DropItemData;
-import com.couserver.staticdata.dto.DropItemType;
-import com.couserver.staticdata.dto.DropTableEntryData;
-import com.couserver.staticdata.dto.ItemData;
-import com.couserver.staticdata.dto.MonsterAttackData;
-import com.couserver.staticdata.dto.MonsterAttackType;
-import com.couserver.staticdata.dto.MonsterData;
-import com.couserver.staticdata.dto.MonsterType;
-import com.couserver.staticdata.dto.PlayerBaseStatData;
-import com.couserver.staticdata.dto.SkillData;
-import com.couserver.staticdata.dto.SpawnPatternData;
-import com.couserver.staticdata.dto.StageData;
-import com.couserver.staticdata.dto.StageRosterData;
-import com.couserver.staticdata.dto.WaveEntryData;
-import com.couserver.staticdata.dto.ProductType;
-import com.couserver.staticdata.dto.ShopProductData;
+import com.couserver.staticdata.dto.*;
 import com.couserver.player.entity.PlayerStatType;
-import com.couserver.staticdata.dto.EvolutionData;
 import lombok.Getter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -62,6 +45,7 @@ public class StaticDataService {
     private final Map<Integer, ShopProductData> shopProducts;
     private final Map<Long, SkillData> skills;
     private final EvolutionData evolution;
+    private final CombatPowerData combatPower;
 
     public StaticDataService(ObjectMapper objectMapper) throws IOException {
         version = new ClassPathResource("data/version.txt").getContentAsString(StandardCharsets.UTF_8).trim();
@@ -221,6 +205,17 @@ public class StaticDataService {
         require(evolution.evolutionBaseCost() >= 0, "Evolution의 evolutionBaseCost는 0 이상이어야 합니다.");
         require(evolution.evolutionCostPerStep() >= 0, "Evolution의 evolutionCostPerStep은 0 이상이어야 합니다.");
         require(evolution.evolutionMaxStep() >= 0, "Evolution의 evolutionMaxStep은 0 이상이어야 합니다.");
+
+        List<CombatPowerData> combatPowerRows = rows(rowMapper, "CombatPower", CombatPowerData.class);
+        require(combatPowerRows.size() == 1, "CombatPower 데이터는 행이 하나여야 합니다.");
+        combatPower = combatPowerRows.getFirst();
+        require(combatPower.combatPowerAttackWeight() >= 0
+                        && combatPower.combatPowerHpWeight() >= 0
+                        && combatPower.combatPowerDefenseWeight() >= 0,
+                "CombatPower의 가중치는 0 이상이어야 합니다.");
+        // 치명타 반영 규칙(소수 계산 방식)이 정해지기 전까지는 켤 수 없다
+        require(!combatPower.combatPowerUseCritical(),
+                "CombatPower의 combatPowerUseCritical은 아직 지원하지 않습니다. false로 두세요.");
 
         for (StageData row : stageRows) {
             require(waves.containsKey(row.waveId()),
