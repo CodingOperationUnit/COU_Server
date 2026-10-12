@@ -5,6 +5,7 @@ Wave
 SpawnPattern
 MonsterAttack
 DropTable
+StageRoster
 PlayerBaseStat
 Item
 Skill

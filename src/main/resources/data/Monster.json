@@ -28,15 +28,6 @@
       "monsterAsset": "Enemy/orange_slime_slime"
     },
     {
-      "monsterId": 11004,
-      "monsterName": "일반몬스터4",
-      "monsterType": "Normal",
-      "monsterMaxHealthPoint": 24,
-      "monsterMoveSpeed": 1.0,
-      "monsterContactDamage": 2,
-      "monsterAsset": "Enemy/goblin"
-    },
-    {
       "monsterId": 11005,
       "monsterName": "일반몬스터5",
       "monsterType": "Normal",
@@ -44,24 +35,6 @@
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 2,
       "monsterAsset": "Enemy/slime"
-    },
-    {
-      "monsterId": 11006,
-      "monsterName": "일반몬스터6",
-      "monsterType": "Normal",
-      "monsterMaxHealthPoint": 34,
-      "monsterMoveSpeed": 2.0,
-      "monsterContactDamage": 3,
-      "monsterAsset": "Enemy/orange_slime_slime"
-    },
-    {
-      "monsterId": 11007,
-      "monsterName": "일반몬스터7",
-      "monsterType": "Normal",
-      "monsterMaxHealthPoint": 38,
-      "monsterMoveSpeed": 1.0,
-      "monsterContactDamage": 3,
-      "monsterAsset": "Enemy/goblin"
     },
     {
       "monsterId": 11008,
@@ -73,15 +46,6 @@
       "monsterAsset": "Enemy/slime"
     },
     {
-      "monsterId": 11009,
-      "monsterName": "일반몬스터9",
-      "monsterType": "Normal",
-      "monsterMaxHealthPoint": 50,
-      "monsterMoveSpeed": 2.0,
-      "monsterContactDamage": 4,
-      "monsterAsset": "Enemy/orange_slime_slime"
-    },
-    {
       "monsterId": 11010,
       "monsterName": "일반몬스터10",
       "monsterType": "Normal",
@@ -89,15 +53,6 @@
       "monsterMoveSpeed": 2.5,
       "monsterContactDamage": 4,
       "monsterAsset": "Enemy/goblin_archer"
-    },
-    {
-      "monsterId": 11011,
-      "monsterName": "일반몬스터11",
-      "monsterType": "Normal",
-      "monsterMaxHealthPoint": 62,
-      "monsterMoveSpeed": 1.0,
-      "monsterContactDamage": 5,
-      "monsterAsset": "Enemy/goblin"
     },
     {
       "monsterId": 11012,
@@ -109,33 +64,6 @@
       "monsterAsset": "Enemy/slime"
     },
     {
-      "monsterId": 11013,
-      "monsterName": "일반몬스터13",
-      "monsterType": "Normal",
-      "monsterMaxHealthPoint": 75,
-      "monsterMoveSpeed": 2.0,
-      "monsterContactDamage": 6,
-      "monsterAsset": "Enemy/orange_slime_slime"
-    },
-    {
-      "monsterId": 11014,
-      "monsterName": "일반몬스터14",
-      "monsterType": "Normal",
-      "monsterMaxHealthPoint": 82,
-      "monsterMoveSpeed": 2.5,
-      "monsterContactDamage": 6,
-      "monsterAsset": "Enemy/goblin_archer"
-    },
-    {
-      "monsterId": 11015,
-      "monsterName": "일반몬스터15",
-      "monsterType": "Normal",
-      "monsterMaxHealthPoint": 90,
-      "monsterMoveSpeed": 1.0,
-      "monsterContactDamage": 7,
-      "monsterAsset": "Enemy/goblin"
-    },
-    {
       "monsterId": 11016,
       "monsterName": "일반몬스터16",
       "monsterType": "Normal",
@@ -143,24 +71,6 @@
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 7,
       "monsterAsset": "Enemy/slime"
-    },
-    {
-      "monsterId": 11017,
-      "monsterName": "일반몬스터17",
-      "monsterType": "Normal",
-      "monsterMaxHealthPoint": 108,
-      "monsterMoveSpeed": 2.0,
-      "monsterContactDamage": 8,
-      "monsterAsset": "Enemy/orange_slime_slime"
-    },
-    {
-      "monsterId": 11018,
-      "monsterName": "일반몬스터18",
-      "monsterType": "Normal",
-      "monsterMaxHealthPoint": 120,
-      "monsterMoveSpeed": 2.5,
-      "monsterContactDamage": 9,
-      "monsterAsset": "Enemy/goblin_archer"
     },
     {
       "monsterId": 12001,
@@ -190,51 +100,6 @@
       "monsterAsset": "Enemy/skull"
     },
     {
-      "monsterId": 12004,
-      "monsterName": "엘리트몬스터4",
-      "monsterType": "Elite",
-      "monsterMaxHealthPoint": 70,
-      "monsterMoveSpeed": 1.0,
-      "monsterContactDamage": 7,
-      "monsterAsset": "Enemy/goblin_green_warrior"
-    },
-    {
-      "monsterId": 12005,
-      "monsterName": "엘리트몬스터5",
-      "monsterType": "Elite",
-      "monsterMaxHealthPoint": 80,
-      "monsterMoveSpeed": 1.0,
-      "monsterContactDamage": 8,
-      "monsterAsset": "Enemy/orange_slime_king"
-    },
-    {
-      "monsterId": 12006,
-      "monsterName": "엘리트몬스터6",
-      "monsterType": "Elite",
-      "monsterMaxHealthPoint": 90,
-      "monsterMoveSpeed": 2.0,
-      "monsterContactDamage": 9,
-      "monsterAsset": "Enemy/skull"
-    },
-    {
-      "monsterId": 12007,
-      "monsterName": "엘리트몬스터7",
-      "monsterType": "Elite",
-      "monsterMaxHealthPoint": 100,
-      "monsterMoveSpeed": 1.0,
-      "monsterContactDamage": 10,
-      "monsterAsset": "Enemy/goblin_green_warrior"
-    },
-    {
-      "monsterId": 12008,
-      "monsterName": "엘리트몬스터8",
-      "monsterType": "Elite",
-      "monsterMaxHealthPoint": 110,
-      "monsterMoveSpeed": 1.0,
-      "monsterContactDamage": 11,
-      "monsterAsset": "Enemy/orange_slime_king"
-    },
-    {
       "monsterId": 12009,
       "monsterName": "엘리트몬스터9",
       "monsterType": "Elite",
@@ -244,24 +109,6 @@
       "monsterAsset": "Enemy/skull"
     },
     {
-      "monsterId": 12010,
-      "monsterName": "엘리트몬스터10",
-      "monsterType": "Elite",
-      "monsterMaxHealthPoint": 130,
-      "monsterMoveSpeed": 1.0,
-      "monsterContactDamage": 13,
-      "monsterAsset": "Enemy/goblin_green_warrior"
-    },
-    {
-      "monsterId": 12011,
-      "monsterName": "엘리트몬스터11",
-      "monsterType": "Elite",
-      "monsterMaxHealthPoint": 140,
-      "monsterMoveSpeed": 1.0,
-      "monsterContactDamage": 14,
-      "monsterAsset": "Enemy/orange_slime_king"
-    },
-    {
       "monsterId": 12012,
       "monsterName": "엘리트몬스터12",
       "monsterType": "Elite",
@@ -269,24 +116,6 @@
       "monsterMoveSpeed": 2.0,
       "monsterContactDamage": 15,
       "monsterAsset": "Enemy/skull"
-    },
-    {
-      "monsterId": 12013,
-      "monsterName": "엘리트몬스터13",
-      "monsterType": "Elite",
-      "monsterMaxHealthPoint": 165,
-      "monsterMoveSpeed": 1.0,
-      "monsterContactDamage": 16,
-      "monsterAsset": "Enemy/goblin_green_warrior"
-    },
-    {
-      "monsterId": 12014,
-      "monsterName": "엘리트몬스터14",
-      "monsterType": "Elite",
-      "monsterMaxHealthPoint": 180,
-      "monsterMoveSpeed": 1.0,
-      "monsterContactDamage": 17,
-      "monsterAsset": "Enemy/orange_slime_king"
     },
     {
       "monsterId": 12015,

@@ -2,7 +2,7 @@
   "datas": [
     {
       "skillId": 20010,
-      "skillName": "Shuriken",
+      "skillName": "Tumbler",
       "skillCategory": 0,
       "skillType": "Nearest",
       "skillCooldown": 1.0,
@@ -18,7 +18,7 @@
     },
     {
       "skillId": 20020,
-      "skillName": "Revolver",
+      "skillName": "Glasses",
       "skillCategory": 0,
       "skillType": "Forward",
       "skillCooldown": 2.0,
@@ -34,7 +34,7 @@
     },
     {
       "skillId": 20030,
-      "skillName": "Katana",
+      "skillName": "Monitor",
       "skillCategory": 0,
       "skillType": "Forward",
       "skillCooldown": 0.75,
@@ -50,7 +50,7 @@
     },
     {
       "skillId": 20040,
-      "skillName": "Planet",
+      "skillName": "Speaker",
       "skillCategory": 0,
       "skillType": "None",
       "skillCooldown": 0.0,
@@ -66,7 +66,7 @@
     },
     {
       "skillId": 20050,
-      "skillName": "Missile",
+      "skillName": "Mouse",
       "skillCategory": 0,
       "skillType": "Nearest",
       "skillCooldown": 1.5,
@@ -74,6 +74,22 @@
       "skillDamage": 0.8,
       "skillRange": 7.0,
       "skillDescription": "미사일",
+      "level1SkillDescription": "",
+      "level2SkillDescription": "",
+      "level3SkillDescription": "",
+      "level4SkillDescription": "",
+      "level5SkillDescription": ""
+    },
+    {
+      "skillId": 20060,
+      "skillName": "Keyboard",
+      "skillCategory": 0,
+      "skillType": "Nearest",
+      "skillCooldown": 0.0,
+      "skillSpeed": 0.0,
+      "skillDamage": 0.1,
+      "skillRange": 0.0,
+      "skillDescription": "기계식 축",
       "level1SkillDescription": "",
       "level2SkillDescription": "",
       "level3SkillDescription": "",

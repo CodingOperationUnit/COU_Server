@@ -13,6 +13,7 @@ import com.couserver.staticdata.dto.PlayerBaseStatData;
 import com.couserver.staticdata.dto.SkillData;
 import com.couserver.staticdata.dto.SpawnPatternData;
 import com.couserver.staticdata.dto.StageData;
+import com.couserver.staticdata.dto.StageRosterData;
 import com.couserver.staticdata.dto.WaveEntryData;
 import com.couserver.staticdata.dto.ProductType;
 import com.couserver.staticdata.dto.ShopProductData;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -53,7 +55,8 @@ public class StaticDataService {
     private final Map<Integer, List<WaveEntryData>> waves;              // key: waveId
     private final Map<Integer, SpawnPatternData> spawnPatterns;
     private final Map<Integer, MonsterData> monsters;
-    private final Map<Integer, List<DropTableEntryData>> dropTables;    // key: dropTableId
+    private final Map<Integer, Map<String, Integer>> stageRosters;      // key: stageId → monsterSlot → monsterId
+    private final Map<MonsterType, List<DropTableEntryData>> dropTables; // key: monsterType
     private final Map<DropItemType, DropItemData> dropItems;            // key: dropItemType
     private final Map<Long, ItemData> items;
     private final Map<Integer, ShopProductData> shopProducts;
@@ -101,16 +104,16 @@ public class StaticDataService {
                 .collect(Collectors.groupingBy(WaveEntryData::waveId, Collectors.toUnmodifiableList())));
         for (WaveEntryData row : waveRows) {
             require(row.patternStartTime() >= 0, "Wave " + row.waveEntryId() + "의 patternStartTime은 0 이상이어야 합니다.");
+            require(row.patternDuration() >= 0, "Wave " + row.waveEntryId() + "의 patternDuration은 0 이상이어야 합니다.");
+            // 반복 행(patternDuration > 0)인데 간격이 0이면 같은 순간에 끝없이 생성될 수 있다
+            require(row.patternDuration() <= 0 || row.spawnInterval() > 0,
+                    "Wave " + row.waveEntryId() + "은(는) 반복 행이라 spawnInterval이 0보다 커야 합니다.");
         }
 
         List<SpawnPatternData> spawnPatternRows = rows(rowMapper, "SpawnPattern", SpawnPatternData.class);
         requireIds("SpawnPattern", spawnPatternRows, SpawnPatternData::patternId);
         for (SpawnPatternData row : spawnPatternRows) {
             require(row.spawnCount() >= 1, "SpawnPattern " + row.patternId() + "의 spawnCount는 1 이상이어야 합니다.");
-            require(row.patternDuration() >= 0, "SpawnPattern " + row.patternId() + "의 patternDuration은 0 이상이어야 합니다.");
-            // 반복 패턴(patternDuration > 0)인데 간격이 0이면 같은 순간에 끝없이 생성될 수 있다
-            require(row.patternDuration() <= 0 || row.spawnInterval() > 0,
-                    "SpawnPattern " + row.patternId() + "은(는) 반복 패턴이라 spawnInterval이 0보다 커야 합니다.");
         }
         spawnPatterns = spawnPatternRows.stream()
                 .collect(Collectors.toUnmodifiableMap(SpawnPatternData::patternId, Function.identity()));
@@ -119,6 +122,22 @@ public class StaticDataService {
         requireIds("Monster", monsterRows, MonsterData::monsterId);
         monsters = monsterRows.stream()
                 .collect(Collectors.toUnmodifiableMap(MonsterData::monsterId, Function.identity()));
+
+        List<StageRosterData> stageRosterRows = rows(rowMapper, "StageRoster", StageRosterData.class);
+        requireIds("StageRoster", stageRosterRows, StageRosterData::stageRosterId);
+        Map<Integer, Map<String, Integer>> rosterMap = new HashMap<>();
+        for (StageRosterData row : stageRosterRows) {
+            require(stages.containsKey(row.stageId()),
+                    "StageRoster " + row.stageRosterId() + "의 stageId " + row.stageId() + "을(를) Stage에서 찾을 수 없습니다.");
+            require(monsters.containsKey(row.monsterId()),
+                    "StageRoster " + row.stageRosterId() + "의 monsterId " + row.monsterId() + "을(를) Monster에서 찾을 수 없습니다.");
+            require(row.monsterHpScale() > 0, "StageRoster " + row.stageRosterId() + "의 monsterHpScale은 0보다 커야 합니다.");
+            require(row.monsterDamageScale() > 0, "StageRoster " + row.stageRosterId() + "의 monsterDamageScale은 0보다 커야 합니다.");
+            require(rosterMap.computeIfAbsent(row.stageId(), id -> new HashMap<>()).putIfAbsent(row.monsterSlot(), row.monsterId()) == null,
+                    "StageRoster " + row.stageRosterId() + ": Stage " + row.stageId() + "의 monsterSlot " + row.monsterSlot() + "이(가) 중복됩니다.");
+        }
+        stageRosters = rosterMap.entrySet().stream()
+                .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, entry -> Map.copyOf(entry.getValue())));
 
         // 서버에서 쓰는 곳이 없어 맵 없이 검사만 한다
         List<MonsterAttackData> monsterAttackRows = rows(rowMapper, "MonsterAttack", MonsterAttackData.class);
@@ -135,13 +154,14 @@ public class StaticDataService {
 
         List<DropTableEntryData> dropTableRows = rows(rowMapper, "DropTable", DropTableEntryData.class);
         for (DropTableEntryData row : dropTableRows) {
-            require(row.dropTableId() > 0, "DropTable ID가 올바르지 않습니다: " + row.dropTableId());
-            require(row.dropGroup() >= 0, "DropTable " + row.dropTableId() + "의 dropGroup은 0 이상이어야 합니다.");
-            require(row.weight() >= 1, "DropTable " + row.dropTableId() + "의 weight는 1 이상이어야 합니다.");
-            require(row.count() >= 1, "DropTable " + row.dropTableId() + "의 count는 1 이상이어야 합니다.");
+            require(row.dropGroup() >= 0, "DropTable " + row.monsterType() + "의 dropGroup은 0 이상이어야 합니다.");
+            require(row.weight() >= 1, "DropTable " + row.monsterType() + "의 weight는 1 이상이어야 합니다.");
+            require(row.count() >= 1, "DropTable " + row.monsterType() + "의 count는 1 이상이어야 합니다.");
         }
         dropTables = Map.copyOf(dropTableRows.stream()
-                .collect(Collectors.groupingBy(DropTableEntryData::dropTableId, Collectors.toUnmodifiableList())));
+                .collect(Collectors.groupingBy(DropTableEntryData::monsterType, Collectors.toUnmodifiableList())));
+        require(dropTables.keySet().containsAll(EnumSet.allOf(MonsterType.class)),
+                "DropTable에는 모든 monsterType(" + EnumSet.allOf(MonsterType.class) + ")의 행이 있어야 합니다.");
 
         List<DropItemData> dropItemRows = rows(rowMapper, "DropItem", DropItemData.class);
         requireIds("DropItem", dropItemRows, DropItemData::dropItemId);
@@ -205,16 +225,15 @@ public class StaticDataService {
         for (StageData row : stageRows) {
             require(waves.containsKey(row.waveId()),
                     "Stage " + row.stageId() + "의 waveId " + row.waveId() + "을(를) Wave에서 찾을 수 없습니다.");
+            Map<String, Integer> roster = stageRosters.getOrDefault(row.stageId(), Map.of());
+            for (WaveEntryData entry : waves.get(row.waveId())) {
+                require(roster.containsKey(entry.monsterSlot()),
+                        "Stage " + row.stageId() + ": Wave " + entry.waveEntryId() + "의 monsterSlot " + entry.monsterSlot() + "을(를) StageRoster에서 찾을 수 없습니다.");
+            }
         }
         for (WaveEntryData row : waveRows) {
             require(spawnPatterns.containsKey(row.patternId()),
                     "Wave " + row.waveEntryId() + "의 patternId " + row.patternId() + "을(를) SpawnPattern에서 찾을 수 없습니다.");
-            require(monsters.containsKey(row.monsterId()),
-                    "Wave " + row.waveEntryId() + "의 monsterId " + row.monsterId() + "을(를) Monster에서 찾을 수 없습니다.");
-        }
-        for (SpawnPatternData row : spawnPatternRows) {
-            require(row.dropTableId() == 0 || dropTables.containsKey(row.dropTableId()),
-                    "SpawnPattern " + row.patternId() + "의 dropTableId " + row.dropTableId() + "을(를) DropTable에서 찾을 수 없습니다.");
         }
     }
 

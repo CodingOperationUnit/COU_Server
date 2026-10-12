@@ -4,6 +4,8 @@ public record WaveEntryData(
         int waveEntryId,
         int waveId,
         double patternStartTime,
+        double patternDuration,
+        double spawnInterval,
         int patternId,
-        int monsterId) {
+        String monsterSlot) {
 }
