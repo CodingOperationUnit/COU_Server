@@ -5,6 +5,7 @@ Wave
 SpawnPattern
 MonsterAttack
 DropTable
+StageRoster
 PlayerBaseStat
 Item
 Skill
@@ -12,3 +13,6 @@ DropItem
 AccountConst
 ItemConst
 Evolution
+Achievement
+CombatPower
+_Monster

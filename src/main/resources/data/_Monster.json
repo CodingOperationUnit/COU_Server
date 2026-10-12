@@ -1,0 +1,445 @@
+{
+  "datas": [
+    {
+      "monsterId": 11001,
+      "monsterName": "일반몬스터1",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 10,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 1,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Yellow"
+    },
+    {
+      "monsterId": 11002,
+      "monsterName": "일반몬스터2",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 14,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 1,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Honey"
+    },
+    {
+      "monsterId": 11003,
+      "monsterName": "일반몬스터3",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 20,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 2,
+      "monsterAsset": "Enemy/Prefabs/Spider/Spider_Venom"
+    },
+    {
+      "monsterId": 11004,
+      "monsterName": "일반몬스터4",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 24,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 2,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Yellow"
+    },
+    {
+      "monsterId": 11005,
+      "monsterName": "일반몬스터5",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 28,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 2,
+      "monsterAsset": "Enemy/Prefabs/Spider/Spider_Frozen"
+    },
+    {
+      "monsterId": 11006,
+      "monsterName": "일반몬스터6",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 34,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 3,
+      "monsterAsset": "Enemy/Prefabs/Spider/Spider_Venom"
+    },
+    {
+      "monsterId": 11007,
+      "monsterName": "일반몬스터7",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 38,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 3,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Worker"
+    },
+    {
+      "monsterId": 11008,
+      "monsterName": "일반몬스터8",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 44,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 4,
+      "monsterAsset": "Enemy/Prefabs/Dragonfly/Dragonfly_Bot"
+    },
+    {
+      "monsterId": 11009,
+      "monsterName": "일반몬스터9",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 50,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 4,
+      "monsterAsset": "Enemy/Prefabs/Spider/Spider_Red"
+    },
+    {
+      "monsterId": 11010,
+      "monsterName": "일반몬스터10",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 56,
+      "monsterMoveSpeed": 2.5,
+      "monsterContactDamage": 4,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Jelly"
+    },
+    {
+      "monsterId": 11011,
+      "monsterName": "일반몬스터11",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 62,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 5,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Jelly"
+    },
+    {
+      "monsterId": 11012,
+      "monsterName": "일반몬스터12",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 68,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 5,
+      "monsterAsset": "Enemy/Prefabs/Bee/Bee_Devil"
+    },
+    {
+      "monsterId": 11013,
+      "monsterName": "일반몬스터13",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 75,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 6,
+      "monsterAsset": "Enemy/Prefabs/Bud/Bud_Fire"
+    },
+    {
+      "monsterId": 11014,
+      "monsterName": "일반몬스터14",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 82,
+      "monsterMoveSpeed": 2.5,
+      "monsterContactDamage": 6,
+      "monsterAsset": "Enemy/Prefabs/Bud/Bud_Bomb"
+    },
+    {
+      "monsterId": 11015,
+      "monsterName": "일반몬스터15",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 90,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 7,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Jelly"
+    },
+    {
+      "monsterId": 11016,
+      "monsterName": "일반몬스터16",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 98,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 7,
+      "monsterAsset": "Enemy/Prefabs/Ghost/Ghost_Mask"
+    },
+    {
+      "monsterId": 11017,
+      "monsterName": "일반몬스터17",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 108,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 8,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Honey"
+    },
+    {
+      "monsterId": 11018,
+      "monsterName": "일반몬스터18",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 120,
+      "monsterMoveSpeed": 2.5,
+      "monsterContactDamage": 9,
+      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Flower"
+    },
+    {
+      "monsterId": 12001,
+      "monsterName": "엘리트몬스터1",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 40,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 4,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Honey"
+    },
+    {
+      "monsterId": 12002,
+      "monsterName": "엘리트몬스터2",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 50,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 5,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Worker"
+    },
+    {
+      "monsterId": 12003,
+      "monsterName": "엘리트몬스터3",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 60,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 6,
+      "monsterAsset": "Enemy/Prefabs/Spider/Spider_Red"
+    },
+    {
+      "monsterId": 12004,
+      "monsterName": "엘리트몬스터4",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 70,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 7,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Worker"
+    },
+    {
+      "monsterId": 12005,
+      "monsterName": "엘리트몬스터5",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 80,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 8,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Jelly"
+    },
+    {
+      "monsterId": 12006,
+      "monsterName": "엘리트몬스터6",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 90,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 9,
+      "monsterAsset": "Enemy/Prefabs/Golem/Golem_Tree"
+    },
+    {
+      "monsterId": 12007,
+      "monsterName": "엘리트몬스터7",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 100,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 10,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Worker"
+    },
+    {
+      "monsterId": 12008,
+      "monsterName": "엘리트몬스터8",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 110,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 11,
+      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Green"
+    },
+    {
+      "monsterId": 12009,
+      "monsterName": "엘리트몬스터9",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 120,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 12,
+      "monsterAsset": "Enemy/Prefabs/Dragonfly/Dragonfly_Bot"
+    },
+    {
+      "monsterId": 12010,
+      "monsterName": "엘리트몬스터10",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 130,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 13,
+      "monsterAsset": "Enemy/Prefabs/Golem/Golem_Tree"
+    },
+    {
+      "monsterId": 12011,
+      "monsterName": "엘리트몬스터11",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 140,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 14,
+      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Flower"
+    },
+    {
+      "monsterId": 12012,
+      "monsterName": "엘리트몬스터12",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 150,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 15,
+      "monsterAsset": "Enemy/Prefabs/Spider/Spider_Frozen"
+    },
+    {
+      "monsterId": 12013,
+      "monsterName": "엘리트몬스터13",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 165,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 16,
+      "monsterAsset": "Enemy/Prefabs/Walker/Walker_Stump"
+    },
+    {
+      "monsterId": 12014,
+      "monsterName": "엘리트몬스터14",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 180,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 17,
+      "monsterAsset": "Enemy/Prefabs/Scorpion/Scorpion_Purple"
+    },
+    {
+      "monsterId": 12015,
+      "monsterName": "엘리트몬스터15",
+      "monsterType": "Elite",
+      "monsterMaxHealthPoint": 200,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 18,
+      "monsterAsset": "Enemy/Prefabs/Bee/Bee_Devil"
+    },
+    {
+      "monsterId": 13001,
+      "monsterName": "보스몬스터1",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 100,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 10,
+      "monsterAsset": "Enemy/Prefabs/Cactus/Cactus_Green"
+    },
+    {
+      "monsterId": 13002,
+      "monsterName": "보스몬스터2",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 130,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 12,
+      "monsterAsset": "Enemy/Prefabs/Golem/Golem_Tree"
+    },
+    {
+      "monsterId": 13003,
+      "monsterName": "보스몬스터3",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 165,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 14,
+      "monsterAsset": "Enemy/Prefabs/Golem/Golem_Iron"
+    },
+    {
+      "monsterId": 13004,
+      "monsterName": "보스몬스터4",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 200,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 16,
+      "monsterAsset": "Enemy/Prefabs/Cactus/Cactus_Green"
+    },
+    {
+      "monsterId": 13005,
+      "monsterName": "보스몬스터5",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 240,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 18,
+      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Green"
+    },
+    {
+      "monsterId": 13006,
+      "monsterName": "보스몬스터6",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 280,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 20,
+      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Flower"
+    },
+    {
+      "monsterId": 13007,
+      "monsterName": "보스몬스터7",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 320,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 22,
+      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Flower"
+    },
+    {
+      "monsterId": 13008,
+      "monsterName": "보스몬스터8",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 360,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 24,
+      "monsterAsset": "Enemy/Prefabs/Scorpion/Scorpion_Purple"
+    },
+    {
+      "monsterId": 13009,
+      "monsterName": "보스몬스터9",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 400,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 26,
+      "monsterAsset": "Enemy/Prefabs/Scorpion/Scorpion_Stone"
+    },
+    {
+      "monsterId": 13010,
+      "monsterName": "보스몬스터10",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 450,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 28,
+      "monsterAsset": "Enemy/Prefabs/Walker/Walker_Stump"
+    },
+    {
+      "monsterId": 13011,
+      "monsterName": "보스몬스터11",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 500,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 30,
+      "monsterAsset": "Enemy/Prefabs/Walker/Walker_Mushroom"
+    },
+    {
+      "monsterId": 13012,
+      "monsterName": "보스몬스터12",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 550,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 32,
+      "monsterAsset": "Enemy/Prefabs/Walker/Walker_Candle"
+    },
+    {
+      "monsterId": 13013,
+      "monsterName": "보스몬스터13",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 600,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 34,
+      "monsterAsset": "Enemy/Prefabs/Skeleton/Skeleton_Soldier"
+    },
+    {
+      "monsterId": 13014,
+      "monsterName": "보스몬스터14",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 650,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 36,
+      "monsterAsset": "Enemy/Prefabs/Skeleton/Skeleton_Warrior"
+    },
+    {
+      "monsterId": 13015,
+      "monsterName": "보스몬스터15",
+      "monsterType": "Boss",
+      "monsterMaxHealthPoint": 700,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 38,
+      "monsterAsset": "Enemy/Prefabs/Skeleton/Skeleton_Warlord"
+    },
+    {
+      "monsterId": 14001,
+      "monsterName": "상자",
+      "monsterType": "Box",
+      "monsterMaxHealthPoint": 1,
+      "monsterMoveSpeed": 0.0,
+      "monsterContactDamage": 0,
+      "monsterAsset": "Enemy/box"
+    }
+  ]
+}
