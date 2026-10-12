@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace COU.SheetExporter
 {
-    // 시트의 모든 탭을 JSON으로 변환해 저장 위치(선택 시 클라이언트 데이터 위치)에 쓴다. 저장 위치에 version.txt가 있어야 한다.
+    // 시트의 탭(_로 시작하는 탭 제외)을 JSON으로 변환해 저장 위치(선택 시 클라이언트 데이터 위치)에 쓴다. 저장 위치에 version.txt가 있어야 한다.
     // 서버가 내려줄 테이블을 알 수 있도록 탭 이름 목록을 저장 위치의 tables.txt에 함께 쓴다.
     internal sealed class MainForm : Form
     {
@@ -132,6 +132,11 @@ namespace COU.SheetExporter
             bool failed = false;
             foreach (var sheet in await GoogleSheetClient.FetchSheetList(apiUrlBox.Text))
             {
+                if (sheet.Name.StartsWith("_", StringComparison.Ordinal))
+                {
+                    Log($"{sheet.Name}: 무시");
+                    continue;
+                }
                 if (sheet.Name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
                 {
                     failed = true;
