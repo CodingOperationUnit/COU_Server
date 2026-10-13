@@ -9,6 +9,8 @@ import com.couserver.friend.entity.Friendship;
 import com.couserver.friend.entity.FriendshipStatus;
 import com.couserver.friend.exception.FriendErrorCode;
 import com.couserver.friend.repository.FriendshipRepository;
+import com.couserver.presence.service.PresenceService;
+import com.couserver.ranking.repository.RankingRedisRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class FriendService {
 
     private final FriendshipRepository friendshipRepository;
     private final PlayerProfileRepository playerProfileRepository;
+    private final RankingRedisRepository rankingRedisRepository;
+    private final PresenceService presenceService;
 
     // 친구 요청
     @Transactional
@@ -94,7 +98,7 @@ public class FriendService {
 
         PlayerProfile requester = playerProfileRepository.findById(friendship.getRequestedBy())
                 .orElseThrow(() -> new BusinessException(FriendErrorCode.PLAYER_NOT_FOUND));
-        return toFriendResponse(requester);
+        return toFriendResponse(requester, presenceService.isOnline(requester.getPlayerId()));
     }
 
     // 거절: 행을 지운다. 그래서 상대가 다시 요청할 수 있다
@@ -103,17 +107,20 @@ public class FriendService {
         friendshipRepository.delete(getReceivedRequest(playerId, requestId));
     }
 
-    // 친구 목록 (닉네임순. 온라인 여부와 전투력은 4단계에서 추가)
+    // 친구 목록 (온라인 순, 그다음이 닉네임순으로 정렬)
     @Transactional(readOnly = true)
     public FriendListResponse getFriends(Long playerId) {
         List<Friendship> list = friendshipRepository.findByPlayerAndStatus(playerId, FriendshipStatus.ACCEPTED);
-        Map<Long, PlayerProfile> profiles = profilesOf(list.stream().map(f -> f.otherOf(playerId)).toList());
+        List<Long> friendIds = list.stream().map(f -> f.otherOf(playerId)).toList();
+        Map<Long, PlayerProfile> profiles = profilesOf(friendIds);
+        Set<Long> online = presenceService.onlineAmong(friendIds);
 
-        List<FriendResponse> friends = list.stream()
-                .map(f -> profiles.get(f.otherOf(playerId)))
+        List<FriendResponse> friends = friendIds.stream()
+                .map(profiles::get)
                 .filter(Objects::nonNull)
-                .map(this::toFriendResponse)
-                .sorted(Comparator.comparing(FriendResponse::nickname))
+                .map(p -> toFriendResponse(p, online.contains(p.getPlayerId())))
+                .sorted(Comparator.comparing(FriendResponse::online, Comparator.reverseOrder())
+                        .thenComparing(FriendResponse::nickname))
                 .toList();
         return new FriendListResponse(friends, MAX_FRIENDS);
     }
@@ -188,7 +195,9 @@ public class FriendService {
                 .collect(Collectors.toMap(PlayerProfile::getPlayerId, Function.identity()));
     }
 
-    private FriendResponse toFriendResponse(PlayerProfile p) {
-        return new FriendResponse(p.getPlayerId(), p.getPlayerNickname(), p.getAccountLevel());
+    private FriendResponse toFriendResponse(PlayerProfile p, boolean online) {
+        Long combatPower = rankingRedisRepository.value(RankingRedisRepository.COMBAT_POWER_KEY, p.getPlayerId());
+        return new FriendResponse(p.getPlayerId(), p.getPlayerNickname(), p.getAccountLevel(),
+                combatPower == null ? 0L : combatPower, online);
     }
 }
