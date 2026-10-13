@@ -36,4 +36,8 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
             + "and (f.playerLowId = :playerId or f.playerHighId = :playerId)")
     long countReceivedRequests(@Param("playerId") Long playerId,
                                @Param("status") FriendshipStatus status);
+
+    // 나와 관련된 모든 관계 (검색 결과의 관계 표시용)
+    @Query("select f from Friendship f where f.playerLowId = :playerId or f.playerHighId = :playerId")
+    List<Friendship> findAllOf(@Param("playerId") Long playerId);
 }

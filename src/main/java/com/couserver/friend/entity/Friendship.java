@@ -76,4 +76,12 @@ public class Friendship {
     public Long receiverId() {
         return otherOf(requestedBy);
     }
+
+    // viewerId 입장에서 본 관계
+    public FriendRelation relationOf(Long viewerId) {
+        if (status == FriendshipStatus.ACCEPTED) {
+            return FriendRelation.FRIEND;
+        }
+        return requestedBy.equals(viewerId) ? FriendRelation.REQUEST_SENT : FriendRelation.REQUEST_RECEIVED;
+    }
 }
