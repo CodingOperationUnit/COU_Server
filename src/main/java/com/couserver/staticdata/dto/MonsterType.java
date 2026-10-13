@@ -4,6 +4,7 @@ package com.couserver.staticdata.dto;
 public enum MonsterType {
     NORMAL,
     ELITE,
+    MIDBOSS,
     BOSS,
     BOX
 }

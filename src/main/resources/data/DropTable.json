@@ -29,6 +29,27 @@
       "count": 2
     },
     {
+      "monsterType": "MidBoss",
+      "dropGroup": 0,
+      "dropItemType": "ExpGem3",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "monsterType": "MidBoss",
+      "dropGroup": 1,
+      "dropItemType": "LuckyBox",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "monsterType": "MidBoss",
+      "dropGroup": 2,
+      "dropItemType": "RewardBox",
+      "weight": 1,
+      "count": 3
+    },
+    {
       "monsterType": "Boss",
       "dropGroup": 0,
       "dropItemType": "ExpGem1",

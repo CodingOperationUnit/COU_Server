@@ -101,7 +101,7 @@
       "skillName": "CPU",
       "skillCategory": 0,
       "skillType": "Nearest",
-      "skillCooldown": 1.0,
+      "skillCooldown": 2.0,
       "skillSpeed": 1.0,
       "skillDamage": 1.0,
       "skillRange": 1.0,

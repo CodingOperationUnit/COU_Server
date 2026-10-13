@@ -7,7 +7,7 @@
       "monsterMaxHealthPoint": 10,
       "monsterMoveSpeed": 1.0,
       "monsterContactDamage": 1,
-      "monsterAsset": "Enemy/goblin"
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Yellow"
     },
     {
       "monsterId": 11002,
@@ -16,7 +16,7 @@
       "monsterMaxHealthPoint": 14,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 1,
-      "monsterAsset": "Enemy/slime"
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Honey"
     },
     {
       "monsterId": 11003,
@@ -25,7 +25,7 @@
       "monsterMaxHealthPoint": 20,
       "monsterMoveSpeed": 2.0,
       "monsterContactDamage": 2,
-      "monsterAsset": "Enemy/orange_slime_slime"
+      "monsterAsset": "Enemy/Prefabs/Spider/Spider_Venom"
     },
     {
       "monsterId": 11005,
@@ -34,7 +34,7 @@
       "monsterMaxHealthPoint": 28,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 2,
-      "monsterAsset": "Enemy/slime"
+      "monsterAsset": "Enemy/Prefabs/Spider/Spider_Frozen"
     },
     {
       "monsterId": 11008,
@@ -43,7 +43,7 @@
       "monsterMaxHealthPoint": 44,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 4,
-      "monsterAsset": "Enemy/slime"
+      "monsterAsset": "Enemy/Prefabs/Dragonfly/Dragonfly_Bot"
     },
     {
       "monsterId": 11010,
@@ -52,7 +52,7 @@
       "monsterMaxHealthPoint": 56,
       "monsterMoveSpeed": 2.5,
       "monsterContactDamage": 4,
-      "monsterAsset": "Enemy/goblin_archer"
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Jelly"
     },
     {
       "monsterId": 11012,
@@ -61,7 +61,7 @@
       "monsterMaxHealthPoint": 68,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 5,
-      "monsterAsset": "Enemy/slime"
+      "monsterAsset": "Enemy/Prefabs/Bee/Bee_Devil"
     },
     {
       "monsterId": 11016,
@@ -70,7 +70,7 @@
       "monsterMaxHealthPoint": 98,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 7,
-      "monsterAsset": "Enemy/slime"
+      "monsterAsset": "Enemy/Prefabs/Ghost/Ghost_Mask"
     },
     {
       "monsterId": 12001,
@@ -79,7 +79,7 @@
       "monsterMaxHealthPoint": 40,
       "monsterMoveSpeed": 1.0,
       "monsterContactDamage": 4,
-      "monsterAsset": "Enemy/goblin_green_warrior"
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Honey"
     },
     {
       "monsterId": 12002,
@@ -88,7 +88,7 @@
       "monsterMaxHealthPoint": 50,
       "monsterMoveSpeed": 1.0,
       "monsterContactDamage": 5,
-      "monsterAsset": "Enemy/orange_slime_king"
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Worker"
     },
     {
       "monsterId": 12003,
@@ -97,7 +97,7 @@
       "monsterMaxHealthPoint": 60,
       "monsterMoveSpeed": 2.0,
       "monsterContactDamage": 6,
-      "monsterAsset": "Enemy/skull"
+      "monsterAsset": "Enemy/Prefabs/Spider/Spider_Red"
     },
     {
       "monsterId": 12009,
@@ -106,7 +106,7 @@
       "monsterMaxHealthPoint": 120,
       "monsterMoveSpeed": 2.0,
       "monsterContactDamage": 12,
-      "monsterAsset": "Enemy/skull"
+      "monsterAsset": "Enemy/Prefabs/Dragonfly/Dragonfly_Bot"
     },
     {
       "monsterId": 12012,
@@ -115,7 +115,7 @@
       "monsterMaxHealthPoint": 150,
       "monsterMoveSpeed": 2.0,
       "monsterContactDamage": 15,
-      "monsterAsset": "Enemy/skull"
+      "monsterAsset": "Enemy/Prefabs/Spider/Spider_Frozen"
     },
     {
       "monsterId": 12015,
@@ -124,7 +124,7 @@
       "monsterMaxHealthPoint": 200,
       "monsterMoveSpeed": 2.0,
       "monsterContactDamage": 18,
-      "monsterAsset": "Enemy/skull"
+      "monsterAsset": "Enemy/Prefabs/Bee/Bee_Devil"
     },
     {
       "monsterId": 13001,
@@ -133,7 +133,7 @@
       "monsterMaxHealthPoint": 100,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 10,
-      "monsterAsset": "Enemy/skull_archer"
+      "monsterAsset": "Enemy/Prefabs/Cactus/Cactus_Green"
     },
     {
       "monsterId": 13002,
@@ -142,7 +142,7 @@
       "monsterMaxHealthPoint": 130,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 12,
-      "monsterAsset": "Enemy/skull_warrior"
+      "monsterAsset": "Enemy/Prefabs/Golem/Golem_Tree"
     },
     {
       "monsterId": 13003,
@@ -151,7 +151,7 @@
       "monsterMaxHealthPoint": 165,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 14,
-      "monsterAsset": "Enemy/skull_posion_posion"
+      "monsterAsset": "Enemy/Prefabs/Golem/Golem_Iron"
     },
     {
       "monsterId": 13004,
@@ -160,7 +160,7 @@
       "monsterMaxHealthPoint": 200,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 16,
-      "monsterAsset": "Enemy/skull_archer"
+      "monsterAsset": "Enemy/Prefabs/Cactus/Cactus_Green"
     },
     {
       "monsterId": 13005,
@@ -169,7 +169,7 @@
       "monsterMaxHealthPoint": 240,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 18,
-      "monsterAsset": "Enemy/skull_warrior"
+      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Green"
     },
     {
       "monsterId": 13006,
@@ -178,7 +178,7 @@
       "monsterMaxHealthPoint": 280,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 20,
-      "monsterAsset": "Enemy/skull_posion_posion"
+      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Flower"
     },
     {
       "monsterId": 13007,
@@ -187,7 +187,7 @@
       "monsterMaxHealthPoint": 320,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 22,
-      "monsterAsset": "Enemy/skull_archer"
+      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Flower"
     },
     {
       "monsterId": 13008,
@@ -196,7 +196,7 @@
       "monsterMaxHealthPoint": 360,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 24,
-      "monsterAsset": "Enemy/skull_warrior"
+      "monsterAsset": "Enemy/Prefabs/Scorpion/Scorpion_Purple"
     },
     {
       "monsterId": 13009,
@@ -205,7 +205,7 @@
       "monsterMaxHealthPoint": 400,
       "monsterMoveSpeed": 2.0,
       "monsterContactDamage": 26,
-      "monsterAsset": "Enemy/skull_posion_posion"
+      "monsterAsset": "Enemy/Prefabs/Scorpion/Scorpion_Stone"
     },
     {
       "monsterId": 13010,
@@ -214,7 +214,7 @@
       "monsterMaxHealthPoint": 450,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 28,
-      "monsterAsset": "Enemy/skull_archer"
+      "monsterAsset": "Enemy/Prefabs/Walker/Walker_Stump"
     },
     {
       "monsterId": 13011,
@@ -223,7 +223,7 @@
       "monsterMaxHealthPoint": 500,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 30,
-      "monsterAsset": "Enemy/skull_warrior"
+      "monsterAsset": "Enemy/Prefabs/Walker/Walker_Mushroom"
     },
     {
       "monsterId": 13012,
@@ -232,7 +232,7 @@
       "monsterMaxHealthPoint": 550,
       "monsterMoveSpeed": 2.0,
       "monsterContactDamage": 32,
-      "monsterAsset": "Enemy/skull_posion_posion"
+      "monsterAsset": "Enemy/Prefabs/Walker/Walker_Candle"
     },
     {
       "monsterId": 13013,
@@ -241,7 +241,7 @@
       "monsterMaxHealthPoint": 600,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 34,
-      "monsterAsset": "Enemy/skull_archer"
+      "monsterAsset": "Enemy/Prefabs/Skeleton/Skeleton_Soldier"
     },
     {
       "monsterId": 13014,
@@ -250,7 +250,7 @@
       "monsterMaxHealthPoint": 650,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 36,
-      "monsterAsset": "Enemy/skull_warrior"
+      "monsterAsset": "Enemy/Prefabs/Skeleton/Skeleton_Warrior"
     },
     {
       "monsterId": 13015,
@@ -259,7 +259,7 @@
       "monsterMaxHealthPoint": 700,
       "monsterMoveSpeed": 2.0,
       "monsterContactDamage": 38,
-      "monsterAsset": "Enemy/skull_posion_posion"
+      "monsterAsset": "Enemy/Prefabs/Skeleton/Skeleton_Warlord"
     },
     {
       "monsterId": 14001,
@@ -269,6 +269,15 @@
       "monsterMoveSpeed": 0.0,
       "monsterContactDamage": 0,
       "monsterAsset": "Enemy/box"
+    },
+    {
+      "monsterId": 15001,
+      "monsterName": "중간보스1",
+      "monsterType": "MidBoss",
+      "monsterMaxHealthPoint": 130,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 12,
+      "monsterAsset": "Enemy/Prefabs/Golem/Golem_Tree"
     }
   ]
 }

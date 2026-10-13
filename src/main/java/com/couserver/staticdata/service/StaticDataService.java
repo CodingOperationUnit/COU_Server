@@ -38,7 +38,7 @@ public class StaticDataService {
     private final Map<Integer, List<WaveEntryData>> waves;              // key: waveId
     private final Map<Integer, SpawnPatternData> spawnPatterns;
     private final Map<Integer, MonsterData> monsters;
-    private final Map<Integer, Map<String, Integer>> stageRosters;      // key: stageId → monsterSlot → monsterId
+    private final Map<Integer, Map<String, StageRosterData>> stageRosters; // key: stageId → monsterSlot
     private final Map<MonsterType, List<DropTableEntryData>> dropTables; // key: monsterType
     private final Map<DropItemType, DropItemData> dropItems;            // key: dropItemType
     private final Map<Long, ItemData> items;
@@ -46,6 +46,7 @@ public class StaticDataService {
     private final Map<Long, SkillData> skills;
     private final EvolutionData evolution;
     private final CombatPowerData combatPower;
+    private final Map<Integer, AchievementData> achievements;
 
     public StaticDataService(ObjectMapper objectMapper) throws IOException {
         version = new ClassPathResource("data/version.txt").getContentAsString(StandardCharsets.UTF_8).trim();
@@ -109,7 +110,7 @@ public class StaticDataService {
 
         List<StageRosterData> stageRosterRows = rows(rowMapper, "StageRoster", StageRosterData.class);
         requireIds("StageRoster", stageRosterRows, StageRosterData::stageRosterId);
-        Map<Integer, Map<String, Integer>> rosterMap = new HashMap<>();
+        Map<Integer, Map<String, StageRosterData>> rosterMap = new HashMap<>();
         for (StageRosterData row : stageRosterRows) {
             require(stages.containsKey(row.stageId()),
                     "StageRoster " + row.stageRosterId() + "의 stageId " + row.stageId() + "을(를) Stage에서 찾을 수 없습니다.");
@@ -117,7 +118,9 @@ public class StaticDataService {
                     "StageRoster " + row.stageRosterId() + "의 monsterId " + row.monsterId() + "을(를) Monster에서 찾을 수 없습니다.");
             require(row.monsterHpScale() > 0, "StageRoster " + row.stageRosterId() + "의 monsterHpScale은 0보다 커야 합니다.");
             require(row.monsterDamageScale() > 0, "StageRoster " + row.stageRosterId() + "의 monsterDamageScale은 0보다 커야 합니다.");
-            require(rosterMap.computeIfAbsent(row.stageId(), id -> new HashMap<>()).putIfAbsent(row.monsterSlot(), row.monsterId()) == null,
+            require(row.patternId() == 0 || spawnPatterns.containsKey(row.patternId()),
+                    "StageRoster " + row.stageRosterId() + "의 patternId " + row.patternId() + "을(를) SpawnPattern에서 찾을 수 없습니다.");
+            require(rosterMap.computeIfAbsent(row.stageId(), id -> new HashMap<>()).putIfAbsent(row.monsterSlot(), row) == null,
                     "StageRoster " + row.stageRosterId() + ": Stage " + row.stageId() + "의 monsterSlot " + row.monsterSlot() + "이(가) 중복됩니다.");
         }
         stageRosters = rosterMap.entrySet().stream()
@@ -132,8 +135,9 @@ public class StaticDataService {
                     "MonsterAttack " + row.monsterAttackId() + "의 monsterId " + row.monsterId() + "을(를) Monster에서 찾을 수 없습니다.");
             require(monster.monsterType() != MonsterType.BOX,
                     "MonsterAttack " + row.monsterAttackId() + ": 상자(monsterId " + row.monsterId() + ")는 공격을 가질 수 없습니다.");
-            require(monster.monsterType() == MonsterType.BOSS || row.monsterAttackType() != MonsterAttackType.MELEE,
-                    "MonsterAttack " + row.monsterAttackId() + ": 보스가 아닌 몬스터(monsterId " + row.monsterId() + ")는 MELEE를 쓸 수 없습니다.");
+            require(monster.monsterType() == MonsterType.BOSS || monster.monsterType() == MonsterType.MIDBOSS
+                            || row.monsterAttackType() != MonsterAttackType.MELEE,
+                    "MonsterAttack " + row.monsterAttackId() + ": 보스·중간 보스가 아닌 몬스터(monsterId " + row.monsterId() + ")는 MELEE를 쓸 수 없습니다.");
         }
 
         List<DropTableEntryData> dropTableRows = rows(rowMapper, "DropTable", DropTableEntryData.class);
@@ -190,6 +194,37 @@ public class StaticDataService {
         skills = skillRows.stream()
                 .collect(Collectors.toUnmodifiableMap(SkillData::skillId, Function.identity()));
 
+        List<AchievementData> achievementRows = rows(rowMapper, "Achievement", AchievementData.class);
+        requireIds("Achievement", achievementRows, AchievementData::achievementId);
+        for (AchievementData row : achievementRows) {
+            String name = "Achievement " + row.achievementId();
+            List<Integer> targets = row.targetValue();
+            require(targets != null && !targets.isEmpty(), name + "의 targetValue가 비어 있습니다.");
+            require(row.rewardItemType().size() == targets.size() && row.rewardAmount().size() == targets.size(),
+                    name + ": targetValue, rewardItemType, rewardAmount의 개수가 같아야 합니다.");
+            for (int i = 0; i < targets.size(); i++) {
+                require(targets.get(i) > 0 && (i == 0 || targets.get(i) > targets.get(i - 1)),
+                        name + "의 targetValue는 0보다 크고 단계마다 커져야 합니다.");
+                require(row.rewardAmount().get(i) >= 1, name + "의 rewardAmount는 1 이상이어야 합니다.");
+            }
+            switch (row.achievementConditionType()) {
+                case KILLBYSKILL, UPGRADESKILL -> {
+                    SkillData skill = skills.get((long) row.targetSkillId());
+                    require(skill != null, name + "의 targetSkillId " + row.targetSkillId() + "을(를) Skill에서 찾을 수 없습니다.");
+                    require(skill.skillCategory() == 0, name + "의 targetSkillId는 액티브 스킬이어야 합니다.");
+                    require(row.targetDropItemType() == DropItemType.NONE, name + "의 targetDropItemType은 None이어야 합니다.");
+                }
+                case PICKUPDROPITEM -> {
+                    require(row.targetSkillId() == 0, name + "의 targetSkillId는 0이어야 합니다.");
+                    require(row.targetDropItemType() != DropItemType.NONE, name + "의 targetDropItemType이 필요합니다.");
+                }
+                case GAINBATTLEEXP -> require(row.targetSkillId() == 0 && row.targetDropItemType() == DropItemType.NONE,
+                        name + ": GainBattleExp는 대상이 없어야 합니다.");
+            }
+        }
+        achievements = achievementRows.stream()
+                .collect(Collectors.toUnmodifiableMap(AchievementData::achievementId, Function.identity()));
+
         List<EvolutionData> evolutionRows = rows(rowMapper, "Evolution", EvolutionData.class);
         require(evolutionRows.size() == 1, "Evolution 데이터는 행이 하나여야 합니다.");
         evolution = evolutionRows.getFirst();
@@ -220,7 +255,7 @@ public class StaticDataService {
         for (StageData row : stageRows) {
             require(waves.containsKey(row.waveId()),
                     "Stage " + row.stageId() + "의 waveId " + row.waveId() + "을(를) Wave에서 찾을 수 없습니다.");
-            Map<String, Integer> roster = stageRosters.getOrDefault(row.stageId(), Map.of());
+            Map<String, StageRosterData> roster = stageRosters.getOrDefault(row.stageId(), Map.of());
             for (WaveEntryData entry : waves.get(row.waveId())) {
                 require(roster.containsKey(entry.monsterSlot()),
                         "Stage " + row.stageId() + ": Wave " + entry.waveEntryId() + "의 monsterSlot " + entry.monsterSlot() + "을(를) StageRoster에서 찾을 수 없습니다.");
