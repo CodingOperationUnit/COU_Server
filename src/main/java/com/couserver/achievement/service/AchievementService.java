@@ -4,6 +4,7 @@ import com.couserver.account.dto.CurrencyResponse;
 import com.couserver.account.entity.Currency;
 import com.couserver.account.repository.CurrencyRepository;
 import com.couserver.achievement.dto.AchievementClaimResponse;
+import com.couserver.achievement.dto.BattleAchievementProgress;
 import com.couserver.achievement.dto.PlayerAchievementResponse;
 import com.couserver.achievement.entity.PlayerAchievement;
 import com.couserver.achievement.exception.AchievementErrorCode;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -72,5 +74,39 @@ public class AchievementService {
         return new AchievementClaimResponse(
                 new CurrencyResponse(currency),
                 new PlayerAchievementResponse(data, achievement));
+    }
+
+    // 전투 결과 트랜잭션 안에서 호출된다. 조건이 맞는 업적에 진행값을 더하고, 기록이 없으면 새로 만든다
+    @Transactional
+    public void addBattleProgress(Long playerId, BattleAchievementProgress battle) {
+        Map<Integer, PlayerAchievement> saved = playerAchievementRepository.findByPlayerId(playerId).stream()
+                .collect(Collectors.toMap(PlayerAchievement::getAchievementId, Function.identity()));
+
+        List<PlayerAchievement> created = new ArrayList<>();
+        for (AchievementData data : staticDataService.getAchievements().values()) {
+            long amount = progressOf(data, battle);
+            if (amount <= 0) {
+                continue;
+            }
+
+            PlayerAchievement achievement = saved.get(data.achievementId());
+            if (achievement == null) {
+                achievement = new PlayerAchievement(playerId, data.achievementId());
+                created.add(achievement);
+            }
+            achievement.addProgress(amount); // 기존 행은 변경 감지로 UPDATE
+        }
+        playerAchievementRepository.saveAll(created);
+    }
+
+    private static long progressOf(AchievementData data, BattleAchievementProgress battle) {
+        return switch (data.achievementConditionType()) {
+            case KILLBYSKILL -> battle.getSkillKills().getOrDefault(data.targetSkillId(), 0);
+            case PICKUPDROPITEM -> battle.getPickups().getOrDefault(data.targetDropItemType(), 0);
+            case UPGRADESKILL -> data.targetSkillId() == 0
+                    ? battle.totalSkillUpgrades()
+                    : battle.getSkillUpgrades().getOrDefault(data.targetSkillId(), 0);
+            case GAINBATTLEEXP -> battle.getBattleExp();
+        };
     }
 }

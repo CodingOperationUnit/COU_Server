@@ -9,6 +9,8 @@ import com.couserver.account.entity.StageProgress;
 import com.couserver.account.repository.CurrencyRepository;
 import com.couserver.account.repository.PlayerProfileRepository;
 import com.couserver.account.repository.StageProgressRepository;
+import com.couserver.achievement.dto.BattleAchievementProgress;
+import com.couserver.achievement.service.AchievementService;
 import com.couserver.battle.dto.BattleEnterResponse;
 import com.couserver.battle.dto.BattleResultRequest;
 import com.couserver.battle.dto.BattleResultResponse;
@@ -47,11 +49,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
@@ -63,6 +61,7 @@ public class BattleService {
     private static final int SECONDS_TOLERANCE = 5;           // 입장과 결과를 다른 서버가 받을 때의 시계 차이 허용(초)
     private static final double MIN_SPAWN_INTERVAL = 0.1;     // 클라이언트 WaveManager.minRepeatInterval
     private static final int LUCK_TRAIN_MAX_PICKS = 5;        // 행운열차 한 번의 최대 당첨 칸 수 (PlayerLuckTrain)
+    private static final int SKILL_MAX_LEVEL_UPS = 4;         // 클라이언트 SkillBase.MaxLevel(5)
     private static final Set<DropItemType> GOLD_TYPES =
             EnumSet.of(DropItemType.GOLD1, DropItemType.GOLD2, DropItemType.GOLD3, DropItemType.GOLD4);
 
@@ -75,12 +74,13 @@ public class BattleService {
     private final CurrencyRepository currencyRepository;
     private final StageProgressRepository stageProgressRepository;
     private final EquipmentRepository equipmentRepository;
+    private final AchievementService achievementService;
 
     private Map<Integer, StageLimit> stageLimits;           // key: stageId
     private Map<ItemGrade, List<ItemData>> itemsByGrade;    // 보상상자 장비 후보
 
     // 스테이지 한 판에서 클라이언트가 보낼 수 있는 값의 상한
-    private record StageLimit(int kills, int gold, int rewardBoxes) {
+    private record StageLimit(int kills, int gold, int rewardBoxes, Map<DropItemType, Integer> pickups) {
     }
 
     @PostConstruct
@@ -152,6 +152,9 @@ public class BattleService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "플레이어 데이터가 없습니다."));
         profile.gainExp(exp, accountConst);
         currency.addGold(gold);
+
+        // 업적 진행 누적 (같은 트랜잭션)
+        achievementService.addBattleProgress(playerId, buildAchievementProgress(battleId, request, kills, limit, exp));
 
         StageProgress progress = getStageProgress(playerId);
         progress.recordBattle(stageId, request.victory());
@@ -230,6 +233,7 @@ public class BattleService {
         int gold = 0;
         int rewardBoxes = 0;
         int luckyBoxes = 0;
+        Map<DropItemType, Integer> pickups = new EnumMap<>(DropItemType.class);
 
         Map<String, StageRosterData> roster = staticDataService.getStageRosters().get(stage.stageId());
         for (WaveEntryData entry : staticDataService.getWaves().get(stage.waveId())) {
@@ -248,11 +252,16 @@ public class BattleService {
             gold += spawns * maxDrop(dropTable, this::goldOf);
             rewardBoxes += spawns * maxDrop(dropTable, row -> countOf(row, DropItemType.REWARDBOX));
             luckyBoxes += spawns * maxDrop(dropTable, row -> countOf(row, DropItemType.LUCKYBOX));
+
+            // 업적 '아이템 획득' 상한: 종류별로 가장 많이 나오는 경우
+            for (DropItemType type : DropItemType.values()) {
+                pickups.merge(type, spawns * maxDrop(dropTable, row -> countOf(row, type)), Integer::sum);
+            }
         }
 
         // 행운상자 하나마다 행운열차 한 번: goldMax × 당첨 칸 수
         gold += luckyBoxes * staticDataService.getAccountConst().luckTrainGoldMax() * LUCK_TRAIN_MAX_PICKS;
-        return new StageLimit(kills, gold, rewardBoxes);
+        return new StageLimit(kills, gold, rewardBoxes, Map.copyOf(pickups));
     }
 
     // WaveManager와 같은 규칙: patternDuration이 0이면 한 번, 아니면 [시작, 시작 + patternDuration) 동안 간격마다 스폰한다.
@@ -300,5 +309,69 @@ public class BattleService {
     private StageProgress getStageProgress(Long playerId) {
         return stageProgressRepository.findById(playerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "스테이지 데이터가 없습니다."));
+    }
+
+    // 업적 집계 검증: 모르는 스킬/아이템은 버리고, 스킬 처치는 인정된 총 처치 수까지, 레벨업·획득은 상한까지만 인정한다
+    private BattleAchievementProgress buildAchievementProgress(
+            Long battleId, BattleResultRequest request, int kills, StageLimit limit, int exp) {
+
+        Map<Integer, Integer> skillKills = new HashMap<>();
+        int remainingKills = kills;
+        for (Map.Entry<Integer, Integer> entry : nullToEmpty(request.skillKills()).entrySet()) {
+            if (!isKnownSkill(entry.getKey()) || entry.getValue() == null || entry.getValue() <= 0) {
+                continue;
+            }
+            int count = Math.min(entry.getValue(), remainingKills);
+            if (count < entry.getValue()) {
+                log.warn("전투 {}의 스킬 {} 처치 수 {}이(가) 남은 처치 수를 넘어 {}로 처리합니다.",
+                        battleId, entry.getKey(), entry.getValue(), count);
+            }
+            if (count > 0) {
+                skillKills.put(entry.getKey(), count);
+                remainingKills -= count;
+            }
+        }
+
+        Map<Integer, Integer> skillUpgrades = new HashMap<>();
+        for (Map.Entry<Integer, Integer> entry : nullToEmpty(request.skillUpgrades()).entrySet()) {
+            if (!isKnownSkill(entry.getKey()) || entry.getValue() == null || entry.getValue() <= 0) {
+                continue;
+            }
+            skillUpgrades.put(entry.getKey(),
+                    clamp(battleId, "skillUpgrades." + entry.getKey(), entry.getValue(), SKILL_MAX_LEVEL_UPS));
+        }
+
+        Map<DropItemType, Integer> pickups = new EnumMap<>(DropItemType.class);
+        for (Map.Entry<String, Integer> entry : nullToEmpty(request.pickups()).entrySet()) {
+            DropItemType type = parseDropItemType(entry.getKey());
+            if (type == null || entry.getValue() == null || entry.getValue() <= 0) {
+                continue;
+            }
+            pickups.merge(type,
+                    clamp(battleId, "pickups." + type, entry.getValue(), limit.pickups().getOrDefault(type, 0)),
+                    Integer::sum);
+        }
+
+        return new BattleAchievementProgress(skillKills, skillUpgrades, pickups, exp);
+    }
+
+    private boolean isKnownSkill(Integer skillId) {
+        return skillId != null && staticDataService.getSkills().containsKey(skillId.longValue());
+    }
+
+    // 클라이언트는 "Bomb"(설정에 따라 "bomb")으로 보내므로 대문자로 맞춘다
+    private static DropItemType parseDropItemType(String name) {
+        if (name == null) {
+            return null;
+        }
+        try {
+            return DropItemType.valueOf(name.toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    private static <K> Map<K, Integer> nullToEmpty(Map<K, Integer> map) {
+        return map == null ? Map.of() : map;
     }
 }
