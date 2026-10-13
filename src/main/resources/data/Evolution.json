@@ -15,7 +15,8 @@
       ],
       "evolutionBaseCost": 500,
       "evolutionCostPerStep": 100,
-      "evolutionMaxStep": 0
+      "evolutionMaxStep": 0,
+      "evolutionStepsPerLevel": 4
     }
   ]
 }
