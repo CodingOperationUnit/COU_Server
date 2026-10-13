@@ -240,6 +240,7 @@ public class StaticDataService {
         require(evolution.evolutionBaseCost() >= 0, "Evolution의 evolutionBaseCost는 0 이상이어야 합니다.");
         require(evolution.evolutionCostPerStep() >= 0, "Evolution의 evolutionCostPerStep은 0 이상이어야 합니다.");
         require(evolution.evolutionMaxStep() >= 0, "Evolution의 evolutionMaxStep은 0 이상이어야 합니다.");
+        require(evolution.evolutionStepsPerLevel() >= 1, "Evolution의 evolutionStepsPerLevel은 1 이상이어야 합니다.");
 
         List<CombatPowerData> combatPowerRows = rows(rowMapper, "CombatPower", CombatPowerData.class);
         require(combatPowerRows.size() == 1, "CombatPower 데이터는 행이 하나여야 합니다.");
