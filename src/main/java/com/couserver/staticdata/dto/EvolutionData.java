@@ -9,11 +9,9 @@ public record EvolutionData (
         List<Integer> evolutionIncreasePerLevel,
         int evolutionBaseCost,
         int evolutionCostPerStep,
-        int evolutionMaxStep
+        int evolutionMaxStep,
+        int evolutionStepsPerLevel
 ){
-    // TODO: 시트로 옮기면 이 상수 대신 시트 값을 사용
-    public static final int STEPS_PER_ACCOUNT_LEVEL = 4;
-
     public PlayerStatType statAt(int step){
         return evolutionStatOrder.get(step % evolutionStatOrder.size());
     }
@@ -30,9 +28,9 @@ public record EvolutionData (
         return evolutionMaxStep > 0 && step >= evolutionMaxStep;
     }
 
-    // 계정 레벨로 진화할 수 있는 단계 상한 (레벨 1 → 4단계, 레벨 2 → 8단계)
+    // 계정 레벨로 진화할 수 있는 단계 상한 (계정 레벨 × evolutionStepsPerLevel)
     public int levelStepLimit(int accountLevel) {
-        return accountLevel * STEPS_PER_ACCOUNT_LEVEL;
+        return accountLevel * evolutionStepsPerLevel;
     }
 
     // 계정 레벨이 부족해서 더 진화할 수 없는 단계인지
