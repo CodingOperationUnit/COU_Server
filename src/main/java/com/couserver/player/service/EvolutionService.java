@@ -9,9 +9,11 @@ import com.couserver.player.entity.PlayerStat;
 import com.couserver.player.entity.PlayerStatType;
 import com.couserver.player.exception.PlayerErrorCode;
 import com.couserver.player.repository.PlayerStatRepository;
+import com.couserver.ranking.event.RankingChangedEvent;
 import com.couserver.staticdata.dto.EvolutionData;
 import com.couserver.staticdata.service.StaticDataService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,7 @@ public class EvolutionService {
     private final PlayerStatRepository playerStatRepository;
     private final CurrencyRepository currencyRepository;     // 계정 담당 (잠금 조회·골드 차감에 사용)
     private final StaticDataService staticDataService;
+    private final ApplicationEventPublisher eventPublisher;
 
     // 진화 1단계: 정해진 순서(공격력 → 체력 → 방어력 → 포션 회복량)의 다음 능력치 레벨을 1 올린다
     // TODO: 동시 요청 대비 락 — 비용이 생기면 추가 (지금은 비용 0이라 중복 처리돼도 손해 없음)
@@ -48,6 +51,7 @@ public class EvolutionService {
         currency.spendGold(cost);
         PlayerStatType upgraded = evolution.statAt(step);
         stat.increaseLevel(upgraded);
+        eventPublisher.publishEvent(new RankingChangedEvent(playerId));   // 진화 스탯이 올라 전투력이 달라진다
 
         return EvolutionUpgradeResponse.of(
                 upgraded, evolution.statAt(step + 1), stat, cost, new CurrencyResponse(currency));

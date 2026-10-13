@@ -11,9 +11,11 @@ import com.couserver.account.repository.StageProgressRepository;
 import com.couserver.battle.dto.StageRecordResponse;
 import com.couserver.battle.repository.StageRecordRepository;
 import com.couserver.player.entity.PlayerStat;
+import com.couserver.ranking.event.RankingChangedEvent;
 import com.couserver.staticdata.dto.AccountConstData;
 import com.couserver.staticdata.service.StaticDataService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,7 @@ public class PlayerService {
     private final PlayerStatRepository playerStatRepository;
     private final StageRecordRepository stageRecordRepository;
     private final StaticDataService staticDataService;
+    private final ApplicationEventPublisher eventPublisher;
     private final Clock clock;
 
     @Transactional
@@ -44,6 +47,8 @@ public class PlayerService {
                 accountConst.initialStamina(), Instant.now(clock)));
         stageProgressRepository.save(new StageProgress(playerId, staticDataService.getFirstStageId()));
         playerStatRepository.save(new PlayerStat(playerId));
+        // 랭킹값 변경알림(Redis에 갱신)
+        eventPublisher.publishEvent(new RankingChangedEvent(playerId));
     }
 
     @Transactional(readOnly = true)
@@ -114,8 +119,11 @@ public class PlayerService {
                 statRequest.getPlayerStatHpLevel(),
                 statRequest.getPlayerStatDefenseLevel());
 
+        // 랭킹값 변경알림(Redis에 갱신)
+        eventPublisher.publishEvent(new RankingChangedEvent(playerId));
         // 4) 저장된 결과를 S1과 같은 모양으로 돌려줌
         return loadSave(playerId);
+
     }
 
     private Currency getCurrency(Long playerId) {

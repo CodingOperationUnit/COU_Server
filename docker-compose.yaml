@@ -11,6 +11,10 @@ services:
       - "${DB_PORT:-3306}:3306"       # 포트가 겹치는 팀원은 .env에서 변경
     volumes:
       - cou-mysql-data:/var/lib/mysql # 컨테이너를 지워도 데이터 유지
-
+  redis:
+    image: redis:7.4                  # 버전 고정
+    container_name: cou-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"    # 포트가 겹치는 팀원은 .env에서 변경
 volumes:
   cou-mysql-data:

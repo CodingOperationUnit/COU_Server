@@ -1,24 +1,7 @@
 package com.couserver.staticdata.service;
 
-import com.couserver.staticdata.dto.AccountConstData;
-import com.couserver.staticdata.dto.DropItemData;
-import com.couserver.staticdata.dto.DropItemType;
-import com.couserver.staticdata.dto.DropTableEntryData;
-import com.couserver.staticdata.dto.ItemData;
-import com.couserver.staticdata.dto.MonsterAttackData;
-import com.couserver.staticdata.dto.MonsterAttackType;
-import com.couserver.staticdata.dto.MonsterData;
-import com.couserver.staticdata.dto.MonsterType;
-import com.couserver.staticdata.dto.PlayerBaseStatData;
-import com.couserver.staticdata.dto.SkillData;
-import com.couserver.staticdata.dto.SpawnPatternData;
-import com.couserver.staticdata.dto.StageData;
-import com.couserver.staticdata.dto.StageRosterData;
-import com.couserver.staticdata.dto.WaveEntryData;
-import com.couserver.staticdata.dto.ProductType;
-import com.couserver.staticdata.dto.ShopProductData;
+import com.couserver.staticdata.dto.*;
 import com.couserver.player.entity.PlayerStatType;
-import com.couserver.staticdata.dto.EvolutionData;
 import lombok.Getter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -62,6 +45,8 @@ public class StaticDataService {
     private final Map<Integer, ShopProductData> shopProducts;
     private final Map<Long, SkillData> skills;
     private final EvolutionData evolution;
+    private final CombatPowerData combatPower;
+    private final Map<Integer, AchievementData> achievements;
 
     public StaticDataService(ObjectMapper objectMapper) throws IOException {
         version = new ClassPathResource("data/version.txt").getContentAsString(StandardCharsets.UTF_8).trim();
@@ -206,6 +191,37 @@ public class StaticDataService {
         skills = skillRows.stream()
                 .collect(Collectors.toUnmodifiableMap(SkillData::skillId, Function.identity()));
 
+        List<AchievementData> achievementRows = rows(rowMapper, "Achievement", AchievementData.class);
+        requireIds("Achievement", achievementRows, AchievementData::achievementId);
+        for (AchievementData row : achievementRows) {
+            String name = "Achievement " + row.achievementId();
+            List<Integer> targets = row.targetValue();
+            require(targets != null && !targets.isEmpty(), name + "의 targetValue가 비어 있습니다.");
+            require(row.rewardItemType().size() == targets.size() && row.rewardAmount().size() == targets.size(),
+                    name + ": targetValue, rewardItemType, rewardAmount의 개수가 같아야 합니다.");
+            for (int i = 0; i < targets.size(); i++) {
+                require(targets.get(i) > 0 && (i == 0 || targets.get(i) > targets.get(i - 1)),
+                        name + "의 targetValue는 0보다 크고 단계마다 커져야 합니다.");
+                require(row.rewardAmount().get(i) >= 1, name + "의 rewardAmount는 1 이상이어야 합니다.");
+            }
+            switch (row.achievementConditionType()) {
+                case KILLBYSKILL, UPGRADESKILL -> {
+                    SkillData skill = skills.get((long) row.targetSkillId());
+                    require(skill != null, name + "의 targetSkillId " + row.targetSkillId() + "을(를) Skill에서 찾을 수 없습니다.");
+                    require(skill.skillCategory() == 0, name + "의 targetSkillId는 액티브 스킬이어야 합니다.");
+                    require(row.targetDropItemType() == DropItemType.NONE, name + "의 targetDropItemType은 None이어야 합니다.");
+                }
+                case PICKUPDROPITEM -> {
+                    require(row.targetSkillId() == 0, name + "의 targetSkillId는 0이어야 합니다.");
+                    require(row.targetDropItemType() != DropItemType.NONE, name + "의 targetDropItemType이 필요합니다.");
+                }
+                case GAINBATTLEEXP -> require(row.targetSkillId() == 0 && row.targetDropItemType() == DropItemType.NONE,
+                        name + ": GainBattleExp는 대상이 없어야 합니다.");
+            }
+        }
+        achievements = achievementRows.stream()
+                .collect(Collectors.toUnmodifiableMap(AchievementData::achievementId, Function.identity()));
+
         List<EvolutionData> evolutionRows = rows(rowMapper, "Evolution", EvolutionData.class);
         require(evolutionRows.size() == 1, "Evolution 데이터는 행이 하나여야 합니다.");
         evolution = evolutionRows.getFirst();
@@ -221,6 +237,17 @@ public class StaticDataService {
         require(evolution.evolutionBaseCost() >= 0, "Evolution의 evolutionBaseCost는 0 이상이어야 합니다.");
         require(evolution.evolutionCostPerStep() >= 0, "Evolution의 evolutionCostPerStep은 0 이상이어야 합니다.");
         require(evolution.evolutionMaxStep() >= 0, "Evolution의 evolutionMaxStep은 0 이상이어야 합니다.");
+
+        List<CombatPowerData> combatPowerRows = rows(rowMapper, "CombatPower", CombatPowerData.class);
+        require(combatPowerRows.size() == 1, "CombatPower 데이터는 행이 하나여야 합니다.");
+        combatPower = combatPowerRows.getFirst();
+        require(combatPower.combatPowerAttackWeight() >= 0
+                        && combatPower.combatPowerHpWeight() >= 0
+                        && combatPower.combatPowerDefenseWeight() >= 0,
+                "CombatPower의 가중치는 0 이상이어야 합니다.");
+        // 치명타 반영 규칙(소수 계산 방식)이 정해지기 전까지는 켤 수 없다
+        require(!combatPower.combatPowerUseCritical(),
+                "CombatPower의 combatPowerUseCritical은 아직 지원하지 않습니다. false로 두세요.");
 
         for (StageData row : stageRows) {
             require(waves.containsKey(row.waveId()),
