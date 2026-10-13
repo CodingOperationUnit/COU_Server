@@ -2,7 +2,9 @@ package com.couserver.player.service;
 
 import com.couserver.account.dto.CurrencyResponse;
 import com.couserver.account.entity.Currency;
+import com.couserver.account.entity.PlayerProfile;
 import com.couserver.account.repository.CurrencyRepository;
+import com.couserver.account.repository.PlayerProfileRepository;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.player.dto.EvolutionUpgradeResponse;
 import com.couserver.player.entity.PlayerStat;
@@ -22,11 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class EvolutionService {
     private final PlayerStatRepository playerStatRepository;
     private final CurrencyRepository currencyRepository;     // 계정 담당 (잠금 조회·골드 차감에 사용)
+    private final PlayerProfileRepository playerProfileRepository;
     private final StaticDataService staticDataService;
     private final ApplicationEventPublisher eventPublisher;
 
-    // 진화 1단계: 정해진 순서(공격력 → 체력 → 방어력 → 포션 회복량)의 다음 능력치 레벨을 1 올린다
-    // TODO: 동시 요청 대비 락 — 비용이 생기면 추가 (지금은 비용 0이라 중복 처리돼도 손해 없음)
+    // 진화 1단계: 시트의 진화 순서에 따라 다음 스탯의 레벨을 1 올리고, 그 비용만큼 골드를 차감한다
+    // 검사 순서: 최대 단계 → 계정 레벨 제한 → 골드 (최대 단계에 도달했으면 레벨을 올려도 소용없으므로 먼저 알린다)
     @Transactional
     public EvolutionUpgradeResponse upgrade(Long playerId){
         // 재화 행을 먼저 잠근다. 같은 플레이어의 진화·강화·전투 요청이 차례대로 처리되어 골드가 이중으로 빠지지 않는다
@@ -34,12 +37,17 @@ public class EvolutionService {
                 .orElseThrow(() -> new BusinessException(PlayerErrorCode.CURRENCY_NOT_FOUND));
         PlayerStat stat = playerStatRepository.findById(playerId)
                 .orElseThrow(() -> new BusinessException(PlayerErrorCode.PLAYER_STAT_NOT_FOUND));
+        PlayerProfile profile = playerProfileRepository.findById(playerId)
+                .orElseThrow(() -> new BusinessException(PlayerErrorCode.PLAYER_PROFILE_NOT_FOUND));
 
         EvolutionData evolution = staticDataService.getEvolution();
         int step = stat.getEvolutionStep();   // 진화 전 단계 (지금까지 진화한 횟수)
 
         if (evolution.isMaxStep(step)) {
             throw new BusinessException(PlayerErrorCode.EVOLUTION_MAX_STEP_REACHED);
+        }
+        if (evolution.isLevelLocked(step, profile.getAccountLevel())) {
+            throw new BusinessException(PlayerErrorCode.EVOLUTION_LEVEL_LOCKED);
         }
 
         int cost = evolution.costAt(step);
