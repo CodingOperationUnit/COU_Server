@@ -32,6 +32,7 @@ import com.couserver.staticdata.dto.ItemData;
 import com.couserver.staticdata.dto.MonsterType;
 import com.couserver.staticdata.dto.SpawnPatternData;
 import com.couserver.staticdata.dto.StageData;
+import com.couserver.staticdata.dto.StageRosterData;
 import com.couserver.staticdata.dto.WaveEntryData;
 import com.couserver.staticdata.service.StaticDataService;
 import jakarta.annotation.PostConstruct;
@@ -230,10 +231,12 @@ public class BattleService {
         int rewardBoxes = 0;
         int luckyBoxes = 0;
 
-        Map<String, Integer> roster = staticDataService.getStageRosters().get(stage.stageId());
+        Map<String, StageRosterData> roster = staticDataService.getStageRosters().get(stage.stageId());
         for (WaveEntryData entry : staticDataService.getWaves().get(stage.waveId())) {
-            SpawnPatternData pattern = staticDataService.getSpawnPatterns().get(entry.patternId());
-            MonsterType monsterType = staticDataService.getMonsters().get(roster.get(entry.monsterSlot())).monsterType();
+            StageRosterData rosterRow = roster.get(entry.monsterSlot());
+            int patternId = rosterRow.patternId() > 0 ? rosterRow.patternId() : entry.patternId();
+            SpawnPatternData pattern = staticDataService.getSpawnPatterns().get(patternId);
+            MonsterType monsterType = staticDataService.getMonsters().get(rosterRow.monsterId()).monsterType();
             int spawns = maxSpawnCount(entry, pattern);
 
             // 상자는 킬 수에 들어가지 않는다 (클라이언트 Box.GiveReward)

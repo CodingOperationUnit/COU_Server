@@ -35,7 +35,7 @@
 |---|---|---|
 | AccountConst | `AccountConstData` (행 1개) | initialGold, initialGem, initialStamina, maxStamina, accountBaseRequiredExp, accountRequiredExpIncrement, maxAccountLevel, battleStaminaCost, staminaRecoverySeconds, accountExpPerKill, accountExpPerSecond, luckTrainGoldMax |
 | Stage | `StageData` | stageId, waveId, clearAccountExp, rewardBoxGradeWeights |
-| StageRoster | `StageRosterData` | stageRosterId, stageId, monsterSlot, monsterId, monsterHpScale, monsterDamageScale |
+| StageRoster | `StageRosterData` | stageRosterId, stageId, monsterSlot, monsterId, monsterHpScale, monsterDamageScale, patternId |
 | Wave | `WaveEntryData` | waveEntryId, waveId, patternStartTime, patternDuration, spawnInterval, patternId, monsterSlot |
 | SpawnPattern | `SpawnPatternData` | patternId, spawnCount |
 | Monster | `MonsterData` | monsterId, monsterType |
@@ -138,7 +138,7 @@ flowchart TD
 | `getWaves()` | `Map<Integer, List<WaveEntryData>>` | waveId |
 | `getSpawnPatterns()` | `Map<Integer, SpawnPatternData>` | patternId |
 | `getMonsters()` | `Map<Integer, MonsterData>` | monsterId |
-| `getStageRosters()` | `Map<Integer, Map<String, Integer>>` | stageId → monsterSlot → monsterId |
+| `getStageRosters()` | `Map<Integer, Map<String, StageRosterData>>` | stageId → monsterSlot |
 | `getDropTables()` | `Map<MonsterType, List<DropTableEntryData>>` | monsterType |
 | `getDropItems()` | `Map<DropItemType, DropItemData>` | dropItemType |
 | `getItems()` | `Map<Long, ItemData>` | itemId |
@@ -218,11 +218,11 @@ public class BattleService {
 | AccountConst, PlayerBaseStat | 행이 정확히 1개 |
 | Stage, StageRoster, Wave, SpawnPattern, Monster, MonsterAttack, DropItem, Item, Shop, Skill | ID가 1 이상이고 중복 없음 |
 | Stage | waveId가 Wave에 있음, 그 웨이브의 monsterSlot이 모두 이 스테이지의 StageRoster에 있음 |
-| StageRoster | stageId가 Stage에, monsterId가 Monster에 있음, 같은 stageId 안에서 monsterSlot 중복 없음, monsterHpScale > 0, monsterDamageScale > 0 |
+| StageRoster | stageId가 Stage에, monsterId가 Monster에 있음, 같은 stageId 안에서 monsterSlot 중복 없음, monsterHpScale > 0, monsterDamageScale > 0, patternId가 0이거나 SpawnPattern에 있음 |
 | Wave | patternId가 SpawnPattern에 있음, patternStartTime ≥ 0, patternDuration ≥ 0, patternDuration > 0(반복 행)이면 spawnInterval > 0 |
 | SpawnPattern | spawnCount ≥ 1 |
-| MonsterAttack | monsterId가 Monster에 있음, 그 몬스터의 monsterType이 BOX가 아님, BOSS가 아니면 monsterAttackType이 MELEE가 아님 |
-| DropTable | dropGroup ≥ 0, weight ≥ 1, count ≥ 1, 모든 monsterType(Normal, Elite, Boss, Box)에 행이 있음 |
+| MonsterAttack | monsterId가 Monster에 있음, 그 몬스터의 monsterType이 BOX가 아님, BOSS·MIDBOSS가 아니면 monsterAttackType이 MELEE가 아님 |
+| DropTable | dropGroup ≥ 0, weight ≥ 1, count ≥ 1, 모든 monsterType(Normal, Elite, MidBoss, Boss, Box)에 행이 있음 |
 | DropItem | dropItemType이 None이 아님 |
 | Shop | priceGem ≥ 0, RANDOMITEM이면 minGrade ≤ maxGrade이고 그 등급 범위의 Item이 있음, 그 밖에는 rewardAmount ≥ 1 |
 | Skill | skillCategory가 0 또는 1 |
@@ -232,6 +232,9 @@ public class BattleService {
 - **데이터를 바꿨는데 클라이언트에 반영되지 않는다.** `version.txt`를 올렸는지 확인한다. 버전이 같으면 클라이언트는 204를 받는다.
 - **시트의 enum 값 대소문자는?** 구분하지 않는다. 시트의 `Armor`는 서버에서 `ARMOR`로 읽힌다.
 - **스테이지를 추가하려면?** Stage 1행과, 그 스테이지가 쓰는 웨이브의 슬롯 수만큼 StageRoster 행을 넣는다. 웨이브와 Monster는 재사용한다. 웨이브가 쓰는 슬롯이 로스터에 하나라도 없으면 서버가 시작하지 않는다.
+  - 슬롯 이름: 일반 `N1`…, 엘리트 `E1`…, 중간 보스 `M1`…, 보스 `B1`…, 상자 `BOX`.
+  - 특색 패턴: StageRoster의 patternId를 0보다 크게 두면 그 슬롯을 쓰는 웨이브 행 모두가 웨이브의 patternId 대신 이 패턴을 쓴다. 0이면 웨이브 값이다. 시각과 반복은 웨이브가 정하고, 모양·마릿수·이동(movement)은 패턴이 정한다. 같은 몬스터라도 특색 구간은 전용 슬롯을 쓴다.
+  - 돌진: movement가 `Charge`인 패턴은 Random·Ring·Line·Cluster 형태에만 쓴다. 돌진 거리가 스폰 거리에 비례하므로 Screen이면 플레이어 근처에 나온 몬스터가 바로 사라진다. 서버는 검사하지 않는다.
 - **클라이언트 전용 열을 추가해도 되나?** 된다. 서버는 무시하고 응답에는 그대로 넣는다. 반대로 서버가 읽는 열이 빠지면 서버가 시작하지 않는다.
 - **AccountConst의 battleStaminaCost:** 시트 AccountConst 탭에 이 열이 없다면 내보내기 전에 추가한다. 열이 없는 JSON으로는 서버가 시작하지 않는다.
 - **AccountConst의 staminaRecoverySeconds, accountExpPerKill, accountExpPerSecond, luckTrainGoldMax:** 전투 API(`Battle.md`)용으로 서버 JSON에만 임시로 넣었다. dev 머지 때 시트에 열을 추가한 뒤 내보낸다.
