@@ -549,6 +549,28 @@
       "monsterAttackCount": 0,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
+    },
+    {
+      "monsterAttackId": 150011,
+      "monsterId": 15001,
+      "monsterAttackType": "Melee",
+      "monsterAttackCooldown": 5.0,
+      "monsterAttackTriggerRange": 5.0,
+      "monsterAttackDamage": 18,
+      "monsterAttackCount": 0,
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
+    },
+    {
+      "monsterAttackId": 150012,
+      "monsterId": 15001,
+      "monsterAttackType": "Area",
+      "monsterAttackCooldown": 7.0,
+      "monsterAttackTriggerRange": 6.0,
+      "monsterAttackDamage": 18,
+      "monsterAttackCount": 1,
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
     }
   ]
 }

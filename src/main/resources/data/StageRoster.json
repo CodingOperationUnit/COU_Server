@@ -6,47 +6,89 @@
       "monsterSlot": "N1",
       "monsterId": 11001,
       "monsterHpScale": 1.0,
-      "monsterDamageScale": 1.0
+      "monsterDamageScale": 1.0,
+      "patternId": 0
     },
     {
       "stageRosterId": 2,
       "stageId": 1,
       "monsterSlot": "N2",
-      "monsterId": 11002,
-      "monsterHpScale": 1.0,
-      "monsterDamageScale": 1.0
+      "monsterId": 11008,
+      "monsterHpScale": 0.5,
+      "monsterDamageScale": 0.5,
+      "patternId": 0
     },
     {
       "stageRosterId": 3,
       "stageId": 1,
-      "monsterSlot": "E1",
-      "monsterId": 12001,
+      "monsterSlot": "N3",
+      "monsterId": 11001,
       "monsterHpScale": 1.0,
-      "monsterDamageScale": 1.0
+      "monsterDamageScale": 1.0,
+      "patternId": 0
     },
     {
       "stageRosterId": 4,
       "stageId": 1,
-      "monsterSlot": "E2",
-      "monsterId": 12002,
+      "monsterSlot": "N4",
+      "monsterId": 11003,
       "monsterHpScale": 1.0,
-      "monsterDamageScale": 1.0
+      "monsterDamageScale": 1.0,
+      "patternId": 0
     },
     {
       "stageRosterId": 5,
       "stageId": 1,
-      "monsterSlot": "B1",
-      "monsterId": 13001,
+      "monsterSlot": "N5",
+      "monsterId": 11010,
       "monsterHpScale": 1.0,
-      "monsterDamageScale": 1.0
+      "monsterDamageScale": 1.0,
+      "patternId": 0
     },
     {
       "stageRosterId": 6,
       "stageId": 1,
+      "monsterSlot": "E1",
+      "monsterId": 12001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 7,
+      "stageId": 1,
+      "monsterSlot": "E2",
+      "monsterId": 12002,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 8,
+      "stageId": 1,
+      "monsterSlot": "M1",
+      "monsterId": 15001,
+      "monsterHpScale": 0.6,
+      "monsterDamageScale": 0.6,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 9,
+      "stageId": 1,
+      "monsterSlot": "B1",
+      "monsterId": 13001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 10,
+      "stageId": 1,
       "monsterSlot": "BOX",
       "monsterId": 14001,
       "monsterHpScale": 1.0,
-      "monsterDamageScale": 1.0
+      "monsterDamageScale": 1.0,
+      "patternId": 0
     }
   ]
 }
