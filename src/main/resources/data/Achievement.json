@@ -105,6 +105,32 @@
       ]
     },
     {
+      "achievementId": 62003,
+      "achievementName": "럭키박스 수집가",
+      "achievementDescription": "전투 중 럭키박스 {0}회 획득",
+      "achievementConditionType": "PickupDropItem",
+      "targetSkillId": 0,
+      "targetDropItemType": "LuckyBox",
+      "targetValue": [
+        5,
+        15,
+        30,
+        60
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
       "achievementId": 63003,
       "achievementName": "모니터 연마",
       "achievementDescription": "모니터 스킬 {0}회 업그레이드",
@@ -167,7 +193,39 @@
         5000,
         10000,
         20000,
-        40000
+        40000,
+        80000,
+        160000
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50,
+        100,
+        200
+      ]
+    },
+    {
+      "achievementId": 65001,
+      "achievementName": "골드 사냥꾼",
+      "achievementDescription": "전투에서 골드 {0} 획득",
+      "achievementConditionType": "GainBattleGold",
+      "targetSkillId": 0,
+      "targetDropItemType": "None",
+      "targetValue": [
+        10000,
+        30000,
+        100000,
+        300000
       ],
       "rewardItemType": [
         "Gold",
@@ -183,23 +241,55 @@
       ]
     },
     {
-      "achievementId": 64002,
-      "achievementName": "끝없는 성장",
-      "achievementDescription": "전투 경험치 {0} 획득",
-      "achievementConditionType": "GainBattleExp",
+      "achievementId": 66001,
+      "achievementName": "스테이지 정복자",
+      "achievementDescription": "스테이지 {0}회 클리어",
+      "achievementConditionType": "ClearStage",
       "targetSkillId": 0,
       "targetDropItemType": "None",
       "targetValue": [
-        80000,
-        160000
+        5,
+        20,
+        50,
+        100
       ],
       "rewardItemType": [
+        "Gold",
+        "Gold",
         "Gem",
         "Gem"
       ],
       "rewardAmount": [
-        100,
-        200
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 67001,
+      "achievementName": "행운열차 승객",
+      "achievementDescription": "행운열차 {0}회 완주",
+      "achievementConditionType": "PlayLuckTrain",
+      "targetSkillId": 0,
+      "targetDropItemType": "None",
+      "targetValue": [
+        5,
+        15,
+        30,
+        60
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
       ]
     }
   ]
