@@ -1,8 +1,8 @@
-package com.couserver.player.controller;
+package com.couserver.evolution.controller;
 
 import com.couserver.account.dto.AuthAccount;
-import com.couserver.player.dto.EvolutionUpgradeResponse;
-import com.couserver.player.service.EvolutionService;
+import com.couserver.evolution.dto.EvolutionUpgradeResponse;
+import com.couserver.evolution.service.EvolutionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
