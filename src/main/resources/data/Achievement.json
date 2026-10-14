@@ -1,6 +1,58 @@
 {
   "datas": [
     {
+      "achievementId": 61001,
+      "achievementName": "텀블러 마스터",
+      "achievementDescription": "텀블러로 몬스터 {0}마리 처치",
+      "achievementConditionType": "KillBySkill",
+      "targetSkillId": 20010,
+      "targetDropItemType": "None",
+      "targetValue": [
+        50,
+        100,
+        200,
+        400
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 61002,
+      "achievementName": "안경 마스터",
+      "achievementDescription": "안경으로 몬스터 {0}마리 처치",
+      "achievementConditionType": "KillBySkill",
+      "targetSkillId": 20020,
+      "targetDropItemType": "None",
+      "targetValue": [
+        50,
+        100,
+        200,
+        400
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
       "achievementId": 61003,
       "achievementName": "모니터 마스터",
       "achievementDescription": "모니터로 몬스터 {0}마리 처치",
@@ -27,11 +79,141 @@
       ]
     },
     {
-      "achievementId": 61001,
-      "achievementName": "텀블러 마스터",
-      "achievementDescription": "텀블러로 몬스터 {0}마리 처치",
+      "achievementId": 61004,
+      "achievementName": "스피커 마스터",
+      "achievementDescription": "스피커로 몬스터 {0}마리 처치",
       "achievementConditionType": "KillBySkill",
-      "targetSkillId": 20010,
+      "targetSkillId": 20040,
+      "targetDropItemType": "None",
+      "targetValue": [
+        100,
+        200,
+        400,
+        800
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 61005,
+      "achievementName": "마우스 마스터",
+      "achievementDescription": "마우스로 몬스터 {0}마리 처치",
+      "achievementConditionType": "KillBySkill",
+      "targetSkillId": 20050,
+      "targetDropItemType": "None",
+      "targetValue": [
+        50,
+        100,
+        200,
+        400
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 61006,
+      "achievementName": "키보드 마스터",
+      "achievementDescription": "키보드로 몬스터 {0}마리 처치",
+      "achievementConditionType": "KillBySkill",
+      "targetSkillId": 20060,
+      "targetDropItemType": "None",
+      "targetValue": [
+        100,
+        200,
+        400,
+        800
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 61007,
+      "achievementName": "CPU 마스터",
+      "achievementDescription": "CPU로 몬스터 {0}마리 처치",
+      "achievementConditionType": "KillBySkill",
+      "targetSkillId": 20070,
+      "targetDropItemType": "None",
+      "targetValue": [
+        100,
+        200,
+        400,
+        800
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 61008,
+      "achievementName": "멀티탭 마스터",
+      "achievementDescription": "멀티탭으로 몬스터 {0}마리 처치",
+      "achievementConditionType": "KillBySkill",
+      "targetSkillId": 20080,
+      "targetDropItemType": "None",
+      "targetValue": [
+        100,
+        200,
+        400,
+        800
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 61009,
+      "achievementName": "컨트롤Z 마스터",
+      "achievementDescription": "컨트롤Z로 몬스터 {0}마리 처치",
+      "achievementConditionType": "KillBySkill",
+      "targetSkillId": 20090,
       "targetDropItemType": "None",
       "targetValue": [
         50,
@@ -131,11 +313,11 @@
       ]
     },
     {
-      "achievementId": 63003,
-      "achievementName": "모니터 연마",
-      "achievementDescription": "모니터 스킬 {0}회 업그레이드",
+      "achievementId": 63001,
+      "achievementName": "텀블러 연마",
+      "achievementDescription": "텀블러 스킬 {0}회 업그레이드",
       "achievementConditionType": "UpgradeSkill",
-      "targetSkillId": 20030,
+      "targetSkillId": 20010,
       "targetDropItemType": "None",
       "targetValue": [
         10,
@@ -162,6 +344,188 @@
       "achievementDescription": "안경 스킬 {0}회 업그레이드",
       "achievementConditionType": "UpgradeSkill",
       "targetSkillId": 20020,
+      "targetDropItemType": "None",
+      "targetValue": [
+        10,
+        20,
+        40,
+        80
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 63003,
+      "achievementName": "모니터 연마",
+      "achievementDescription": "모니터 스킬 {0}회 업그레이드",
+      "achievementConditionType": "UpgradeSkill",
+      "targetSkillId": 20030,
+      "targetDropItemType": "None",
+      "targetValue": [
+        10,
+        20,
+        40,
+        80
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 63004,
+      "achievementName": "스피커 연마",
+      "achievementDescription": "스피커 스킬 {0}회 업그레이드",
+      "achievementConditionType": "UpgradeSkill",
+      "targetSkillId": 20040,
+      "targetDropItemType": "None",
+      "targetValue": [
+        10,
+        20,
+        40,
+        80
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 63005,
+      "achievementName": "마우스 연마",
+      "achievementDescription": "마우스 스킬 {0}회 업그레이드",
+      "achievementConditionType": "UpgradeSkill",
+      "targetSkillId": 20050,
+      "targetDropItemType": "None",
+      "targetValue": [
+        10,
+        20,
+        40,
+        80
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 63006,
+      "achievementName": "키보드 연마",
+      "achievementDescription": "키보드 스킬 {0}회 업그레이드",
+      "achievementConditionType": "UpgradeSkill",
+      "targetSkillId": 20060,
+      "targetDropItemType": "None",
+      "targetValue": [
+        10,
+        20,
+        40,
+        80
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 63007,
+      "achievementName": "CPU 연마",
+      "achievementDescription": "CPU 스킬 {0}회 업그레이드",
+      "achievementConditionType": "UpgradeSkill",
+      "targetSkillId": 20070,
+      "targetDropItemType": "None",
+      "targetValue": [
+        10,
+        20,
+        40,
+        80
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 63008,
+      "achievementName": "멀티탭 연마",
+      "achievementDescription": "멀티탭 스킬 {0}회 업그레이드",
+      "achievementConditionType": "UpgradeSkill",
+      "targetSkillId": 20080,
+      "targetDropItemType": "None",
+      "targetValue": [
+        10,
+        20,
+        40,
+        80
+      ],
+      "rewardItemType": [
+        "Gold",
+        "Gold",
+        "Gem",
+        "Gem"
+      ],
+      "rewardAmount": [
+        1000,
+        2000,
+        30,
+        50
+      ]
+    },
+    {
+      "achievementId": 63009,
+      "achievementName": "컨트롤Z 연마",
+      "achievementDescription": "컨트롤Z 스킬 {0}회 업그레이드",
+      "achievementConditionType": "UpgradeSkill",
+      "targetSkillId": 20090,
       "targetDropItemType": "None",
       "targetValue": [
         10,
