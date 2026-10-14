@@ -2,8 +2,8 @@
   "datas": [
     {
       "achievementId": 61003,
-      "achievementName": "카타나 마스터",
-      "achievementDescription": "카타나로 몬스터 {0}마리 처치",
+      "achievementName": "모니터 마스터",
+      "achievementDescription": "모니터로 몬스터 {0}마리 처치",
       "achievementConditionType": "KillBySkill",
       "targetSkillId": 20030,
       "targetDropItemType": "None",
@@ -28,8 +28,8 @@
     },
     {
       "achievementId": 61001,
-      "achievementName": "수리검 마스터",
-      "achievementDescription": "수리검으로 몬스터 {0}마리 처치",
+      "achievementName": "텀블러 마스터",
+      "achievementDescription": "텀블러로 몬스터 {0}마리 처치",
       "achievementConditionType": "KillBySkill",
       "targetSkillId": 20010,
       "targetDropItemType": "None",
@@ -106,8 +106,8 @@
     },
     {
       "achievementId": 63003,
-      "achievementName": "카타나 연마",
-      "achievementDescription": "카타나 {0}회 업그레이드",
+      "achievementName": "모니터 연마",
+      "achievementDescription": "모니터 스킬 {0}회 업그레이드",
       "achievementConditionType": "UpgradeSkill",
       "targetSkillId": 20030,
       "targetDropItemType": "None",
@@ -132,8 +132,8 @@
     },
     {
       "achievementId": 63002,
-      "achievementName": "리볼버 연마",
-      "achievementDescription": "리볼버 {0}회 업그레이드",
+      "achievementName": "안경 연마",
+      "achievementDescription": "안경 스킬 {0}회 업그레이드",
       "achievementConditionType": "UpgradeSkill",
       "targetSkillId": 20020,
       "targetDropItemType": "None",
