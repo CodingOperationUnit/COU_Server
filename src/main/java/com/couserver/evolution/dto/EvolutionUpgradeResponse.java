@@ -1,6 +1,7 @@
-package com.couserver.player.dto;
+package com.couserver.evolution.dto;
 
 import com.couserver.account.dto.CurrencyResponse;
+import com.couserver.player.dto.PlayerStatResponse;
 import com.couserver.player.entity.PlayerStat;
 import com.couserver.player.entity.PlayerStatType;
 
