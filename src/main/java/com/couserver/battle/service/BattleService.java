@@ -154,7 +154,8 @@ public class BattleService {
         currency.addGold(gold);
 
         // 업적 진행 누적 (같은 트랜잭션)
-        achievementService.addBattleProgress(playerId, buildAchievementProgress(battleId, request, kills, limit, exp));
+        achievementService.addBattleProgress(playerId,
+                buildAchievementProgress(battleId, request, kills, gold, limit, exp));
 
         StageProgress progress = getStageProgress(playerId);
         progress.recordBattle(stageId, request.victory());
@@ -313,7 +314,7 @@ public class BattleService {
 
     // 업적 집계 검증: 모르는 스킬/아이템은 버리고, 스킬 처치는 인정된 총 처치 수까지, 레벨업·획득은 상한까지만 인정한다
     private BattleAchievementProgress buildAchievementProgress(
-            Long battleId, BattleResultRequest request, int kills, StageLimit limit, int exp) {
+            Long battleId, BattleResultRequest request, int kills, int gold, StageLimit limit, int exp) {
 
         Map<Integer, Integer> skillKills = new HashMap<>();
         int remainingKills = kills;
@@ -352,7 +353,13 @@ public class BattleService {
                     Integer::sum);
         }
 
-        return new BattleAchievementProgress(skillKills, skillUpgrades, pickups, exp);
+        // 행운열차는 럭키박스 1개당 최대 1번이라, 인정된 럭키박스 획득 수를 넘을 수 없다
+        int luckTrains = clamp(battleId, "luckTrains", request.luckTrains(),
+                pickups.getOrDefault(DropItemType.LUCKYBOX, 0));
+
+        return new BattleAchievementProgress(
+                skillKills, skillUpgrades, pickups, exp,
+                gold, request.victory() ? 1 : 0, luckTrains);
     }
 
     private boolean isKnownSkill(Integer skillId) {

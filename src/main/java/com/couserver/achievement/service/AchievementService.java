@@ -107,6 +107,9 @@ public class AchievementService {
                     ? battle.totalSkillUpgrades()
                     : battle.getSkillUpgrades().getOrDefault(data.targetSkillId(), 0);
             case GAINBATTLEEXP -> battle.getBattleExp();
+            case GAINBATTLEGOLD -> battle.getBattleGold();
+            case CLEARSTAGE -> battle.getStageClears();
+            case PLAYLUCKTRAIN -> battle.getLuckTrains();
         };
     }
 }

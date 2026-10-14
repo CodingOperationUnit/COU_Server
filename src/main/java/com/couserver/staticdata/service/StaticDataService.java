@@ -218,8 +218,9 @@ public class StaticDataService {
                     require(row.targetSkillId() == 0, name + "의 targetSkillId는 0이어야 합니다.");
                     require(row.targetDropItemType() != DropItemType.NONE, name + "의 targetDropItemType이 필요합니다.");
                 }
-                case GAINBATTLEEXP -> require(row.targetSkillId() == 0 && row.targetDropItemType() == DropItemType.NONE,
-                        name + ": GainBattleExp는 대상이 없어야 합니다.");
+                case GAINBATTLEEXP, GAINBATTLEGOLD, CLEARSTAGE, PLAYLUCKTRAIN ->
+                        require(row.targetSkillId() == 0 && row.targetDropItemType() == DropItemType.NONE,
+                                name + ": " + row.achievementConditionType() + "는 대상이 없어야 합니다.");
             }
         }
         achievements = achievementRows.stream()

@@ -106,16 +106,16 @@
     },
     {
       "achievementId": 62003,
-      "achievementName": "럭키박스 수집가",
-      "achievementDescription": "전투 중 럭키박스 {0}회 획득",
+      "achievementName": "회복약 수집가",
+      "achievementDescription": "전투 중 회복약 {0}회 획득",
       "achievementConditionType": "PickupDropItem",
       "targetSkillId": 0,
-      "targetDropItemType": "LuckyBox",
+      "targetDropItemType": "Potion",
       "targetValue": [
         5,
-        15,
-        30,
-        60
+        10,
+        20,
+        40
       ],
       "rewardItemType": [
         "Gold",
