@@ -32,7 +32,6 @@ public class PlayerStat {
         this.playerId = playerId;
     }
 
-    // 진화 구현 후 : 진화 레벨 별 포션 회복량을 추가해야함.
     public void update(int attackLevel, int hpLevel, int defenseLevel) {
         this.playerStatAttackLevel = attackLevel;
         this.playerStatHpLevel = hpLevel;

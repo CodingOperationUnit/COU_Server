@@ -91,7 +91,7 @@ public class PlayerFinalStatService {
         );
     }
 
-    // 진화레벨 x 레벨당 상승량 (더미데이터)
+    // 진화 레벨 × 레벨당 상승량 (Evolution 시트의 evolutionIncreasePerLevel)
     private StatSource evolutionOf(PlayerStat stat) {
         EvolutionData evolution = staticDataService.getEvolution();
         return new StatSource(
