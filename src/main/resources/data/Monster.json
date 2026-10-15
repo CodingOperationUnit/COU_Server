@@ -217,15 +217,6 @@
       "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Green"
     },
     {
-      "monsterId": 13006,
-      "monsterName": "보스몬스터6",
-      "monsterType": "Boss",
-      "monsterMaxHealthPoint": 28000,
-      "monsterMoveSpeed": 1.5,
-      "monsterContactDamage": 2000,
-      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Flower"
-    },
-    {
       "monsterId": 13007,
       "monsterName": "보스몬스터7",
       "monsterType": "Boss",
@@ -233,15 +224,6 @@
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 2200,
       "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Flower"
-    },
-    {
-      "monsterId": 13008,
-      "monsterName": "보스몬스터8",
-      "monsterType": "Boss",
-      "monsterMaxHealthPoint": 36000,
-      "monsterMoveSpeed": 1.5,
-      "monsterContactDamage": 2400,
-      "monsterAsset": "Enemy/Prefabs/Scorpion/Scorpion_Purple"
     },
     {
       "monsterId": 13009,
@@ -269,24 +251,6 @@
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 3000,
       "monsterAsset": "Enemy/Prefabs/Walker/Walker_Mushroom"
-    },
-    {
-      "monsterId": 13012,
-      "monsterName": "보스몬스터12",
-      "monsterType": "Boss",
-      "monsterMaxHealthPoint": 55000,
-      "monsterMoveSpeed": 2.0,
-      "monsterContactDamage": 3200,
-      "monsterAsset": "Enemy/Prefabs/Walker/Walker_Candle"
-    },
-    {
-      "monsterId": 13013,
-      "monsterName": "보스몬스터13",
-      "monsterType": "Boss",
-      "monsterMaxHealthPoint": 60000,
-      "monsterMoveSpeed": 1.5,
-      "monsterContactDamage": 3400,
-      "monsterAsset": "Enemy/Prefabs/Skeleton/Skeleton_Soldier"
     },
     {
       "monsterId": 13014,
@@ -323,6 +287,42 @@
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 1200,
       "monsterAsset": "Enemy/Prefabs/Golem/Golem_Tree"
+    },
+    {
+      "monsterId": 15002,
+      "monsterName": "중간보스2",
+      "monsterType": "MidBoss",
+      "monsterMaxHealthPoint": 28000,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 2000,
+      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Flower"
+    },
+    {
+      "monsterId": 15003,
+      "monsterName": "중간보스3",
+      "monsterType": "MidBoss",
+      "monsterMaxHealthPoint": 60000,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 3400,
+      "monsterAsset": "Enemy/Prefabs/Skeleton/Skeleton_Soldier"
+    },
+    {
+      "monsterId": 15004,
+      "monsterName": "중간보스4",
+      "monsterType": "MidBoss",
+      "monsterMaxHealthPoint": 55000,
+      "monsterMoveSpeed": 2.0,
+      "monsterContactDamage": 3200,
+      "monsterAsset": "Enemy/Prefabs/Walker/Walker_Candle"
+    },
+    {
+      "monsterId": 15005,
+      "monsterName": "중간보스5",
+      "monsterType": "MidBoss",
+      "monsterMaxHealthPoint": 36000,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 2400,
+      "monsterAsset": "Enemy/Prefabs/Scorpion/Scorpion_Purple"
     }
   ]
 }
