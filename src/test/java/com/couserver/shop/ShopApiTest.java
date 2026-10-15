@@ -1,6 +1,7 @@
 package com.couserver.shop;
 
 import com.couserver.inventory.entity.ItemGrade;
+import com.couserver.staticdata.dto.ProductType;
 import com.couserver.staticdata.dto.ShopProductData;
 import com.couserver.staticdata.service.StaticDataService;
 import com.couserver.support.IntegrationTestSupport;
@@ -13,10 +14,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -111,5 +114,40 @@ class ShopApiTest extends IntegrationTestSupport {
         postAs(account, PURCHASE_URL, Map.of("productId", unknownProductId))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value("PRODUCT_NOT_FOUND"));
+    }
+
+    @Test
+    @DisplayName("보석 상품은 결제 검증 없이 구매할 수 없고 보석은 그대로다 (F2)")
+    void buyGemProductFails() throws Exception {
+        TestAccount account = createAccount();
+        setGoldAndGem(account, 0, 0);
+        List<ShopProductData> gemProducts = staticDataService.getShopProducts().values().stream()
+                .filter(product -> product.productType() == ProductType.GEM && product.active())
+                .toList();
+        assertThat(gemProducts).as("판매 중인 보석 상품이 있어야 한다").isNotEmpty();
+
+        for (ShopProductData product : gemProducts) {
+            postAs(account, PURCHASE_URL, Map.of("productId", product.productId()))
+                    .andExpect(status().isForbidden())
+                    .andExpect(jsonPath("$.code").value("PAYMENT_VERIFICATION_REQUIRED"));
+        }
+
+        getAs(account, SAVE_URL)
+                .andExpect(jsonPath("$.currency.currencyGem").value(0));
+    }
+
+    @Test
+    @DisplayName("상품 목록은 정적 데이터의 판매 중인 상품과 같고 보석 상품도 그대로 보인다")
+    void productListMatchesStaticData() throws Exception {
+        TestAccount account = createAccount();
+        Object[] activeIds = staticDataService.getShopProducts().values().stream()
+                .filter(ShopProductData::active)
+                .map(ShopProductData::productId)
+                .toArray();
+
+        getAs(account, PRODUCTS_URL)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(activeIds.length))
+                .andExpect(jsonPath("$[*].productId", containsInAnyOrder(activeIds)));
     }
 }

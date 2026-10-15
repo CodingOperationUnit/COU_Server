@@ -13,6 +13,7 @@ import tools.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -167,20 +168,9 @@ public class StaticDataService {
         List<ShopProductData> shopRows = rows(rowMapper, "Shop", ShopProductData.class);
         requireIds("Shop", shopRows, ShopProductData::productId);
 
-        Map<Integer, ShopProductData> shopMap = new LinkedHashMap<>();   // 시트 순서 유지
+        Map<Integer, ShopProductData> shopMap = new LinkedHashMap<>();
         for (ShopProductData row : shopRows) {
-            require(row.priceGem() >= 0, "Shop " + row.productId() + "의 priceGem은 0 이상이어야 합니다.");
-            if (row.productType() == ProductType.RANDOMITEM) {
-                require(row.minGrade().ordinal() <= row.maxGrade().ordinal(),
-                        "Shop " + row.productId() + "의 minGrade가 maxGrade보다 높습니다.");
-                require(items.values().stream().anyMatch(i ->
-                                i.grade().ordinal() >= row.minGrade().ordinal()
-                                        && i.grade().ordinal() <= row.maxGrade().ordinal()),
-                        "Shop " + row.productId() + "의 등급 범위에 해당하는 Item이 없습니다.");
-            } else {
-                require(row.rewardAmount() >= 1,
-                        "Shop " + row.productId() + "의 rewardAmount는 1 이상이어야 합니다.");
-            }
+            validateShopProduct(row, items.values());
             shopMap.put(row.productId(), row);
         }
         shopProducts = Collections.unmodifiableMap(shopMap);
@@ -266,6 +256,29 @@ public class StaticDataService {
         for (WaveEntryData row : waveRows) {
             require(spawnPatterns.containsKey(row.patternId()),
                     "Wave " + row.waveEntryId() + "의 patternId " + row.patternId() + "을(를) SpawnPattern에서 찾을 수 없습니다.");
+        }
+    }
+
+    // Shop 행 검증. 기동 시 한 번 호출되고, 단위 테스트에서도 직접 호출한다.
+    // - GEM 상품은 실제 결제(인앱 결제)로 파는 상품이다. 보석 가격이 없고(priceGem 0),
+    //   보석 결제 경로(ShopService.purchase)로는 지급하지 않는다
+    // - GOLD, RANDOMITEM 상품은 무료로 팔지 않는다. 시트에서 가격이 0으로 내보내지면 기동을 멈춘다
+    public static void validateShopProduct(ShopProductData row, Collection<ItemData> items) {
+        String name = "Shop " + row.productId();
+        require(row.priceGem() >= 0, name + "의 priceGem은 0 이상이어야 합니다.");
+        if (row.productType() != ProductType.GEM) {
+            require(row.priceGem() > 0, name + "의 priceGem은 1 이상이어야 합니다. (보석 상품 외에는 무료로 팔지 않는다)");
+        }
+
+        if (row.productType() == ProductType.RANDOMITEM) {
+            require(row.minGrade().ordinal() <= row.maxGrade().ordinal(),
+                    name + "의 minGrade가 maxGrade보다 높습니다.");
+            require(items.stream().anyMatch(i ->
+                            i.grade().ordinal() >= row.minGrade().ordinal()
+                                    && i.grade().ordinal() <= row.maxGrade().ordinal()),
+                    name + "의 등급 범위에 해당하는 Item이 없습니다.");
+        } else {
+            require(row.rewardAmount() >= 1, name + "의 rewardAmount는 1 이상이어야 합니다.");
         }
     }
 
