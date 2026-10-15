@@ -1,6 +1,5 @@
 package com.couserver.inventory.service;
 
-
 import com.couserver.account.entity.Currency;
 import com.couserver.account.repository.CurrencyRepository;
 import com.couserver.common.exception.BusinessException;
@@ -11,6 +10,8 @@ import com.couserver.inventory.exception.InventoryErrorCode;
 import com.couserver.inventory.repository.EquipmentRepository;
 import com.couserver.ranking.event.RankingChangedEvent;
 import com.couserver.staticdata.service.StaticDataService;
+import com.couserver.ledger.entity.LedgerReason;
+import com.couserver.ledger.service.CurrencyLedgerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ public class InventoryService {
     private final EquipmentRepository equipmentRepository;
     private final CurrencyRepository currencyRepository;
     private final StaticDataService staticDataService;
+    private final CurrencyLedgerService currencyLedger;
     private final ApplicationEventPublisher eventPublisher;
     private static final int SYNTHESIS_MATERIAL_COUNT = 2;   // 합성 재료 개수
     private static final int MAX_LEVEL = 10;
@@ -130,7 +132,7 @@ public class InventoryService {
             throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_GOLD);
         }
 
-        currency.spendGold(cost);    // 골드 차감과 레벨업이 한 트랜잭션: 중간에 실패하면 전부 롤백
+        currencyLedger.spendGold(currency, cost, LedgerReason.INVENTORY_LEVEL_UP, inventoryId);   // 골드 차감과 레벨업이 한 트랜잭션: 중간에 실패하면 전부 롤백
         target.levelUp();
         if (target.isEquipped()) publishRankingChanged(playerId);   // 장착 중인 장비만 전투력에 영향
 
@@ -149,13 +151,14 @@ public class InventoryService {
 
         int spentGold = 0;
         int levelsGained = 0;
+        int remainingGold = currency.getCurrencyGold();   // 차감은 반복이 끝난 뒤 합계로 한 번만 한다 (원장에 합계 1줄)
 
         while (target.getLevel() < MAX_LEVEL) {
             int cost = levelUpCost(target.getLevel());
-            if (currency.getCurrencyGold() < cost) {
+            if (remainingGold < cost) {
                 break;                                   // 골드 부족
             }
-            currency.spendGold(cost);
+            remainingGold -= cost;
             target.levelUp();
             spentGold += cost;
             levelsGained++;
@@ -164,6 +167,7 @@ public class InventoryService {
         if (levelsGained == 0) {                         // 한 레벨도 못 올림
             throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_GOLD);
         }
+        currencyLedger.spendGold(currency, spentGold, LedgerReason.INVENTORY_LEVEL_UP, inventoryId);
 
         if (target.isEquipped()) publishRankingChanged(playerId);
 

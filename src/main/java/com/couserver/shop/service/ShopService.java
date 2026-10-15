@@ -13,6 +13,8 @@ import com.couserver.staticdata.dto.ItemData;
 import com.couserver.staticdata.dto.ProductType;
 import com.couserver.staticdata.dto.ShopProductData;
 import com.couserver.staticdata.service.StaticDataService;
+import com.couserver.ledger.entity.LedgerReason;
+import com.couserver.ledger.service.CurrencyLedgerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -31,15 +33,18 @@ public class ShopService {
     private final StaticDataService staticDataService;
     private final CurrencyRepository currencyRepository;
     private final EquipmentRepository equipmentRepository;
+    private final CurrencyLedgerService currencyLedger;
     private final boolean devToolsEnabled;
 
     public ShopService(StaticDataService staticDataService,
                        CurrencyRepository currencyRepository,
                        EquipmentRepository equipmentRepository,
+                       CurrencyLedgerService currencyLedger,
                        @Value("${dev-tools.enabled:false}") boolean devToolsEnabled) {
         this.staticDataService = staticDataService;
         this.currencyRepository = currencyRepository;
         this.equipmentRepository = equipmentRepository;
+        this.currencyLedger = currencyLedger;
         this.devToolsEnabled = devToolsEnabled;
         if (devToolsEnabled) {
             log.warn("dev 도구가 켜져 있어 보석 상품을 결제 없이 지급합니다. 운영 환경에서는 DEV_TOOLS_ENABLED를 꺼야 합니다.");
@@ -77,12 +82,13 @@ public class ShopService {
         }
 
 
-        currency.spendGem(product.priceGem());
+        long refId = product.productId();
+        currencyLedger.spendGem(currency, product.priceGem(), LedgerReason.SHOP_PURCHASE, refId);
 
         List<EquipmentResponse> rewardedItems = new ArrayList<>();
         switch (product.productType()) {
-            case GOLD -> currency.addGold(product.rewardAmount());
-            case GEM -> currency.addGem(product.rewardAmount());
+            case GOLD -> currencyLedger.addGold(currency, product.rewardAmount(), LedgerReason.SHOP_PURCHASE, refId);
+            case GEM -> currencyLedger.addGem(currency, product.rewardAmount(), LedgerReason.SHOP_PURCHASE, refId);
             case RANDOMITEM -> rewardedItems.add(drawEquipment(playerId, product));
         }
 

@@ -39,6 +39,8 @@ import com.couserver.staticdata.dto.StageData;
 import com.couserver.staticdata.dto.StageRosterData;
 import com.couserver.staticdata.dto.WaveEntryData;
 import com.couserver.staticdata.service.StaticDataService;
+import com.couserver.ledger.entity.LedgerReason;
+import com.couserver.ledger.service.CurrencyLedgerService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -78,6 +80,7 @@ public class BattleService {
     private final EquipmentRepository equipmentRepository;
     private final AchievementService achievementService;
     private final StageUnlockPolicy stageUnlockPolicy;
+    private final CurrencyLedgerService currencyLedger;
     private final SuspiciousActivityRecorder suspiciousActivityRecorder;
 
     private Map<Integer, StageLimit> stageLimits;           // key: stageId
@@ -156,7 +159,7 @@ public class BattleService {
         PlayerProfile profile = playerProfileRepository.findById(playerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "플레이어 데이터가 없습니다."));
         profile.gainExp(exp, accountConst);
-        currency.addGold(gold);
+        currencyLedger.addGold(currency, gold, LedgerReason.BATTLE_RESULT, battleId);
 
         // 업적 진행 누적 (같은 트랜잭션)
         achievementService.addBattleProgress(playerId,
