@@ -12,6 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
+import com.couserver.common.ratelimit.AuthRateLimitFilter;
+import com.couserver.common.ratelimit.IpRateLimiter;
+import tools.jackson.databind.ObjectMapper;
 
 @Configuration
 public class SecurityConfig {
@@ -21,7 +24,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtProvider jwtProvider) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtProvider jwtProvider,
+                                                   IpRateLimiter ipRateLimiter, ObjectMapper objectMapper) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable) // 쿠키 인증 안 씀 -> CSRF 보호 끄기
                 .sessionManagement(session ->
@@ -36,6 +40,7 @@ public class SecurityConfig {
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint((request, response, authException) ->
                                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED)))
+                .addFilterBefore(new AuthRateLimitFilter(ipRateLimiter, objectMapper), AuthorizationFilter.class)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), AuthorizationFilter.class);
 
         return http.build();

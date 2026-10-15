@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import tools.jackson.databind.ObjectMapper;
 
 import java.nio.charset.StandardCharsets;
@@ -24,6 +25,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -64,15 +66,38 @@ public abstract class IntegrationTestSupport {
     }
 
     protected ResultActions signup(String loginId, String password) throws Exception {
+        return signup(loginId, password, randomIp());
+    }
+
+    protected ResultActions signup(String loginId, String password, String ip) throws Exception {
         return mockMvc.perform(post("/api/accounts/signup")
+                .with(fromIp(ip))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(Map.of("accountLoginId", loginId, "password", password))));
     }
 
     protected ResultActions login(String loginId, String password) throws Exception {
+        return login(loginId, password, randomIp());
+    }
+
+    protected ResultActions login(String loginId, String password, String ip) throws Exception {
         return mockMvc.perform(post("/api/accounts/login")
+                .with(fromIp(ip))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(Map.of("accountLoginId", loginId, "password", password))));
+    }
+
+    // 로그인·회원가입 IP 제한에 테스트끼리 걸리지 않도록 요청마다 다른 내부망 IP를 쓴다
+    protected String randomIp() {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        return "10." + random.nextInt(256) + "." + random.nextInt(256) + "." + random.nextInt(1, 255);
+    }
+
+    protected RequestPostProcessor fromIp(String ip) {
+        return request -> {
+            request.setRemoteAddr(ip);
+            return request;
+        };
     }
 
     // 새 계정을 가입시키고 로그인해서 토큰과 playerId를 받아 온다
