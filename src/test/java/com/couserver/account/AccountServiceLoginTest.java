@@ -76,7 +76,7 @@ class AccountServiceLoginTest {
 
         verify(passwordEncoder, never()).matches(eq(tooLong), anyString());
         verify(passwordEncoder).matches(
-                argThat(raw -> raw.getBytes(StandardCharsets.UTF_8).length <= 72), eq("real-hash"));
+                argThat(raw -> raw.toString().getBytes(StandardCharsets.UTF_8).length <= 72), eq("real-hash"));
     }
 
     private static LoginRequest request(String loginId, String password) {
