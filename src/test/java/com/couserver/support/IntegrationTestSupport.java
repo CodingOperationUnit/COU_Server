@@ -14,10 +14,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import tools.jackson.databind.ObjectMapper;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -102,6 +104,33 @@ public abstract class IntegrationTestSupport {
     protected ResultActions postAs(TestAccount account, String url) throws Exception {
         return mockMvc.perform(post(url)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + account.accessToken()));
+    }
+
+    protected ResultActions deleteAs(TestAccount account, String url) throws Exception {
+        return mockMvc.perform(delete(url)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + account.accessToken()));
+    }
+
+    // 테스트 준비용: 스테이지에 입장해 승리 결과를 제출한다 (골드·보상상자 0). 결과 응답 본문을 돌려준다.
+    // seconds는 "입장 후 경과 시간 + 5초"까지 인정되므로 5 이하로 쓴다.
+    protected String clearStage(TestAccount account, int stageId, int kills, int seconds,
+                                Map<Integer, Integer> skillKills) throws Exception {
+        String enterBody = bodyOf(postAs(account, "/api/battles", Map.of("stageId", stageId))
+                .andExpect(status().isOk()));
+        Number battleId = JsonPath.read(enterBody, "$.battleId");
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("victory", true);
+        result.put("seconds", seconds);
+        result.put("kills", kills);
+        result.put("gold", 0);
+        result.put("rewardBoxes", 0);
+        result.put("skillKills", skillKills);
+        result.put("skillUpgrades", Map.of());
+        result.put("pickups", Map.of());
+        result.put("luckTrains", 0);
+        return bodyOf(postAs(account, "/api/battles/" + battleId.longValue() + "/result", result)
+                .andExpect(status().isOk()));
     }
 
     // 현재 세이브 응답 본문
