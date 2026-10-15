@@ -1,4 +1,4 @@
-package com.couserver.player.service;
+package com.couserver.evolution.service;
 
 import com.couserver.account.dto.CurrencyResponse;
 import com.couserver.account.entity.Currency;
@@ -6,7 +6,8 @@ import com.couserver.account.entity.PlayerProfile;
 import com.couserver.account.repository.CurrencyRepository;
 import com.couserver.account.repository.PlayerProfileRepository;
 import com.couserver.common.exception.BusinessException;
-import com.couserver.player.dto.EvolutionUpgradeResponse;
+import com.couserver.evolution.dto.EvolutionUpgradeResponse;
+import com.couserver.evolution.exception.EvolutionErrorCode;
 import com.couserver.player.entity.PlayerStat;
 import com.couserver.player.entity.PlayerStatType;
 import com.couserver.player.exception.PlayerErrorCode;
@@ -34,25 +35,25 @@ public class EvolutionService {
     public EvolutionUpgradeResponse upgrade(Long playerId){
         // 재화 행을 먼저 잠근다. 같은 플레이어의 진화·강화·전투 요청이 차례대로 처리되어 골드가 이중으로 빠지지 않는다
         Currency currency = currencyRepository.findForUpdate(playerId)
-                .orElseThrow(() -> new BusinessException(PlayerErrorCode.CURRENCY_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(EvolutionErrorCode.CURRENCY_NOT_FOUND));
         PlayerStat stat = playerStatRepository.findById(playerId)
                 .orElseThrow(() -> new BusinessException(PlayerErrorCode.PLAYER_STAT_NOT_FOUND));
         PlayerProfile profile = playerProfileRepository.findById(playerId)
-                .orElseThrow(() -> new BusinessException(PlayerErrorCode.PLAYER_PROFILE_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(EvolutionErrorCode.PLAYER_PROFILE_NOT_FOUND));
 
         EvolutionData evolution = staticDataService.getEvolution();
         int step = stat.getEvolutionStep();   // 진화 전 단계 (지금까지 진화한 횟수)
 
         if (evolution.isMaxStep(step)) {
-            throw new BusinessException(PlayerErrorCode.EVOLUTION_MAX_STEP_REACHED);
+            throw new BusinessException(EvolutionErrorCode.EVOLUTION_MAX_STEP_REACHED);
         }
         if (evolution.isLevelLocked(step, profile.getAccountLevel())) {
-            throw new BusinessException(PlayerErrorCode.EVOLUTION_LEVEL_LOCKED);
+            throw new BusinessException(EvolutionErrorCode.EVOLUTION_LEVEL_LOCKED);
         }
 
         int cost = evolution.costAt(step);
         if (currency.getCurrencyGold() < cost) {
-            throw new BusinessException(PlayerErrorCode.NOT_ENOUGH_GOLD);
+            throw new BusinessException(EvolutionErrorCode.NOT_ENOUGH_GOLD);
         }
 
         // 골드 차감과 레벨 상승이 한 트랜잭션: 중간에 실패하면 둘 다 롤백
