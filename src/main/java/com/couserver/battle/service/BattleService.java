@@ -23,6 +23,7 @@ import com.couserver.battle.entity.StageRecord;
 import com.couserver.battle.exception.BattleErrorCode;
 import com.couserver.battle.repository.BattleSessionRepository;
 import com.couserver.battle.repository.StageRecordRepository;
+import com.couserver.battle.event.BattleRecordedEvent;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.inventory.dto.EquipmentResponse;
 import com.couserver.inventory.entity.Equipment;
@@ -202,6 +203,11 @@ public class BattleService {
         session.complete();
         // 랭킹값 변경알림(Redis에 갱신)
         eventPublisher.publishEvent(new RankingChangedEvent(playerId));
+        // 전투 통계 기록 알림 (커밋된 뒤에 저장되고, 저장이 실패해도 이 결과에는 영향이 없다)
+        eventPublisher.publishEvent(new BattleRecordedEvent(
+                playerId, battleId, stageId, request.victory(), victory,
+                elapsedSeconds, seconds, kills, limit.kills(), gold, limit.gold(),
+                rewardBoxes, limit.rewardBoxes(), Instant.now(clock)));
         return new BattleResultResponse(
                 gold,
                 exp,
