@@ -1,10 +1,9 @@
 package com.couserver;
 
+import com.couserver.support.IntegrationTestSupport;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class CouServerApplicationTests {
+class CouServerApplicationTests extends IntegrationTestSupport {
 
     @Test
     void contextLoads() {
