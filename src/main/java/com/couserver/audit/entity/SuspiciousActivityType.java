@@ -6,5 +6,6 @@ public enum SuspiciousActivityType {
     SAVE_LOCKED_STAGE,          // save로 미해금·없는 스테이지 선택
     BATTLE_RESULT_OVER_LIMIT,   // 전투 결과가 스테이지 상한을 넘음
     BATTLE_RESULT_TOO_FAST,     // 보스가 나오기 전의 시간에 승리를 보고함
-    LOGIN_LOCKED                // 전투 결과가 스테이지 상한을 넘음
+    LOGIN_LOCKED,               // 로그인 실패가 쌓여 계정이 잠김
+    FOREIGN_RESOURCE_ACCESS     // 다른 플레이어의 전투·장비·친구 요청에 접근 (ID를 바꿔 보낸 요청)
 }

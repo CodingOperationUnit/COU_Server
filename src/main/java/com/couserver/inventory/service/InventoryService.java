@@ -12,6 +12,8 @@ import com.couserver.ranking.event.RankingChangedEvent;
 import com.couserver.staticdata.service.StaticDataService;
 import com.couserver.ledger.entity.LedgerReason;
 import com.couserver.ledger.service.CurrencyLedgerService;
+import com.couserver.audit.entity.SuspiciousActivityType;
+import com.couserver.audit.service.SuspiciousActivityRecorder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,7 @@ public class InventoryService {
     private final CurrencyRepository currencyRepository;
     private final StaticDataService staticDataService;
     private final CurrencyLedgerService currencyLedger;
+    private final SuspiciousActivityRecorder suspiciousActivityRecorder;
     private final ApplicationEventPublisher eventPublisher;
     private static final int SYNTHESIS_MATERIAL_COUNT = 2;   // 합성 재료 개수
     private static final int MAX_LEVEL = 10;
@@ -59,6 +62,9 @@ public class InventoryService {
         Equipment equipment = equipmentRepository.findById(inventoryId)
                 .orElseThrow(() -> new BusinessException(InventoryErrorCode.INVENTORY_NOT_FOUND));
         if (!equipment.getPlayerId().equals(playerId)) {
+            // 정상 클라이언트는 자기 장비 ID만 보낸다
+            suspiciousActivityRecorder.record(playerId, SuspiciousActivityType.FOREIGN_RESOURCE_ACCESS,
+                    "inventory inventoryId=" + inventoryId);
             throw new BusinessException(InventoryErrorCode.NOT_OWNED_INVENTORY);
         }
         return equipment;

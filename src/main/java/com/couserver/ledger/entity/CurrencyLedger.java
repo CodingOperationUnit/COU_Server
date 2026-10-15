@@ -30,7 +30,7 @@ public class CurrencyLedger {
     private Long playerId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 10, columnDefinition = "varchar(10)")
     private LedgerCurrencyType currencyType;
 
     // 지급은 양수, 사용은 음수. 요청 금액이 아니라 실제로 바뀐 양이다
@@ -41,7 +41,7 @@ public class CurrencyLedger {
     private int balanceAfter;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, length = 40, columnDefinition = "varchar(40)")
     private LedgerReason reason;
 
     // 전투 ID, 상품 ID 같은 관련 ID. 없으면 null

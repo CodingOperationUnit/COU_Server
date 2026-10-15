@@ -142,6 +142,9 @@ public class BattleService {
         BattleSession session = battleSessionRepository.findForUpdate(battleId)
                 .orElseThrow(() -> new BusinessException(BattleErrorCode.BATTLE_NOT_FOUND));
         if (!session.getPlayerId().equals(playerId)) {
+            // 정상 클라이언트는 자기 전투 ID만 보낸다
+            suspiciousActivityRecorder.record(playerId, SuspiciousActivityType.FOREIGN_RESOURCE_ACCESS,
+                    "battle battleId=" + battleId);
             throw new BusinessException(BattleErrorCode.NOT_OWNED_BATTLE);
         }
         if (session.getStatus() == BattleStatus.COMPLETED) {

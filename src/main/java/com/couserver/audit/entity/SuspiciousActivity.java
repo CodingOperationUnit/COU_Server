@@ -30,7 +30,7 @@ public class SuspiciousActivity {
     private Long playerId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, length = 40, columnDefinition = "varchar(40)")
     private SuspiciousActivityType activityType;
 
     @Column(nullable = false, length = 500)
