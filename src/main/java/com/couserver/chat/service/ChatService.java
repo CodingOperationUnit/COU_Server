@@ -4,6 +4,7 @@ import com.couserver.chat.dto.ChatMessageResponse;
 import com.couserver.chat.entity.ChatMessage;
 import com.couserver.chat.exception.ChatErrorCode;
 import com.couserver.chat.repository.ChatMessageRepository;
+import com.couserver.chat.websocket.ChatPushService;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.friend.entity.Friendship;
 import com.couserver.friend.entity.FriendshipStatus;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 
 import java.time.Clock;
@@ -29,6 +32,7 @@ public class ChatService {
 
     private final ChatMessageRepository chatMessageRepository;
     private final FriendshipRepository friendshipRepository;
+    private final ChatPushService chatPushService;
     private final Clock clock;
 
     // 메시지 보내기
@@ -45,10 +49,26 @@ public class ChatService {
 
         ChatMessage saved = chatMessageRepository.save(
                 ChatMessage.of(senderId, friendId, content, Instant.now(clock)));
+
+        pushAfterCommit(friendId, senderId, ChatMessageResponse.of(saved, friendId));
+
         return ChatMessageResponse.of(saved, senderId);
     }
 
-    // afterId == 0 이면 최근 메시지, 아니면 afterId 이후의 새 메시지 (오래된 순)
+    // 커밋 전에 push 하면 상대가 afterId 로 조회했을 때 메시지가 아직 안 보일 수 있다.
+    private void pushAfterCommit(Long recipientId, Long senderId, ChatMessageResponse message) {
+        if (!TransactionSynchronizationManager.isSynchronizationActive()) {
+            chatPushService.pushMessage(recipientId, senderId, message);
+            return;
+        }
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                chatPushService.pushMessage(recipientId, senderId, message);
+            }
+        });
+    }
+
     @Transactional(readOnly = true)
     public List<ChatMessageResponse> getMessages(Long playerId, Long friendId, long afterId, int limit) {
         validateFriends(playerId, friendId);
