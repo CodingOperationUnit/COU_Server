@@ -20,4 +20,13 @@ public class CurrencyResponse {
         this.currencyEnergy = currency.getCurrencyEnergy();
         this.currencyEnergyUpdatedAt = currency.getCurrencyEnergyUpdatedAt();
     }
+
+    // 회복 계산 결과를 응답에만 담는다 (엔티티를 바꾸지 않는 조회용)
+    public CurrencyResponse(Currency currency, Currency.EnergyState energy) {
+        this.playerId = currency.getPlayerId();
+        this.currencyGold = currency.getCurrencyGold();
+        this.currencyGem = currency.getCurrencyGem();
+        this.currencyEnergy = energy.energy();
+        this.currencyEnergyUpdatedAt = energy.updatedAt();
+    }
 }

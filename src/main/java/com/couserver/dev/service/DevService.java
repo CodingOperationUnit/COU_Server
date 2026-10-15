@@ -34,10 +34,10 @@ public class DevService {
 
     @Transactional
     public CurrencyResponse refillStamina(Long playerId) {
-        Currency currency = currencyRepository.findById(playerId)
+        // 다른 재화 변경과 같이 행을 잠근 뒤 바꾼다
+        Currency currency = currencyRepository.findForUpdate(playerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "재화 데이터가 없습니다."));
-        currency.update(currency.getCurrencyGold(), currency.getCurrencyGem(),
-                staticDataService.getAccountConst().maxStamina(), Instant.now(clock));
+        currency.refillEnergy(staticDataService.getAccountConst().maxStamina(), Instant.now(clock));
         return new CurrencyResponse(currency);
     }
 

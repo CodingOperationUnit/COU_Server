@@ -5,7 +5,7 @@
 ## 1. 인증된 요청에서 playerId를 얻는 방식
 - 결정일: 2026-10-07
 - 상태: 결정, 코드 미반영
-- 결정: 로그인할 때 발급하는 JWT에 `playerId` claim을 넣는다. subject는 지금처럼 accountId로 둔다. 컨트롤러는 `@AuthenticationPrincipal AuthAccount`에서 playerId를 꺼낸다.
+- `PUT /api/players/me/save`(`PlayerService`)는 닉네임 변경과 현재 스테이지 선택만 반영한다. 재화, 경험치, 레벨, 진화 스탯, 최고 클리어 스테이지는 요청에 있어도 무시하고, 서버 값과 다르면 `suspicious_activity`에 기록한다. 스테이지 해금은 서버에 저장된 진행도로 판정하며 전투 입장과 같은 규칙(`StageUnlockPolicy`)을 쓴다.
 
 ### 이유
 - Account와 PlayerProfile은 1:1이다(`player_profile.account_id` unique). 계정이 생긴 뒤 playerId는 바뀌지 않으므로 토큰에 넣어도 실제 값과 어긋나지 않는다.

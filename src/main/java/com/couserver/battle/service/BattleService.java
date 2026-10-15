@@ -1,5 +1,7 @@
 package com.couserver.battle.service;
 
+import com.couserver.audit.entity.SuspiciousActivityType;
+import com.couserver.audit.service.SuspiciousActivityRecorder;
 import com.couserver.account.dto.CurrencyResponse;
 import com.couserver.account.dto.PlayerProfileResponse;
 import com.couserver.account.dto.StageProgressResponse;
@@ -75,6 +77,8 @@ public class BattleService {
     private final StageProgressRepository stageProgressRepository;
     private final EquipmentRepository equipmentRepository;
     private final AchievementService achievementService;
+    private final StageUnlockPolicy stageUnlockPolicy;
+    private final SuspiciousActivityRecorder suspiciousActivityRecorder;
 
     private Map<Integer, StageLimit> stageLimits;           // key: stageId
     private Map<ItemGrade, List<ItemData>> itemsByGrade;    // 보상상자 장비 후보
@@ -101,7 +105,7 @@ public class BattleService {
         Currency currency = getCurrencyForUpdate(playerId);
 
         StageProgress progress = getStageProgress(playerId);
-        if (!isUnlocked(stageId, progress.getMaxClearedStageId())) {
+        if (!stageUnlockPolicy.isUnlocked(stageId, progress.getMaxClearedStageId())) {
             throw new BusinessException(BattleErrorCode.STAGE_LOCKED);
         }
 
@@ -137,11 +141,12 @@ public class BattleService {
         StageData stage = staticDataService.getStages().get(stageId);
         StageLimit limit = stageLimits.get(stageId);
 
+        List<String> overLimits = new ArrayList<>();   // 상한을 넘은 값. 전투 하나에 의심 기록 하나로 남긴다
         long elapsedSeconds = Duration.between(session.getEnteredAt(), Instant.now(clock)).getSeconds();
-        int seconds = clamp(battleId, "seconds", request.seconds(), (int) elapsedSeconds + SECONDS_TOLERANCE);
-        int kills = clamp(battleId, "kills", request.kills(), limit.kills());
-        int gold = clamp(battleId, "gold", request.gold(), limit.gold());
-        int rewardBoxes = clamp(battleId, "rewardBoxes", request.rewardBoxes(), limit.rewardBoxes());
+        int seconds = clamp(overLimits, "seconds", request.seconds(), (int) elapsedSeconds + SECONDS_TOLERANCE);
+        int kills = clamp(overLimits, "kills", request.kills(), limit.kills());
+        int gold = clamp(overLimits, "gold", request.gold(), limit.gold());
+        int rewardBoxes = clamp(overLimits, "rewardBoxes", request.rewardBoxes(), limit.rewardBoxes());
 
         AccountConstData accountConst = staticDataService.getAccountConst();
         int exp = kills * accountConst.accountExpPerKill()
@@ -155,7 +160,12 @@ public class BattleService {
 
         // 업적 진행 누적 (같은 트랜잭션)
         achievementService.addBattleProgress(playerId,
-                buildAchievementProgress(battleId, request, kills, gold, limit, exp));
+                buildAchievementProgress(overLimits, request, kills, gold, limit, exp));
+
+        if (!overLimits.isEmpty()) {
+            suspiciousActivityRecorder.record(playerId, SuspiciousActivityType.BATTLE_RESULT_OVER_LIMIT,
+                    "battleId=" + battleId + " stageId=" + stageId + " " + String.join(", ", overLimits));
+        }
 
         StageProgress progress = getStageProgress(playerId);
         progress.recordBattle(stageId, request.victory());
@@ -183,18 +193,12 @@ public class BattleService {
                         .toList());
     }
 
-    // 요청 스테이지보다 앞에 클리어하지 않은 스테이지가 없으면 해금된 것이다 (첫 스테이지 ~ maxClearedStageId 다음 스테이지)
-    private boolean isUnlocked(int stageId, Integer maxClearedStageId) {
-        return staticDataService.getStages().keySet().stream()
-                .noneMatch(id -> id < stageId && (maxClearedStageId == null || id > maxClearedStageId));
-    }
-
-    // 상한을 넘으면 상한까지만 인정하고 로그를 남긴다
-    private int clamp(Long battleId, String name, int value, int max) {
+    // 상한을 넘으면 상한까지만 인정하고, 넘은 내용을 모아 둔다 (기록은 submitResult에서 한 번에 남긴다)
+    private static int clamp(List<String> overLimits, String name, int value, int max) {
         if (value <= max) {
             return value;
         }
-        log.warn("전투 {}의 {} 값 {}이(가) 상한 {}을(를) 넘어 상한으로 처리합니다.", battleId, name, value, max);
+        overLimits.add(name + " client=" + value + " max=" + max);
         return max;
     }
 
@@ -314,7 +318,7 @@ public class BattleService {
 
     // 업적 집계 검증: 모르는 스킬/아이템은 버리고, 스킬 처치는 인정된 총 처치 수까지, 레벨업·획득은 상한까지만 인정한다
     private BattleAchievementProgress buildAchievementProgress(
-            Long battleId, BattleResultRequest request, int kills, int gold, StageLimit limit, int exp) {
+            List<String> overLimits, BattleResultRequest request, int kills, int gold, StageLimit limit, int exp) {
 
         Map<Integer, Integer> skillKills = new HashMap<>();
         int remainingKills = kills;
@@ -322,11 +326,7 @@ public class BattleService {
             if (!isKnownSkill(entry.getKey()) || entry.getValue() == null || entry.getValue() <= 0) {
                 continue;
             }
-            int count = Math.min(entry.getValue(), remainingKills);
-            if (count < entry.getValue()) {
-                log.warn("전투 {}의 스킬 {} 처치 수 {}이(가) 남은 처치 수를 넘어 {}로 처리합니다.",
-                        battleId, entry.getKey(), entry.getValue(), count);
-            }
+            int count = clamp(overLimits, "skillKills." + entry.getKey(), entry.getValue(), remainingKills);
             if (count > 0) {
                 skillKills.put(entry.getKey(), count);
                 remainingKills -= count;
@@ -339,7 +339,7 @@ public class BattleService {
                 continue;
             }
             skillUpgrades.put(entry.getKey(),
-                    clamp(battleId, "skillUpgrades." + entry.getKey(), entry.getValue(), SKILL_MAX_LEVEL_UPS));
+                    clamp(overLimits, "skillUpgrades." + entry.getKey(), entry.getValue(), SKILL_MAX_LEVEL_UPS));
         }
 
         Map<DropItemType, Integer> pickups = new EnumMap<>(DropItemType.class);
@@ -349,12 +349,12 @@ public class BattleService {
                 continue;
             }
             pickups.merge(type,
-                    clamp(battleId, "pickups." + type, entry.getValue(), limit.pickups().getOrDefault(type, 0)),
+                    clamp(overLimits, "pickups." + type, entry.getValue(), limit.pickups().getOrDefault(type, 0)),
                     Integer::sum);
         }
 
         // 행운열차는 럭키박스 1개당 최대 1번이라, 인정된 럭키박스 획득 수를 넘을 수 없다
-        int luckTrains = clamp(battleId, "luckTrains", request.luckTrains(),
+        int luckTrains = clamp(overLimits, "luckTrains", request.luckTrains(),
                 pickups.getOrDefault(DropItemType.LUCKYBOX, 0));
 
         return new BattleAchievementProgress(

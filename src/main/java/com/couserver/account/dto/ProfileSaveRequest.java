@@ -1,6 +1,5 @@
 package com.couserver.account.dto;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -11,9 +10,10 @@ public class ProfileSaveRequest {
     @Size(max = 20)
     private String playerNickname;
 
-    @Min(1)
-    private int accountLevel;
+    // 레벨과 경험치는 전투 결과로만 바뀐다. 생략하면 null
+    @Deprecated
+    private Integer accountLevel;
 
-    @Min(0)
-    private int accountExp;
+    @Deprecated
+    private Integer accountExp;
 }

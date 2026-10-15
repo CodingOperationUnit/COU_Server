@@ -8,6 +8,7 @@ public class StageProgressSaveRequest {
     @Min(1)
     private int currentStageId;
 
-    @Min(1)
-    private Integer maxClearedStageId;   // Null 허용 (null이면 @Min 검사를 건너뜀)
+    // 최고 클리어 스테이지는 전투 결과로만 바뀐다
+    @Deprecated
+    private Integer maxClearedStageId;
 }

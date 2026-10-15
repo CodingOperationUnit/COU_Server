@@ -33,10 +33,9 @@ public class PlayerProfile {
         this.playerNickname = playerNickname;
     }
 
-    public void updateProgress(String playerNickname, int accountLevel, int accountExp) {
+    // 레벨과 경험치는 전투 결과(gainExp)만 바꾼다
+    public void changeNickname(String playerNickname) {
         this.playerNickname = playerNickname;
-        this.accountLevel = accountLevel;
-        this.accountExp = accountExp;
     }
 
     // 경험치는 현재 레벨 기준으로 저장한다. 필요 경험치를 채울 때마다 빼고 레벨을 올리며, 최대 레벨에서는 경험치만 쌓인다

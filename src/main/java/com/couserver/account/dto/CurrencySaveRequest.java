@@ -1,20 +1,14 @@
 package com.couserver.account.dto;
 
-import jakarta.validation.constraints.Min;
 import lombok.Getter;
 
 import java.time.Instant;
 
+// 의심 활동 기록에서 비교용으로만 읽는다
 @Getter
 public class CurrencySaveRequest {
-    @Min(0)
-    private int currencyGold;
-
-    @Min(0)
-    private int currencyGem;
-
-    @Min(0)
-    private int currencyEnergy;
-
-    private Instant currencyEnergyUpdatedAt;   // Null 허용
+    private Integer currencyGold;
+    private Integer currencyGem;
+    private Integer currencyEnergy;
+    private Instant currencyEnergyUpdatedAt;
 }
