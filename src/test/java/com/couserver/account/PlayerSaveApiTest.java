@@ -18,8 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class PlayerSaveApiTest extends IntegrationTestSupport {
-    private static final String SAVE_URL = "/api/players/me/save";
-
     @Autowired
     private StaticDataService staticDataService;
 
@@ -133,38 +131,6 @@ class PlayerSaveApiTest extends IntegrationTestSupport {
                 .andExpect(jsonPath("$.stageProgress.maxClearedStageId").value(nullValue()));
     }
 
-    // 현재 세이브를 그대로 save 요청 형식으로 옮긴다.
-    // 수정 전(덮어쓰기)과 1-a 이후(무시) 모두 같은 결과가 나오도록, 서버 값을 바꾸지 않고 돌려보낸다.
-    private Map<String, Map<String, Object>> saveRequestFromCurrentSave(TestAccount account) throws Exception {
-        String body = bodyOf(getAs(account, SAVE_URL).andExpect(status().isOk()));
-
-        Map<String, Object> profile = new HashMap<>();
-        profile.put("playerNickname", JsonPath.read(body, "$.profile.playerNickname"));
-        profile.put("accountLevel", JsonPath.read(body, "$.profile.accountLevel"));
-        profile.put("accountExp", JsonPath.read(body, "$.profile.accountExp"));
-
-        Map<String, Object> currency = new HashMap<>();
-        currency.put("currencyGold", JsonPath.read(body, "$.currency.currencyGold"));
-        currency.put("currencyGem", JsonPath.read(body, "$.currency.currencyGem"));
-        currency.put("currencyEnergy", JsonPath.read(body, "$.currency.currencyEnergy"));
-        currency.put("currencyEnergyUpdatedAt", JsonPath.read(body, "$.currency.currencyEnergyUpdatedAt"));
-
-        Map<String, Object> stageProgress = new HashMap<>();   // maxClearedStageId가 null일 수 있어 HashMap을 쓴다
-        stageProgress.put("currentStageId", JsonPath.read(body, "$.stageProgress.currentStageId"));
-        stageProgress.put("maxClearedStageId", JsonPath.read(body, "$.stageProgress.maxClearedStageId"));
-
-        Map<String, Object> playerStat = new HashMap<>();
-        playerStat.put("playerStatAttackLevel", JsonPath.read(body, "$.playerStat.playerStatAttackLevel"));
-        playerStat.put("playerStatHpLevel", JsonPath.read(body, "$.playerStat.playerStatHpLevel"));
-        playerStat.put("playerStatDefenseLevel", JsonPath.read(body, "$.playerStat.playerStatDefenseLevel"));
-
-        Map<String, Map<String, Object>> request = new HashMap<>();
-        request.put("profile", profile);
-        request.put("currency", currency);
-        request.put("stageProgress", stageProgress);
-        request.put("playerStat", playerStat);
-        return request;
-    }
 
     private String currentNickname(TestAccount account) throws Exception {
         String body = bodyOf(getAs(account, SAVE_URL).andExpect(status().isOk()));
