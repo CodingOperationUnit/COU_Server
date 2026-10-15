@@ -6,7 +6,7 @@
       "monsterAttackType": "Trap",
       "monsterAttackCooldown": 4.0,
       "monsterAttackTriggerRange": 3.0,
-      "monsterAttackDamage": 1,
+      "monsterAttackDamage": 100,
       "monsterAttackCount": 1,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 3.0
@@ -17,7 +17,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 3.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 3,
+      "monsterAttackDamage": 300,
       "monsterAttackCount": 1,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -28,7 +28,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 6.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 6,
+      "monsterAttackDamage": 600,
       "monsterAttackCount": 1,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -39,7 +39,7 @@
       "monsterAttackType": "Trap",
       "monsterAttackCooldown": 5.0,
       "monsterAttackTriggerRange": 3.0,
-      "monsterAttackDamage": 3,
+      "monsterAttackDamage": 300,
       "monsterAttackCount": 1,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 4.0
@@ -50,7 +50,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 3.5,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 7,
+      "monsterAttackDamage": 700,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 40.0,
       "monsterAttackDuration": 0.0
@@ -61,7 +61,7 @@
       "monsterAttackType": "Trap",
       "monsterAttackCooldown": 4.0,
       "monsterAttackTriggerRange": 5.0,
-      "monsterAttackDamage": 6,
+      "monsterAttackDamage": 600,
       "monsterAttackCount": 1,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 5.0
@@ -72,7 +72,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 6.0,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 27,
+      "monsterAttackDamage": 2700,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -83,7 +83,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 3.5,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 6,
+      "monsterAttackDamage": 600,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 40.0,
       "monsterAttackDuration": 0.0
@@ -94,7 +94,7 @@
       "monsterAttackType": "Melee",
       "monsterAttackCooldown": 6.0,
       "monsterAttackTriggerRange": 4.0,
-      "monsterAttackDamage": 15,
+      "monsterAttackDamage": 1500,
       "monsterAttackCount": 0,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -105,7 +105,7 @@
       "monsterAttackType": "Melee",
       "monsterAttackCooldown": 5.0,
       "monsterAttackTriggerRange": 5.0,
-      "monsterAttackDamage": 18,
+      "monsterAttackDamage": 1800,
       "monsterAttackCount": 0,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -116,7 +116,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 7.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 18,
+      "monsterAttackDamage": 1800,
       "monsterAttackCount": 1,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -127,7 +127,7 @@
       "monsterAttackType": "Trap",
       "monsterAttackCooldown": 4.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 6,
+      "monsterAttackDamage": 600,
       "monsterAttackCount": 1,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 5.0
@@ -138,7 +138,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 4.0,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 8,
+      "monsterAttackDamage": 800,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 30.0,
       "monsterAttackDuration": 0.0
@@ -149,7 +149,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 3.0,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 10,
+      "monsterAttackDamage": 1000,
       "monsterAttackCount": 5,
       "monsterAttackAngle": 60.0,
       "monsterAttackDuration": 0.0
@@ -160,7 +160,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 7.0,
       "monsterAttackTriggerRange": 8.0,
-      "monsterAttackDamage": 8,
+      "monsterAttackDamage": 800,
       "monsterAttackCount": 8,
       "monsterAttackAngle": 360.0,
       "monsterAttackDuration": 0.0
@@ -171,7 +171,7 @@
       "monsterAttackType": "Melee",
       "monsterAttackCooldown": 6.0,
       "monsterAttackTriggerRange": 4.0,
-      "monsterAttackDamage": 24,
+      "monsterAttackDamage": 2400,
       "monsterAttackCount": 0,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -182,7 +182,7 @@
       "monsterAttackType": "Melee",
       "monsterAttackCooldown": 4.5,
       "monsterAttackTriggerRange": 5.0,
-      "monsterAttackDamage": 27,
+      "monsterAttackDamage": 2700,
       "monsterAttackCount": 0,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -193,7 +193,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 7.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 27,
+      "monsterAttackDamage": 2700,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -204,7 +204,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 8.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 9,
+      "monsterAttackDamage": 900,
       "monsterAttackCount": 6,
       "monsterAttackAngle": 360.0,
       "monsterAttackDuration": 0.0
@@ -215,7 +215,7 @@
       "monsterAttackType": "Trap",
       "monsterAttackCooldown": 4.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 8,
+      "monsterAttackDamage": 800,
       "monsterAttackCount": 2,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 5.0
@@ -226,7 +226,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 7.0,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 30,
+      "monsterAttackDamage": 3000,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -237,7 +237,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 4.0,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 12,
+      "monsterAttackDamage": 1200,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 30.0,
       "monsterAttackDuration": 0.0
@@ -248,7 +248,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 2.5,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 13,
+      "monsterAttackDamage": 1300,
       "monsterAttackCount": 5,
       "monsterAttackAngle": 60.0,
       "monsterAttackDuration": 0.0
@@ -259,7 +259,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 6.0,
       "monsterAttackTriggerRange": 8.0,
-      "monsterAttackDamage": 11,
+      "monsterAttackDamage": 1100,
       "monsterAttackCount": 12,
       "monsterAttackAngle": 360.0,
       "monsterAttackDuration": 0.0
@@ -270,7 +270,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 8.0,
       "monsterAttackTriggerRange": 8.0,
-      "monsterAttackDamage": 33,
+      "monsterAttackDamage": 3300,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -281,7 +281,7 @@
       "monsterAttackType": "Melee",
       "monsterAttackCooldown": 4.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 36,
+      "monsterAttackDamage": 3600,
       "monsterAttackCount": 0,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -292,7 +292,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 6.5,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 36,
+      "monsterAttackDamage": 3600,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -303,7 +303,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 7.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 12,
+      "monsterAttackDamage": 1200,
       "monsterAttackCount": 8,
       "monsterAttackAngle": 360.0,
       "monsterAttackDuration": 0.0
@@ -314,7 +314,7 @@
       "monsterAttackType": "Trap",
       "monsterAttackCooldown": 4.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 10,
+      "monsterAttackDamage": 1000,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 6.0
@@ -325,7 +325,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 6.5,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 39,
+      "monsterAttackDamage": 3900,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -336,7 +336,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 6.0,
       "monsterAttackTriggerRange": 8.0,
-      "monsterAttackDamage": 13,
+      "monsterAttackDamage": 1300,
       "monsterAttackCount": 8,
       "monsterAttackAngle": 360.0,
       "monsterAttackDuration": 0.0
@@ -347,7 +347,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 2.5,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 17,
+      "monsterAttackDamage": 1700,
       "monsterAttackCount": 7,
       "monsterAttackAngle": 75.0,
       "monsterAttackDuration": 0.0
@@ -358,7 +358,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 5.0,
       "monsterAttackTriggerRange": 8.0,
-      "monsterAttackDamage": 14,
+      "monsterAttackDamage": 1400,
       "monsterAttackCount": 12,
       "monsterAttackAngle": 360.0,
       "monsterAttackDuration": 0.0
@@ -369,7 +369,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 7.0,
       "monsterAttackTriggerRange": 8.0,
-      "monsterAttackDamage": 42,
+      "monsterAttackDamage": 4200,
       "monsterAttackCount": 4,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -380,7 +380,7 @@
       "monsterAttackType": "Melee",
       "monsterAttackCooldown": 3.5,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 45,
+      "monsterAttackDamage": 4500,
       "monsterAttackCount": 0,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -391,7 +391,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 6.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 45,
+      "monsterAttackDamage": 4500,
       "monsterAttackCount": 4,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -402,7 +402,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 6.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 15,
+      "monsterAttackDamage": 1500,
       "monsterAttackCount": 10,
       "monsterAttackAngle": 360.0,
       "monsterAttackDuration": 0.0
@@ -413,7 +413,7 @@
       "monsterAttackType": "Trap",
       "monsterAttackCooldown": 3.5,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 13,
+      "monsterAttackDamage": 1300,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 6.0
@@ -424,7 +424,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 6.0,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 48,
+      "monsterAttackDamage": 4800,
       "monsterAttackCount": 4,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -435,7 +435,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 3.5,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 19,
+      "monsterAttackDamage": 1900,
       "monsterAttackCount": 5,
       "monsterAttackAngle": 60.0,
       "monsterAttackDuration": 0.0
@@ -446,7 +446,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 2.0,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 20,
+      "monsterAttackDamage": 2000,
       "monsterAttackCount": 7,
       "monsterAttackAngle": 90.0,
       "monsterAttackDuration": 0.0
@@ -457,7 +457,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 5.0,
       "monsterAttackTriggerRange": 8.0,
-      "monsterAttackDamage": 17,
+      "monsterAttackDamage": 1700,
       "monsterAttackCount": 16,
       "monsterAttackAngle": 360.0,
       "monsterAttackDuration": 0.0
@@ -468,7 +468,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 7.0,
       "monsterAttackTriggerRange": 8.0,
-      "monsterAttackDamage": 51,
+      "monsterAttackDamage": 5100,
       "monsterAttackCount": 5,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -479,7 +479,7 @@
       "monsterAttackType": "Melee",
       "monsterAttackCooldown": 3.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 54,
+      "monsterAttackDamage": 5400,
       "monsterAttackCount": 0,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -490,7 +490,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 5.5,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 54,
+      "monsterAttackDamage": 5400,
       "monsterAttackCount": 5,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -501,7 +501,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 6.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 18,
+      "monsterAttackDamage": 1800,
       "monsterAttackCount": 12,
       "monsterAttackAngle": 360.0,
       "monsterAttackDuration": 0.0
@@ -512,7 +512,7 @@
       "monsterAttackType": "Trap",
       "monsterAttackCooldown": 3.5,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 15,
+      "monsterAttackDamage": 1500,
       "monsterAttackCount": 4,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 7.0
@@ -523,7 +523,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 5.5,
       "monsterAttackTriggerRange": 7.0,
-      "monsterAttackDamage": 57,
+      "monsterAttackDamage": 5700,
       "monsterAttackCount": 5,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -534,7 +534,7 @@
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 5.0,
       "monsterAttackTriggerRange": 8.0,
-      "monsterAttackDamage": 19,
+      "monsterAttackDamage": 1900,
       "monsterAttackCount": 12,
       "monsterAttackAngle": 360.0,
       "monsterAttackDuration": 0.0
@@ -545,7 +545,7 @@
       "monsterAttackType": "Melee",
       "monsterAttackCooldown": 5.0,
       "monsterAttackTriggerRange": 5.0,
-      "monsterAttackDamage": 57,
+      "monsterAttackDamage": 5700,
       "monsterAttackCount": 0,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -556,7 +556,7 @@
       "monsterAttackType": "Melee",
       "monsterAttackCooldown": 5.0,
       "monsterAttackTriggerRange": 5.0,
-      "monsterAttackDamage": 18,
+      "monsterAttackDamage": 1800,
       "monsterAttackCount": 0,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0
@@ -567,7 +567,7 @@
       "monsterAttackType": "Area",
       "monsterAttackCooldown": 7.0,
       "monsterAttackTriggerRange": 6.0,
-      "monsterAttackDamage": 18,
+      "monsterAttackDamage": 1800,
       "monsterAttackCount": 1,
       "monsterAttackAngle": 0.0,
       "monsterAttackDuration": 0.0

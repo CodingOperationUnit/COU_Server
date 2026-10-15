@@ -73,6 +73,51 @@
       "monsterAsset": "Enemy/Prefabs/Ghost/Ghost_Mask"
     },
     {
+      "monsterId": 11017,
+      "monsterName": "일반몬스터17",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 1200,
+      "monsterMoveSpeed": 1.2,
+      "monsterContactDamage": 100,
+      "monsterAsset": "Enemy/Prefabs/Ant/Ant_Worker"
+    },
+    {
+      "monsterId": 11018,
+      "monsterName": "일반몬스터18",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 2400,
+      "monsterMoveSpeed": 1.0,
+      "monsterContactDamage": 200,
+      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Green"
+    },
+    {
+      "monsterId": 11019,
+      "monsterName": "일반몬스터19",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 4000,
+      "monsterMoveSpeed": 1.5,
+      "monsterContactDamage": 400,
+      "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Flower"
+    },
+    {
+      "monsterId": 11020,
+      "monsterName": "일반몬스터20",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 5000,
+      "monsterMoveSpeed": 1.2,
+      "monsterContactDamage": 600,
+      "monsterAsset": "Enemy/Prefabs/Scorpion/Scorpion_Purple"
+    },
+    {
+      "monsterId": 11021,
+      "monsterName": "일반몬스터21",
+      "monsterType": "Normal",
+      "monsterMaxHealthPoint": 7000,
+      "monsterMoveSpeed": 0.8,
+      "monsterContactDamage": 800,
+      "monsterAsset": "Enemy/Prefabs/Walker/Walker_Stump"
+    },
+    {
       "monsterId": 12001,
       "monsterName": "엘리트몬스터1",
       "monsterType": "Elite",
