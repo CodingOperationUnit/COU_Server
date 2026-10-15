@@ -8,13 +8,15 @@ services:
       TZ: Asia/Seoul
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci   # 한글 아이템 이름 대비
     ports:
-      - "${DB_PORT:-3306}:3306"       # 포트가 겹치는 팀원은 .env에서 변경
+      - "127.0.0.1:${DB_PORT:-3306}:3306"   # 이 PC에서만 접속 (다른 PC·외부 접속 차단). 포트가 겹치면 .env에서 변경
     volumes:
       - cou-mysql-data:/var/lib/mysql # 컨테이너를 지워도 데이터 유지
   redis:
     image: redis:7.4                  # 버전 고정
     container_name: cou-redis
+    # 비밀번호 필수. .env에 REDIS_PASSWORD가 없거나 비어 있으면 compose가 실행을 거부한다
+    command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD:?REDIS_PASSWORD를 .env에 설정하세요 (.env.example 참고)}" ]
     ports:
-      - "${REDIS_PORT:-6379}:6379"    # 포트가 겹치는 팀원은 .env에서 변경
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"   # 이 PC에서만 접속. 포트가 겹치면 .env에서 변경
 volumes:
   cou-mysql-data:
