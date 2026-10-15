@@ -342,15 +342,30 @@ public class BattleService {
                     clamp(overLimits, "skillUpgrades." + entry.getKey(), entry.getValue(), SKILL_MAX_LEVEL_UPS));
         }
 
-        Map<DropItemType, Integer> pickups = new EnumMap<>(DropItemType.class);
+        // 키는 대소문자를 구분하지 않고 같은 종류로 모인다("Bomb", "bomb", "BOMB").
+        // 키마다 상한을 적용한 뒤 더하면 키를 나눠 보내 상한을 몇 배로 늘릴 수 있으므로,
+        // 원본 값을 종류별로 먼저 합친 뒤 종류마다 한 번만 상한을 적용한다
+        Map<DropItemType, Long> pickupTotals = new EnumMap<>(DropItemType.class);
+        Map<DropItemType, Integer> pickupKeyCounts = new EnumMap<>(DropItemType.class);
         for (Map.Entry<String, Integer> entry : nullToEmpty(request.pickups()).entrySet()) {
             DropItemType type = parseDropItemType(entry.getKey());
             if (type == null || entry.getValue() == null || entry.getValue() <= 0) {
                 continue;
             }
-            pickups.merge(type,
-                    clamp(overLimits, "pickups." + type, entry.getValue(), limit.pickups().getOrDefault(type, 0)),
-                    Integer::sum);
+            pickupTotals.merge(type, entry.getValue().longValue(), Long::sum);   // int 범위를 넘지 않게 long으로 합친다
+            pickupKeyCounts.merge(type, 1, Integer::sum);
+        }
+
+        Map<DropItemType, Integer> pickups = new EnumMap<>(DropItemType.class);
+        for (Map.Entry<DropItemType, Long> entry : pickupTotals.entrySet()) {
+            DropItemType type = entry.getKey();
+            int keyCount = pickupKeyCounts.get(type);
+            if (keyCount > 1) {
+                // 정상 클라이언트는 종류마다 키를 하나만 보낸다
+                overLimits.add("pickups." + type + " keys=" + keyCount);
+            }
+            int total = (int) Math.min(entry.getValue(), Integer.MAX_VALUE);
+            pickups.put(type, clamp(overLimits, "pickups." + type, total, limit.pickups().getOrDefault(type, 0)));
         }
 
         // 행운열차는 럭키박스 1개당 최대 1번이라, 인정된 럭키박스 획득 수를 넘을 수 없다
