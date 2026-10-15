@@ -1,4 +1,4 @@
-package com.couserver.support;
+package com.couserver.account;
 
 import com.couserver.support.IntegrationTestSupport;
 import org.junit.jupiter.api.DisplayName;
