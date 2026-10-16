@@ -11,6 +11,8 @@ import com.couserver.player.entity.PlayerStat;
 import com.couserver.player.entity.PlayerStatType;
 import com.couserver.player.exception.PlayerErrorCode;
 import com.couserver.player.repository.PlayerStatRepository;
+import com.couserver.player.service.EquipmentEffectCalculator.EquipmentEffectSum;
+import java.util.List;
 import com.couserver.staticdata.dto.EvolutionData;
 import com.couserver.staticdata.dto.ItemData;
 import com.couserver.staticdata.dto.PlayerBaseStatData;
@@ -24,31 +26,39 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PlayerFinalStatService {
-    // 장비 보너스
-    // TODO: 등급 스킬 규칙이 정해지면 장비에서 계산
-    private static final int BONUS_PERCENT = 0;
-
     private final PlayerStatRepository playerStatRepository;
     private final EquipmentRepository equipmentRepository;
 
     private final StaticDataService staticDataService;
     private final EquipmentStatCalculator equipmentStatCalculator;
+    private final EquipmentEffectCalculator equipmentEffectCalculator;   // 장비 등급 효과 (HP%·ATTACK%·DEFENSE)
 
+
+    // 최종 스탯 = (기초 + 장비 고정값 + 진화) × (100 + 보너스%) / 100, 정수 나눗셈(버림)
+    // 보너스%는 장비 등급 효과의 HP%·ATTACK% 합이고, 방어력·포션 회복량은 0
+    // 장비 방어력 고정값은 등급 효과의 DEFENSE 합이다 (ItemConst 배율 미적용)
     public PlayerFinalStatResponse getFinalStat(Long playerId){
         PlayerBaseStatData baseStat = staticDataService.getPlayerBaseStat();
 
         PlayerStat playerStat = playerStatRepository.findById(playerId)
                 .orElseThrow(() -> new BusinessException(PlayerErrorCode.PLAYER_STAT_NOT_FOUND));
 
+        List<Equipment> equipped = equipmentRepository.findByPlayerId(playerId).stream()
+                .filter(Equipment::isEquipped)
+                .toList();
+        EquipmentEffectSum effects = equipmentEffectCalculator.sum(equipped);
+
         StatSource base = new StatSource(baseStat.playerBaseAttack(), baseStat.playerBaseHp(), 0, 0);
-        StatSource equipment = sumEquipped(playerId);
+        StatSource equipment = sumEquipped(equipped)
+                .plus(new StatSource(0, 0, effects.defense(), 0));
         StatSource evolution = evolutionOf(playerStat);
+        StatSource bonusPercent = new StatSource(effects.attackPercent(), effects.hpPercent(), 0, 0);
         StatSource total = base.plus(equipment).plus(evolution);
 
-        int finalAttack = applyBonus(total.attack());
-        int finalHp = applyBonus(total.hp());
-        int finalDefense = applyBonus(total.defense());
-        int finalPotionRecovery = applyBonus(total.potionRecovery());
+        int finalAttack = applyBonus(total.attack(), bonusPercent.attack());
+        int finalHp = applyBonus(total.hp(), bonusPercent.hp());
+        int finalDefense = applyBonus(total.defense(), bonusPercent.defense());
+        int finalPotionRecovery = applyBonus(total.potionRecovery(), bonusPercent.potionRecovery());
 
         // 전투력은 보너스% 적용 후의 최종값으로 계산한다 (클라이언트 장비창 표시와 같은 기준)
         int combatPower = staticDataService.getCombatPower().calculate(finalAttack, finalHp, finalDefense);
@@ -65,13 +75,12 @@ public class PlayerFinalStatService {
                 baseStat.playerBaseMoveSpeed(),
                 baseStat.playerBaseMaxMoveSpeed(),
                 baseStat.playerBaseLootRadius(),
-                new Breakdown(base, equipment, evolution));
+                new Breakdown(base, equipment, evolution, bonusPercent));
     }
 
-    // 장착중인 장비의 스탯 합
-    private StatSource sumEquipped(Long playerId){
-        return equipmentRepository.findByPlayerId(playerId).stream()
-                .filter(Equipment::isEquipped)
+    // 장착 중인 장비의 기본 보너스 합 (레벨·등급 배율 적용)
+    private StatSource sumEquipped(List<Equipment> equipped){
+        return equipped.stream()
                 .map(this::statOf)
                 .reduce(StatSource.ZERO, StatSource::plus);
     }
@@ -101,8 +110,7 @@ public class PlayerFinalStatService {
                 stat.getPlayerStatPotionRecoveryLevel() * evolution.increasePerLevel(PlayerStatType.POTION_RECOVERY));
     }
 
-    // 정수 나눗셈으로 버림
-    private int applyBonus(int value){
-        return value * (100 + BONUS_PERCENT) / 100;
+    private int applyBonus(int value, int bonusPercent){
+        return value * (100 + bonusPercent) / 100;
     }
 }
