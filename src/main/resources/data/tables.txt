@@ -8,6 +8,8 @@ DropTable
 StageRoster
 PlayerBaseStat
 Item
+EquipEffect
+ItemGradeEffect
 Skill
 SkillLevel
 DropItem
