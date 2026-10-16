@@ -10,6 +10,8 @@ import com.couserver.audit.service.SuspiciousActivityRecorder;
 import com.couserver.battle.dto.StageRecordResponse;
 import com.couserver.battle.repository.StageRecordRepository;
 import com.couserver.battle.service.StageUnlockPolicy;
+import com.couserver.chapterchest.entity.ChapterChestClaim;
+import com.couserver.chapterchest.repository.ChapterChestClaimRepository;
 import com.couserver.player.dto.PlayerStatResponse;
 import com.couserver.player.dto.PlayerStatSaveRequest;
 import com.couserver.player.entity.PlayerStat;
@@ -40,6 +42,7 @@ public class PlayerService {
     private final StageProgressRepository stageProgressRepository;
     private final PlayerStatRepository playerStatRepository;
     private final StageRecordRepository stageRecordRepository;
+    private final ChapterChestClaimRepository chapterChestClaimRepository;
     private final StaticDataService staticDataService;
     private final StageUnlockPolicy stageUnlockPolicy;
     private final SuspiciousActivityRecorder suspiciousActivityRecorder;
@@ -71,6 +74,10 @@ public class PlayerService {
                 .stream()
                 .map(StageRecordResponse::new)
                 .toList();
+        List<Integer> claimedChapterChests = chapterChestClaimRepository.findByPlayerIdOrderByStageIdAsc(playerId)
+                .stream()
+                .map(ChapterChestClaim::getStageId)
+                .toList();
 
         // 회복한 스태미나는 응답에만 반영한다. 엔티티를 바꾸면, save 트랜잭션 안에서 불릴 때
         // 재화 행 전체가 읽은 시점 값으로 다시 저장되어 동시에 처리된 구매·전투 결과를 덮어쓴다
@@ -83,7 +90,8 @@ public class PlayerService {
                 new CurrencyResponse(currency, energy),
                 new StageProgressResponse(stageProgress),
                 new PlayerStatResponse(playerStat),
-                stageRecords
+                stageRecords,
+                claimedChapterChests
         );
     }
 

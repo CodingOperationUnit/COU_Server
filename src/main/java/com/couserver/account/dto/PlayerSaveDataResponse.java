@@ -16,4 +16,5 @@ public class PlayerSaveDataResponse {
     private final StageProgressResponse stageProgress;
     private final PlayerStatResponse playerStat;
     private final List<StageRecordResponse> stageRecords;
+    private final List<Integer> claimedChapterChests;   // 챕터 보물상자를 받은 스테이지 ID
 }

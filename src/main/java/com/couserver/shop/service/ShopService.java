@@ -97,8 +97,8 @@ public class ShopService {
                 currency.getCurrencyGold(), currency.getCurrencyGem(), rewardedItems);
     }
 
-    // 등급 범위 안의 장비 중 하나를 뽑아 지급한다
-    private EquipmentResponse drawEquipment(Long playerId, ShopProductData product) {
+    // 등급 범위 안의 장비 중 하나를 뽑아 지급한다. 챕터 보물상자도 같은 규칙으로 뽑는다
+    public EquipmentResponse drawEquipment(Long playerId, ShopProductData product) {
         List<ItemData> candidates = staticDataService.getItems().values().stream()
                 .filter(i -> i.grade().ordinal() >= product.minGrade().ordinal()
                         && i.grade().ordinal() <= product.maxGrade().ordinal())
