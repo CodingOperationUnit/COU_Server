@@ -111,6 +111,9 @@ public abstract class IntegrationTestSupport {
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
                 .andExpect(status().isOk()));
         Number playerId = JsonPath.read(saveBody, "$.profile.playerId");
+        // 가입하면 시작 장비(펄스 키보드)가 지급된다. 다른 테스트는 빈 인벤토리·기본 스탯을 기준으로 하므로 지워 둔다.
+        // 시작 장비 지급 자체는 AccountApiTest에서 따로 확인한다
+        jdbcTemplate.update("DELETE FROM equipment WHERE player_id = ?", playerId.longValue());
         return new TestAccount(loginId, accessToken, playerId.longValue());
     }
 
