@@ -5,7 +5,7 @@
       "stageName": "Forest",
       "stageIllustrationColor": "#4C7A3D",
       "waveId": 1,
-      "stageDescription": "몬스터가 가득한 숲입니다.",
+      "stageDescription": "버그가 가득한 클라이언트 숲입니다.",
       "clearAccountExp": 500,
       "rewardBoxGradeWeights": [
         100,

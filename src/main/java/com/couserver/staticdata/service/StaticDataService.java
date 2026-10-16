@@ -45,6 +45,7 @@ public class StaticDataService {
     private final Map<Long, ItemData> items;
     private final Map<Integer, ShopProductData> shopProducts;
     private final Map<Long, SkillData> skills;
+    private final Map<Long, Map<Integer, SkillLevelData>> skillLevels;  // key: Skill의 skillId → skillLevel
     private final EvolutionData evolution;
     private final CombatPowerData combatPower;
     private final Map<Integer, AchievementData> achievements;
@@ -183,6 +184,34 @@ public class StaticDataService {
         }
         skills = skillRows.stream()
                 .collect(Collectors.toUnmodifiableMap(SkillData::skillId, Function.identity()));
+
+        // 숫자 열이 null이면 0으로 읽혀 통과하므로 원본 JSON에서 먼저 확인한다. description만 null이어도 된다
+        for (JsonNode raw : tables.get("SkillLevel").get("datas")) {
+            for (String column : List.of("skillLevelId", "skillId", "skillLevel",
+                    "effect1Type", "effect1Value", "effect2Type", "effect2Value")) {
+                require(raw.hasNonNull(column), "SkillLevel " + raw.path("skillLevelId") + "의 " + column + "은(는) 비어 있을 수 없습니다.");
+            }
+        }
+        List<SkillLevelData> skillLevelRows = rows(rowMapper, "SkillLevel", SkillLevelData.class);
+        requireIds("SkillLevel", skillLevelRows, SkillLevelData::skillLevelId);
+        Map<Long, Map<Integer, SkillLevelData>> levelMap = new HashMap<>();
+        for (SkillLevelData row : skillLevelRows) {
+            String name = "SkillLevel " + row.skillLevelId();
+            require(skills.containsKey(row.skillId()), name + "의 skillId " + row.skillId() + "을(를) Skill에서 찾을 수 없습니다.");
+            require(row.skillLevel() >= 1, name + "의 skillLevel은 1 이상이어야 합니다.");
+            require(levelMap.computeIfAbsent(row.skillId(), id -> new HashMap<>()).putIfAbsent(row.skillLevel(), row) == null,
+                    name + ": Skill " + row.skillId() + "의 skillLevel " + row.skillLevel() + "이(가) 중복됩니다.");
+        }
+        for (SkillData skill : skillRows) {
+            Map<Integer, SkillLevelData> levels = levelMap.get(skill.skillId());
+            require(levels != null, "Skill " + skill.skillId() + "의 SkillLevel 행이 없습니다.");
+            for (int level = 1; level <= levels.size(); level++) {
+                require(levels.containsKey(level),
+                        "Skill " + skill.skillId() + "의 SkillLevel은 1부터 끊김 없이 이어져야 합니다. (" + level + " 누락)");
+            }
+        }
+        skillLevels = levelMap.entrySet().stream()
+                .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, entry -> Map.copyOf(entry.getValue())));
 
         List<AchievementData> achievementRows = rows(rowMapper, "Achievement", AchievementData.class);
         requireIds("Achievement", achievementRows, AchievementData::achievementId);
