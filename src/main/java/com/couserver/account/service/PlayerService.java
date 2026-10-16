@@ -12,12 +12,15 @@ import com.couserver.battle.repository.StageRecordRepository;
 import com.couserver.battle.service.StageUnlockPolicy;
 import com.couserver.chapterchest.entity.ChapterChestClaim;
 import com.couserver.chapterchest.repository.ChapterChestClaimRepository;
+import com.couserver.inventory.entity.Equipment;
+import com.couserver.inventory.repository.EquipmentRepository;
 import com.couserver.player.dto.PlayerStatResponse;
 import com.couserver.player.dto.PlayerStatSaveRequest;
 import com.couserver.player.entity.PlayerStat;
 import com.couserver.player.repository.PlayerStatRepository;
 import com.couserver.ranking.event.RankingChangedEvent;
 import com.couserver.staticdata.dto.AccountConstData;
+import com.couserver.staticdata.dto.ItemData;
 import com.couserver.staticdata.service.StaticDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -36,6 +39,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PlayerService {
     private static final String NICKNAME_IN_USE = "이미 사용 중인 닉네임입니다.";
+    // 신규 계정에 지급·장착하는 시작 장비: 펄스 키보드(Weapon / General). 클라이언트 시작 공격 스킬이 장착 무기에서 정해진다
+    private static final long STARTER_WEAPON_ITEM_ID = 6001L;
 
     private final PlayerProfileRepository playerProfileRepository;
     private final CurrencyRepository currencyRepository;
@@ -43,6 +48,7 @@ public class PlayerService {
     private final PlayerStatRepository playerStatRepository;
     private final StageRecordRepository stageRecordRepository;
     private final ChapterChestClaimRepository chapterChestClaimRepository;
+    private final EquipmentRepository equipmentRepository;
     private final StaticDataService staticDataService;
     private final StageUnlockPolicy stageUnlockPolicy;
     private final SuspiciousActivityRecorder suspiciousActivityRecorder;
@@ -59,8 +65,20 @@ public class PlayerService {
                 accountConst.initialStamina(), Instant.now(clock)));
         stageProgressRepository.save(new StageProgress(playerId, staticDataService.getFirstStageId()));
         playerStatRepository.save(new PlayerStat(playerId));
+        grantStarterEquipment(playerId);
         // 랭킹값 변경알림(Redis에 갱신)
         eventPublisher.publishEvent(new RankingChangedEvent(playerId));
+    }
+
+    // 신규 계정 전용: 시작 무기를 지급하고 바로 장착한다. 기존 계정에는 적용하지 않는다
+    private void grantStarterEquipment(Long playerId) {
+        ItemData starterItem = staticDataService.getItems().get(STARTER_WEAPON_ITEM_ID);
+        if (starterItem == null) {
+            throw new IllegalStateException("시작 장비 아이템이 정적 데이터에 없습니다: " + STARTER_WEAPON_ITEM_ID);
+        }
+        Equipment starter = Equipment.create(playerId, starterItem);
+        starter.equip();
+        equipmentRepository.save(starter);
     }
 
     @Transactional(readOnly = true)

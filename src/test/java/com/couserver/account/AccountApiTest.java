@@ -1,6 +1,8 @@
 package com.couserver.account;
 
 import com.couserver.support.IntegrationTestSupport;
+import com.jayway.jsonpath.JsonPath;
+import org.springframework.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +20,23 @@ class AccountApiTest extends IntegrationTestSupport{
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.accountId").isNumber())
                 .andExpect(jsonPath("$.accountLoginId").value(loginId));
+    }
+
+    @Test
+    @DisplayName("신규 가입하면 펄스 키보드(General)가 지급되고 장착되어 있다")
+    void signUpGrantsEquippedStarterWeapon() throws Exception {
+        String loginId = uniqueLoginId();
+        signup(loginId, TEST_PASSWORD).andExpect(status().isCreated());
+        String loginBody = bodyOf(login(loginId, TEST_PASSWORD).andExpect(status().isOk()));
+        String accessToken = JsonPath.read(loginBody, "$.accessToken");
+
+        mockMvc.perform(get("/api/inventory").header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.items.length()").value(1))
+                .andExpect(jsonPath("$.items[0].itemId").value(6001))
+                .andExpect(jsonPath("$.items[0].inventoryItemGrade").value("General"))
+                .andExpect(jsonPath("$.items[0].inventoryItemLevel").value(1))
+                .andExpect(jsonPath("$.items[0].isEquipped").value(true));
     }
 
     @Test
