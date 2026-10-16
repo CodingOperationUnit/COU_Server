@@ -1,0 +1,904 @@
+{
+  "datas": [
+    {
+      "skillLevelId": 20011,
+      "skillId": 20010,
+      "skillLevel": 1,
+      "effect1Type": "Damage",
+      "effect1Value": 5.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20012,
+      "skillId": 20010,
+      "skillLevel": 2,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 5.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20013,
+      "skillId": 20010,
+      "skillLevel": 3,
+      "effect1Type": "Damage",
+      "effect1Value": 10.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20014,
+      "skillId": 20010,
+      "skillLevel": 4,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 15.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20015,
+      "skillId": 20010,
+      "skillLevel": 5,
+      "effect1Type": "Pierce",
+      "effect1Value": 1.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20021,
+      "skillId": 20020,
+      "skillLevel": 1,
+      "effect1Type": "Damage",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20022,
+      "skillId": 20020,
+      "skillLevel": 2,
+      "effect1Type": "Range",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20023,
+      "skillId": 20020,
+      "skillLevel": 3,
+      "effect1Type": "Damage",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20024,
+      "skillId": 20020,
+      "skillLevel": 4,
+      "effect1Type": "Range",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20025,
+      "skillId": 20020,
+      "skillLevel": 5,
+      "effect1Type": "Pierce",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20031,
+      "skillId": 20030,
+      "skillLevel": 1,
+      "effect1Type": "Range",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20032,
+      "skillId": 20030,
+      "skillLevel": 2,
+      "effect1Type": "CriticalChance",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20033,
+      "skillId": 20030,
+      "skillLevel": 3,
+      "effect1Type": "Range",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20034,
+      "skillId": 20030,
+      "skillLevel": 4,
+      "effect1Type": "CriticalChance",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20035,
+      "skillId": 20030,
+      "skillLevel": 5,
+      "effect1Type": "Repeat",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20041,
+      "skillId": 20040,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20042,
+      "skillId": 20040,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20043,
+      "skillId": 20040,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20044,
+      "skillId": 20040,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20045,
+      "skillId": 20040,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20051,
+      "skillId": 20050,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20052,
+      "skillId": 20050,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20053,
+      "skillId": 20050,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20054,
+      "skillId": 20050,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20055,
+      "skillId": 20050,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20061,
+      "skillId": 20060,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20062,
+      "skillId": 20060,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20063,
+      "skillId": 20060,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20064,
+      "skillId": 20060,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20065,
+      "skillId": 20060,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20071,
+      "skillId": 20070,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20072,
+      "skillId": 20070,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20073,
+      "skillId": 20070,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20074,
+      "skillId": 20070,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20075,
+      "skillId": 20070,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20081,
+      "skillId": 20080,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20082,
+      "skillId": 20080,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20083,
+      "skillId": 20080,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20084,
+      "skillId": 20080,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20085,
+      "skillId": 20080,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20091,
+      "skillId": 20090,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20092,
+      "skillId": 20090,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20093,
+      "skillId": 20090,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20094,
+      "skillId": 20090,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 20095,
+      "skillId": 20090,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21011,
+      "skillId": 21010,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21012,
+      "skillId": 21010,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21013,
+      "skillId": 21010,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21014,
+      "skillId": 21010,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21015,
+      "skillId": 21010,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21021,
+      "skillId": 21020,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21022,
+      "skillId": 21020,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21023,
+      "skillId": 21020,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21024,
+      "skillId": 21020,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21025,
+      "skillId": 21020,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21031,
+      "skillId": 21030,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21032,
+      "skillId": 21030,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21033,
+      "skillId": 21030,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21034,
+      "skillId": 21030,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21035,
+      "skillId": 21030,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21041,
+      "skillId": 21040,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21042,
+      "skillId": 21040,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21043,
+      "skillId": 21040,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21044,
+      "skillId": 21040,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21045,
+      "skillId": 21040,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21051,
+      "skillId": 21050,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21052,
+      "skillId": 21050,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21053,
+      "skillId": 21050,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21054,
+      "skillId": 21050,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21055,
+      "skillId": 21050,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21061,
+      "skillId": 21060,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21062,
+      "skillId": 21060,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21063,
+      "skillId": 21060,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21064,
+      "skillId": 21060,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21065,
+      "skillId": 21060,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21071,
+      "skillId": 21070,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21072,
+      "skillId": 21070,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21073,
+      "skillId": 21070,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21074,
+      "skillId": 21070,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21075,
+      "skillId": 21070,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21081,
+      "skillId": 21080,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21082,
+      "skillId": 21080,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21083,
+      "skillId": 21080,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21084,
+      "skillId": 21080,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21085,
+      "skillId": 21080,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21091,
+      "skillId": 21090,
+      "skillLevel": 1,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21092,
+      "skillId": 21090,
+      "skillLevel": 2,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21093,
+      "skillId": 21090,
+      "skillLevel": 3,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21094,
+      "skillId": 21090,
+      "skillLevel": 4,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    },
+    {
+      "skillLevelId": 21095,
+      "skillId": 21090,
+      "skillLevel": 5,
+      "effect1Type": "None",
+      "effect1Value": 0.0,
+      "effect2Type": "None",
+      "effect2Value": 0.0,
+      "description": ""
+    }
+  ]
+}
