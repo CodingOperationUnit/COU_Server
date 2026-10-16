@@ -41,7 +41,9 @@
 | Monster | `MonsterData` | monsterId, monsterType |
 | DropTable | `DropTableEntryData` | monsterType, dropGroup, dropItemType, weight, count |
 | DropItem | `DropItemData` | dropItemId, dropItemType, value |
-| Item | `ItemData` | itemId, slotType, grade |
+| Item | `ItemData` | itemId, slotType, grade, hpBonus, attackBonus |
+| EquipEffect | `EquipEffectData` | effectId, effectDescription, effectCategory, statType, valueType, effectValue, triggerType, triggerChance, triggerInterval, actionType, actionValue |
+| ItemGradeEffect | `ItemGradeEffectData` | itemGradeEffectId, itemId(FK → Item), grade, effectId(FK → EquipEffect) |
 | Shop | `ShopProductData` | productId, productType, priceGem, rewardAmount, minGrade, maxGrade, active |
 | Skill | `SkillData` | skillId, skillName, skillCategory, skillTargetType, skillCooldown, skillSpeed, skillDamage, skillRange, skillDescription |
 | SkillLevel | `SkillLevelData` | skillLevelId(PK), skillId(FK → Skill), skillLevel, effect1Type, effect1Value, effect2Type, effect2Value, description |
@@ -143,6 +145,8 @@ flowchart TD
 | `getDropTables()` | `Map<MonsterType, List<DropTableEntryData>>` | monsterType |
 | `getDropItems()` | `Map<DropItemType, DropItemData>` | dropItemType |
 | `getItems()` | `Map<Long, ItemData>` | itemId |
+| `getEquipEffects()` | `Map<Long, EquipEffectData>` | effectId |
+| `getItemGradeEffects()` | `Map<Long, Map<ItemGrade, List<EquipEffectData>>>` | itemId → 해금 등급. 목록은 시트 행 순서, 효과가 없는 아이템은 키가 없음 |
 | `getShopProducts()` | `Map<Integer, ShopProductData>` | productId |
 | `getSkills()` | `Map<Long, SkillData>` | skillId |
 | `getSkillLevels()` | `Map<Long, Map<Integer, SkillLevelData>>` | Skill의 skillId → skillLevel |
@@ -167,7 +171,7 @@ public class BattleService {
 }
 ```
 
-지금 `StaticDataService`를 쓰는 코드는 `PlayerService`(초기 재화, 첫 스테이지 `getFirstStageId()`), `InventoryService`(Item), `BattleService`(전투 입장·결과 검증), `ShopService`(Shop), `PlayerFinalStatService`(PlayerBaseStat)다.
+지금 `StaticDataService`를 쓰는 코드는 `PlayerService`(초기 재화, 첫 스테이지 `getFirstStageId()`), `InventoryService`(Item), `BattleService`(전투 입장·결과 검증), `ShopService`(Shop), `EvolutionService`(Evolution), `PlayerFinalStatService`(PlayerBaseStat, Item, Evolution, CombatPower), `EquipmentStatCalculator`(ItemConst 원본 JSON), `EquipmentEffectCalculator`(ItemGradeEffect)다.
 
 ### 5.2 데이터 추가·수정
 1. 구글 시트를 수정한다.
@@ -218,7 +222,7 @@ public class BattleService {
 |---|---|
 | 공통 | `datas` 배열이 비어 있지 않음, 서버가 읽는 열이 모두 있음 |
 | AccountConst, PlayerBaseStat | 행이 정확히 1개 |
-| Stage, StageRoster, Wave, SpawnPattern, Monster, MonsterAttack, DropItem, Item, Shop, Skill, SkillLevel | ID가 1 이상이고 중복 없음(SkillLevel은 skillLevelId) |
+| Stage, StageRoster, Wave, SpawnPattern, Monster, MonsterAttack, DropItem, Item, Shop, Skill, SkillLevel, EquipEffect, ItemGradeEffect | ID가 1 이상이고 중복 없음(SkillLevel은 skillLevelId, ItemGradeEffect는 itemGradeEffectId) |
 | Stage | waveId가 Wave에 있음, 그 웨이브의 monsterSlot이 모두 이 스테이지의 StageRoster에 있음 |
 | StageRoster | stageId가 Stage에, monsterId가 Monster에 있음, 같은 stageId 안에서 monsterSlot 중복 없음, monsterHpScale > 0, monsterDamageScale > 0, patternId가 0이거나 SpawnPattern에 있음 |
 | Wave | patternId가 SpawnPattern에 있음, patternStartTime ≥ 0, patternDuration ≥ 0, patternDuration > 0(반복 행)이면 spawnInterval > 0 |
@@ -229,6 +233,8 @@ public class BattleService {
 | Shop | priceGem ≥ 0, RANDOMITEM이면 minGrade ≤ maxGrade이고 그 등급 범위의 Item이 있음, 그 밖에는 rewardAmount ≥ 1 |
 | Skill | skillCategory가 0 또는 1 |
 | SkillLevel | description을 뺀 모든 열이 null이 아님, skillId가 Skill에 있음(FK), skillLevel 1 이상, (skillId, skillLevel) 중복 없음, 모든 Skill에 레벨 행이 있고 1부터 끊김 없이 이어짐 |
+| EquipEffect | 종류 칸(effectCategory, statType, valueType, triggerType, actionType)이 비어 있지 않음. 제외 대상(`(effectId / 1000) % 10 == 9`, 79xxx)은 아래 검사를 건너뜀. effectCategory가 None이 아님. Stat형은 statType이 None이 아니고 valueType이 정해진 조합(HP·ATTACK·MOVE_SPEED는 Percent, 그 외 Add)이며, HP·ATTACK·DEFENSE의 effectValue는 정수. Trigger형은 triggerType·actionType이 None이 아님 |
+| ItemGradeEffect | grade가 비어 있지 않음, itemId가 Item에 있음(FK), effectId가 EquipEffect에 있음(FK) |
 
 ## 6. 주의사항 및 FAQ
 - **버전 비교 방식은?** 문자열 완전 일치다. 크고 작음을 비교하지 않는다. 글자 하나라도 다르면 200으로 전체를 내려준다.
