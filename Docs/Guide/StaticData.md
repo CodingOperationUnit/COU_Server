@@ -43,7 +43,8 @@
 | DropItem | `DropItemData` | dropItemId, dropItemType, value |
 | Item | `ItemData` | itemId, slotType, grade |
 | Shop | `ShopProductData` | productId, productType, priceGem, rewardAmount, minGrade, maxGrade, active |
-| Skill | `SkillData` | skillId, skillName, skillCategory, skillType, skillCooldown, skillSpeed, skillDamage, skillRange, skillDescription, level1SkillDescription ~ level5SkillDescription |
+| Skill | `SkillData` | skillId, skillName, skillCategory, skillTargetType, skillCooldown, skillSpeed, skillDamage, skillRange, skillDescription |
+| SkillLevel | `SkillLevelData` | skillLevelId(PK), skillId(FK → Skill), skillLevel, effect1Type, effect1Value, effect2Type, effect2Value, description |
 | MonsterAttack | `MonsterAttackData` (검사만, 맵 없음) | monsterAttackId, monsterId, monsterAttackType |
 | PlayerBaseStat | `PlayerBaseStatData` (행 1개) | playerBaseAttack, playerBaseHp, playerBaseCriticalDamage, playerBaseCriticalChance, playerBaseSkillDamage, playerBaseMoveSpeed, playerBaseMaxMoveSpeed, playerBaseLootRadius |
 
@@ -144,6 +145,7 @@ flowchart TD
 | `getItems()` | `Map<Long, ItemData>` | itemId |
 | `getShopProducts()` | `Map<Integer, ShopProductData>` | productId |
 | `getSkills()` | `Map<Long, SkillData>` | skillId |
+| `getSkillLevels()` | `Map<Long, Map<Integer, SkillLevelData>>` | Skill의 skillId → skillLevel |
 | `getPlayerBaseStat()` | `PlayerBaseStatData` | 없음(단일 행) |
 | `getVersion()` | `String` | 없음 |
 | `getTables()` | `Map<String, JsonNode>` | 테이블 이름(클라이언트 전송용 원본) |
@@ -216,7 +218,7 @@ public class BattleService {
 |---|---|
 | 공통 | `datas` 배열이 비어 있지 않음, 서버가 읽는 열이 모두 있음 |
 | AccountConst, PlayerBaseStat | 행이 정확히 1개 |
-| Stage, StageRoster, Wave, SpawnPattern, Monster, MonsterAttack, DropItem, Item, Shop, Skill | ID가 1 이상이고 중복 없음 |
+| Stage, StageRoster, Wave, SpawnPattern, Monster, MonsterAttack, DropItem, Item, Shop, Skill, SkillLevel | ID가 1 이상이고 중복 없음(SkillLevel은 skillLevelId) |
 | Stage | waveId가 Wave에 있음, 그 웨이브의 monsterSlot이 모두 이 스테이지의 StageRoster에 있음 |
 | StageRoster | stageId가 Stage에, monsterId가 Monster에 있음, 같은 stageId 안에서 monsterSlot 중복 없음, monsterHpScale > 0, monsterDamageScale > 0, patternId가 0이거나 SpawnPattern에 있음 |
 | Wave | patternId가 SpawnPattern에 있음, patternStartTime ≥ 0, patternDuration ≥ 0, patternDuration > 0(반복 행)이면 spawnInterval > 0 |
@@ -226,6 +228,7 @@ public class BattleService {
 | DropItem | dropItemType이 None이 아님 |
 | Shop | priceGem ≥ 0, RANDOMITEM이면 minGrade ≤ maxGrade이고 그 등급 범위의 Item이 있음, 그 밖에는 rewardAmount ≥ 1 |
 | Skill | skillCategory가 0 또는 1 |
+| SkillLevel | description을 뺀 모든 열이 null이 아님, skillId가 Skill에 있음(FK), skillLevel 1 이상, (skillId, skillLevel) 중복 없음, 모든 Skill에 레벨 행이 있고 1부터 끊김 없이 이어짐 |
 
 ## 6. 주의사항 및 FAQ
 - **버전 비교 방식은?** 문자열 완전 일치다. 크고 작음을 비교하지 않는다. 글자 하나라도 다르면 200으로 전체를 내려준다.
