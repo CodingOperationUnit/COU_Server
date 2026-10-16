@@ -12,7 +12,8 @@
       "staminaRecoverySeconds": 300,
       "accountExpPerKill": 1,
       "accountExpPerSecond": 1,
-      "luckTrainGoldMax": 300
+      "luckTrainGoldMax": 300,
+      "patrolStaminaCost": 15
     }
   ]
 }

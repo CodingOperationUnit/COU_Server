@@ -5,6 +5,7 @@ import com.couserver.battle.dto.BattleEnterRequest;
 import com.couserver.battle.dto.BattleEnterResponse;
 import com.couserver.battle.dto.BattleResultRequest;
 import com.couserver.battle.dto.BattleResultResponse;
+import com.couserver.battle.dto.PatrolResponse;
 import com.couserver.battle.service.BattleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,10 @@ public class BattleController {
                                              @PathVariable Long battleId,
                                              @Valid @RequestBody BattleResultRequest request) {
         return battleService.submitResult(authAccount.getPlayerId(), battleId, request);
+    }
+
+    @PostMapping("/patrol")
+    public PatrolResponse patrol(@AuthenticationPrincipal AuthAccount authAccount) {
+        return battleService.patrol(authAccount.getPlayerId());
     }
 }

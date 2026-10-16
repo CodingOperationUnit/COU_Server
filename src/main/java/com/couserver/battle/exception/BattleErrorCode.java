@@ -15,7 +15,8 @@ public enum BattleErrorCode implements ErrorCode {
     NOT_ENOUGH_STAMINA(HttpStatus.BAD_REQUEST, "스태미나가 부족합니다."),
     BATTLE_NOT_FOUND(HttpStatus.NOT_FOUND, "전투를 찾을 수 없습니다."),
     NOT_OWNED_BATTLE(HttpStatus.FORBIDDEN, "내 전투가 아닙니다."),
-    BATTLE_ALREADY_COMPLETED(HttpStatus.CONFLICT, "이미 결과를 반영한 전투입니다.");
+    BATTLE_ALREADY_COMPLETED(HttpStatus.CONFLICT, "이미 결과를 반영한 전투입니다."),
+    NO_CLEARED_STAGE(HttpStatus.BAD_REQUEST, "클리어한 스테이지가 없습니다.");
 
     private final HttpStatus status;
     private final String message;
