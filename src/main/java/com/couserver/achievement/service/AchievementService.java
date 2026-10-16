@@ -12,6 +12,8 @@ import com.couserver.achievement.repository.PlayerAchievementRepository;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.staticdata.dto.AchievementData;
 import com.couserver.staticdata.service.StaticDataService;
+import com.couserver.ledger.entity.LedgerReason;
+import com.couserver.ledger.service.CurrencyLedgerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,7 @@ public class AchievementService {
     private final PlayerAchievementRepository playerAchievementRepository;
     private final CurrencyRepository currencyRepository; // 계정 담당 (잠금 조회/재화 지급에 사용)
     private final StaticDataService staticDataService;
+    private final CurrencyLedgerService currencyLedger;
 
     // 정적 데이터의 모든 업적을 업적 ID 순으로 내려준다. 기록이 없는 업적은 진행값 0으로 채운다
     @Transactional(readOnly = true)
@@ -66,8 +69,8 @@ public class AchievementService {
 
         int amount = data.rewardAmount().get(step);
         switch (data.rewardItemType().get(step)) {
-            case GOLD -> currency.addGold(amount);
-            case GEM -> currency.addGem(amount);
+            case GOLD -> currencyLedger.addGold(currency, amount, LedgerReason.ACHIEVEMENT_REWARD, (long) achievementId);
+            case GEM -> currencyLedger.addGem(currency, amount, LedgerReason.ACHIEVEMENT_REWARD, (long) achievementId);
         }
         achievement.claimNextStep(); // 변경 감지로 자동 UPDATE
 

@@ -23,6 +23,7 @@ import com.couserver.battle.entity.StageRecord;
 import com.couserver.battle.exception.BattleErrorCode;
 import com.couserver.battle.repository.BattleSessionRepository;
 import com.couserver.battle.repository.StageRecordRepository;
+import com.couserver.battle.event.BattleRecordedEvent;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.inventory.dto.EquipmentResponse;
 import com.couserver.inventory.entity.Equipment;
@@ -39,6 +40,8 @@ import com.couserver.staticdata.dto.StageData;
 import com.couserver.staticdata.dto.StageRosterData;
 import com.couserver.staticdata.dto.WaveEntryData;
 import com.couserver.staticdata.service.StaticDataService;
+import com.couserver.ledger.entity.LedgerReason;
+import com.couserver.ledger.service.CurrencyLedgerService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +64,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BattleService {
     private static final int SECONDS_TOLERANCE = 5;           // 입장과 결과를 다른 서버가 받을 때의 시계 차이 허용(초)
-    private static final double MIN_SPAWN_INTERVAL = 0.1;     // 클라이언트 WaveManager.minRepeatInterval
     private static final int LUCK_TRAIN_MAX_PICKS = 5;        // 행운열차 한 번의 최대 당첨 칸 수 (PlayerLuckTrain)
     private static final int SKILL_MAX_LEVEL_UPS = 4;         // 클라이언트 SkillBase.MaxLevel(5)
     private static final Set<DropItemType> GOLD_TYPES =
@@ -78,9 +80,12 @@ public class BattleService {
     private final EquipmentRepository equipmentRepository;
     private final AchievementService achievementService;
     private final StageUnlockPolicy stageUnlockPolicy;
+    private final CurrencyLedgerService currencyLedger;
     private final SuspiciousActivityRecorder suspiciousActivityRecorder;
+    private final BattleTimePolicy battleTimePolicy;
 
-    private Map<Integer, StageLimit> stageLimits;           // key: stageId
+    private Map<Integer, StageLimit> stageLimits;           // key: stageId, 스테이지 전체 기준 상한
+    private Map<Integer, Double> bossSpawnSeconds;          // key: stageId, 보스가 처음 나오는 시각(초). 보스가 없는 스테이지는 없음          // key: stageId
     private Map<ItemGrade, List<ItemData>> itemsByGrade;    // 보상상자 장비 후보
 
     // 스테이지 한 판에서 클라이언트가 보낼 수 있는 값의 상한
@@ -90,7 +95,13 @@ public class BattleService {
     @PostConstruct
     void computeFromStaticData() {
         stageLimits = staticDataService.getStages().values().stream()
-                .collect(Collectors.toUnmodifiableMap(StageData::stageId, this::computeStageLimit));
+                .collect(Collectors.toUnmodifiableMap(StageData::stageId,
+                        stage -> computeStageLimit(stage, Double.POSITIVE_INFINITY)));
+        Map<Integer, Double> bossTimes = new HashMap<>();
+        for (StageData stage : staticDataService.getStages().values()) {
+            computeBossSpawnSeconds(stage).ifPresent(seconds -> bossTimes.put(stage.stageId(), seconds));
+        }
+        bossSpawnSeconds = Map.copyOf(bossTimes);
         itemsByGrade = Map.copyOf(staticDataService.getItems().values().stream()
                 .collect(Collectors.groupingBy(ItemData::grade, Collectors.toUnmodifiableList())));
     }
@@ -131,6 +142,9 @@ public class BattleService {
         BattleSession session = battleSessionRepository.findForUpdate(battleId)
                 .orElseThrow(() -> new BusinessException(BattleErrorCode.BATTLE_NOT_FOUND));
         if (!session.getPlayerId().equals(playerId)) {
+            // 정상 클라이언트는 자기 전투 ID만 보낸다
+            suspiciousActivityRecorder.record(playerId, SuspiciousActivityType.FOREIGN_RESOURCE_ACCESS,
+                    "battle battleId=" + battleId);
             throw new BusinessException(BattleErrorCode.NOT_OWNED_BATTLE);
         }
         if (session.getStatus() == BattleStatus.COMPLETED) {
@@ -139,11 +153,18 @@ public class BattleService {
 
         int stageId = session.getStageId();
         StageData stage = staticDataService.getStages().get(stageId);
-        StageLimit limit = stageLimits.get(stageId);
 
         List<String> overLimits = new ArrayList<>();   // 상한을 넘은 값. 전투 하나에 의심 기록 하나로 남긴다
         long elapsedSeconds = Duration.between(session.getEnteredAt(), Instant.now(clock)).getSeconds();
-        int seconds = clamp(overLimits, "seconds", request.seconds(), (int) elapsedSeconds + SECONDS_TOLERANCE);
+        // 서버 기준 경과 시간 동안 전투에서 흐를 수 있는 최대 게임 시간. 상한도 그 시각까지 나온 몬스터로 계산한다
+        double gameSeconds = battleTimePolicy.maxGameSeconds(elapsedSeconds + SECONDS_TOLERANCE);
+        StageLimit limit = limitAt(stage, gameSeconds);
+
+        // 승리는 보스 처치뿐이고 보스는 등장 시각 전에는 나오지 않으므로, 그보다 짧은 시간에 끝난 승리는 패배로 처리한다
+        boolean tooFastVictory = request.victory() && isTooFastVictory(stageId, gameSeconds);
+        boolean victory = request.victory() && !tooFastVictory;
+
+        int seconds = clamp(overLimits, "seconds", request.seconds(), (int) Math.min(gameSeconds, Integer.MAX_VALUE));
         int kills = clamp(overLimits, "kills", request.kills(), limit.kills());
         int gold = clamp(overLimits, "gold", request.gold(), limit.gold());
         int rewardBoxes = clamp(overLimits, "rewardBoxes", request.rewardBoxes(), limit.rewardBoxes());
@@ -151,24 +172,29 @@ public class BattleService {
         AccountConstData accountConst = staticDataService.getAccountConst();
         int exp = kills * accountConst.accountExpPerKill()
                 + seconds * accountConst.accountExpPerSecond()
-                + (request.victory() ? stage.clearAccountExp() : 0);
+                + (victory ? stage.clearAccountExp() : 0);
 
         PlayerProfile profile = playerProfileRepository.findById(playerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "플레이어 데이터가 없습니다."));
         profile.gainExp(exp, accountConst);
-        currency.addGold(gold);
+        currencyLedger.addGold(currency, gold, LedgerReason.BATTLE_RESULT, battleId);
 
         // 업적 진행 누적 (같은 트랜잭션)
         achievementService.addBattleProgress(playerId,
-                buildAchievementProgress(overLimits, request, kills, gold, limit, exp));
+                buildAchievementProgress(overLimits, request, victory, kills, gold, limit, exp));
 
         if (!overLimits.isEmpty()) {
             suspiciousActivityRecorder.record(playerId, SuspiciousActivityType.BATTLE_RESULT_OVER_LIMIT,
                     "battleId=" + battleId + " stageId=" + stageId + " " + String.join(", ", overLimits));
         }
+        if (tooFastVictory) {
+            suspiciousActivityRecorder.record(playerId, SuspiciousActivityType.BATTLE_RESULT_TOO_FAST,
+                    "battleId=" + battleId + " stageId=" + stageId + " elapsedSeconds=" + elapsedSeconds
+                            + " bossSpawnSeconds=" + bossSpawnSeconds.get(stageId));
+        }
 
         StageProgress progress = getStageProgress(playerId);
-        progress.recordBattle(stageId, request.victory());
+        progress.recordBattle(stageId, victory);
 
         StageRecord record = stageRecordRepository.findByPlayerIdAndStageId(playerId, stageId)
                 .orElseGet(() -> new StageRecord(playerId, stageId));
@@ -180,6 +206,11 @@ public class BattleService {
         session.complete();
         // 랭킹값 변경알림(Redis에 갱신)
         eventPublisher.publishEvent(new RankingChangedEvent(playerId));
+        // 전투 통계 기록 알림 (커밋된 뒤에 저장되고, 저장이 실패해도 이 결과에는 영향이 없다)
+        eventPublisher.publishEvent(new BattleRecordedEvent(
+                playerId, battleId, stageId, request.victory(), victory,
+                elapsedSeconds, seconds, kills, limit.kills(), gold, limit.gold(),
+                rewardBoxes, limit.rewardBoxes(), Instant.now(clock)));
         return new BattleResultResponse(
                 gold,
                 exp,
@@ -232,8 +263,32 @@ public class BattleService {
         return ItemGrade.GENERAL;
     }
 
-    // 웨이브의 모든 스폰을 처치하고, 몬스터 역할별 드롭 테이블마다 가장 많이 나오는 행이 뽑힌 경우를 더한다
-    private StageLimit computeStageLimit(StageData stage) {
+    // 그 시각까지 나올 수 있는 몬스터로 계산한 상한. 시간 검증을 건너뛰면(dev 도구) 미리 계산해 둔 전체 상한을 쓴다
+    private StageLimit limitAt(StageData stage, double gameSeconds) {
+        if (Double.isInfinite(gameSeconds)) {
+            return stageLimits.get(stage.stageId());
+        }
+        return computeStageLimit(stage, gameSeconds);
+    }
+
+    private boolean isTooFastVictory(int stageId, double gameSeconds) {
+        Double bossAt = bossSpawnSeconds.get(stageId);
+        return bossAt != null && gameSeconds < bossAt;
+    }
+
+    // 스테이지의 보스(MonsterType.BOSS)가 처음 등장하는 시각(초). 보스가 없는 스테이지는 비어 있다
+    private OptionalDouble computeBossSpawnSeconds(StageData stage) {
+        Map<String, StageRosterData> roster = staticDataService.getStageRosters().get(stage.stageId());
+        return staticDataService.getWaves().get(stage.waveId()).stream()
+                .filter(entry -> staticDataService.getMonsters()
+                        .get(roster.get(entry.monsterSlot()).monsterId()).monsterType() == MonsterType.BOSS)
+                .mapToDouble(WaveEntryData::patternStartTime)
+                .min();
+    }
+
+    // seconds초까지 나온 웨이브의 모든 스폰을 처치하고, 몬스터 역할별 드롭 테이블마다 가장 많이 나오는 행이 뽑힌 경우를 더한다.
+    // seconds가 무한대면 스테이지 전체 기준이다
+    private StageLimit computeStageLimit(StageData stage, double seconds)  {
         int kills = 0;
         int gold = 0;
         int rewardBoxes = 0;
@@ -246,7 +301,7 @@ public class BattleService {
             int patternId = rosterRow.patternId() > 0 ? rosterRow.patternId() : entry.patternId();
             SpawnPatternData pattern = staticDataService.getSpawnPatterns().get(patternId);
             MonsterType monsterType = staticDataService.getMonsters().get(rosterRow.monsterId()).monsterType();
-            int spawns = maxSpawnCount(entry, pattern);
+            int spawns = SpawnSchedule.spawnCountBy(entry, pattern, seconds);
 
             // 상자는 킬 수에 들어가지 않는다 (클라이언트 Box.GiveReward)
             if (monsterType != MonsterType.BOX) {
@@ -269,15 +324,6 @@ public class BattleService {
         return new StageLimit(kills, gold, rewardBoxes, Map.copyOf(pickups));
     }
 
-    // WaveManager와 같은 규칙: patternDuration이 0이면 한 번, 아니면 [시작, 시작 + patternDuration) 동안 간격마다 스폰한다.
-    // 클라이언트는 간격을 float로 누적하므로, 나누어떨어질 때 한 번 더 나올 수 있게 floor + 1로 센다
-    private static int maxSpawnCount(WaveEntryData entry, SpawnPatternData pattern) {
-        if (entry.patternDuration() <= 0) {
-            return pattern.spawnCount();
-        }
-        double interval = Math.max(entry.spawnInterval(), MIN_SPAWN_INTERVAL);
-        return ((int) (entry.patternDuration() / interval) + 1) * pattern.spawnCount();
-    }
 
     // 드롭 테이블 한 번의 판정에서 나올 수 있는 최대값.
     // 클라이언트 DropItemManager.SpawnTable처럼 연속된 같은 dropGroup마다 1행을 뽑으므로 그룹별 최대값을 더한다
@@ -318,7 +364,7 @@ public class BattleService {
 
     // 업적 집계 검증: 모르는 스킬/아이템은 버리고, 스킬 처치는 인정된 총 처치 수까지, 레벨업·획득은 상한까지만 인정한다
     private BattleAchievementProgress buildAchievementProgress(
-            List<String> overLimits, BattleResultRequest request, int kills, int gold, StageLimit limit, int exp) {
+            List<String> overLimits, BattleResultRequest request, boolean victory, int kills, int gold, StageLimit limit, int exp) {
 
         Map<Integer, Integer> skillKills = new HashMap<>();
         int remainingKills = kills;
@@ -374,7 +420,7 @@ public class BattleService {
 
         return new BattleAchievementProgress(
                 skillKills, skillUpgrades, pickups, exp,
-                gold, request.victory() ? 1 : 0, luckTrains);
+                gold, victory ? 1 : 0, luckTrains);
     }
 
     private boolean isKnownSkill(Integer skillId) {

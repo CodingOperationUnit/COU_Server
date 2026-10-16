@@ -15,6 +15,8 @@ import com.couserver.player.repository.PlayerStatRepository;
 import com.couserver.ranking.event.RankingChangedEvent;
 import com.couserver.staticdata.dto.EvolutionData;
 import com.couserver.staticdata.service.StaticDataService;
+import com.couserver.ledger.entity.LedgerReason;
+import com.couserver.ledger.service.CurrencyLedgerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ public class EvolutionService {
     private final CurrencyRepository currencyRepository;     // 계정 담당 (잠금 조회·골드 차감에 사용)
     private final PlayerProfileRepository playerProfileRepository;
     private final StaticDataService staticDataService;
+    private final CurrencyLedgerService currencyLedger;
     private final ApplicationEventPublisher eventPublisher;
 
     // 진화 1단계: 시트의 진화 순서에 따라 다음 스탯의 레벨을 1 올리고, 그 비용만큼 골드를 차감한다
@@ -57,7 +60,7 @@ public class EvolutionService {
         }
 
         // 골드 차감과 레벨 상승이 한 트랜잭션: 중간에 실패하면 둘 다 롤백
-        currency.spendGold(cost);
+        currencyLedger.spendGold(currency, cost, LedgerReason.EVOLUTION, (long) (step + 1));   // 진화 후 단계
         PlayerStatType upgraded = evolution.statAt(step);
         stat.increaseLevel(upgraded);
         eventPublisher.publishEvent(new RankingChangedEvent(playerId));   // 진화 스탯이 올라 전투력이 달라진다

@@ -18,3 +18,37 @@
 - 계정 잠금: `docker exec -it cou-redis redis-cli -a {REDIS_PASSWORD} --no-auth-warning DEL auth:login:fail:{loginId 소문자}`
 - IP 제한: `docker exec -it cou-redis redis-cli -a {REDIS_PASSWORD} --no-auth-warning DEL auth:ip:{IP}`
 - 임계값은 `.env`의 `AUTH_*` 값으로 조정한다
+
+## 전투·재화 검증 설정
+- [ ] `DEV_TOOLS_ENABLED`가 꺼져 있다. 켜져 있으면 전투 시간 검증(최소 승리 시간, 시간 비례 상한)도 꺼진다
+- [ ] `BATTLE_MAX_SPEED_MULTIPLIER`는 정식 배속 기능이 없으면 1.0이다
+- [ ] 스키마는 `ddl-auto=update`로 자동 생성한다. 이 방식은 기존 컬럼 타입을 바꾸지 않으므로, 값이 늘어날 수 있는 enum 컬럼(`suspicious_activity.activity_type`, `currency_ledger.currency_type`, `currency_ledger.reason`)은 varchar로 고정되어 있다
+
+## 의심 활동과 재화 조회
+계정별 의심 활동 집계:
+```sql
+SELECT player_id, activity_type, COUNT(*) AS cnt, MAX(created_at) AS last_at
+FROM suspicious_activity
+GROUP BY player_id, activity_type
+ORDER BY cnt DESC;
+```
+
+한 계정의 최근 재화 변동:
+```sql
+SELECT created_at, currency_type, delta, balance_after, reason, ref_id
+FROM currency_ledger
+WHERE player_id = ?
+ORDER BY id DESC
+LIMIT 50;
+```
+
+골드 상한의 95% 이상을 계속 받는 계정 (최근 7일, 10판 이상):
+```sql
+SELECT player_id, COUNT(*) AS battles,
+       SUM(gold_limit > 0 AND gold >= gold_limit * 0.95) AS near_gold_limit
+FROM battle_record
+WHERE created_at >= UTC_TIMESTAMP() - INTERVAL 7 DAY
+GROUP BY player_id
+HAVING battles >= 10 AND near_gold_limit / battles >= 0.8
+ORDER BY near_gold_limit DESC;
+```

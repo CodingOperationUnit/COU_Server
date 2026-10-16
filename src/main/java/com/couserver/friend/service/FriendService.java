@@ -2,6 +2,8 @@ package com.couserver.friend.service;
 
 import com.couserver.account.entity.PlayerProfile;
 import com.couserver.account.repository.PlayerProfileRepository;
+import com.couserver.audit.entity.SuspiciousActivityType;
+import com.couserver.audit.service.SuspiciousActivityRecorder;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.friend.dto.*;
 import com.couserver.friend.entity.FriendRelation;
@@ -30,6 +32,7 @@ public class FriendService {
     private final PlayerProfileRepository playerProfileRepository;
     private final RankingRedisRepository rankingRedisRepository;
     private final PresenceService presenceService;
+    private final SuspiciousActivityRecorder suspiciousActivityRecorder;
 
     // 친구 요청
     @Transactional
@@ -170,6 +173,9 @@ public class FriendService {
                 .filter(Friendship::isPending)
                 .orElseThrow(() -> new BusinessException(FriendErrorCode.REQUEST_NOT_FOUND));
         if (!friendship.receiverId().equals(playerId)) {
+            // 정상 클라이언트의 수락·거절 버튼은 받은 요청에만 있다
+            suspiciousActivityRecorder.record(playerId, SuspiciousActivityType.FOREIGN_RESOURCE_ACCESS,
+                    "friendRequest requestId=" + requestId);
             throw new BusinessException(FriendErrorCode.NOT_REQUEST_RECEIVER);
         }
         return friendship;
