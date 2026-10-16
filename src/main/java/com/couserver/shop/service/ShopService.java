@@ -77,7 +77,9 @@ public class ShopService {
 
         Currency currency = currencyRepository.findForUpdate(playerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "재화 데이터가 없습니다."));
-        if (currency.getCurrencyGem() < product.priceGem()) {
+        // 보석 상품은 결제 대신 지급량만큼 보석을 걸고 50% 확률로 그만큼 얻거나 잃는다 (교육용, 실결제 없음)
+        int requiredGem = product.productType() == ProductType.GEM ? product.rewardAmount() : product.priceGem();
+        if (currency.getCurrencyGem() < requiredGem) {
             throw new BusinessException(ShopErrorCode.NOT_ENOUGH_CURRENCY);
         }
 
@@ -88,7 +90,13 @@ public class ShopService {
         List<EquipmentResponse> rewardedItems = new ArrayList<>();
         switch (product.productType()) {
             case GOLD -> currencyLedger.addGold(currency, product.rewardAmount(), LedgerReason.SHOP_PURCHASE, refId);
-            case GEM -> currencyLedger.addGem(currency, product.rewardAmount(), LedgerReason.SHOP_PURCHASE, refId);
+            case GEM -> {
+                if (ThreadLocalRandom.current().nextBoolean()) {
+                    currencyLedger.addGem(currency, product.rewardAmount(), LedgerReason.SHOP_PURCHASE, refId);
+                } else {
+                    currencyLedger.spendGem(currency, product.rewardAmount(), LedgerReason.SHOP_PURCHASE, refId);
+                }
+            }
             case RANDOMITEM -> rewardedItems.add(drawEquipment(playerId, product));
         }
 
