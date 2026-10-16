@@ -2,6 +2,7 @@ package com.couserver.staticdata.service;
 
 import com.couserver.staticdata.dto.*;
 import com.couserver.player.entity.PlayerStatType;
+import com.couserver.inventory.entity.ItemGrade;
 import lombok.Getter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,8 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.EnumSet;
+import java.util.ArrayList;
+import java.util.EnumMap;
 
 // 시작할 때 data/의 정적 데이터를 읽고 검증해 메모리에 둔다. 원본 JSON은 클라이언트에 그대로 보내기 위해 함께 둔다.
 @Getter
@@ -43,6 +46,8 @@ public class StaticDataService {
     private final Map<MonsterType, List<DropTableEntryData>> dropTables; // key: monsterType
     private final Map<DropItemType, DropItemData> dropItems;            // key: dropItemType
     private final Map<Long, ItemData> items;
+    private final Map<Long, EquipEffectData> equipEffects;                          // key: effectId
+    private final Map<Long, Map<ItemGrade, List<EquipEffectData>>> itemGradeEffects; // key: itemId → 해금 등급, 목록은 시트 행 순서
     private final Map<Integer, ShopProductData> shopProducts;
     private final Map<Long, SkillData> skills;
     private final Map<Long, Map<Integer, SkillLevelData>> skillLevels;  // key: Skill의 skillId → skillLevel
@@ -165,6 +170,33 @@ public class StaticDataService {
         requireIds("Item", itemRows, ItemData::itemId);
         items = itemRows.stream()
                 .collect(Collectors.toUnmodifiableMap(ItemData::itemId, Function.identity()));
+
+        // 장비 등급 효과: 효과 정의 → 아이템·등급별 연결 순서로 읽는다
+        List<EquipEffectData> equipEffectRows = rows(rowMapper, "EquipEffect", EquipEffectData.class);
+        requireIds("EquipEffect", equipEffectRows, EquipEffectData::effectId);
+        for (EquipEffectData row : equipEffectRows) {
+            validateEquipEffect(row);
+        }
+        equipEffects = equipEffectRows.stream()
+                .collect(Collectors.toUnmodifiableMap(EquipEffectData::effectId, Function.identity()));
+
+        List<ItemGradeEffectData> itemGradeEffectRows = rows(rowMapper, "ItemGradeEffect", ItemGradeEffectData.class);
+        requireIds("ItemGradeEffect", itemGradeEffectRows, ItemGradeEffectData::itemGradeEffectId);
+        Map<Long, Map<ItemGrade, List<EquipEffectData>>> gradeEffectMap = new HashMap<>();
+        for (ItemGradeEffectData row : itemGradeEffectRows) {
+            validateItemGradeEffect(row, items.keySet(), equipEffects);
+            gradeEffectMap.computeIfAbsent(row.itemId(), id -> new EnumMap<>(ItemGrade.class))
+                    .computeIfAbsent(row.grade(), grade -> new ArrayList<>())
+                    .add(equipEffects.get(row.effectId()));
+        }
+        // 안쪽 맵·목록까지 수정 불가로 만든다 (다른 맵과 같은 규칙)
+        Map<Long, Map<ItemGrade, List<EquipEffectData>>> frozenGradeEffects = new HashMap<>();
+        gradeEffectMap.forEach((itemId, byGrade) -> {
+            Map<ItemGrade, List<EquipEffectData>> frozen = new EnumMap<>(ItemGrade.class);
+            byGrade.forEach((grade, effects) -> frozen.put(grade, List.copyOf(effects)));
+            frozenGradeEffects.put(itemId, Collections.unmodifiableMap(frozen));
+        });
+        itemGradeEffects = Collections.unmodifiableMap(frozenGradeEffects);
 
         List<ShopProductData> shopRows = rows(rowMapper, "Shop", ShopProductData.class);
         requireIds("Shop", shopRows, ShopProductData::productId);
@@ -309,6 +341,53 @@ public class StaticDataService {
         } else {
             require(row.rewardAmount() >= 1, name + "의 rewardAmount는 1 이상이어야 합니다.");
         }
+    }
+
+    // EquipEffect 행 검증. 기동 시 한 번 호출되고, 단위 테스트에서도 직접 호출한다.
+    // - 문자열 칸은 읽을 때 enum으로 바뀌므로, 모르는 값(오타)은 이미 읽기 단계에서 실패한다. 쓰지 않는 칸은 None
+    // - 제외 대상(79xxx)은 아래 조합·값 검사를 건너뛴다
+    // - 서버가 계산하는 HP·ATTACK·DEFENSE는 정수만 허용한다 (최종 스탯이 정수라 서버·클라이언트가 다르게 자르지 않도록)
+    public static void validateEquipEffect(EquipEffectData row) {
+        String name = "EquipEffect " + row.effectId();
+        require(row.effectCategory() != null && row.statType() != null && row.valueType() != null
+                        && row.triggerType() != null && row.actionType() != null,
+                name + "의 종류 칸은 비어 있을 수 없습니다. 쓰지 않는 칸은 None으로 채우세요.");
+        if (row.isExcluded()) {
+            return;
+        }
+
+        require(row.effectCategory() != EquipEffectCategory.NONE,
+                name + "의 effectCategory는 None일 수 없습니다. (None은 제외 대상 79xxx만 사용)");
+        switch (row.effectCategory()) {
+            case STAT -> {
+                require(row.statType() != EquipEffectStatType.NONE, name + "는 Stat형이라 statType이 필요합니다.");
+                require(row.valueType() == row.statType().requiredValueType(),
+                        name + "의 " + row.statType() + "는 valueType이 " + row.statType().requiredValueType() + "이어야 합니다: " + row.valueType());
+                if (row.statType() == EquipEffectStatType.HP
+                        || row.statType() == EquipEffectStatType.ATTACK
+                        || row.statType() == EquipEffectStatType.DEFENSE) {
+                    require(row.effectValue() == Math.rint(row.effectValue()),
+                            name + "의 " + row.statType() + " effectValue는 정수여야 합니다: " + row.effectValue());
+                }
+            }
+            case TRIGGER -> {
+                require(row.triggerType() != EquipEffectTriggerType.NONE, name + "는 Trigger형이라 triggerType이 필요합니다.");
+                require(row.actionType() != EquipEffectActionType.NONE, name + "는 Trigger형이라 actionType이 필요합니다.");
+            }
+            case BUFF, CONDITIONAL, NONE -> {
+                // BUFF·CONDITIONAL은 2차 범위라 표시만 한다. NONE은 위에서 이미 걸러졌다
+            }
+        }
+    }
+
+    // ItemGradeEffect 행 검증. itemId와 effectId가 실제로 있는지(FK) 확인한다
+    public static void validateItemGradeEffect(ItemGradeEffectData row, Set<Long> itemIds,
+                                               Map<Long, EquipEffectData> equipEffects) {
+        String name = "ItemGradeEffect " + row.itemGradeEffectId();
+        require(row.grade() != null, name + "의 grade가 비어 있습니다. (General / Super / Rare)");
+        require(itemIds.contains(row.itemId()), name + "의 itemId " + row.itemId() + "을(를) Item에서 찾을 수 없습니다.");
+        require(equipEffects.containsKey(row.effectId()),
+                name + "의 effectId " + row.effectId() + "을(를) EquipEffect에서 찾을 수 없습니다.");
     }
 
     private <T> List<T> rows(ObjectMapper rowMapper, String name, Class<T> type) {

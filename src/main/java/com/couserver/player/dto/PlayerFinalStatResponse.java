@@ -15,11 +15,12 @@ public record PlayerFinalStatResponse(
         float lootRadius,
         Breakdown breakdown
 ) {
-    // 출처별 내역 (계산 경로 확인용)
+    // 출처별 내역 (계산 경로 확인용). bonusPercent는 (기초 + 장비 + 진화) 합에 곱해지는 퍼센트
     public record Breakdown(
             StatSource base,
             StatSource equipment,
-            StatSource evolution
+            StatSource evolution,
+            StatSource bonusPercent
     ){ }
 
     // 한 출처가 더해주는 값
