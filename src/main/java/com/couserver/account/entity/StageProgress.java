@@ -26,9 +26,9 @@ public class StageProgress {
         this.currentStageId = firstStageId;
     }
 
-    public void update(int currentStageId, Integer maxClearedStageId) {
-        this.currentStageId = currentStageId;
-        this.maxClearedStageId = maxClearedStageId;
+    // 스테이지 선택: 현재 스테이지만 바꾼다. 최고 클리어 스테이지는 전투 결과(recordBattle)만 바꾼다
+    public void selectStage(int stageId) {
+        this.currentStageId = stageId;
     }
 
     // 전투한 스테이지를 현재 스테이지로 두고, 승리했고 더 높으면 최고 클리어 스테이지를 갱신한다

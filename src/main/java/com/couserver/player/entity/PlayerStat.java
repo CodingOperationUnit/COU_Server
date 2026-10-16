@@ -32,12 +32,6 @@ public class PlayerStat {
         this.playerId = playerId;
     }
 
-    public void update(int attackLevel, int hpLevel, int defenseLevel) {
-        this.playerStatAttackLevel = attackLevel;
-        this.playerStatHpLevel = hpLevel;
-        this.playerStatDefenseLevel = defenseLevel;
-    }
-
     public int getEvolutionStep(){
         return playerStatAttackLevel + playerStatHpLevel + playerStatDefenseLevel + playerStatPotionRecoveryLevel;
     }
