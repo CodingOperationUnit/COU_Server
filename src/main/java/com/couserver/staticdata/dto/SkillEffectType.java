@@ -4,9 +4,13 @@ package com.couserver.staticdata.dto;
 public enum SkillEffectType {
     NONE,
     DAMAGE,
+    AREA,
+    SPEED,
     COOLDOWNREDUCTION,
     RANGE,
     PIERCE,
+    CHAIN,
+    REPEAT,
     CRITICALCHANCE,
-    REPEAT
+    CRITICALDAMAGE
 }
