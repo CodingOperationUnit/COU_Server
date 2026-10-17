@@ -5,40 +5,40 @@
       "skillId": 20010,
       "skillLevel": 1,
       "effect1Type": "Damage",
-      "effect1Value": 5.0,
+      "effect1Value": 10.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 피해량 10% 증가"
     },
     {
       "skillLevelId": 20012,
       "skillId": 20010,
       "skillLevel": 2,
       "effect1Type": "CooldownReduction",
-      "effect1Value": 5.0,
+      "effect1Value": 10.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 쿨타임 10% 감소"
     },
     {
       "skillLevelId": 20013,
       "skillId": 20010,
       "skillLevel": 3,
       "effect1Type": "Damage",
-      "effect1Value": 10.0,
+      "effect1Value": 20.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 피해량 20% 증가"
     },
     {
       "skillLevelId": 20014,
       "skillId": 20010,
       "skillLevel": 4,
       "effect1Type": "CooldownReduction",
-      "effect1Value": 15.0,
+      "effect1Value": 30.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 쿨타임 30% 감소"
     },
     {
       "skillLevelId": 20015,
@@ -48,127 +48,127 @@
       "effect1Value": 1.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 관통 1증가"
     },
     {
       "skillLevelId": 20021,
       "skillId": 20020,
       "skillLevel": 1,
       "effect1Type": "Damage",
-      "effect1Value": 0.0,
+      "effect1Value": 10.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 피해량 10% 증가"
     },
     {
       "skillLevelId": 20022,
       "skillId": 20020,
       "skillLevel": 2,
       "effect1Type": "Range",
-      "effect1Value": 0.0,
+      "effect1Value": 20.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 사거리 20% 증가"
     },
     {
       "skillLevelId": 20023,
       "skillId": 20020,
       "skillLevel": 3,
       "effect1Type": "Damage",
-      "effect1Value": 0.0,
+      "effect1Value": 20.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 피해량 20% 증가"
     },
     {
       "skillLevelId": 20024,
       "skillId": 20020,
       "skillLevel": 4,
       "effect1Type": "Range",
-      "effect1Value": 0.0,
+      "effect1Value": 40.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 사거리 40% 증가"
     },
     {
       "skillLevelId": 20025,
       "skillId": 20020,
       "skillLevel": 5,
       "effect1Type": "Pierce",
-      "effect1Value": 0.0,
+      "effect1Value": 1.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 관통 1증가"
     },
     {
       "skillLevelId": 20031,
       "skillId": 20030,
       "skillLevel": 1,
       "effect1Type": "Range",
-      "effect1Value": 0.0,
+      "effect1Value": 10.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 사거리 10% 증가"
     },
     {
       "skillLevelId": 20032,
       "skillId": 20030,
       "skillLevel": 2,
       "effect1Type": "CriticalChance",
-      "effect1Value": 0.0,
+      "effect1Value": 10.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 치명타확률 10% 증가"
     },
     {
       "skillLevelId": 20033,
       "skillId": 20030,
       "skillLevel": 3,
       "effect1Type": "Range",
-      "effect1Value": 0.0,
+      "effect1Value": 40.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 사거리 40% 증가"
     },
     {
       "skillLevelId": 20034,
       "skillId": 20030,
       "skillLevel": 4,
       "effect1Type": "CriticalChance",
-      "effect1Value": 0.0,
+      "effect1Value": 20.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 치명타확률 20% 증가"
     },
     {
       "skillLevelId": 20035,
       "skillId": 20030,
       "skillLevel": 5,
       "effect1Type": "Repeat",
-      "effect1Value": 0.0,
+      "effect1Value": 1.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 반복 1증가"
     },
     {
       "skillLevelId": 20041,
       "skillId": 20040,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "Area",
+      "effect1Value": 10.0,
+      "effect2Type": "Speed",
+      "effect2Value": 20.0,
+      "description": "이 스킬의 범위 10%, 스피드 20% 증가"
     },
     {
       "skillLevelId": 20042,
       "skillId": 20040,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "Area",
+      "effect1Value": 20.0,
+      "effect2Type": "Speed",
+      "effect2Value": 40.0,
+      "description": "이 스킬의 범위 20%, 스피드 40% 증가"
     },
     {
       "skillLevelId": 20043,
@@ -178,17 +178,17 @@
       "effect1Value": 0.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "음구 3개로 증가"
     },
     {
       "skillLevelId": 20044,
       "skillId": 20040,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "Area",
+      "effect1Value": 40.0,
+      "effect2Type": "Speed",
+      "effect2Value": 80.0,
+      "description": "이 스킬의 범위 40%, 스피드 80% 증가"
     },
     {
       "skillLevelId": 20045,
@@ -198,707 +198,707 @@
       "effect1Value": 0.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "음구 5개로 증가"
     },
     {
       "skillLevelId": 20051,
       "skillId": 20050,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 10.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 쿨타임 10% 감소"
     },
     {
       "skillLevelId": 20052,
       "skillId": 20050,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 20.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 쿨타임 20% 감소"
     },
     {
       "skillLevelId": 20053,
       "skillId": 20050,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "Pierce",
+      "effect1Value": 1.0,
+      "effect2Type": "Chain",
+      "effect2Value": 1.0,
+      "description": "이 스킬의 관통, 연쇄 1증가"
     },
     {
       "skillLevelId": 20054,
       "skillId": 20050,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 40.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 쿨타임 40% 감소"
     },
     {
       "skillLevelId": 20055,
       "skillId": 20050,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "Pierce",
+      "effect1Value": 1.0,
+      "effect2Type": "Chain",
+      "effect2Value": 1.0,
+      "description": "이 스킬의 관통, 연쇄 1증가"
     },
     {
       "skillLevelId": 20061,
       "skillId": 20060,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "Damage",
+      "effect1Value": 10.0,
+      "effect2Type": "CooldownReduction",
+      "effect2Value": 10.0,
+      "description": "이 스킬의 피해량 10% 증가, 쿨타임 10% 감소"
     },
     {
       "skillLevelId": 20062,
       "skillId": 20060,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "CriticalChance",
+      "effect1Value": 10.0,
+      "effect2Type": "CriticalDamage",
+      "effect2Value": 10.0,
+      "description": "이 스킬의 치명타확률 10%, 치명타증폭 10% 증가"
     },
     {
       "skillLevelId": 20063,
       "skillId": 20060,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "Damage",
+      "effect1Value": 20.0,
+      "effect2Type": "CooldownReduction",
+      "effect2Value": 20.0,
+      "description": "이 스킬의 피해량 20% 증가, 쿨타임 20% 감소"
     },
     {
       "skillLevelId": 20064,
       "skillId": 20060,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "CriticalChance",
+      "effect1Value": 20.0,
+      "effect2Type": "CriticalDamage",
+      "effect2Value": 20.0,
+      "description": "이 스킬의 치명타확률 20%, 치명타증폭 20% 증가"
     },
     {
       "skillLevelId": 20065,
       "skillId": 20060,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Repeat",
+      "effect1Value": 1.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 반복 1증가"
     },
     {
       "skillLevelId": 20071,
       "skillId": 20070,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Range",
+      "effect1Value": 20.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 사거리 20% 증가"
     },
     {
       "skillLevelId": 20072,
       "skillId": 20070,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Speed",
+      "effect1Value": 100.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 속도 100% 증가"
     },
     {
       "skillLevelId": 20073,
       "skillId": 20070,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Area",
+      "effect1Value": 50.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 범위 50% 증가"
     },
     {
       "skillLevelId": 20074,
       "skillId": 20070,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Damage",
+      "effect1Value": 50.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 피해량 50% 증가"
     },
     {
       "skillLevelId": 20075,
       "skillId": 20070,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 50.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 쿨타임 50% 감소"
     },
     {
       "skillLevelId": 20081,
       "skillId": 20080,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Damage",
+      "effect1Value": 2.5,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 피해량 2.5% 증가"
     },
     {
       "skillLevelId": 20082,
       "skillId": 20080,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Range",
+      "effect1Value": 5.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 사거리 5% 증가"
     },
     {
       "skillLevelId": 20083,
       "skillId": 20080,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Damage",
+      "effect1Value": 7.5,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 피해량 7.5% 증가"
     },
     {
       "skillLevelId": 20084,
       "skillId": 20080,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Range",
+      "effect1Value": 10.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 사거리 10% 증가"
     },
     {
       "skillLevelId": 20085,
       "skillId": 20080,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Chain",
+      "effect1Value": 1.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 연쇄 1증가"
     },
     {
       "skillLevelId": 20091,
       "skillId": 20090,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Speed",
+      "effect1Value": 20.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 속도 20% 증가"
     },
     {
       "skillLevelId": 20092,
       "skillId": 20090,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Speed",
+      "effect1Value": 30.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 속도 30% 증가"
     },
     {
       "skillLevelId": 20093,
       "skillId": 20090,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Repeat",
+      "effect1Value": 1.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 반복 1증가"
     },
     {
       "skillLevelId": 20094,
       "skillId": 20090,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Speed",
+      "effect1Value": 50.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 속도 50% 증가"
     },
     {
       "skillLevelId": 20095,
       "skillId": 20090,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Repeat",
+      "effect1Value": 2.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "이 스킬의 반복 2증가"
     },
     {
       "skillLevelId": 21011,
       "skillId": 21010,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 5.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 쿨타임 5% 감소"
     },
     {
       "skillLevelId": 21012,
       "skillId": 21010,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 7.5,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 쿨타임 7.5% 감소"
     },
     {
       "skillLevelId": 21013,
       "skillId": 21010,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 10.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 쿨타임 10% 감소"
     },
     {
       "skillLevelId": 21014,
       "skillId": 21010,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 12.5,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 쿨타임 12.5% 감소"
     },
     {
       "skillLevelId": 21015,
       "skillId": 21010,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 35.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 쿨타임 35% 감소"
     },
     {
       "skillLevelId": 21021,
       "skillId": 21020,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Range",
+      "effect1Value": 5.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 사거리 5% 증가"
     },
     {
       "skillLevelId": 21022,
       "skillId": 21020,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Range",
+      "effect1Value": 10.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 사거리 10% 증가"
     },
     {
       "skillLevelId": 21023,
       "skillId": 21020,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Range",
+      "effect1Value": 15.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 사거리 15% 증가"
     },
     {
       "skillLevelId": 21024,
       "skillId": 21020,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Range",
+      "effect1Value": 20.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 사거리 20% 증가"
     },
     {
       "skillLevelId": 21025,
       "skillId": 21020,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Range",
+      "effect1Value": 50.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 사거리 50% 증가"
     },
     {
       "skillLevelId": 21031,
       "skillId": 21030,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 2.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 쿨타임 2% 감소"
     },
     {
       "skillLevelId": 21032,
       "skillId": 21030,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 3.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 쿨타임 3% 감소"
     },
     {
       "skillLevelId": 21033,
       "skillId": 21030,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Repeat",
+      "effect1Value": 1.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 반복 1증가"
     },
     {
       "skillLevelId": 21034,
       "skillId": 21030,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CooldownReduction",
+      "effect1Value": 5.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 쿨타임 5% 감소"
     },
     {
       "skillLevelId": 21035,
       "skillId": 21030,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Repeat",
+      "effect1Value": 1.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 반복 1증가"
     },
     {
       "skillLevelId": 21041,
       "skillId": 21040,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "Area",
+      "effect1Value": 5.0,
+      "effect2Type": "Speed",
+      "effect2Value": 10.0,
+      "description": "전체 스킬의 범위 5%, 스피드 10% 증가"
     },
     {
       "skillLevelId": 21042,
       "skillId": 21040,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "Area",
+      "effect1Value": 10.0,
+      "effect2Type": "Speed",
+      "effect2Value": 20.0,
+      "description": "전체 스킬의 범위 10%, 스피드 20% 증가"
     },
     {
       "skillLevelId": 21043,
       "skillId": 21040,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "Area",
+      "effect1Value": 15.0,
+      "effect2Type": "Speed",
+      "effect2Value": 30.0,
+      "description": "전체 스킬의 범위 15%, 스피드 30% 증가"
     },
     {
       "skillLevelId": 21044,
       "skillId": 21040,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "Area",
+      "effect1Value": 20.0,
+      "effect2Type": "Speed",
+      "effect2Value": 40.0,
+      "description": "전체 스킬의 범위 20%, 스피드 40% 증가"
     },
     {
       "skillLevelId": 21045,
       "skillId": 21040,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": ""
+      "effect1Type": "Area",
+      "effect1Value": 25.0,
+      "effect2Type": "Speed",
+      "effect2Value": 50.0,
+      "description": "전체 스킬의 범위 25%, 스피드 50% 증가"
     },
     {
       "skillLevelId": 21051,
       "skillId": 21050,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Pierce",
+      "effect1Value": 1.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 관통 1증가"
     },
     {
       "skillLevelId": 21052,
       "skillId": 21050,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Range",
+      "effect1Value": 2.5,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 사거리 2.5% 증가"
     },
     {
       "skillLevelId": 21053,
       "skillId": 21050,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Pierce",
+      "effect1Value": 2.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 관통 2증가"
     },
     {
       "skillLevelId": 21054,
       "skillId": 21050,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Range",
+      "effect1Value": 7.5,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 사거리 7.5% 증가"
     },
     {
       "skillLevelId": 21055,
       "skillId": 21050,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Pierce",
+      "effect1Value": 3.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 관통 3증가"
     },
     {
       "skillLevelId": 21061,
       "skillId": 21060,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Damage",
+      "effect1Value": 3.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 피해량 3% 증가"
     },
     {
       "skillLevelId": 21062,
       "skillId": 21060,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Damage",
+      "effect1Value": 5.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 피해량 5% 증가"
     },
     {
       "skillLevelId": 21063,
       "skillId": 21060,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Damage",
+      "effect1Value": 9.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 피해량 9% 증가"
     },
     {
       "skillLevelId": 21064,
       "skillId": 21060,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Damage",
+      "effect1Value": 17.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 피해량 17% 증가"
     },
     {
       "skillLevelId": 21065,
       "skillId": 21060,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Damage",
+      "effect1Value": 33.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 피해량 33% 증가"
     },
     {
       "skillLevelId": 21071,
       "skillId": 21070,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CriticalDamage",
+      "effect1Value": 6.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 치명타증폭 6% 증가"
     },
     {
       "skillLevelId": 21072,
       "skillId": 21070,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CriticalDamage",
+      "effect1Value": 10.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 치명타증폭 10% 증가"
     },
     {
       "skillLevelId": 21073,
       "skillId": 21070,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CriticalDamage",
+      "effect1Value": 18.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 치명타증폭 18% 증가"
     },
     {
       "skillLevelId": 21074,
       "skillId": 21070,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CriticalDamage",
+      "effect1Value": 34.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 치명타증폭 34% 증가"
     },
     {
       "skillLevelId": 21075,
       "skillId": 21070,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CriticalDamage",
+      "effect1Value": 66.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 치명타증폭 66% 증가"
     },
     {
       "skillLevelId": 21081,
       "skillId": 21080,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Chain",
+      "effect1Value": 1.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 연쇄 1증가"
     },
     {
       "skillLevelId": 21082,
       "skillId": 21080,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CriticalChance",
+      "effect1Value": 2.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 치명타확률 2% 증가"
     },
     {
       "skillLevelId": 21083,
       "skillId": 21080,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Chain",
+      "effect1Value": 2.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 연쇄 2증가"
     },
     {
       "skillLevelId": 21084,
       "skillId": 21080,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CriticalChance",
+      "effect1Value": 5.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 치명타확률 5% 증가"
     },
     {
       "skillLevelId": 21085,
       "skillId": 21080,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "Chain",
+      "effect1Value": 3.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 연쇄 3증가"
     },
     {
       "skillLevelId": 21091,
       "skillId": 21090,
       "skillLevel": 1,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CriticalChance",
+      "effect1Value": 5.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 치명타확률 5% 증가"
     },
     {
       "skillLevelId": 21092,
       "skillId": 21090,
       "skillLevel": 2,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CriticalChance",
+      "effect1Value": 7.5,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 치명타확률 7.5% 증가"
     },
     {
       "skillLevelId": 21093,
       "skillId": 21090,
       "skillLevel": 3,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CriticalChance",
+      "effect1Value": 10.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 치명타확률 10% 증가"
     },
     {
       "skillLevelId": 21094,
       "skillId": 21090,
       "skillLevel": 4,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CriticalChance",
+      "effect1Value": 12.5,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 치명타확률 12.5% 증가"
     },
     {
       "skillLevelId": 21095,
       "skillId": 21090,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
+      "effect1Type": "CriticalChance",
+      "effect1Value": 15.0,
       "effect2Type": "None",
       "effect2Value": 0.0,
-      "description": ""
+      "description": "전체 스킬의 치명타확률 15% 증가"
     }
   ]
 }
