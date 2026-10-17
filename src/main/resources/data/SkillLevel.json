@@ -194,11 +194,11 @@
       "skillLevelId": 20045,
       "skillId": 20040,
       "skillLevel": 5,
-      "effect1Type": "None",
-      "effect1Value": 0.0,
-      "effect2Type": "None",
-      "effect2Value": 0.0,
-      "description": "음구 5개로 증가"
+      "effect1Type": "CriticalChance",
+      "effect1Value": 30.0,
+      "effect2Type": "CriticalDamage",
+      "effect2Value": 50.0,
+      "description": "이 스킬의 치명타확률 30%, 치명타증폭 50% 증가"
     },
     {
       "skillLevelId": 20051,

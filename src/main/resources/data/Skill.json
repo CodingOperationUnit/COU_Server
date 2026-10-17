@@ -130,7 +130,7 @@
       "skillSpeed": 0.0,
       "skillDamage": 0.0,
       "skillRange": 0.0,
-      "skillDescription": "Lv1, Lv2, Lv4: 스킬 쿨타임이 줄어듭니다 / Lv3, Lv5: 같은 스킬이 텀을 두고 N번 더 발사됩니다.(복사본은 50% 피해)"
+      "skillDescription": "같은 스킬이 텀을 두고 N번 더 발사됩니다.(복사본은 50% 피해)"
     },
     {
       "skillId": 21040,
@@ -152,7 +152,7 @@
       "skillSpeed": 0.0,
       "skillDamage": 0.0,
       "skillRange": 0.0,
-      "skillDescription": "Lv2, Lv4: 스킬 탐지 범위가 넓어집니다. / Lv1, Lv3, Lv5: 적중 후 사라지는 투사체가 적 N명을 더 뚫고 지나갑니다."
+      "skillDescription": "적중 후 사라지는 투사체가 적 N명을 더 뚫고 지나갑니다."
     },
     {
       "skillId": 21060,
@@ -185,7 +185,7 @@
       "skillSpeed": 0.0,
       "skillDamage": 0.0,
       "skillRange": 0.0,
-      "skillDescription": "Lv2, Lv4: 치명타 확률이 늘어납니다. / Lv1, Lv3, Lv5: 적중한 스킬 객체가 주변 적에게 N번 튕깁니다."
+      "skillDescription": "적중한 스킬 객체가 주변 적에게 N번 튕깁니다."
     },
     {
       "skillId": 21090,
