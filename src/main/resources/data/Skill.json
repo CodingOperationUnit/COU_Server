@@ -72,7 +72,7 @@
       "skillCategory": 0,
       "skillTargetType": "Nearest",
       "skillCooldown": 3.0,
-      "skillSpeed": 20.0,
+      "skillSpeed": 5.0,
       "skillDamage": 3.0,
       "skillRange": 5.0,
       "skillDescription": "CPU를 던집니다. 그 후 터지며 범위 피해를 줍니다."

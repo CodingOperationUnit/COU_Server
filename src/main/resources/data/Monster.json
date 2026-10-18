@@ -175,7 +175,7 @@
       "monsterId": 13001,
       "monsterName": "보스몬스터1",
       "monsterType": "Boss",
-      "monsterMaxHealthPoint": 10000,
+      "monsterMaxHealthPoint": 15000,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 1000,
       "monsterAsset": "Enemy/Prefabs/Cactus/Cactus_Green"
@@ -184,7 +184,7 @@
       "monsterId": 13002,
       "monsterName": "보스몬스터2",
       "monsterType": "Boss",
-      "monsterMaxHealthPoint": 13000,
+      "monsterMaxHealthPoint": 18000,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 1200,
       "monsterAsset": "Enemy/Prefabs/Golem/Golem_Tree"
@@ -193,7 +193,7 @@
       "monsterId": 13003,
       "monsterName": "보스몬스터3",
       "monsterType": "Boss",
-      "monsterMaxHealthPoint": 16500,
+      "monsterMaxHealthPoint": 21500,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 1400,
       "monsterAsset": "Enemy/Prefabs/Golem/Golem_Iron"
@@ -202,7 +202,7 @@
       "monsterId": 13004,
       "monsterName": "보스몬스터4",
       "monsterType": "Boss",
-      "monsterMaxHealthPoint": 20000,
+      "monsterMaxHealthPoint": 25000,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 1600,
       "monsterAsset": "Enemy/Prefabs/Cactus/Cactus_Green"
@@ -211,7 +211,7 @@
       "monsterId": 13005,
       "monsterName": "보스몬스터5",
       "monsterType": "Boss",
-      "monsterMaxHealthPoint": 24000,
+      "monsterMaxHealthPoint": 29000,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 1800,
       "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Green"
@@ -220,7 +220,7 @@
       "monsterId": 13007,
       "monsterName": "보스몬스터7",
       "monsterType": "Boss",
-      "monsterMaxHealthPoint": 32000,
+      "monsterMaxHealthPoint": 37000,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 2200,
       "monsterAsset": "Enemy/Prefabs/Mantis/Mantis_Flower"
@@ -229,7 +229,7 @@
       "monsterId": 13009,
       "monsterName": "보스몬스터9",
       "monsterType": "Boss",
-      "monsterMaxHealthPoint": 40000,
+      "monsterMaxHealthPoint": 45000,
       "monsterMoveSpeed": 2.0,
       "monsterContactDamage": 2600,
       "monsterAsset": "Enemy/Prefabs/Scorpion/Scorpion_Stone"
@@ -238,7 +238,7 @@
       "monsterId": 13010,
       "monsterName": "보스몬스터10",
       "monsterType": "Boss",
-      "monsterMaxHealthPoint": 45000,
+      "monsterMaxHealthPoint": 50000,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 2800,
       "monsterAsset": "Enemy/Prefabs/Walker/Walker_Stump"
@@ -247,7 +247,7 @@
       "monsterId": 13011,
       "monsterName": "보스몬스터11",
       "monsterType": "Boss",
-      "monsterMaxHealthPoint": 50000,
+      "monsterMaxHealthPoint": 55000,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 3000,
       "monsterAsset": "Enemy/Prefabs/Walker/Walker_Mushroom"
@@ -256,7 +256,7 @@
       "monsterId": 13014,
       "monsterName": "보스몬스터14",
       "monsterType": "Boss",
-      "monsterMaxHealthPoint": 65000,
+      "monsterMaxHealthPoint": 70000,
       "monsterMoveSpeed": 1.5,
       "monsterContactDamage": 3600,
       "monsterAsset": "Enemy/Prefabs/Skeleton/Skeleton_Warrior"
@@ -265,7 +265,7 @@
       "monsterId": 13015,
       "monsterName": "보스몬스터15",
       "monsterType": "Boss",
-      "monsterMaxHealthPoint": 70000,
+      "monsterMaxHealthPoint": 75000,
       "monsterMoveSpeed": 2.0,
       "monsterContactDamage": 3800,
       "monsterAsset": "Enemy/Prefabs/Skeleton/Skeleton_Warlord"
