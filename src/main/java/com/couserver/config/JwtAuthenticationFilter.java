@@ -16,6 +16,8 @@ import org.springframework.http.HttpHeaders;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private static final String CHAT_SOCKET_PATH = "/ws/chat";
+
     private final JwtProvider jwtProvider;
 
     @Override
@@ -24,17 +26,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String token = resolveToken(request);
 
         // 토큰이 없으면 그냥 통과 (회원가입/로그인처럼 토큰이 필요 없는 요청)
-        if (authorization == null || !authorization.regionMatches(true, 0, "Bearer ", 0, 7)) {
+        if (token == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
         AuthAccount authAccount;
         try {
-            String token = authorization.substring(7);
             authAccount = jwtProvider.parseToken(token);
         } catch (ResponseStatusException exception) {
             // 토큰이 있는데 잘못됐으면 바로 401
@@ -52,5 +53,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } finally {
             SecurityContextHolder.clearContext();
         }
+    }
+
+    // Authorization: Bearer 헤더에서 토큰을 꺼낸다.
+    // 브라우저(WebGL) WebSocket 은 헤더를 붙일 수 없어서 /ws/chat 연결만 쿼리(?token=)로도 받는다.
+    private String resolveToken(HttpServletRequest request) {
+        String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (authorization != null && authorization.regionMatches(true, 0, "Bearer ", 0, 7)) {
+            return authorization.substring(7);
+        }
+
+        if (CHAT_SOCKET_PATH.equals(request.getRequestURI())) {
+            return request.getParameter("token");
+        }
+        return null;
     }
 }

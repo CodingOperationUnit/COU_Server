@@ -18,7 +18,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        // 연결 주소: ws://서버주소/ws/chat  (Authorization: Bearer <accessToken> 헤더 필요)
+        // 연결 주소: ws://서버주소/ws/chat  (Authorization: Bearer <accessToken> 헤더 필요. 브라우저는 ?token=<accessToken>)
         registry.addHandler(chatWebSocketHandler, "/ws/chat")
                 .addInterceptors(chatHandshakeInterceptor)
                 .setAllowedOriginPatterns("*"); // 게임 클라이언트는 Origin 이 없다
