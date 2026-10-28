@@ -41,4 +41,14 @@ public class PlayerAchievement {
     public void claimNextStep() {
         this.playerAchievementClaimedStep++;
     }
+
+    // 지정한 단계까지 보상을 모두 받았음을 기록한다 (모두 받기용).
+    // 받을 수 있는지는 서비스가 먼저 확인하고, 수령 단계가 줄어드는 호출은 막는다.
+    public void claimUpTo(int step) {
+        if (step < this.playerAchievementClaimedStep) {
+            throw new IllegalArgumentException(
+                    "수령 단계는 줄어들 수 없습니다: " + this.playerAchievementClaimedStep + " → " + step);
+        }
+        this.playerAchievementClaimedStep = step;
+    }
 }
