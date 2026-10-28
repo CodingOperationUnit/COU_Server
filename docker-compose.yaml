@@ -18,5 +18,17 @@ services:
     command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD:?REDIS_PASSWORD를 .env에 설정하세요 (.env.example 참고)}" ]
     ports:
       - "127.0.0.1:${REDIS_PORT:-6379}:6379"   # 이 PC에서만 접속. 포트가 겹치면 .env에서 변경
+  # HTTPS 리버스 프록시 (운영 EC2 전용). .env의 COMPOSE_PROFILES=https 일 때만 뜬다 (Docs/Guide/Https.md)
+  caddy:
+    image: caddy:2.10                 # 버전 고정
+    container_name: cou-caddy
+    profiles: [ "https" ]
+    network_mode: host                # 80/443을 열고 같은 서버의 localhost:8080 으로 넘긴다
+    environment:
+      DOMAIN: ${DOMAIN:-}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - cou-caddy-data:/data          # 발급받은 인증서 유지 (지우면 재발급되어 발급 한도에 걸릴 수 있다)
 volumes:
   cou-mysql-data:
+  cou-caddy-data:

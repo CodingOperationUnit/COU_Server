@@ -5,7 +5,8 @@
 - [ ] `JWT_SECRET`이 개발용 값이 아니다
 
 ## 네트워크
-- [ ] 외부에 여는 포트는 서버 포트(기본 8080)뿐이다. MySQL(3306), Redis(6379)는 열지 않는다
+- [ ] 외부에 여는 포트는 HTTPS(80, 443)와 서버 포트(기본 8080)뿐이다. MySQL(3306), Redis(6379)는 열지 않는다
+    - HTTPS는 Caddy가 처리한다 ([HTTPS 적용 가이드](../Guide/Https.md)). 모든 빌드가 HTTPS 주소를 쓰면 8080은 닫아도 된다
     - compose는 두 포트를 127.0.0.1에만 연다 (`docker ps`의 PORTS가 `127.0.0.1:`로 시작하는지 확인)
     - AWS에서는 보안 그룹에서도 3306, 6379를 막는다. 관리형 Redis(ElastiCache)를 쓰면 AUTH와 보안 그룹을 따로 설정한다
 - [ ] `REDIS_PASSWORD`가 설정되어 있다 (없으면 compose가 실행을 거부한다)
