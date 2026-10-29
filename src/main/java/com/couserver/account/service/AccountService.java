@@ -22,6 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,11 @@ public class AccountService {
     private static final String DEFAULT_NICKNAME_PREFIX = "플레이어";
     private static final int BCRYPT_MAX_BYTES = 72;   // BCrypt는 72바이트를 넘는 비밀번호를 받지 않는다
     private static final String DUMMY_PASSWORD = "dummy-password-for-timing";
+    // 소셜 전용 계정의 자동 아이디. ':'는 일반 가입 규칙에 없는 문자라 직접 가입한 아이디와 겹치지 않는다
+    private static final String SOCIAL_LOGIN_ID_PREFIX = "s:";
+    private static final String SOCIAL_LOGIN_ID_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789";
+    private static final int SOCIAL_LOGIN_ID_RANDOM_LENGTH = 16;   // 접두어 포함 18자 (컬럼 최대 20자)
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
@@ -111,6 +118,49 @@ public class AccountService {
         String hash = account.map(Account::getAccountPasswordHash).orElse(dummyPasswordHash);
         boolean matched = passwordEncoder.matches(tooLong ? DUMMY_PASSWORD : rawPassword, hash);
         return matched && account.isPresent() && !tooLong;
+    }
+
+    // 소셜 로그인으로 처음 들어온 사용자의 계정을 만든다 (호출하는 쪽 트랜잭션 안에서)
+    // 아이디는 자동 생성, 비밀번호는 아무도 모르는 무작위 값의 해시라 아이디·비밀번호 로그인은 사실상 불가능하다
+    @Transactional
+    public Account createSocialAccount() {
+        String loginId;
+        do {
+            loginId = SOCIAL_LOGIN_ID_PREFIX + randomLoginIdSuffix();
+        } while (accountRepository.existsByAccountLoginId(loginId));
+
+        byte[] secret = new byte[32];
+        RANDOM.nextBytes(secret);
+        String unusablePasswordHash = passwordEncoder.encode(Base64.getUrlEncoder().withoutPadding().encodeToString(secret));
+
+        Account savedAccount = accountRepository.save(new Account(loginId, unusablePasswordHash));
+        String defaultNickname = DEFAULT_NICKNAME_PREFIX + savedAccount.getAccountId();   // signup과 같은 규칙
+        playerService.createInitialData(savedAccount, defaultNickname);
+        return savedAccount;
+    }
+
+    // 인증이 끝난 계정에 대해 로그인 처리(최근 로그인 기록)와 토큰 발급을 한다. 기존 login의 성공 처리와 같은 내용
+    @Transactional
+    public LoginResponse issueLoginResponse(Account account) {
+        account.recordLogin();
+
+        Long playerId = playerService.getPlayerId(account.getAccountId());
+        String accessToken = jwtProvider.createAccessToken(account, playerId);
+        AccountResponse accountResponse = new AccountResponse(
+                account.getAccountId(),
+                account.getAccountLoginId(),
+                account.getAccountCreatedAt(),
+                account.getAccountLastLoginAt()
+        );
+        return new LoginResponse(accessToken, "Bearer", accountResponse);
+    }
+
+    private static String randomLoginIdSuffix() {
+        StringBuilder builder = new StringBuilder(SOCIAL_LOGIN_ID_RANDOM_LENGTH);
+        for (int i = 0; i < SOCIAL_LOGIN_ID_RANDOM_LENGTH; i++) {
+            builder.append(SOCIAL_LOGIN_ID_CHARS.charAt(RANDOM.nextInt(SOCIAL_LOGIN_ID_CHARS.length())));
+        }
+        return builder.toString();
     }
 
     private void recordLoginLocked(Account account) {
