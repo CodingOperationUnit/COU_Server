@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@Import(TestcontainersConfiguration.class)
+@Import({TestcontainersConfiguration.class, TestFirebaseTokens.KeyConfiguration.class})
 public abstract class IntegrationTestSupport {
 
     // 2단계 비밀번호 정책(8자 이상, 72바이트 이하)을 미리 만족하는 값
