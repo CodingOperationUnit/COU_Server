@@ -41,7 +41,8 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable) // Http Basic 인증 끄기
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/accounts/signup", "/api/accounts/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/accounts/signup", "/api/accounts/login",
+                                "/api/accounts/google/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/static-data").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptions -> exceptions
