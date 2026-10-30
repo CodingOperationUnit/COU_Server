@@ -270,7 +270,6 @@ class CurrencyLedgerFlowTest extends IntegrationTestSupport {
         result.put("kills", 0);
         result.put("gold", gold);
         result.put("rewardBoxes", 0);
-        result.put("quality", 0);
         result.put("skillKills", Map.of());
         result.put("skillUpgrades", Map.of());
         result.put("pickups", Map.of());

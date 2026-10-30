@@ -47,16 +47,16 @@ public class RankingRedisSyncService {
             stageCount++;
         }
 
-        int clearCount = 0;
+        int survivalCount = 0;
         for (StageRecord r : stageRecordRepository.findAll()) {
-            if (r.getBestClearSeconds() <= 0) continue;    // 기록 없으면 제외
-            redisRepository.put(RankingRedisRepository.stageClearKey(r.getStageId()), r.getPlayerId(),
-                    RankingRedisRepository.clearTimeValue(r.getBestClearSeconds()));
-            clearCount++;
+            if (r.getBestSurvivalSeconds() <= 0) continue;    // 기록 없으면 제외
+            redisRepository.put(RankingRedisRepository.stageSurvivalKey(r.getStageId()), r.getPlayerId(),
+                    r.getBestSurvivalSeconds());
+            survivalCount++;
         }
 
-        log.info("랭킹 Redis 백필 완료: 계정레벨 {}, 최고스테이지 {}, 클리어시간 {}, 전투력 {}",
-                levelCount, stageCount, clearCount, combatPowerCount);
+        log.info("랭킹 Redis 백필 완료: 계정레벨 {}, 최고스테이지 {}, 생존시간 {}, 전투력 {}",
+                levelCount, stageCount, survivalCount, combatPowerCount);
     }
 
     // 한 플레이어의 랭킹 값을 DB 기준으로 Redis에 다시 반영한다
@@ -73,9 +73,9 @@ public class RankingRedisSyncService {
         });
 
         for (StageRecord r : stageRecordRepository.findByPlayerIdOrderByStageIdAsc(playerId)) {
-            if (r.getBestClearSeconds() > 0) {
-                redisRepository.put(RankingRedisRepository.stageClearKey(r.getStageId()), playerId,
-                        RankingRedisRepository.clearTimeValue(r.getBestClearSeconds()));
+            if (r.getBestSurvivalSeconds() > 0) {
+                redisRepository.put(RankingRedisRepository.stageSurvivalKey(r.getStageId()), playerId,
+                        r.getBestSurvivalSeconds());
             }
         }
     }

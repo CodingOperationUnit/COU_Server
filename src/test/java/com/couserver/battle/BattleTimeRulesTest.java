@@ -1,6 +1,10 @@
 package com.couserver.battle;
 
 import com.couserver.battle.service.BattleTimePolicy;
+import com.couserver.staticdata.dto.MonsterType;
+import com.couserver.staticdata.dto.StageData;
+import com.couserver.staticdata.dto.StageRosterData;
+import com.couserver.staticdata.dto.WaveEntryData;
 import com.couserver.staticdata.dto.AccountConstData;
 import com.couserver.staticdata.service.StaticDataService;
 import com.couserver.support.IntegrationTestSupport;
@@ -20,6 +24,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
+import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,31 +52,49 @@ class BattleTimeRulesTest extends IntegrationTestSupport {
     }
 
     @Test
-    @DisplayName("입장 직후 보고한 승리도 승리로 인정된다 (너무 빠른 승리 검사 없음)")
-    void instantVictoryIsAccepted() throws Exception {
+    @DisplayName("입장 직후 보고한 승리는 패배로 처리되어 클리어 EXP와 최고 클리어가 반영되지 않고 기록된다")
+    void instantVictoryIsTreatedAsDefeat() throws Exception {
         setMultiplier(1.0);
         TestAccount account = createAccount();
+        AccountConstData accountConst = staticDataService.getAccountConst();
 
-        String body = submit(account, true, SECONDS, 0, Map.of());
+        submit(account, true, 0, 0);
 
-        assertThat((Integer) JsonPath.read(body, "$.stageRecord.bestClearSeconds")).isEqualTo(SECONDS);
         getAs(account, SAVE_URL)
-                .andExpect(jsonPath("$.stageProgress.maxClearedStageId").value(staticDataService.getFirstStageId()));
+                .andExpect(jsonPath("$.stageProgress.maxClearedStageId").value(nullValue()))
+                .andExpect(jsonPath("$.profile.accountExp").value(SECONDS * accountConst.accountExpPerSecond()));
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() ->
+                assertThat(count(account, "BATTLE_RESULT_TOO_FAST")).isEqualTo(1));
     }
 
     @Test
-    @DisplayName("경과 시간보다 긴 전투 시간을 보고하면 잘리고, 상자 상한도 잘린 시간으로 계산되어 기록된다")
-    void boxLimitFollowsElapsedTime() throws Exception {
+    @DisplayName("보스가 나올 만큼 시간이 흐를 수 있었다면 승리가 인정된다")
+    void victoryIsAcceptedWhenBossCouldHaveAppeared() throws Exception {
+        double bossAt = bossSpawnSeconds(staticDataService.getFirstStageId());
+        setMultiplier(bossAt / 2.5);   // 입장 직후여도 계산상 보스 등장 시각의 2배 이상이 흐른 것으로 본다
+        TestAccount account = createAccount();
+
+        submit(account, true, 0, 0);
+
+        getAs(account, SAVE_URL)
+                .andExpect(jsonPath("$.stageProgress.maxClearedStageId").value(staticDataService.getFirstStageId()));
+        await().during(Duration.ofSeconds(1)).atMost(Duration.ofSeconds(5)).untilAsserted(() ->
+                assertThat(count(account, "BATTLE_RESULT_TOO_FAST")).isZero());
+    }
+
+    @Test
+    @DisplayName("짧은 시간에 큰 값을 보고하면 그 시각까지 나온 몬스터 기준으로 잘리고 기록된다")
+    void valuesAreCappedByElapsedTime() throws Exception {
         setMultiplier(1.0);
         TestAccount account = createAccount();
-        // 상자 몇 개가 나올 만큼의 시간. 경과 시간(0초 + 허용 5초)으로 잘리면 상자가 0개라 폭탄 1개도 상한을 넘는다
-        int seconds = (int) Math.ceil(staticDataService.getBattleConst().boxSpawnInterval() * 3);
 
-        submit(account, false, seconds, 0, Map.of("Bomb", 1));
+        String body = submit(account, false, 500, 5000);
 
+        Integer grantedGold = JsonPath.read(body, "$.grantedGold");
+        assertThat(grantedGold).isLessThan(5000);
         await().atMost(Duration.ofSeconds(5)).untilAsserted(() ->
-                assertThat(details(account, "BATTLE_RESULT_OVER_LIMIT")).singleElement()
-                        .satisfies(detail -> assertThat(detail).contains("seconds", "pickups.BOMB client=1 max=0")));
+                assertThat(details(account, "BATTLE_RESULT_OVER_LIMIT"))
+                        .anySatisfy(detail -> assertThat(detail).contains("kills")));
     }
 
     @Test
@@ -82,7 +105,7 @@ class BattleTimeRulesTest extends IntegrationTestSupport {
         AccountConstData accountConst = staticDataService.getAccountConst();
         int kills = 3;
 
-        String body = submit(account, false, SECONDS, kills, Map.of());
+        String body = submit(account, false, kills, 0);
 
         int expectedExp = kills * accountConst.accountExpPerKill() + SECONDS * accountConst.accountExpPerSecond();
         Integer grantedExp = JsonPath.read(body, "$.grantedExp");
@@ -94,23 +117,33 @@ class BattleTimeRulesTest extends IntegrationTestSupport {
         ReflectionTestUtils.setField(battleTimePolicy, "maxSpeedMultiplier", value);
     }
 
+    // 스테이지의 보스가 처음 나오는 시각(초)
+    private double bossSpawnSeconds(int stageId) {
+        StageData stage = staticDataService.getStages().get(stageId);
+        Map<String, StageRosterData> roster = staticDataService.getStageRosters().get(stageId);
+        return staticDataService.getWaves().get(stage.waveId()).stream()
+                .filter(entry -> staticDataService.getMonsters()
+                        .get(roster.get(entry.monsterSlot()).monsterId()).monsterType() == MonsterType.BOSS)
+                .mapToDouble(WaveEntryData::patternStartTime)
+                .min()
+                .orElseThrow();
+    }
+
     // 첫 스테이지에 입장해 바로 결과를 제출하고 응답 본문을 돌려준다
-    private String submit(TestAccount account, boolean victory, int seconds, int kills,
-                          Map<String, Integer> pickups) throws Exception {
+    private String submit(TestAccount account, boolean victory, int kills, int gold) throws Exception {
         String enterBody = bodyOf(postAs(account, "/api/battles",
                 Map.of("stageId", staticDataService.getFirstStageId())).andExpect(status().isOk()));
         Number battleId = JsonPath.read(enterBody, "$.battleId");
 
         Map<String, Object> result = new HashMap<>();
         result.put("victory", victory);
-        result.put("seconds", seconds);
+        result.put("seconds", SECONDS);
         result.put("kills", kills);
-        result.put("gold", 0);
+        result.put("gold", gold);
         result.put("rewardBoxes", 0);
-        result.put("quality", 0);
         result.put("skillKills", Map.of());
         result.put("skillUpgrades", Map.of());
-        result.put("pickups", pickups);
+        result.put("pickups", Map.of());
         result.put("luckTrains", 0);
 
         return bodyOf(postAs(account, "/api/battles/" + battleId.longValue() + "/result", result)

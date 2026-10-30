@@ -1,8 +1,9 @@
 Monster
-BattleConst
 Shop
 Stage
 StageRoster
+Wave
+SpawnPattern
 MonsterAttack
 DropTable
 PlayerBaseStat

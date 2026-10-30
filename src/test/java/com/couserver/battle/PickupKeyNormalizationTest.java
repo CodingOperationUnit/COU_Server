@@ -22,7 +22,6 @@ class PickupKeyNormalizationTest extends IntegrationTestSupport {
     private static final int BOMB_ACHIEVEMENT_ID = 62001;         // 폭탄 획득
     private static final int LUCK_TRAIN_ACHIEVEMENT_ID = 67001;   // 행운열차 완주
     private static final int HUGE = 1000;                         // 어떤 상한보다도 큰 값
-    private static final int BOXES = 3;                           // 폭탄 상한이 0이 되지 않게 이만큼 상자가 나오는 시간을 보낸다
 
     @Autowired
     private StaticDataService staticDataService;
@@ -96,11 +95,10 @@ class PickupKeyNormalizationTest extends IntegrationTestSupport {
 
         Map<String, Object> result = new HashMap<>();
         result.put("victory", true);
-        result.put("seconds", (int) Math.ceil(staticDataService.getBattleConst().boxSpawnInterval() * BOXES));
+        result.put("seconds", 3);
         result.put("kills", 0);
         result.put("gold", 0);
         result.put("rewardBoxes", 0);
-        result.put("quality", 0);
         result.put("skillKills", Map.of());
         result.put("skillUpgrades", Map.of());
         result.put("pickups", pickups);

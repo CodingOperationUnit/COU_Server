@@ -4,14 +4,7 @@
       "stageId": 1,
       "stageName": "Forest",
       "stageIllustrationColor": "#4C7A3D",
-      "layerBugCounts": [
-        100,
-        200,
-        300,
-        350,
-        400
-      ],
-      "referenceClearSeconds": 900,
+      "waveId": 1,
       "stageDescription": "버그가 가득한 클라이언트 숲입니다.",
       "clearAccountExp": 500,
       "rewardBoxGradeWeights": [
@@ -24,14 +17,7 @@
       "stageId": 2,
       "stageName": "Cloud",
       "stageIllustrationColor": "#3A7BD5",
-      "layerBugCounts": [
-        100,
-        200,
-        300,
-        350,
-        400
-      ],
-      "referenceClearSeconds": 900,
+      "waveId": 1,
       "stageDescription": "코드 조각이 떠다니는 구름 위 하늘입니다.",
       "clearAccountExp": 650,
       "rewardBoxGradeWeights": [
@@ -44,14 +30,7 @@
       "stageId": 3,
       "stageName": "Database",
       "stageIllustrationColor": "#4B3A8C",
-      "layerBugCounts": [
-        100,
-        200,
-        300,
-        350,
-        400
-      ],
-      "referenceClearSeconds": 900,
+      "waveId": 1,
       "stageDescription": "데이터가 잠든 깊은 저장소입니다.",
       "clearAccountExp": 825,
       "rewardBoxGradeWeights": [
@@ -64,14 +43,7 @@
       "stageId": 4,
       "stageName": "Overload",
       "stageIllustrationColor": "#C2401E",
-      "layerBugCounts": [
-        100,
-        200,
-        300,
-        350,
-        400
-      ],
-      "referenceClearSeconds": 900,
+      "waveId": 1,
       "stageDescription": "과부하로 서버가 불타는 곳입니다.",
       "clearAccountExp": 1000,
       "rewardBoxGradeWeights": [
@@ -84,14 +56,7 @@
       "stageId": 5,
       "stageName": "Glitch",
       "stageIllustrationColor": "#B57BE0",
-      "layerBugCounts": [
-        100,
-        200,
-        300,
-        350,
-        400
-      ],
-      "referenceClearSeconds": 900,
+      "waveId": 1,
       "stageDescription": "모든 것이 뒤틀린 글리치 공간입니다.",
       "clearAccountExp": 1200,
       "rewardBoxGradeWeights": [

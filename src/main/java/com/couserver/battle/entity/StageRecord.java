@@ -22,17 +22,17 @@ public class StageRecord {
     private int stageId;
 
     @Column(nullable = false)
-    private int bestClearSeconds;      // 가장 짧은 클리어 시간(초). 0이면 기록 없음
+    private int bestSurvivalSeconds;
 
     public StageRecord(Long playerId, int stageId) {
         this.playerId = playerId;
         this.stageId = stageId;
     }
 
-    // 승리했을 때만 부른다. 기록이 없거나 더 빨리 클리어했으면 갱신한다
-    public void recordClear(int seconds) {
-        if (bestClearSeconds == 0 || seconds < bestClearSeconds) {
-            this.bestClearSeconds = seconds;
+    // 승패와 관계없이 더 오래 버텼으면 갱신한다
+    public void recordSurvival(int seconds) {
+        if (seconds > bestSurvivalSeconds) {
+            this.bestSurvivalSeconds = seconds;
         }
     }
 }

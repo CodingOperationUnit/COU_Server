@@ -110,7 +110,6 @@ class ForeignAccessRecordTest extends IntegrationTestSupport {
         request.put("kills", 0);
         request.put("gold", 0);
         request.put("rewardBoxes", 0);
-        request.put("quality", 0);
         request.put("skillKills", Map.of());
         request.put("skillUpgrades", Map.of());
         request.put("pickups", Map.of());

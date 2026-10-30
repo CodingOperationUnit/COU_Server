@@ -22,7 +22,7 @@ public class BattleTimePolicy {
         this.devToolsEnabled = devToolsEnabled;
         this.maxSpeedMultiplier = maxSpeedMultiplier;
         if (devToolsEnabled) {
-            log.warn("dev 도구가 켜져 있어 전투 시간 검증(경과 시간으로 자르는 전투 시간과 상자 상한)을 건너뜁니다. 운영 환경에서는 DEV_TOOLS_ENABLED를 꺼야 합니다.");
+            log.warn("dev 도구가 켜져 있어 전투 시간 검증(최소 승리 시간, 시간 비례 상한)을 건너뜁니다. 운영 환경에서는 DEV_TOOLS_ENABLED를 꺼야 합니다.");
         }
     }
 

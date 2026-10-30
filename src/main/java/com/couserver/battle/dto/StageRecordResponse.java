@@ -4,9 +4,9 @@ import com.couserver.battle.entity.StageRecord;
 
 public record StageRecordResponse(
         int stageId,
-        int bestClearSeconds) {          // 0이면 기록 없음
+        int bestSurvivalSeconds) {
 
     public StageRecordResponse(StageRecord record) {
-        this(record.getStageId(), record.getBestClearSeconds());
+        this(record.getStageId(), record.getBestSurvivalSeconds());
     }
 }

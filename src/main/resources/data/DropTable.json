@@ -8,18 +8,25 @@
       "count": 1
     },
     {
-      "monsterType": "Copy",
+      "monsterType": "Elite",
       "dropGroup": 0,
-      "dropItemType": "None",
+      "dropItemType": "ExpGem1",
       "weight": 1,
       "count": 1
     },
     {
-      "monsterType": "EnhancedCopy",
-      "dropGroup": 0,
-      "dropItemType": "None",
+      "monsterType": "Elite",
+      "dropGroup": 1,
+      "dropItemType": "LuckyBox",
       "weight": 1,
       "count": 1
+    },
+    {
+      "monsterType": "Elite",
+      "dropGroup": 2,
+      "dropItemType": "RewardBox",
+      "weight": 1,
+      "count": 2
     },
     {
       "monsterType": "MidBoss",

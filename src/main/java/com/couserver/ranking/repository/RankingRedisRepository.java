@@ -15,9 +15,8 @@ public class RankingRedisRepository {
     public static final String ACCOUNT_LEVEL_KEY = "ranking:account-level";
     public static final String MAX_STAGE_KEY = "ranking:max-stage";
     public static final String COMBAT_POWER_KEY = "ranking:combat-power";
-    private static final String STAGE_CLEAR_PREFIX = "ranking:stage-clear:";
+    private static final String STAGE_SURVIVAL_PREFIX = "ranking:stage-survival:";
     private static final long EXP_RANGE = 1_000_000L;
-    private static final long CLEAR_SECONDS_RANGE = 1_000_000L;
 
     private static final long ID_RANGE = 10_000_000L;
 
@@ -26,8 +25,8 @@ public class RankingRedisRepository {
     // Redis에서 꺼낸 한 줄: 누구, 값
     public record Member(long playerId, long value) {}
 
-    public static String stageClearKey(int stageId) {
-        return STAGE_CLEAR_PREFIX + stageId;
+    public static String stageSurvivalKey(int stageId) {
+        return STAGE_SURVIVAL_PREFIX + stageId;
     }
 
     // 점수 추가/갱신 (이미 있으면 덮어쓴다)
@@ -66,16 +65,6 @@ public class RankingRedisRepository {
     // value에서 레벨만 꺼내기 (화면에 보여줄 값)
     public static int levelOf(long value) {
         return (int) (value / EXP_RANGE);
-    }
-
-    // 클리어 시간 랭킹의 value: 점수가 높을수록 상위라 짧은 시간이 큰 값이 되게 뒤집는다
-    public static long clearTimeValue(int seconds) {
-        return CLEAR_SECONDS_RANGE - seconds;
-    }
-
-    // value에서 클리어 시간(초) 꺼내기 (화면에 보여줄 값)
-    public static int clearSecondsOf(long value) {
-        return (int) (CLEAR_SECONDS_RANGE - value);
     }
 
     // ranking: 으로 시작하는 키 전부 삭제 (백필 전에 비우기)

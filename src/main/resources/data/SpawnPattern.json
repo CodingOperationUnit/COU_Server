@@ -1,0 +1,68 @@
+{
+  "datas": [
+    {
+      "patternId": 1,
+      "formation": "Random",
+      "spawnCount": 1,
+      "spawnRadius": 0.0,
+      "formationSize": 0.0,
+      "movement": "Chase"
+    },
+    {
+      "patternId": 2,
+      "formation": "Random",
+      "spawnCount": 2,
+      "spawnRadius": 0.0,
+      "formationSize": 0.0,
+      "movement": "Chase"
+    },
+    {
+      "patternId": 4,
+      "formation": "Random",
+      "spawnCount": 3,
+      "spawnRadius": 0.0,
+      "formationSize": 0.0,
+      "movement": "Chase"
+    },
+    {
+      "patternId": 6,
+      "formation": "Screen",
+      "spawnCount": 1,
+      "spawnRadius": 0.0,
+      "formationSize": 0.0,
+      "movement": "Chase"
+    },
+    {
+      "patternId": 7,
+      "formation": "Ring",
+      "spawnCount": 12,
+      "spawnRadius": 0.0,
+      "formationSize": 0.0,
+      "movement": "Chase"
+    },
+    {
+      "patternId": 8,
+      "formation": "Line",
+      "spawnCount": 8,
+      "spawnRadius": 0.0,
+      "formationSize": 0.0,
+      "movement": "Chase"
+    },
+    {
+      "patternId": 9,
+      "formation": "Cluster",
+      "spawnCount": 6,
+      "spawnRadius": 0.0,
+      "formationSize": 0.0,
+      "movement": "Chase"
+    },
+    {
+      "patternId": 10,
+      "formation": "Cluster",
+      "spawnCount": 8,
+      "spawnRadius": 0.0,
+      "formationSize": 0.0,
+      "movement": "Charge"
+    }
+  ]
+}

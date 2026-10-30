@@ -4,6 +4,7 @@ import com.couserver.battle.entity.BattleRecord;
 import com.couserver.battle.event.BattleRecordListener;
 import com.couserver.battle.event.BattleRecordedEvent;
 import com.couserver.battle.repository.BattleRecordRepository;
+import com.couserver.battle.service.MinDamageEstimator;
 import com.couserver.player.dto.PlayerFinalStatResponse;
 import com.couserver.player.service.PlayerFinalStatService;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,19 +37,23 @@ class BattleRecordListenerTest {
     private PlayerFinalStatService playerFinalStatService;
 
     @Mock
+    private MinDamageEstimator minDamageEstimator;
+
+    @Mock
     private PlatformTransactionManager transactionManager;
 
     private BattleRecordListener listener;
 
     @BeforeEach
     void setUp() {
-        listener = new BattleRecordListener(repository, playerFinalStatService, transactionManager);
+        listener = new BattleRecordListener(repository, playerFinalStatService, minDamageEstimator, transactionManager);
     }
 
     @Test
     @DisplayName("DB 저장이 실패해도 예외가 밖으로 나가지 않는다")
     void saveFailureDoesNotPropagate() {
         when(playerFinalStatService.getFinalStat(PLAYER_ID)).thenReturn(finalStat(2000));
+        when(minDamageEstimator.estimate(1, 3, 5)).thenReturn(1234L);
         when(repository.save(any())).thenThrow(new RuntimeException("DB down"));
 
         assertThatCode(() -> listener.onBattleRecorded(EVENT)).doesNotThrowAnyException();
@@ -58,13 +63,14 @@ class BattleRecordListenerTest {
     @DisplayName("전투력을 계산하지 못해도 나머지 값으로 기록하고 전투력은 -1로 남긴다")
     void statFailureStillRecords() {
         when(playerFinalStatService.getFinalStat(PLAYER_ID)).thenThrow(new IllegalStateException("없는 아이템"));
+        when(minDamageEstimator.estimate(1, 3, 5)).thenReturn(1234L);
 
         listener.onBattleRecorded(EVENT);
 
         ArgumentCaptor<BattleRecord> saved = ArgumentCaptor.forClass(BattleRecord.class);
         verify(repository).save(saved.capture());
         assertThat(saved.getValue().getCombatPower()).isEqualTo(-1);
-        assertThat(saved.getValue().getMinDamage()).isEqualTo(-1);
+        assertThat(saved.getValue().getMinDamage()).isEqualTo(1234L);
         assertThat(saved.getValue().getGold()).isEqualTo(100);
         assertThat(saved.getValue().getGoldLimit()).isEqualTo(200);
     }
