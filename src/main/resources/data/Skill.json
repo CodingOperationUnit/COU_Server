@@ -69,7 +69,7 @@
       "skillCooldown": 0.75,
       "skillSpeed": 0.0,
       "skillDamage": 2.0,
-      "skillRange": 1.5,
+      "skillRange": 2.3,
       "skillDescription": "키보드를 휘둘러 적을 공격합니다."
     },
     {
