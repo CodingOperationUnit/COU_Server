@@ -34,11 +34,10 @@
 | 테이블 | 서버 record | 서버가 읽는 열 |
 |---|---|---|
 | AccountConst | `AccountConstData` (행 1개) | initialGold, initialGem, initialStamina, maxStamina, accountBaseRequiredExp, accountRequiredExpIncrement, maxAccountLevel, battleStaminaCost, staminaRecoverySeconds, accountExpPerKill, accountExpPerSecond, luckTrainGoldMax |
-| Stage | `StageData` | stageId, waveId, clearAccountExp, rewardBoxGradeWeights |
-| StageRoster | `StageRosterData` | stageRosterId, stageId, monsterSlot, monsterId, monsterHpScale, monsterDamageScale, patternId |
-| Wave | `WaveEntryData` | waveEntryId, waveId, patternStartTime, patternDuration, spawnInterval, patternId, monsterSlot |
-| SpawnPattern | `SpawnPatternData` | patternId, spawnCount |
-| Monster | `MonsterData` | monsterId, monsterType |
+| BattleConst | `BattleConstData` (행 1개) | boxSpawnInterval, qualityMax |
+| Stage | `StageData` | stageId, layerBugCounts, referenceClearSeconds, clearAccountExp, rewardBoxGradeWeights |
+| StageRoster | `StageRosterData` | stageRosterId, stageId, monsterSlot, monsterId, monsterHpScale, monsterDamageScale |
+| Monster | `MonsterData` | monsterId, monsterType, monsterFamily, monsterMaxHealthPoint |
 | DropTable | `DropTableEntryData` | monsterType, dropGroup, dropItemType, weight, count |
 | DropItem | `DropItemData` | dropItemId, dropItemType, value |
 | Item | `ItemData` | itemId, slotType, grade, hpBonus, attackBonus |
@@ -90,7 +89,8 @@ curl -i "http://localhost:8080/api/static-data?version=3.0.0"
           "stageId": 1,
           "stageName": "Forest",
           "stageIllustrationColor": "#4C7A3D",
-          "waveId": 1,
+          "layerBugCounts": [100, 200, 300, 350, 400],
+          "referenceClearSeconds": 900,
           "stageDescription": "몬스터가 가득한 숲입니다.",
           "clearAccountExp": 500,
           "rewardBoxGradeWeights": [100, 0, 0]
@@ -98,8 +98,6 @@ curl -i "http://localhost:8080/api/static-data?version=3.0.0"
       ]
     },
     "StageRoster": { "datas": [ ... ] },
-    "Wave": { "datas": [ ... ] },
-    "SpawnPattern": { "datas": [ ... ] },
     "Monster": { "datas": [ ... ] },
     "DropTable": { "datas": [ ... ] },
     "DropItem": { "datas": [ ... ] },
@@ -137,9 +135,8 @@ flowchart TD
 | getter | 반환 타입 | 키 |
 |---|---|---|
 | `getAccountConst()` | `AccountConstData` | 없음(단일 행) |
+| `getBattleConst()` | `BattleConstData` | 없음(단일 행) |
 | `getStages()` | `Map<Integer, StageData>` | stageId |
-| `getWaves()` | `Map<Integer, List<WaveEntryData>>` | waveId |
-| `getSpawnPatterns()` | `Map<Integer, SpawnPatternData>` | patternId |
 | `getMonsters()` | `Map<Integer, MonsterData>` | monsterId |
 | `getStageRosters()` | `Map<Integer, Map<String, StageRosterData>>` | stageId → monsterSlot |
 | `getDropTables()` | `Map<MonsterType, List<DropTableEntryData>>` | monsterType |
@@ -165,7 +162,7 @@ public class BattleService {
     public void enter(int stageId) {
         int cost = staticDataService.getAccountConst().battleStaminaCost();
         StageData stage = staticDataService.getStages().get(stageId);
-        List<WaveEntryData> entries = staticDataService.getWaves().get(stage.waveId());
+        Map<String, StageRosterData> roster = staticDataService.getStageRosters().get(stageId);
         // ...
     }
 }
@@ -221,14 +218,14 @@ public class BattleService {
 | 테이블 | 검사 |
 |---|---|
 | 공통 | `datas` 배열이 비어 있지 않음, 서버가 읽는 열이 모두 있음 |
-| AccountConst, PlayerBaseStat | 행이 정확히 1개 |
-| Stage, StageRoster, Wave, SpawnPattern, Monster, MonsterAttack, DropItem, Item, Shop, Skill, SkillLevel, EquipEffect, ItemGradeEffect | ID가 1 이상이고 중복 없음(SkillLevel은 skillLevelId, ItemGradeEffect는 itemGradeEffectId) |
-| Stage | waveId가 Wave에 있음, 그 웨이브의 monsterSlot이 모두 이 스테이지의 StageRoster에 있음 |
-| StageRoster | stageId가 Stage에, monsterId가 Monster에 있음, 같은 stageId 안에서 monsterSlot 중복 없음, monsterHpScale > 0, monsterDamageScale > 0, patternId가 0이거나 SpawnPattern에 있음 |
-| Wave | patternId가 SpawnPattern에 있음, patternStartTime ≥ 0, patternDuration ≥ 0, patternDuration > 0(반복 행)이면 spawnInterval > 0 |
-| SpawnPattern | spawnCount ≥ 1 |
-| MonsterAttack | monsterId가 Monster에 있음, 그 몬스터의 monsterType이 BOX가 아님, BOSS·MIDBOSS가 아니면 monsterAttackType이 MELEE가 아님 |
-| DropTable | dropGroup ≥ 0, weight ≥ 1, count ≥ 1, 모든 monsterType(Normal, Elite, MidBoss, Boss, Box)에 행이 있음 |
+| AccountConst, BattleConst, PlayerBaseStat | 행이 정확히 1개 |
+| Stage, StageRoster, Monster, MonsterAttack, DropItem, Item, Shop, Skill, SkillLevel, EquipEffect, ItemGradeEffect | ID가 1 이상이고 중복 없음(SkillLevel은 skillLevelId, ItemGradeEffect는 itemGradeEffectId) |
+| BattleConst | boxSpawnInterval > 0, qualityMax ≥ 0 |
+| Stage | layerBugCounts가 값 5개이고 모두 1 이상, referenceClearSeconds > 0 |
+| Monster | monsterFamily가 Normal·Copy·EnhancedCopy·MidBoss는 1~5, Boss·Box는 0 |
+| StageRoster | stageId가 Stage에, monsterId가 Monster에 있음, 같은 stageId 안에서 monsterSlot 중복 없음, monsterHpScale > 0, monsterDamageScale > 0. 모든 스테이지에 정해진 22슬롯(6번 "스테이지를 추가하려면?")이 모두 있고 그 밖의 슬롯이 없음, 슬롯의 역할·계열이 그 몬스터의 monsterType·monsterFamily와 같음. 실패 메시지에 스테이지, 슬롯, 몬스터가 나온다 |
+| MonsterAttack | monsterId가 Monster에 있음, 그 몬스터의 monsterType이 BOX·COPY·ENHANCEDCOPY가 아님, BOSS·MIDBOSS가 아니면 monsterAttackType이 MELEE가 아님 |
+| DropTable | dropGroup ≥ 0, weight ≥ 1, count ≥ 1, 모든 monsterType(Normal, Copy, EnhancedCopy, MidBoss, Boss, Box)에 행이 있음. 드롭이 없는 복사체는 None 행으로 채운다 |
 | DropItem | dropItemType이 None이 아님 |
 | Shop | priceGem ≥ 0, RANDOMITEM이면 minGrade ≤ maxGrade이고 그 등급 범위의 Item이 있음, 그 밖에는 rewardAmount ≥ 1 |
 | Skill | skillCategory가 0 또는 1 |
@@ -240,10 +237,9 @@ public class BattleService {
 - **버전 비교 방식은?** 문자열 완전 일치다. 크고 작음을 비교하지 않는다. 글자 하나라도 다르면 200으로 전체를 내려준다.
 - **데이터를 바꿨는데 클라이언트에 반영되지 않는다.** `version.txt`를 올렸는지 확인한다. 버전이 같으면 클라이언트는 204를 받는다.
 - **시트의 enum 값 대소문자는?** 구분하지 않는다. 시트의 `Armor`는 서버에서 `ARMOR`로 읽힌다.
-- **스테이지를 추가하려면?** Stage 1행과, 그 스테이지가 쓰는 웨이브의 슬롯 수만큼 StageRoster 행을 넣는다. 웨이브와 Monster는 재사용한다. 웨이브가 쓰는 슬롯이 로스터에 하나라도 없으면 서버가 시작하지 않는다.
-  - 슬롯 이름: 일반 `N1`…, 엘리트 `E1`…, 중간 보스 `M1`…, 보스 `B1`…, 상자 `BOX`.
-  - 특색 패턴: StageRoster의 patternId를 0보다 크게 두면 그 슬롯을 쓰는 웨이브 행 모두가 웨이브의 patternId 대신 이 패턴을 쓴다. 0이면 웨이브 값이다. 시각과 반복은 웨이브가 정하고, 모양·마릿수·이동(movement)은 패턴이 정한다. 같은 몬스터라도 특색 구간은 전용 슬롯을 쓴다.
-  - 돌진: movement가 `Charge`인 패턴은 Random·Ring·Line·Cluster 형태에만 쓴다. 돌진 거리가 스폰 거리에 비례하므로 Screen이면 플레이어 근처에 나온 몬스터가 바로 사라진다. 서버는 검사하지 않는다.
+- **스테이지를 추가하려면?** Stage 1행(layerBugCounts 5개, referenceClearSeconds)과 슬롯마다 1행씩 StageRoster 22행을 넣는다. Monster는 재사용한다. 슬롯이 하나라도 빠지거나 정해지지 않은 슬롯이 있거나, 슬롯과 몬스터의 역할·계열이 다르면 서버가 시작하지 않는다.
+  - 슬롯 이름: 실제버그 `R1`~`R5`, 버그복사체 `C1`~`C5`, 강화복사체 `EC1`~`EC5`, 중간보스 `M1`~`M5`, 최종보스 `B1`, 상자 `BOX`. 숫자가 몹 계열이다.
+  - `R{f}`에는 Normal이면서 monsterFamily가 f인 몬스터를 둔다. `C`는 Copy, `EC`는 EnhancedCopy, `M`은 MidBoss로 같다. `B1`은 Boss, `BOX`는 Box이고 monsterFamily는 0이다.
 - **클라이언트 전용 열을 추가해도 되나?** 된다. 서버는 무시하고 응답에는 그대로 넣는다. 반대로 서버가 읽는 열이 빠지면 서버가 시작하지 않는다.
 - **AccountConst의 battleStaminaCost:** 시트 AccountConst 탭에 이 열이 없다면 내보내기 전에 추가한다. 열이 없는 JSON으로는 서버가 시작하지 않는다.
 - **AccountConst의 staminaRecoverySeconds, accountExpPerKill, accountExpPerSecond, luckTrainGoldMax:** 전투 API(`Battle.md`)용으로 서버 JSON에만 임시로 넣었다. dev 머지 때 시트에 열을 추가한 뒤 내보낸다.

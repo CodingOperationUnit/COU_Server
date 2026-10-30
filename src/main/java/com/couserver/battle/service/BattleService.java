@@ -36,10 +36,7 @@ import com.couserver.staticdata.dto.DropItemType;
 import com.couserver.staticdata.dto.DropTableEntryData;
 import com.couserver.staticdata.dto.ItemData;
 import com.couserver.staticdata.dto.MonsterType;
-import com.couserver.staticdata.dto.SpawnPatternData;
 import com.couserver.staticdata.dto.StageData;
-import com.couserver.staticdata.dto.StageRosterData;
-import com.couserver.staticdata.dto.WaveEntryData;
 import com.couserver.staticdata.service.StaticDataService;
 import com.couserver.ledger.entity.LedgerReason;
 import com.couserver.ledger.service.CurrencyLedgerService;
@@ -87,10 +84,8 @@ public class BattleService {
     private final SuspiciousActivityRecorder suspiciousActivityRecorder;
     private final BattleTimePolicy battleTimePolicy;
 
-    private Map<Integer, StageLimit> stageLimits;           // key: stageId, 스테이지 전체 기준 상한
-    private Map<Integer, Double> bossSpawnSeconds;          // key: stageId, 보스가 처음 나오는 시각(초). 보스가 없는 스테이지는 없음          // key: stageId
     private Map<ItemGrade, List<ItemData>> itemsByGrade;    // 보상상자 장비 후보
-    private Map<Integer, PatrolReward> patrolRewards;       // key: stageId, 보스가 있는 스테이지만
+    private Map<Integer, PatrolReward> patrolRewards;       // key: stageId
 
     // 스테이지 한 판에서 클라이언트가 보낼 수 있는 값의 상한
     private record StageLimit(int kills, int gold, int rewardBoxes, Map<DropItemType, Integer> pickups) {
@@ -102,17 +97,8 @@ public class BattleService {
 
     @PostConstruct
     void computeFromStaticData() {
-        stageLimits = staticDataService.getStages().values().stream()
-                .collect(Collectors.toUnmodifiableMap(StageData::stageId,
-                        stage -> computeStageLimit(stage, Double.POSITIVE_INFINITY)));
-        Map<Integer, Double> bossTimes = new HashMap<>();
-        for (StageData stage : staticDataService.getStages().values()) {
-            computeBossSpawnSeconds(stage).ifPresent(seconds -> bossTimes.put(stage.stageId(), seconds));
-        }
-        bossSpawnSeconds = Map.copyOf(bossTimes);
-        patrolRewards = bossSpawnSeconds.entrySet().stream()
-                .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, entry -> computePatrolReward(
-                        staticDataService.getStages().get(entry.getKey()), entry.getValue())));
+        patrolRewards = staticDataService.getStages().values().stream()
+                .collect(Collectors.toUnmodifiableMap(StageData::stageId, this::computePatrolReward));
         itemsByGrade = Map.copyOf(staticDataService.getItems().values().stream()
                 .collect(Collectors.groupingBy(ItemData::grade, Collectors.toUnmodifiableList())));
     }
@@ -167,23 +153,23 @@ public class BattleService {
 
         List<String> overLimits = new ArrayList<>();   // 상한을 넘은 값. 전투 하나에 의심 기록 하나로 남긴다
         long elapsedSeconds = Duration.between(session.getEnteredAt(), Instant.now(clock)).getSeconds();
-        // 서버 기준 경과 시간 동안 전투에서 흐를 수 있는 최대 게임 시간. 상한도 그 시각까지 나온 몬스터로 계산한다
+        // 서버 기준 경과 시간 동안 전투에서 흐를 수 있는 최대 게임 시간. 전투 시간은 여기까지만 인정하고, 상한은 인정한 시간으로 계산한다
         double gameSeconds = battleTimePolicy.maxGameSeconds(elapsedSeconds + SECONDS_TOLERANCE);
-        StageLimit limit = limitAt(stage, gameSeconds);
 
-        // 승리는 보스 처치뿐이고 보스는 등장 시각 전에는 나오지 않으므로, 그보다 짧은 시간에 끝난 승리는 패배로 처리한다
-        boolean tooFastVictory = request.victory() && isTooFastVictory(stageId, gameSeconds);
-        boolean victory = request.victory() && !tooFastVictory;
-
+        boolean victory = request.victory();
         int seconds = clamp(overLimits, "seconds", request.seconds(), (int) Math.min(gameSeconds, Integer.MAX_VALUE));
+        StageLimit limit = computeStageLimit(stage, victory, seconds);
         int kills = clamp(overLimits, "kills", request.kills(), limit.kills());
         int gold = clamp(overLimits, "gold", request.gold(), limit.gold());
         int rewardBoxes = clamp(overLimits, "rewardBoxes", request.rewardBoxes(), limit.rewardBoxes());
+        int quality = victory ? clamp(overLimits, "quality", request.quality(), staticDataService.getBattleConst().qualityMax()) : 0;
 
+        // 승리는 빨리 끝낼수록, 패배는 오래 버틸수록 시간 경험치가 많다
         AccountConstData accountConst = staticDataService.getAccountConst();
         int exp = kills * accountConst.accountExpPerKill()
-                + seconds * accountConst.accountExpPerSecond()
-                + (victory ? stage.clearAccountExp() : 0);
+                + (victory
+                        ? stage.clearAccountExp() + victoryTimeExp(stage, seconds)
+                        : seconds * accountConst.accountExpPerSecond());
 
         PlayerProfile profile = playerProfileRepository.findById(playerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "플레이어 데이터가 없습니다."));
@@ -198,21 +184,19 @@ public class BattleService {
             suspiciousActivityRecorder.record(playerId, SuspiciousActivityType.BATTLE_RESULT_OVER_LIMIT,
                     "battleId=" + battleId + " stageId=" + stageId + " " + String.join(", ", overLimits));
         }
-        if (tooFastVictory) {
-            suspiciousActivityRecorder.record(playerId, SuspiciousActivityType.BATTLE_RESULT_TOO_FAST,
-                    "battleId=" + battleId + " stageId=" + stageId + " elapsedSeconds=" + elapsedSeconds
-                            + " bossSpawnSeconds=" + bossSpawnSeconds.get(stageId));
-        }
 
         StageProgress progress = getStageProgress(playerId);
         progress.recordBattle(stageId, victory);
 
+        // 기록은 승리했을 때만 남긴다. 패배하면 기존 기록을, 기록이 없으면 저장하지 않은 빈 기록(0초)을 돌려준다
         StageRecord record = stageRecordRepository.findByPlayerIdAndStageId(playerId, stageId)
                 .orElseGet(() -> new StageRecord(playerId, stageId));
-        record.recordSurvival(seconds);
-        stageRecordRepository.save(record);
+        if (victory) {
+            record.recordClear(seconds);
+            stageRecordRepository.save(record);
+        }
 
-        List<Equipment> rewards = equipmentRepository.saveAll(rollRewardBoxes(playerId, stage, rewardBoxes));
+        List<Equipment> rewards = equipmentRepository.saveAll(rollRewardBoxes(playerId, stage, rewardBoxes, quality));
 
         session.complete();
         // 랭킹값 변경알림(Redis에 갱신)
@@ -258,8 +242,9 @@ public class BattleService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "플레이어 데이터가 없습니다."));
         profile.gainExp(reward.exp(), accountConst);
         currencyLedger.addGold(currency, reward.gold(), LedgerReason.PATROL, (long) stageId);
+        // 순찰에는 퀄리티가 없어 기본 가중치로 뽑는다
         List<Equipment> rewards = equipmentRepository.saveAll(
-                rollRewardBoxes(playerId, staticDataService.getStages().get(stageId), reward.rewardBoxes()));
+                rollRewardBoxes(playerId, staticDataService.getStages().get(stageId), reward.rewardBoxes(), 0));
 
         // 랭킹값 변경알림(Redis에 갱신)
         eventPublisher.publishEvent(new RankingChangedEvent(playerId));
@@ -284,17 +269,24 @@ public class BattleService {
         return max;
     }
 
-    // 상자마다 스테이지 가중치로 등급을 뽑고, 그 등급이 기본 등급인 장비 중 하나를 균등하게 고른다
-    private List<Equipment> rollRewardBoxes(Long playerId, StageData stage, int count) {
+    // 상자마다 퀄리티로 보정한 스테이지 가중치로 등급을 뽑고, 그 등급이 기본 등급인 장비 중 하나를 균등하게 고른다
+    private List<Equipment> rollRewardBoxes(Long playerId, StageData stage, int count, int quality) {
+        List<Integer> weights = gradeWeights(stage, quality);
         List<Equipment> rewards = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            List<ItemData> pool = itemsByGrade.getOrDefault(rollGrade(stage.rewardBoxGradeWeights()), List.of());
+            List<ItemData> pool = itemsByGrade.getOrDefault(rollGrade(weights), List.of());
             if (pool.isEmpty()) {
                 continue;
             }
             rewards.add(Equipment.create(playerId, pool.get(ThreadLocalRandom.current().nextInt(pool.size()))));
         }
         return rewards;
+    }
+
+    // 퀄리티로 보정한 보상상자 등급 가중치. 퀄리티 0(패배, 순찰)은 스테이지 기본 가중치다
+    private static List<Integer> gradeWeights(StageData stage, int quality) {
+        // TODO(미해결): 퀄리티 보정 공식
+        return stage.rewardBoxGradeWeights();
     }
 
     // 클라이언트 StageData.RollRewardBoxGrade와 같은 규칙. 가중치 순서는 ItemGrade 순서
@@ -314,45 +306,37 @@ public class BattleService {
         return ItemGrade.GENERAL;
     }
 
-    // 그 시각까지 나올 수 있는 몬스터로 계산한 상한. 시간 검증을 건너뛰면(dev 도구) 미리 계산해 둔 전체 상한을 쓴다
-    private StageLimit limitAt(StageData stage, double gameSeconds) {
-        if (Double.isInfinite(gameSeconds)) {
-            return stageLimits.get(stage.stageId());
-        }
-        return computeStageLimit(stage, gameSeconds);
+    // 승리 시간 경험치. 기준 클리어 시간에 이기면 같은 시간을 버틴 패배의 시간 경험치와 같고,
+    // 빠를수록 최대 2배까지 늘며 기준의 2배 이상 걸리면 0이다
+    private int victoryTimeExp(StageData stage, int seconds) {
+        return Math.max(0, 2 * stage.referenceClearSeconds() - seconds)
+                * staticDataService.getAccountConst().accountExpPerSecond();
     }
 
-    private boolean isTooFastVictory(int stageId, double gameSeconds) {
-        Double bossAt = bossSpawnSeconds.get(stageId);
-        return bossAt != null && gameSeconds < bossAt;
+    // 한 판에서 역할별로 나오는 몬스터 수. 실제버그는 레이어마다 정해진 수, 중간보스는 레이어마다 한 마리,
+    // 최종보스는 처치하면 승리라 승리일 때만, 상자는 seconds초 동안 boxSpawnInterval마다 하나다.
+    // 복사체는 킬 수와 보상에 들어가지 않아 세지 않는다
+    private Map<MonsterType, Integer> spawnCounts(StageData stage, boolean victory, int seconds) {
+        Map<MonsterType, Integer> counts = new EnumMap<>(MonsterType.class);
+        counts.put(MonsterType.NORMAL, stage.layerBugCounts().stream().mapToInt(Integer::intValue).sum());
+        counts.put(MonsterType.MIDBOSS, StaticDataService.FAMILY_COUNT);
+        counts.put(MonsterType.BOSS, victory ? 1 : 0);
+        counts.put(MonsterType.BOX, (int) (seconds / staticDataService.getBattleConst().boxSpawnInterval()));
+        return counts;
     }
 
-    // 스테이지의 보스(MonsterType.BOSS)가 처음 등장하는 시각(초). 보스가 없는 스테이지는 비어 있다
-    private OptionalDouble computeBossSpawnSeconds(StageData stage) {
-        Map<String, StageRosterData> roster = staticDataService.getStageRosters().get(stage.stageId());
-        return staticDataService.getWaves().get(stage.waveId()).stream()
-                .filter(entry -> staticDataService.getMonsters()
-                        .get(roster.get(entry.monsterSlot()).monsterId()).monsterType() == MonsterType.BOSS)
-                .mapToDouble(WaveEntryData::patternStartTime)
-                .min();
-    }
-
-    // seconds초까지 나온 웨이브의 모든 스폰을 처치하고, 몬스터 역할별 드롭 테이블마다 가장 많이 나오는 행이 뽑힌 경우를 더한다.
-    // seconds가 무한대면 스테이지 전체 기준이다
-    private StageLimit computeStageLimit(StageData stage, double seconds)  {
+    // 한 판에서 나오는 몬스터를 모두 처치하고, 몬스터 역할별 드롭 테이블마다 가장 많이 나오는 행이 뽑힌 경우를 더한다.
+    // 시간에 따라 늘어나는 것은 상자뿐이다
+    private StageLimit computeStageLimit(StageData stage, boolean victory, int seconds)  {
         int kills = 0;
         int gold = 0;
         int rewardBoxes = 0;
         int luckyBoxes = 0;
         Map<DropItemType, Integer> pickups = new EnumMap<>(DropItemType.class);
 
-        Map<String, StageRosterData> roster = staticDataService.getStageRosters().get(stage.stageId());
-        for (WaveEntryData entry : staticDataService.getWaves().get(stage.waveId())) {
-            StageRosterData rosterRow = roster.get(entry.monsterSlot());
-            int patternId = rosterRow.patternId() > 0 ? rosterRow.patternId() : entry.patternId();
-            SpawnPatternData pattern = staticDataService.getSpawnPatterns().get(patternId);
-            MonsterType monsterType = staticDataService.getMonsters().get(rosterRow.monsterId()).monsterType();
-            int spawns = SpawnSchedule.spawnCountBy(entry, pattern, seconds);
+        for (Map.Entry<MonsterType, Integer> entry : spawnCounts(stage, victory, seconds).entrySet()) {
+            MonsterType monsterType = entry.getKey();
+            int spawns = entry.getValue();
 
             // 상자는 킬 수에 들어가지 않는다 (클라이언트 Box.GiveReward)
             if (monsterType != MonsterType.BOX) {
@@ -392,21 +376,17 @@ public class BattleService {
         return total + groupMax;
     }
 
-    // 보스가 나오는 시각까지(보스 포함) 나온 몬스터를 모두 처치했을 때의 평균 보상.
-    // 드롭은 기대값, 경험치는 처치 + 그 시각까지의 초 + 클리어 경험치다
-    private PatrolReward computePatrolReward(StageData stage, double bossSeconds) {
+    // 기준 클리어 시간에 승리했을 때의 평균 보상.
+    // 드롭은 기대값, 경험치는 처치 + 클리어 경험치 + 승리 시간 경험치다
+    private PatrolReward computePatrolReward(StageData stage) {
         int kills = 0;
         double gold = 0;
         double rewardBoxes = 0;
         double luckyBoxes = 0;
 
-        Map<String, StageRosterData> roster = staticDataService.getStageRosters().get(stage.stageId());
-        for (WaveEntryData entry : staticDataService.getWaves().get(stage.waveId())) {
-            StageRosterData rosterRow = roster.get(entry.monsterSlot());
-            int patternId = rosterRow.patternId() > 0 ? rosterRow.patternId() : entry.patternId();
-            SpawnPatternData pattern = staticDataService.getSpawnPatterns().get(patternId);
-            MonsterType monsterType = staticDataService.getMonsters().get(rosterRow.monsterId()).monsterType();
-            int spawns = SpawnSchedule.spawnCountBy(entry, pattern, bossSeconds);
+        for (Map.Entry<MonsterType, Integer> entry : spawnCounts(stage, true, stage.referenceClearSeconds()).entrySet()) {
+            MonsterType monsterType = entry.getKey();
+            int spawns = entry.getValue();
 
             if (monsterType != MonsterType.BOX) {
                 kills += spawns;
@@ -423,8 +403,8 @@ public class BattleService {
         gold += luckyBoxes * LUCK_TRAIN_AVERAGE_PICKS * (LUCK_TRAIN_GOLD_MIN + accountConst.luckTrainGoldMax()) / 2.0;
 
         int exp = kills * accountConst.accountExpPerKill()
-                + (int) bossSeconds * accountConst.accountExpPerSecond()
-                + stage.clearAccountExp();
+                + stage.clearAccountExp()
+                + victoryTimeExp(stage, stage.referenceClearSeconds());
         return new PatrolReward((int) Math.round(gold), exp, (int) Math.round(rewardBoxes));
     }
 

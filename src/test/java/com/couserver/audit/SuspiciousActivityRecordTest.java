@@ -67,6 +67,7 @@ class SuspiciousActivityRecordTest extends IntegrationTestSupport {
         result.put("kills", 0);
         result.put("gold", Integer.MAX_VALUE);
         result.put("rewardBoxes", 0);
+        result.put("quality", 0);
         result.put("skillKills", Map.of());
         result.put("skillUpgrades", Map.of());
         result.put("pickups", Map.of());

@@ -161,6 +161,7 @@ public abstract class IntegrationTestSupport {
         result.put("kills", kills);
         result.put("gold", 0);
         result.put("rewardBoxes", 0);
+        result.put("quality", 0);
         result.put("skillKills", skillKills);
         result.put("skillUpgrades", Map.of());
         result.put("pickups", Map.of());

@@ -2,7 +2,6 @@ package com.couserver.battle.event;
 
 import com.couserver.battle.entity.BattleRecord;
 import com.couserver.battle.repository.BattleRecordRepository;
-import com.couserver.battle.service.MinDamageEstimator;
 import com.couserver.player.service.PlayerFinalStatService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,16 +20,13 @@ public class BattleRecordListener {
 
     private final BattleRecordRepository repository;
     private final PlayerFinalStatService playerFinalStatService;
-    private final MinDamageEstimator minDamageEstimator;
     private final TransactionTemplate isolated;   // 매번 새 트랜잭션 (커밋이 끝난 전투 결과 트랜잭션과 섞이지 않게)
 
     public BattleRecordListener(BattleRecordRepository repository,
                                 PlayerFinalStatService playerFinalStatService,
-                                MinDamageEstimator minDamageEstimator,
                                 PlatformTransactionManager transactionManager) {
         this.repository = repository;
         this.playerFinalStatService = playerFinalStatService;
-        this.minDamageEstimator = minDamageEstimator;
         this.isolated = new TransactionTemplate(transactionManager);
         this.isolated.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
     }
@@ -55,13 +51,6 @@ public class BattleRecordListener {
             log.warn("전투 통계의 전투력 계산 실패 battleId={}", event.battleId(), e);
         }
 
-        long minDamage = UNKNOWN;
-        try {
-            minDamage = minDamageEstimator.estimate(event.stageId(), event.seconds(), event.kills());
-        } catch (Exception e) {
-            log.warn("전투 통계의 최소 피해 계산 실패 battleId={}", event.battleId(), e);
-        }
-
         return new BattleRecord(
                 event.playerId(), event.battleId(), event.stageId(),
                 event.victoryReported(), event.victoryAccepted(),
@@ -69,6 +58,6 @@ public class BattleRecordListener {
                 event.kills(), event.killsLimit(),
                 event.gold(), event.goldLimit(),
                 event.rewardBoxes(), event.rewardBoxesLimit(),
-                combatPower, minDamage, event.occurredAt());
+                combatPower, UNKNOWN, event.occurredAt());   // 최소 피해는 전투로그 검증이 생길 때까지 계산하지 않는다
     }
 }

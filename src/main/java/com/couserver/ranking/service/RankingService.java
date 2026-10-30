@@ -35,7 +35,7 @@ public class RankingService {
     public RankingResponse getRanking(Long playerId, String typeName, Integer stageId, Integer limit) {
         RankingType type = parseType(typeName);
         int size = limit == null ? DEFAULT_LIMIT : Math.max(1, Math.min(limit, MAX_LIMIT));
-        if (type == RankingType.STAGE_SURVIVAL) validateStage(stageId);
+        if (type == RankingType.STAGE_CLEAR) validateStage(stageId);
 
         String key = redisKey(type, stageId);
 
@@ -72,16 +72,18 @@ public class RankingService {
         return switch (type) {
             case ACCOUNT_LEVEL  -> RankingRedisRepository.ACCOUNT_LEVEL_KEY;
             case MAX_STAGE      -> RankingRedisRepository.MAX_STAGE_KEY;
-            case STAGE_SURVIVAL -> RankingRedisRepository.stageSurvivalKey(stageId);
+            case STAGE_CLEAR    -> RankingRedisRepository.stageClearKey(stageId);
             case COMBAT_POWER   -> RankingRedisRepository.COMBAT_POWER_KEY;
         };
     }
 
-    // 화면에 보여줄 값: 계정 레벨은 (레벨×100만+경험치)에서 레벨만 꺼낸다
+    // 화면에 보여줄 값: 계정 레벨은 (레벨×100만+경험치)에서 레벨만, 클리어 시간은 뒤집은 값에서 초를 꺼낸다
     private int displayValue(RankingType type, long value) {
-        return type == RankingType.ACCOUNT_LEVEL
-                ? RankingRedisRepository.levelOf(value)
-                : (int) value;
+        return switch (type) {
+            case ACCOUNT_LEVEL -> RankingRedisRepository.levelOf(value);
+            case STAGE_CLEAR   -> RankingRedisRepository.clearSecondsOf(value);
+            default            -> (int) value;
+        };
     }
 
     private RankingType parseType(String name) {

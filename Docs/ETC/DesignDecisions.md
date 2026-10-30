@@ -170,7 +170,7 @@
   - 결과는 결과창을 열 때 보낸다. 경험치, 골드, 레벨업, 보상상자는 응답값으로 표시한다.
   - `CLIENT_AUTH` 값은 스테이지 상한으로 검증하고, 넘으면 상한까지만 지급한다.
   - 계정 경험치는 서버가 계산하고, 현재 레벨 기준으로 저장한다.
-  - 최장 생존 시간은 StageRecord 테이블에 저장한다.
+  - 최단 클리어 시간은 StageRecord 테이블에 저장한다. 승리했을 때만 남긴다.
 
 ### 이유
 - 재화, 경험치, 장비는 서버가 행동을 검증한 뒤 직접 계산해 저장한다(데이터 정의서 Currency 원칙). 클라이언트 계산값은 받지 않는다.
@@ -179,17 +179,18 @@
 - 결과창을 열 때 보내면 결과창에서 앱을 꺼도 결과가 남는다. 보상상자 등급은 서버가 뽑으므로 어차피 응답을 기다려야 한다.
 - 스테이지 상한은 서버가 이미 가진 정적 데이터로 미리 계산할 수 있어 구현이 단순하고, 터무니없는 값은 막는다.
 - 현재 레벨 기준은 클라이언트 코드와 같아서 변환이 필요 없다.
-- 최장 생존 시간은 UI(`BattleTab`, `StageSelectScreen`, `BattleResultWindow.SetBestTime`)가 이미 있고, 결과 API를 어차피 만들므로 저장하는 비용이 작다.
+- 기록 UI(`BattleTab`, `StageSelectScreen`, `BattleResultWindow.SetBestTime`)가 이미 있고, 결과 API를 어차피 만들므로 저장하는 비용이 작다.
+- 버그 사냥 전투(서버 WP11)에서 기록이 최장 생존 시간에서 최단 클리어 시간으로 바뀌었다. 클리어 시간은 전투 시작부터 최종보스 처치까지이고 짧을수록 상위다.
 
 ### 검토한 대안
 - 세션을 서버 메모리에 저장: 입장과 결과를 다른 인스턴스가 받으면 세션을 찾지 못한다.
 - 시간 만료: 일시정지와 백그라운드 때문에 여유를 크게 잡아야 하고, 그 값을 따로 정해야 한다.
 - 확인 버튼에서 전송: 결과창에서 앱을 끄면 결과가 사라지고, 결과창에 보인 값과 실제 지급값이 다를 수 있다.
-- 시간별 상한 검증: Seconds 시점까지 스폰되는 수로 검증해 더 정확하지만, 서버가 웨이브 타임라인을 재현해야 한다. (서버 경과 시간 기준으로 `SpawnSchedule`이 시각표를 재현한다)
+- 시간별 상한 검증: Seconds 시점까지 스폰되는 수로 검증해 더 정확하지만, 서버가 스폰 시각표를 재현해야 한다. (웨이브 구조에서는 `SpawnSchedule`이 시각표를 재현했다. 버그 사냥 전투(서버 WP11)는 실제버그를 시작할 때 모두 배치하므로 시간에 따라 늘어나는 것은 상자뿐이다)
 - 그대로 신뢰: 조작을 막지 못한다.
 - 상한을 넘으면 거부: 클라이언트 오차 하나로 결과 전체를 잃고, 다시 보내도 계속 실패한다.
 - accountExp 누적 저장: 클라이언트 레벨업 코드를 바꿔야 하고, 경험치 곡선을 바꾸면 기존 플레이어의 레벨이 바뀐다.
-- 최장 생존 시간을 UI에서 제거: 이미 만든 UI를 버린다.
+- 기록을 UI에서 제거: 이미 만든 UI를 버린다.
 
 ### 세부 결정
 
@@ -212,29 +213,32 @@
 
 #### 결과 전송과 표시
 - `BattleManager.EndBattle`에서 결과창(`BattleResultWindow`)을 띄우면서 보낸다. 실패하면 같은 전투 ID로 다시 보낸다.
-- 보내는 값: 전투 ID, Victory, Seconds, Kills, Gold, RewardBoxes. StageId와 AccountExp는 보내지 않는다.
-- 결과창은 킬 수와 생존 시간을 바로 표시하고, 경험치, 골드, 레벨업, 보상상자는 응답을 받은 뒤 표시한다.
+- 보내는 값: 전투 ID, Victory, Seconds, Kills, Gold, RewardBoxes, Quality, 업적 집계(SkillKills, SkillUpgrades, Pickups, LuckTrains). StageId와 AccountExp는 보내지 않는다.
+- 결과창은 킬 수와 전투 시간을 바로 표시하고, 경험치, 골드, 레벨업, 보상상자는 응답을 받은 뒤 표시한다.
 - 응답: PlayerProfile, Currency, StageProgress, StageRecord, 지급한 Inventory 행, 지급한 골드와 경험치
 
 #### `CLIENT_AUTH` 검증
 | 값 | 상한 |
 |---|---|
 | Seconds | 입장 시각부터 결과 수신 시각까지. 서버 간 시계 차이만큼 허용 오차를 둔다(3번) |
-| Kills | 스테이지 웨이브의 전체 스폰 수(상자 제외) |
+| Kills | 실제버그 수(layerBugCounts 합) + 중간보스 5 + 승리 시 최종보스 1. 복사체와 상자는 세지 않는다 |
 | Gold | 스폰되는 몬스터의 드롭 테이블 최대 골드 합 + 행운상자 최대 개수 × luckTrainGoldMax × 5(최대 당첨 칸 수) |
 | RewardBoxes | 스폰되는 몬스터의 드롭 테이블 RewardBox 최대 개수 합 |
 
-- Kills, Gold, RewardBoxes의 상한은 서버를 시작할 때 스테이지별로 계산해 메모리에 둔다.
+- 상한은 결과를 받을 때 스테이지, 승패, Seconds로 계산한다. 상자만 Seconds ÷ boxSpawnInterval개로 시간에 따라 늘어난다.
+- Quality는 승리일 때만 BattleConst의 qualityMax까지 인정하고, 패배면 0이다.
 - 넘으면 상한까지만 지급하고 로그를 남긴다.
 
 #### 지급
 - 골드: 검증한 Gold를 더한다.
-- 계정 경험치: `Kills × accountExpPerKill + Seconds × accountExpPerSecond + 승리 시 clearAccountExp`. 검증한 값으로 계산한다.
+- 계정 경험치: 검증한 값으로 계산하고, 승패에 따라 공식이 다르다.
+  - 승리: `Kills × accountExpPerKill + clearAccountExp + max(0, 2 × referenceClearSeconds − Seconds) × accountExpPerSecond`. 빨리 이길수록 많고, 기준 클리어 시간의 2배 이상이면 시간 경험치가 0이다.
+  - 패배: `Kills × accountExpPerKill + Seconds × accountExpPerSecond`. 오래 버틸수록 많다.
   - accountExpPerKill, accountExpPerSecond는 `BattleManager` 인스펙터에서 AccountConst 열로 옮긴다.
   - 현재 레벨 기준으로 저장한다. 레벨업하면 필요 경험치를 빼고, 최대 레벨에서는 경험치만 쌓인다. 필요 경험치는 클라이언트 `AccountConstData.GetRequiredExp`와 같은 공식을 쓴다.
 - StageProgress: currentStageId를 stageId로 바꾸고, 승리했고 더 높으면 maxClearedStageId를 갱신한다.
-- 보상상자: 상자마다 Stage의 rewardBoxGradeWeights로 등급을 뽑고, 그 등급이 기본 등급인 장비 중 균등 랜덤으로 골라 Equipment로 넣는다.
-- StageRecord: (playerId, stageId)마다 bestSurvivalSeconds를 둔다. 승패와 관계없이 Seconds가 더 길면 갱신하고, 세이브 로드 응답에도 싣는다.
+- 보상상자: 상자마다 등급 가중치로 등급을 뽑고, 그 등급이 기본 등급인 장비 중 균등 랜덤으로 골라 Equipment로 넣는다. 가중치는 Stage의 rewardBoxGradeWeights를 Quality로 보정한 값이다. 보정 공식은 정해지지 않아 지금은 rewardBoxGradeWeights를 그대로 쓴다.
+- StageRecord: (playerId, stageId)마다 bestClearSeconds(0이면 기록 없음)를 둔다. 승리했을 때만, 기록이 없거나 Seconds가 더 짧으면 갱신한다. 패배는 행을 만들지 않는다. 결과 응답에는 승패와 관계없이 싣고(기록이 없으면 0), 세이브 로드 응답에도 싣는다.
 
 ### 변경 위치
 클라이언트 변경 위치는 `BackendIntegration_DevAkasha.md` 3.1~3.3을 따른다.
@@ -250,7 +254,7 @@
 
 ### 주의
 - 결과를 보내기 전에 앱을 종료하면 결과가 사라지고, 다음 입장 때 그 전투는 만료된다.
-- `WaveManager.stageId` 기본값으로 메인 씬 없이 실행하면 전투 ID가 없다. 이때는 결과를 보내지 않는다.
+- `BugHuntManager.stageId` 기본값으로 메인 씬 없이 실행하면 전투 ID가 없다. 이때는 결과를 보내지 않는다.
 - 데이터 버전이 다른 서버가 함께 돌면(2번 주의) 입장과 결과 검증의 상한이 다를 수 있다.
 - 보상상자 장비는 `Equipment.create(playerId, ItemData)`로 만든다.
 - `PUT /api/players/me/save`(`PlayerService`, jyj8943 작성)는 클라이언트가 보낸 재화, 경험치, 레벨, 스테이지를 그대로 저장한다. 외부에서 이 경로를 부르면 위 검증을 거치지 않으므로 작성자에게 전달한다.
@@ -261,10 +265,11 @@
 - 완료된 전투 ID로 다시 받은 결과: `BATTLE_ALREADY_COMPLETED`(409)로 응답하고 지급 결과를 다시 주지 않는다.
   - 이 경우는 첫 요청이 반영됐는데 응답만 잃은 드문 경우다. 지급분은 DB에 있으므로 클라이언트가 세이브와 인벤토리를 다시 받으면 맞춰진다. 잃는 것은 결과창의 지급값 표시뿐이다.
   - 중복 지급은 Currency 행과 세션 행을 잠가 막는다. 첫 요청을 처리하는 중에 재전송이 와도 차례대로 처리되어 늦은 요청은 완료 상태를 본다.
-- Victory 하한 (보안 4-b-1): 보스(`Boss`)가 처음 나오는 시각(웨이브 데이터의 `patternStartTime`, 현재 스테이지 1~5는 480초)보다 서버가 잰 경과 시간이 짧으면 승리를 패배로 처리한다. 클리어 EXP, 최고 클리어 갱신, 클리어 업적 집계를 주지 않고 `suspicious_activity`에 `BATTLE_RESULT_TOO_FAST`로 기록한다.
-  - 킬·골드·상자·아이템 획득 상한도 그 시각까지 나올 수 있는 몬스터로 계산한다 (`SpawnSchedule`). 웨이브는 처치와 무관하게 시각표대로 나오므로 빨리 잡아도 스테이지는 단축되지 않는다.
-  - `battle.max-speed-multiplier`(기본 1.0)로 경과 시간을 게임 시간으로 환산한다. 정식 배속 기능을 넣으면 최대 배율로 올린다. `dev-tools.enabled=true`이면 두 검증을 건너뛴다 (DevPanel 배속 테스트용).
-  - 전투마다 `battle_record`에 지급량, 상한, 전투력, 필요한 최소 피해를 남겨 이상 계정을 SQL로 찾는다 (보안 4-b-2).
+- Victory 하한 (보안 4-b-1): 버그 사냥 전투(서버 WP11)에서 없앴다. 승리는 보고한 대로 인정한다.
+  - 이전에는 보스가 처음 나오는 시각(웨이브 데이터의 `patternStartTime`)보다 서버가 잰 경과 시간이 짧으면 승리를 패배로 처리하고 `BATTLE_RESULT_TOO_FAST`로 기록했다. 웨이브 데이터가 없어져 보스가 나오는 시각이 정해지지 않는다. `BATTLE_RESULT_TOO_FAST`는 과거 기록 때문에 값만 남긴다.
+  - 시간에 따라 늘어나는 상한은 상자뿐이다. Seconds를 경과 시간까지 자른 뒤 그 시간 동안 boxSpawnInterval마다 나오는 상자 수로 계산한다. 킬·골드·보상상자·아이템 획득의 나머지 상한은 한 판 전체 값(실제버그 layerBugCounts 합, 중간보스 5, 승리 시 최종보스 1)이라 입장 직후에도 같다.
+  - `battle.max-speed-multiplier`(기본 1.0)로 경과 시간을 게임 시간으로 환산한다. 정식 배속 기능을 넣으면 최대 배율로 올린다. `dev-tools.enabled=true`이면 Seconds를 자르지 않는다 (DevPanel 배속 테스트용).
+  - 전투마다 `battle_record`에 지급량, 상한, 전투력을 남겨 이상 계정을 SQL로 찾는다 (보안 4-b-2). 최소 피해는 계산하지 않고 -1로 남긴다. 검증은 전투로그 검증(기획 9장 후속 작업)이 대신한다.
 
 ### 확인 필요
 - 데이터 정의서(Notion) 갱신: StageRecord 테이블 추가, PlayerProfile.accountExp·accountLevel 비고

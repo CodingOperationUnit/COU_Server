@@ -1,11 +1,10 @@
 Monster
+BattleConst
 Shop
 Stage
-Wave
-SpawnPattern
+StageRoster
 MonsterAttack
 DropTable
-StageRoster
 PlayerBaseStat
 Item
 EquipEffect
@@ -18,3 +17,4 @@ ItemConst
 Evolution
 Achievement
 CombatPower
+Mail

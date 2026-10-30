@@ -12,6 +12,7 @@ public record BattleResultRequest(
         @Min(0) int kills,
         @Min(0) int gold,
         @Min(0) int rewardBoxes,
+        @Min(0) int quality,                  // 프로젝트 퀄리티. 승리일 때만 BattleConst.qualityMax까지 인정한다
         Map<Integer, Integer> skillKills,     // skillId → 처치 수
         Map<Integer, Integer> skillUpgrades,  // skillId → 레벨업 횟수 (레벨업 선택만, 행운열차 제외)
         Map<String, Integer> pickups,         // DropItemType 이름 → 획득 수

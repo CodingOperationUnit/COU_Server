@@ -38,7 +38,7 @@ public class BattleRecord {
     private boolean victoryReported;   // 클라이언트가 보고한 승리
 
     @Column(nullable = false)
-    private boolean victoryAccepted;   // 서버가 인정한 승리 (너무 빠른 승리는 인정하지 않는다)
+    private boolean victoryAccepted;   // 서버가 인정한 승리 (지금은 보고한 승리와 같다)
 
     @Column(nullable = false)
     private long elapsedSeconds;       // 서버가 잰 입장 후 경과 시간
@@ -50,7 +50,7 @@ public class BattleRecord {
     private int kills;
 
     @Column(nullable = false)
-    private int killsLimit;            // 그 시각까지 나온 몬스터로 계산한 상한
+    private int killsLimit;            // 한 판에서 나오는 몬스터로 계산한 상한
 
     @Column(nullable = false)
     private int gold;
@@ -68,7 +68,7 @@ public class BattleRecord {
     private int combatPower;           // 결과 처리 시점의 전투력
 
     @Column(nullable = false)
-    private long minDamage;            // 인정한 킬 수를 채우는 데 최소한 필요한 피해 (추정 하한)
+    private long minDamage;            // 인정한 킬 수를 채우는 데 최소한 필요한 피해 (추정 하한). 지금은 계산하지 않아 -1
 
     @Column(nullable = false, updatable = false)
     private Instant createdAt;

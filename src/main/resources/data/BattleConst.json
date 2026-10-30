@@ -1,0 +1,33 @@
+{
+  "datas": [
+    {
+      "shrinkSeconds": 480.0,
+      "copySummonInterval": 20.0,
+      "safeZoneRadius": 0.9,
+      "layerRadii": [
+        6.0,
+        12.0,
+        18.0,
+        24.0,
+        30.0
+      ],
+      "slowPerEnemy": 0.00225,
+      "maxSlowRatio": 0.9,
+      "weakenedSlowMultiplier": 0.1,
+      "weakenedDamageMultiplier": 2.0,
+      "boxSpawnInterval": 20.0,
+      "debugRoomTimeLimit": 60.0,
+      "debugRoomFailExp": 30,
+      "debugRoomQualityMultiplier": 20,
+      "debugRoomReturnDelay": 3.0,
+      "finalBossEnterDelay": 5.0,
+      "finalBossSummonInterval": 8.0,
+      "finalBossSummonCount": 6,
+      "qualityStart": 0,
+      "qualityMin": 0,
+      "qualityMax": 1000,
+      "qualityLossPerBug": 1,
+      "qualityGainPerKill": 1
+    }
+  ]
+}

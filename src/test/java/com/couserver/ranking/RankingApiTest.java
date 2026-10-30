@@ -3,6 +3,7 @@ package com.couserver.ranking;
 import com.couserver.staticdata.service.StaticDataService;
 import com.couserver.support.IntegrationTestSupport;
 import com.couserver.support.TestAccount;
+import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Collections;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,7 +37,7 @@ class RankingApiTest extends IntegrationTestSupport {
     }
 
     @Test
-    @DisplayName("스테이지를 클리어하면 최고 스테이지와 생존 시간 랭킹에 반영된다")
+    @DisplayName("스테이지를 클리어하면 최고 스테이지와 클리어 시간 랭킹에 반영된다")
     void stageRankingsAfterClear() throws Exception {
         TestAccount account = createAccount();
         int firstStageId = staticDataService.getFirstStageId();
@@ -46,11 +48,26 @@ class RankingApiTest extends IntegrationTestSupport {
                 .andExpect(jsonPath("$.myRank").isNumber())
                 .andExpect(jsonPath("$.myValue").value(firstStageId));
 
-        getAs(account, RANKING_URL + "?type=STAGE_SURVIVAL&stageId=" + firstStageId)
+        getAs(account, RANKING_URL + "?type=STAGE_CLEAR&stageId=" + firstStageId)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.stageId").value(firstStageId))
                 .andExpect(jsonPath("$.myRank").isNumber())
                 .andExpect(jsonPath("$.myValue").value(BATTLE_SECONDS));
+    }
+
+    @Test
+    @DisplayName("클리어 시간 랭킹은 더 빨리 클리어한 계정이 위에 있다")
+    void stageClearRankingOrdersByShortestTime() throws Exception {
+        TestAccount fast = createAccount();
+        TestAccount slow = createAccount();
+        int firstStageId = staticDataService.getFirstStageId();
+        clearStage(fast, firstStageId, 0, BATTLE_SECONDS, Map.of());
+        clearStage(slow, firstStageId, 0, BATTLE_SECONDS + 10, Map.of());
+
+        String url = RANKING_URL + "?type=STAGE_CLEAR&stageId=" + firstStageId;
+        Integer fastRank = JsonPath.read(bodyOf(getAs(fast, url)), "$.myRank");
+        Integer slowRank = JsonPath.read(bodyOf(getAs(slow, url)), "$.myRank");
+        assertThat(fastRank).isLessThan(slowRank);
     }
 
     @Test
@@ -64,12 +81,12 @@ class RankingApiTest extends IntegrationTestSupport {
     }
 
     @Test
-    @DisplayName("없는 스테이지의 생존 랭킹은 404")
-    void unknownStageSurvivalRankingFails() throws Exception {
+    @DisplayName("없는 스테이지의 클리어 시간 랭킹은 404")
+    void unknownStageClearRankingFails() throws Exception {
         TestAccount account = createAccount();
         int unknownStageId = Collections.max(staticDataService.getStages().keySet()) + 1;
 
-        getAs(account, RANKING_URL + "?type=STAGE_SURVIVAL&stageId=" + unknownStageId)
+        getAs(account, RANKING_URL + "?type=STAGE_CLEAR&stageId=" + unknownStageId)
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value("STAGE_NOT_FOUND"));
     }

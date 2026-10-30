@@ -9,6 +9,7 @@ import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BattleApiTest extends IntegrationTestSupport {
     private static final String ENTER_URL = "/api/battles";
 
-    // 1스테이지 상한(킬 약 895, 골드 약 11700, 상자 12)보다 충분히 작은 값. seconds는 "경과 시간 + 5초"까지 인정된다
+    // 1스테이지 상한(승리 시 킬 1356, 골드 7500 이상, 상자 20)보다 충분히 작은 값. seconds는 "경과 시간 + 5초"까지 인정된다
     private static final int KILLS = 10;
     private static final int GOLD = 100;
     private static final int SECONDS = 3;
@@ -50,8 +51,8 @@ class BattleApiTest extends IntegrationTestSupport {
         AccountConstData accountConst = staticDataService.getAccountConst();
         StageData stage = staticDataService.getStages().get(firstStageId);
         int expectedExp = KILLS * accountConst.accountExpPerKill()
-                + SECONDS * accountConst.accountExpPerSecond()
-                + stage.clearAccountExp();
+                + stage.clearAccountExp()
+                + (2 * stage.referenceClearSeconds() - SECONDS) * accountConst.accountExpPerSecond();
 
         long battleId = enter(account, firstStageId);
 
@@ -62,17 +63,69 @@ class BattleApiTest extends IntegrationTestSupport {
                 .andExpect(jsonPath("$.currency.currencyGold").value(accountConst.initialGold() + GOLD))
                 .andExpect(jsonPath("$.stageProgress.maxClearedStageId").value(firstStageId))
                 .andExpect(jsonPath("$.stageRecord.stageId").value(firstStageId))
-                .andExpect(jsonPath("$.stageRecord.bestSurvivalSeconds").value(SECONDS))
+                .andExpect(jsonPath("$.stageRecord.bestClearSeconds").value(SECONDS))
                 .andExpect(jsonPath("$.rewards.length()").value(REWARD_BOXES));
 
         // 세이브와 인벤토리에도 반영되어 있어야 한다
         getAs(account, SAVE_URL)
                 .andExpect(jsonPath("$.currency.currencyGold").value(accountConst.initialGold() + GOLD))
                 .andExpect(jsonPath("$.stageProgress.maxClearedStageId").value(firstStageId))
-                .andExpect(jsonPath("$.stageRecords[0].bestSurvivalSeconds").value(SECONDS));
+                .andExpect(jsonPath("$.stageRecords[0].bestClearSeconds").value(SECONDS));
         getAs(account, "/api/inventory")
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items.length()").value(REWARD_BOXES));
+    }
+
+    @Test
+    @DisplayName("기준 클리어 시간의 2배 이상 걸린 승리는 시간 경험치가 0이다")
+    void slowVictoryHasNoTimeExp() throws Exception {
+        TestAccount account = createAccount();
+        int firstStageId = staticDataService.getFirstStageId();
+        AccountConstData accountConst = staticDataService.getAccountConst();
+        StageData stage = staticDataService.getStages().get(firstStageId);
+
+        long battleId = enter(account, firstStageId);
+
+        postAs(account, resultUrl(battleId), result(true, 2 * stage.referenceClearSeconds()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.grantedExp")
+                        .value(KILLS * accountConst.accountExpPerKill() + stage.clearAccountExp()));
+    }
+
+    @Test
+    @DisplayName("패배 결과는 버틴 시간만큼 경험치를 받고, 기록을 만들지 않으며 응답의 기록은 0초다")
+    void submitDefeatResult() throws Exception {
+        TestAccount account = createAccount();
+        int firstStageId = staticDataService.getFirstStageId();
+        AccountConstData accountConst = staticDataService.getAccountConst();
+        int expectedExp = KILLS * accountConst.accountExpPerKill() + SECONDS * accountConst.accountExpPerSecond();
+
+        long battleId = enter(account, firstStageId);
+
+        postAs(account, resultUrl(battleId), result(false, SECONDS))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.grantedExp").value(expectedExp))
+                .andExpect(jsonPath("$.stageRecord.stageId").value(firstStageId))
+                .andExpect(jsonPath("$.stageRecord.bestClearSeconds").value(0));
+
+        getAs(account, SAVE_URL)
+                .andExpect(jsonPath("$.stageRecords.length()").value(0));
+    }
+
+    @Test
+    @DisplayName("기록은 더 빠른 승리에만 갱신되고, 패배하면 기존 기록을 돌려준다")
+    void recordKeepsFastestClear() throws Exception {
+        TestAccount account = createAccount();
+        int firstStageId = staticDataService.getFirstStageId();
+
+        submit(account, firstStageId, true, 20).andExpect(jsonPath("$.stageRecord.bestClearSeconds").value(20));
+        submit(account, firstStageId, true, 30).andExpect(jsonPath("$.stageRecord.bestClearSeconds").value(20));
+        submit(account, firstStageId, true, 10).andExpect(jsonPath("$.stageRecord.bestClearSeconds").value(10));
+        submit(account, firstStageId, false, 5).andExpect(jsonPath("$.stageRecord.bestClearSeconds").value(10));
+
+        getAs(account, SAVE_URL)
+                .andExpect(jsonPath("$.stageRecords.length()").value(1))
+                .andExpect(jsonPath("$.stageRecords[0].bestClearSeconds").value(10));
     }
 
     @Test
@@ -145,14 +198,25 @@ class BattleApiTest extends IntegrationTestSupport {
         return ENTER_URL + "/" + battleId + "/result";
     }
 
-    // 클라이언트처럼 모든 필드를 채워 보낸다 (업적 집계는 비워 둔다)
+    // 입장해 바로 결과를 제출한다
+    private ResultActions submit(TestAccount account, int stageId, boolean victory, int seconds) throws Exception {
+        long battleId = enter(account, stageId);
+        return postAs(account, resultUrl(battleId), result(victory, seconds)).andExpect(status().isOk());
+    }
+
     private Map<String, Object> victoryResult() {
+        return result(true, SECONDS);
+    }
+
+    // 클라이언트처럼 모든 필드를 채워 보낸다 (업적 집계는 비워 둔다)
+    private Map<String, Object> result(boolean victory, int seconds) {
         Map<String, Object> request = new HashMap<>();
-        request.put("victory", true);
-        request.put("seconds", SECONDS);
+        request.put("victory", victory);
+        request.put("seconds", seconds);
         request.put("kills", KILLS);
         request.put("gold", GOLD);
         request.put("rewardBoxes", REWARD_BOXES);
+        request.put("quality", 0);
         request.put("skillKills", Map.of());
         request.put("skillUpgrades", Map.of());
         request.put("pickups", Map.of());
