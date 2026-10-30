@@ -47,7 +47,7 @@
 - 데이터를 바꿀 때 서버만 다시 배포하면 된다. 클라이언트 업데이트가 필요 없다.
 - 정적 데이터는 읽기 전용이고 배열 필드가 많다. 메모리에 두면 JSON 구조를 그대로 쓰고, 동기화 로직이 필요 없다.
 - 서버 인스턴스마다 같은 파일을 읽으므로 스케일아웃해도 결과가 같다.
-- 빌드 사본은 서버 없이 전투 씬만 실행하는 디버그 경로(`WaveManager.stageId` 기본값)에 쓴다.
+- 빌드 사본은 서버 없이 전투 씬만 실행하는 디버그 경로(`BugHuntManager.stageId` 기본값)에 쓴다.
 
 ### 검토한 대안
 - DB 적재(지금 `ItemDataLoader` 방식): 테이블마다 엔티티, 리포지토리, 로더가 필요하다. 배열 필드를 별도 테이블로 나눠야 하고, 수정을 반영하려면 동기화 로직이 필요하다.
@@ -67,7 +67,7 @@
 - 클라이언트의 `Tools > Google Sheets > JSON Exporter`를 확장한다. 버튼 하나로 시트의 모든 탭을 내보내 클라이언트 `Assets/Resources/JsonFiles`와 서버 레포 `src/main/resources/data/`에 함께 저장한다.
 - 서버 레포의 로컬 경로는 EditorPrefs에 설정한다.
 - 도구는 파일 생성까지만 한다. 커밋은 사람이 diff를 확인하고 한다.
-- 서버 `data/`에 저장하는 탭: AccountConst, Stage, Wave, SpawnPattern, Monster, DropTable, DropItem, Item(`BackendIntegration_DevAkasha.md` 3.6)
+- 서버 `data/`에 저장하는 탭: AccountConst, Stage, Wave, SpawnPattern, Monster, DropTable, DropItem, Item(`BackendIntegration_DevAkasha.md` 3.6). 버그 사냥 전투(서버 WP11)에서 Wave, SpawnPattern은 삭제되고 BattleConst가 추가됐다
 - 이유: 시트 접근(Apps Script, TSV 다운로드)과 형식 검증이 이미 있다. 한 번에 양쪽에 저장하므로 복사를 빠뜨리지 않는다.
 - Exporter는 jyj8943 작성 코드라서 확장은 작성자와 협의한다.
 

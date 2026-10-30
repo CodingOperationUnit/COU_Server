@@ -3,6 +3,7 @@
     {
       "skillId": 20010,
       "skillName": "Tumbler",
+      "skillDisplayName": "텀블러",
       "skillCategory": 0,
       "skillTargetType": "Nearest",
       "skillCooldown": 1.0,
@@ -14,6 +15,7 @@
     {
       "skillId": 20020,
       "skillName": "Glasses",
+      "skillDisplayName": "안경",
       "skillCategory": 0,
       "skillTargetType": "Forward",
       "skillCooldown": 2.0,
@@ -25,6 +27,7 @@
     {
       "skillId": 20030,
       "skillName": "Monitor",
+      "skillDisplayName": "모니터",
       "skillCategory": 0,
       "skillTargetType": "Forward",
       "skillCooldown": 2.0,
@@ -36,72 +39,79 @@
     {
       "skillId": 20040,
       "skillName": "Speaker",
+      "skillDisplayName": "스피커",
       "skillCategory": 0,
       "skillTargetType": "None",
       "skillCooldown": 0.0,
       "skillSpeed": 120.0,
       "skillDamage": 0.8,
       "skillRange": 2.0,
-      "skillDescription": "플레이어 주변을 빙빙 도는 음구를 소환합니다. 음구에 닿은 적은 피해를 입습니다."
+      "skillDescription": "캐릭터 주변을 빙빙 도는 소리구슬을 소환합니다. 소리구슬에 닿은 적은 피해를 입습니다."
     },
     {
       "skillId": 20050,
       "skillName": "Mouse",
+      "skillDisplayName": "마우스",
       "skillCategory": 0,
       "skillTargetType": "Nearest",
       "skillCooldown": 1.5,
       "skillSpeed": 2.0,
       "skillDamage": 1.0,
       "skillRange": 8.0,
-      "skillDescription": "마우스 커서를 날립니다. 커서는 타겟이 된 적을 끝까지 따라갑니다."
+      "skillDescription": "마우스 커서를 날립니다. 커서는 타겟이 된 적을 끝까지 따라가 공격합니다."
     },
     {
       "skillId": 20060,
       "skillName": "Keyboard",
+      "skillDisplayName": "키보드",
       "skillCategory": 0,
       "skillTargetType": "Nearest",
       "skillCooldown": 0.75,
       "skillSpeed": 0.0,
       "skillDamage": 2.0,
       "skillRange": 1.5,
-      "skillDescription": "키보드를 휘둘러 적을 공격합니다"
+      "skillDescription": "키보드를 휘둘러 적을 공격합니다."
     },
     {
       "skillId": 20070,
       "skillName": "CPU",
+      "skillDisplayName": "CPU",
       "skillCategory": 0,
       "skillTargetType": "Nearest",
       "skillCooldown": 3.0,
       "skillSpeed": 5.0,
       "skillDamage": 4.0,
       "skillRange": 5.0,
-      "skillDescription": "CPU를 던집니다. 그 후 터지며 범위 피해를 줍니다."
+      "skillDescription": "터지면 범위 피해를 주는 CPU를 던집니다."
     },
     {
       "skillId": 20080,
       "skillName": "PowerStrip",
+      "skillDisplayName": "멀티탭",
       "skillCategory": 0,
       "skillTargetType": "None",
       "skillCooldown": 1.5,
       "skillSpeed": 0.0,
       "skillDamage": 0.5,
       "skillRange": 3.0,
-      "skillDescription": "플레이어 주변 적들에게 전기를 발사합니다."
+      "skillDescription": "캐릭터 주변 적들에게 전기를 방출합니다."
     },
     {
       "skillId": 20090,
       "skillName": "CtrlZ",
+      "skillDisplayName": "Ctrl+Z 키",
       "skillCategory": 0,
       "skillTargetType": "Nearest",
       "skillCooldown": 0.5,
       "skillSpeed": 4.0,
       "skillDamage": 1.0,
       "skillRange": 5.0,
-      "skillDescription": "Z모양의 부메랑을 던집니다. 적에게 피해를 주고 돌아오며, 돌아오면 다시 던집니다."
+      "skillDescription": "실행취소 부메랑을 던집니다. 적에게 피해를 주고 돌아오면 다시 던집니다."
     },
     {
       "skillId": 21010,
       "skillName": "EnergyDrink",
+      "skillDisplayName": "에너지음료",
       "skillCategory": 1,
       "skillTargetType": "None",
       "skillCooldown": 0.0,
@@ -113,6 +123,7 @@
     {
       "skillId": 21020,
       "skillName": "EyeDrops",
+      "skillDisplayName": "안약",
       "skillCategory": 1,
       "skillTargetType": "None",
       "skillCooldown": 0.0,
@@ -124,39 +135,43 @@
     {
       "skillId": 21030,
       "skillName": "SecondMonitor",
+      "skillDisplayName": "확장모니터",
       "skillCategory": 1,
       "skillTargetType": "None",
       "skillCooldown": 0.0,
       "skillSpeed": 0.0,
       "skillDamage": 0.0,
       "skillRange": 0.0,
-      "skillDescription": "같은 스킬이 텀을 두고 N번 더 발사됩니다.(복사본은 50% 피해)"
+      "skillDescription": "같은 스킬을 한번 더 발사됩니다.(복사본은 50% 피해)"
     },
     {
       "skillId": 21040,
       "skillName": "Earbuds",
+      "skillDisplayName": "이어팟",
       "skillCategory": 1,
       "skillTargetType": "None",
       "skillCooldown": 0.0,
       "skillSpeed": 0.0,
       "skillDamage": 0.0,
       "skillRange": 0.0,
-      "skillDescription": "스킬 객체가 더 빨라지고 더 커집니다."
+      "skillDescription": "스킬이 더 빨라지고 더 커집니다."
     },
     {
       "skillId": 21050,
       "skillName": "MousePad",
+      "skillDisplayName": "마우스패드",
       "skillCategory": 1,
       "skillTargetType": "None",
       "skillCooldown": 0.0,
       "skillSpeed": 0.0,
       "skillDamage": 0.0,
       "skillRange": 0.0,
-      "skillDescription": "적중 후 사라지는 투사체가 적 N명을 더 뚫고 지나갑니다."
+      "skillDescription": "관통이 1 늘어납니다."
     },
     {
       "skillId": 21060,
       "skillName": "KeyboardSwitch",
+      "skillDisplayName": "기계식 축",
       "skillCategory": 1,
       "skillTargetType": "None",
       "skillCooldown": 0.0,
@@ -168,6 +183,7 @@
     {
       "skillId": 21070,
       "skillName": "Overclock",
+      "skillDisplayName": "오버클럭",
       "skillCategory": 1,
       "skillTargetType": "None",
       "skillCooldown": 0.0,
@@ -179,17 +195,19 @@
     {
       "skillId": 21080,
       "skillName": "StaticShock",
+      "skillDisplayName": "정전기",
       "skillCategory": 1,
       "skillTargetType": "None",
       "skillCooldown": 0.0,
       "skillSpeed": 0.0,
       "skillDamage": 0.0,
       "skillRange": 0.0,
-      "skillDescription": "적중한 스킬 객체가 주변 적에게 N번 튕깁니다."
+      "skillDescription": "적중한 스킬 객체가 주변 적에게 한번 더 튕깁니다."
     },
     {
       "skillId": 21090,
       "skillName": "ShiftKey",
+      "skillDisplayName": "Shift 키",
       "skillCategory": 1,
       "skillTargetType": "None",
       "skillCooldown": 0.0,
