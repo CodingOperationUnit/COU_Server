@@ -77,6 +77,7 @@ fi
 
 [ -f app.log ] && mv -f app.log app.prev.log
 setsid nohup java -Xmx512m -jar app.jar > app.log 2>&1 < /dev/null &
+APP_PID=$!
 echo "[remote] started, waiting for Spring boot..."
 
 for i in $(seq 1 120); do
@@ -85,7 +86,8 @@ for i in $(seq 1 120); do
     echo "[remote] OK pid $(pgrep -f "$PATTERN" | tr '\n' ' ')"
     exit 0
   fi
-  if ! pgrep -f "$PATTERN" >/dev/null; then
+  # check by PID: pgrep can miss the process right after fork, before exec
+  if ! kill -0 "$APP_PID" 2>/dev/null; then
     echo "[remote] server process exited. last log lines:"
     tail -n 60 app.log
     exit 2
@@ -103,9 +105,16 @@ exit 3
 
 function Invoke-Remote([string]$mode) {
     $remote = Get-RemoteScript $mode
-    # Out-Host: 원격 출력을 화면에만 보여주고 함수 반환값(exit code)에 섞이지 않게 한다
-    $remote | & ssh @SshOpts $Target "bash -s" | Out-Host
-    return $LASTEXITCODE
+    # 콘솔 입력 인코딩이 BOM 있는 UTF-8이면 파이프 앞에 BOM이 붙어 첫 줄(set -u)이 깨진다
+    $prevEncoding = [Console]::InputEncoding
+    [Console]::InputEncoding = New-Object System.Text.UTF8Encoding($false)
+    try {
+        # Out-Host: 원격 출력을 화면에만 보여주고 함수 반환값(exit code)에 섞이지 않게 한다
+        $remote | & ssh @SshOpts $Target "bash -s" | Out-Host
+        return $LASTEXITCODE
+    } finally {
+        [Console]::InputEncoding = $prevEncoding
+    }
 }
 
 function Test-Http {
