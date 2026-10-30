@@ -9,6 +9,7 @@ import com.couserver.achievement.dto.PlayerAchievementResponse;
 import com.couserver.achievement.entity.PlayerAchievement;
 import com.couserver.achievement.exception.AchievementErrorCode;
 import com.couserver.achievement.repository.PlayerAchievementRepository;
+import com.couserver.achievement.dto.AchievementClaimAllResponse;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.staticdata.dto.AchievementData;
 import com.couserver.staticdata.service.StaticDataService;
@@ -100,6 +101,74 @@ public class AchievementService {
             achievement.addProgress(amount); // 기존 행은 변경 감지로 UPDATE
         }
         playerAchievementRepository.saveAll(created);
+    }
+
+    // 받을 수 있는 업적 보상을 모두 지급한다.
+    // - 업적마다 대기 중인 단계(claimedStep → completedStep)를 전부 받는다
+    // - 원장은 업적별·재화 종류별로 합산해서 한 줄씩 기록한다 (refId = 업적 ID)
+    // - 받을 것이 하나도 없으면 NOTHING_TO_CLAIM
+    @Transactional
+    public AchievementClaimAllResponse claimAll(Long playerId) {
+        // 재화 행을 먼저 잠근다. 단건 수령과 같은 순서라, 둘이 동시에 와도 차례대로 처리되어 중복 지급되지 않는다
+        Currency currency = currencyRepository.findForUpdate(playerId)
+                .orElseThrow(() -> new BusinessException(AchievementErrorCode.CURRENCY_NOT_FOUND));
+
+        // 업적 ID 순으로 처리해서 원장 기록 순서와 응답 순서를 매번 같게 한다
+        List<PlayerAchievement> records = playerAchievementRepository.findByPlayerId(playerId).stream()
+                .sorted(Comparator.comparingInt(PlayerAchievement::getAchievementId))
+                .toList();
+        Map<Integer, AchievementData> achievementData = staticDataService.getAchievements();
+
+        List<PlayerAchievementResponse> claimed = new ArrayList<>();
+        long totalGold = 0;
+        long totalGem = 0;
+        int claimedStepCount = 0;
+
+        for (PlayerAchievement record : records) {
+            AchievementData data = achievementData.get(record.getAchievementId());
+            if (data == null) {
+                continue;   // 정적 데이터에서 빠진 업적의 기록은 건너뛴다
+            }
+
+            int fromStep = record.getPlayerAchievementClaimedStep();             // 이번에 받을 첫 단계 (0부터)
+            int toStep = data.completedStep(record.getPlayerAchievementProgress()); // 여기 직전 단계까지 받는다
+            if (toStep <= fromStep) {
+                continue;   // 받을 단계 없음
+            }
+
+            long gold = 0;
+            long gem = 0;
+            for (int step = fromStep; step < toStep; step++) {
+                int amount = data.rewardAmount().get(step);
+                switch (data.rewardItemType().get(step)) {
+                    case GOLD -> gold += amount;
+                    case GEM -> gem += amount;
+                }
+            }
+
+            // 한 업적의 합계가 int를 넘는 것은 데이터 이상이라, 예외로 전체를 롤백한다 (공통 처리기가 500으로 응답)
+            // 보유량 + 지급량이 int를 넘는 경우는 Currency가 최대값으로 맞춘다 (단건 수령과 같은 동작)
+            long refId = record.getAchievementId();
+            if (gold > 0) {
+                currencyLedger.addGold(currency, Math.toIntExact(gold), LedgerReason.ACHIEVEMENT_REWARD, refId);
+            }
+            if (gem > 0) {
+                currencyLedger.addGem(currency, Math.toIntExact(gem), LedgerReason.ACHIEVEMENT_REWARD, refId);
+            }
+            record.claimUpTo(toStep);   // 변경 감지로 자동 UPDATE
+
+            claimed.add(new PlayerAchievementResponse(data, record));
+            totalGold += gold;
+            totalGem += gem;
+            claimedStepCount += toStep - fromStep;
+        }
+
+        if (claimed.isEmpty()) {
+            throw new BusinessException(AchievementErrorCode.NOTHING_TO_CLAIM);
+        }
+
+        return new AchievementClaimAllResponse(
+                new CurrencyResponse(currency), claimed, totalGold, totalGem, claimedStepCount);
     }
 
     private static long progressOf(AchievementData data, BattleAchievementProgress battle) {
