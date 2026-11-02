@@ -235,7 +235,7 @@ public class BattleService {
                         .toList());
     }
 
-    // 순찰: 스태미나를 차감하고 최고 클리어 스테이지를 한 번 클리어한 평균 보상을 지급한다.
+    // 바이브코딩: 스태미나를 차감하고 최고 클리어 스테이지를 한 번 클리어한 평균 보상을 지급한다.
     // 실제 전투가 아니므로 업적, 스테이지 기록, 전투 통계에는 반영하지 않는다
     @Transactional
     public PatrolResponse patrol(Long playerId) {

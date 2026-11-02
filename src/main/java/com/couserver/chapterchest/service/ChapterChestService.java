@@ -27,7 +27,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ChapterChestService {
-    private static final int CHEST_PRODUCT_ID = 50002;      // 상점 '지구 방위 보급품' (Super~Rare)
+    private static final int CHEST_PRODUCT_ID = 50002;      // 상점 '고성능 기어박스' (Super~Rare)
     private static final int CHEST_BASE_BOXES = 3;          // 클리어 경험치 CHEST_BASE_EXP일 때 상자 수
     private static final double CHEST_BASE_EXP = 500;       // 1스테이지 클리어 경험치
 
