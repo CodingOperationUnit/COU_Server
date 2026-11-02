@@ -277,7 +277,7 @@
       "monsterMaxHealthPoint": 1,
       "monsterMoveSpeed": 0.0,
       "monsterContactDamage": 0,
-      "monsterAsset": "Enemy/box"
+      "monsterAsset": "Enemy/WoodBox"
     },
     {
       "monsterId": 15001,

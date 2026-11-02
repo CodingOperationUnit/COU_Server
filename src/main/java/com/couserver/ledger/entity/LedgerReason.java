@@ -7,5 +7,5 @@ public enum LedgerReason {
     EVOLUTION,            // 진화 골드 차감 (refId = 진화 후 단계)
     INVENTORY_LEVEL_UP,   // 장비 레벨업 골드 차감 (refId = 장비 ID)
     ACHIEVEMENT_REWARD,   // 업적 보상 지급 (refId = 업적 ID)
-    PATROL                // 순찰 골드 지급 (refId = 순찰한 스테이지 ID)
+    PATROL                // 바이브코딩 골드 지급 (refId = 바이브코딩한 스테이지 ID)
 }

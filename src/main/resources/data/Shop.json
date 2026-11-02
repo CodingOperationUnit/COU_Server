@@ -2,7 +2,7 @@
   "datas": [
     {
       "productId": 50001,
-      "productName": "군 자원상자",
+      "productName": "보급형 기어박스",
       "productType": "RandomItem",
       "priceGem": 50,
       "rewardAmount": 0,
@@ -12,7 +12,7 @@
     },
     {
       "productId": 50002,
-      "productName": "지구 방위 보급품",
+      "productName": "고성능 기어박스",
       "productType": "RandomItem",
       "priceGem": 150,
       "rewardAmount": 0,
