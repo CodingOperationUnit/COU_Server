@@ -18,7 +18,8 @@ import java.util.Set;
 
 // 로그인·회원가입 요청에 IP 기준 제한을 건다. 컨트롤러에 닿기 전에 거부한다
 public class AuthRateLimitFilter extends OncePerRequestFilter {
-    private static final Set<String> LIMITED_PATHS = Set.of("/api/accounts/login", "/api/accounts/signup");
+    private static final Set<String> LIMITED_PATHS =
+            Set.of("/api/accounts/login", "/api/accounts/signup", "/api/accounts/google/login");
 
     private final IpRateLimiter ipRateLimiter;
     private final ObjectMapper objectMapper;
