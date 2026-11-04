@@ -55,6 +55,6 @@ class ShopProductValidationTest {
     }
 
     private static ShopProductData product(ProductType type, int priceGem) {
-        return new ShopProductData(99_999, type, priceGem, 100, ItemGrade.GENERAL, ItemGrade.GENERAL, true);
+        return new ShopProductData(99_999, type, priceGem, 100, ItemGrade.COMMON, ItemGrade.COMMON, true);
     }
 }

@@ -30,9 +30,9 @@ class EquipmentEffectCalculatorTest {
     // 여기에 제외 효과와 Trigger형을 섞어 둔다
     private static EquipmentEffectCalculator calculator() {
         Map<ItemGrade, List<EquipEffectData>> byGrade = new EnumMap<>(ItemGrade.class);
-        byGrade.put(ItemGrade.GENERAL, List.of(
+        byGrade.put(ItemGrade.COMMON, List.of(
                 stat(70001, EquipEffectStatType.HP, EquipEffectValueType.PERCENT, 10)));
-        byGrade.put(ItemGrade.SUPER, List.of(
+        byGrade.put(ItemGrade.UNCOMMON, List.of(
                 stat(70002, EquipEffectStatType.HP, EquipEffectValueType.PERCENT, 15),
                 other(79001, EquipEffectCategory.NONE)));
         byGrade.put(ItemGrade.RARE, List.of(
@@ -45,14 +45,14 @@ class EquipmentEffectCalculatorTest {
     @Test
     @DisplayName("General은 General 효과만 적용된다")
     void general() {
-        assertThat(calculator().effectsOf(ITEM, ItemGrade.GENERAL))
+        assertThat(calculator().effectsOf(ITEM, ItemGrade.COMMON))
                 .isEqualTo(new EquipmentEffectSum(10, 0, 0));
     }
 
     @Test
     @DisplayName("Super는 General과 Super 효과가 누적되고 같은 스탯은 합산된다")
     void superAccumulates() {
-        assertThat(calculator().effectsOf(ITEM, ItemGrade.SUPER))
+        assertThat(calculator().effectsOf(ITEM, ItemGrade.UNCOMMON))
                 .isEqualTo(new EquipmentEffectSum(25, 0, 0));
     }
 

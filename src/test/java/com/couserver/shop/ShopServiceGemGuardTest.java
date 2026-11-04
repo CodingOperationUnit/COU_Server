@@ -37,7 +37,7 @@ class ShopServiceGemGuardTest {
     private static final long PLAYER_ID = 1L;
     private static final int GEM_PRODUCT_ID = 50021;
     private static final ShopProductData GEM_PRODUCT = new ShopProductData(
-            GEM_PRODUCT_ID, ProductType.GEM, 0, 80, ItemGrade.GENERAL, ItemGrade.GENERAL, true);
+            GEM_PRODUCT_ID, ProductType.GEM, 0, 80, ItemGrade.COMMON, ItemGrade.COMMON, true);
 
     @Mock
     private StaticDataService staticDataService;

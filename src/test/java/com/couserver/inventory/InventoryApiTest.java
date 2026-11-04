@@ -93,7 +93,7 @@ class InventoryApiTest extends IntegrationTestSupport {
         postAs(account, INVENTORY_URL + "/" + targetId + "/synthesize")
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.inventoryId").value(targetId))
-                .andExpect(jsonPath("$.inventoryItemGrade").value(ItemGrade.SUPER.toClientName()))
+                .andExpect(jsonPath("$.inventoryItemGrade").value(ItemGrade.UNCOMMON.toClientName()))
                 .andExpect(jsonPath("$.consumedInventoryIds",
                         containsInAnyOrder((int) material1, (int) material2)));
 
@@ -187,7 +187,7 @@ class InventoryApiTest extends IntegrationTestSupport {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.synthesizedItems.length()").value(1))
                 .andExpect(jsonPath("$.synthesizedItems[0].inventoryId").value(equippedId))
-                .andExpect(jsonPath("$.synthesizedItems[0].inventoryItemGrade").value(ItemGrade.SUPER.toClientName()))
+                .andExpect(jsonPath("$.synthesizedItems[0].inventoryItemGrade").value(ItemGrade.UNCOMMON.toClientName()))
                 .andExpect(jsonPath("$.synthesizedItems[0].isEquipped").value(true));
     }
 
@@ -261,7 +261,7 @@ class InventoryApiTest extends IntegrationTestSupport {
     // 기본 등급이 General인 장비 중 ID가 가장 작은 것
     private ItemData generalItem() {
         return staticDataService.getItems().values().stream()
-                .filter(item -> item.grade() == ItemGrade.GENERAL)
+                .filter(item -> item.grade() == ItemGrade.COMMON)
                 .min(Comparator.comparing(ItemData::itemId))
                 .orElseThrow();
     }
@@ -269,7 +269,7 @@ class InventoryApiTest extends IntegrationTestSupport {
     // 기본 등급이 General인 장비를 ID가 작은 순서로 count개
     private List<ItemData> generalItems(int count) {
         return staticDataService.getItems().values().stream()
-                .filter(item -> item.grade() == ItemGrade.GENERAL)
+                .filter(item -> item.grade() == ItemGrade.COMMON)
                 .sorted(Comparator.comparing(ItemData::itemId))
                 .limit(count)
                 .toList();

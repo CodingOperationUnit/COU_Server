@@ -30,8 +30,9 @@ public class Equipment {
     @Column(nullable = false)
     private int level = 1;
 
+    // 등급이 늘어날 수 있어서 MySQL ENUM이 아닌 varchar로 만든다 (팀 관례, EnumColumnTypeTest)
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 20, columnDefinition = "varchar(20)")
     private ItemGrade grade;
 
     @Column(nullable = false)

@@ -301,7 +301,7 @@ public class BattleService {
     private static ItemGrade rollGrade(List<Integer> weights) {
         int total = weights.stream().mapToInt(Integer::intValue).sum();
         if (total <= 0) {
-            return ItemGrade.GENERAL;
+            return ItemGrade.COMMON;
         }
 
         int roll = ThreadLocalRandom.current().nextInt(total);
@@ -311,7 +311,7 @@ public class BattleService {
                 return ItemGrade.values()[i];
             }
         }
-        return ItemGrade.GENERAL;
+        return ItemGrade.COMMON;
     }
 
     // 그 시각까지 나올 수 있는 몬스터로 계산한 상한. 시간 검증을 건너뛰면(dev 도구) 미리 계산해 둔 전체 상한을 쓴다

@@ -50,7 +50,7 @@ class EquipmentGradeEffectApiTest extends IntegrationTestSupport {
     @DisplayName("인스턴스 등급 이하의 효과만 누적된다")
     void accumulatesUpToInstanceGrade() throws Exception {
         TestAccount account = createAccount();
-        long id = giveEquipment(account, ItemGrade.GENERAL);
+        long id = giveEquipment(account, ItemGrade.COMMON);
         equip(account, id);
 
         getAs(account, STATS_URL)
@@ -58,7 +58,7 @@ class EquipmentGradeEffectApiTest extends IntegrationTestSupport {
                 .andExpect(jsonPath("$.breakdown.equipment.defense").value(0))
                 .andExpect(jsonPath("$.finalHp").value(1160));                      // (1000 + 55) × 110 / 100
 
-        setGrade(id, ItemGrade.SUPER);
+        setGrade(id, ItemGrade.UNCOMMON);
         getAs(account, STATS_URL)
                 .andExpect(jsonPath("$.breakdown.bonusPercent.hp").value(25))
                 .andExpect(jsonPath("$.breakdown.equipment.defense").value(0))
@@ -81,9 +81,9 @@ class EquipmentGradeEffectApiTest extends IntegrationTestSupport {
     @DisplayName("장착 장비를 합성해 등급이 오르면 전투력 랭킹도 등급 효과 반영 후 값으로 바뀐다")
     void rankingUpdatedAfterSynthesis() throws Exception {
         TestAccount account = createAccount();
-        long target = giveEquipment(account, ItemGrade.GENERAL);
-        giveEquipment(account, ItemGrade.GENERAL);
-        giveEquipment(account, ItemGrade.GENERAL);
+        long target = giveEquipment(account, ItemGrade.COMMON);
+        giveEquipment(account, ItemGrade.COMMON);
+        giveEquipment(account, ItemGrade.COMMON);
         equip(account, target);
 
         int before = combatPower(account);
@@ -91,7 +91,7 @@ class EquipmentGradeEffectApiTest extends IntegrationTestSupport {
 
         postAs(account, INVENTORY_URL + "/" + target + "/synthesize")
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.inventoryItemGrade").value(ItemGrade.SUPER.toClientName()));
+                .andExpect(jsonPath("$.inventoryItemGrade").value(ItemGrade.UNCOMMON.toClientName()));
 
         int after = combatPower(account);
         assertThat(after).isGreaterThan(before);                // 체력 +10% → +25%, 장비 고정값도 Super 배율

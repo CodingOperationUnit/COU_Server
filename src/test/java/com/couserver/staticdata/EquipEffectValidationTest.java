@@ -92,12 +92,12 @@ class EquipEffectValidationTest {
         Set<Long> items = Set.of(1003L);
 
         assertThatCode(() -> StaticDataService.validateItemGradeEffect(
-                new ItemGradeEffectData(1, 1003, ItemGrade.GENERAL, 70001), items, effects)).doesNotThrowAnyException();
+                new ItemGradeEffectData(1, 1003, ItemGrade.COMMON, 70001), items, effects)).doesNotThrowAnyException();
         assertThatThrownBy(() -> StaticDataService.validateItemGradeEffect(
-                new ItemGradeEffectData(2, 9999, ItemGrade.GENERAL, 70001), items, effects))
+                new ItemGradeEffectData(2, 9999, ItemGrade.COMMON, 70001), items, effects))
                 .hasMessageContaining("Item");
         assertThatThrownBy(() -> StaticDataService.validateItemGradeEffect(
-                new ItemGradeEffectData(3, 1003, ItemGrade.GENERAL, 70999), items, effects))
+                new ItemGradeEffectData(3, 1003, ItemGrade.COMMON, 70999), items, effects))
                 .hasMessageContaining("EquipEffect");
     }
 }
