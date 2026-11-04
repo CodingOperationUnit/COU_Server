@@ -18,14 +18,14 @@ class FriendApiTest extends IntegrationTestSupport {
     private static final String REQUESTS_URL = "/api/friends/requests";
 
     @Test
-    @DisplayName("플레이어 ID로 검색하면 상대가 관계 NONE으로 보인다")
-    void searchByPlayerId() throws Exception {
+    @DisplayName("계정 ID로 검색하면 상대가 관계 NONE으로 보인다")
+    void searchByAccountLoginId() throws Exception {
         TestAccount me = createAccount();
         TestAccount target = createAccount();
 
-        getAs(me, FRIENDS_URL + "/search?keyword=" + target.playerId())
+        getAs(me, FRIENDS_URL + "/search?keyword=" + target.loginId())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*].playerId", hasItem(target.playerId().intValue())))
+                .andExpect(jsonPath("$[*].accountLoginId", hasItem(target.loginId())))
                 .andExpect(jsonPath("$[?(@.playerId == %d)].relation", target.playerId())
                         .value(contains("NONE")));
     }

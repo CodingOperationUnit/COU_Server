@@ -138,7 +138,7 @@ public class FriendService {
         friendshipRepository.delete(friendship);
     }
 
-    // 검색: 닉네임또는 플레이어 ID
+    // 검색: 닉네임 또는 계정 ID
     @Transactional(readOnly = true)
     public List<FriendSearchResponse> search(Long playerId, String keyword) {
         String key = keyword == null ? "" : keyword.trim();
@@ -147,9 +147,7 @@ public class FriendService {
         }
 
         Map<Long, PlayerProfile> found = new LinkedHashMap<>();
-        if (key.length() <= 18 && key.chars().allMatch(Character::isDigit)) {   // 숫자면 플레이어 ID로도 찾는다
-            playerProfileRepository.findById(Long.parseLong(key)).ifPresent(p -> found.put(p.getPlayerId(), p));
-        }
+        playerProfileRepository.findByAccount_AccountLoginId(key).ifPresent(p -> found.put(p.getPlayerId(), p));
         for (PlayerProfile p : playerProfileRepository
                 .findTop20ByPlayerNicknameContainingIgnoreCaseOrderByPlayerNicknameAsc(key)) {
             found.putIfAbsent(p.getPlayerId(), p);
@@ -162,7 +160,8 @@ public class FriendService {
         }
 
         return found.values().stream()
-                .map(p -> new FriendSearchResponse(p.getPlayerId(), p.getPlayerNickname(), p.getAccountLevel(),
+                .map(p -> new FriendSearchResponse(p.getPlayerId(), p.getAccount().getAccountLoginId(),
+                        p.getPlayerNickname(), p.getAccountLevel(),
                         relations.getOrDefault(p.getPlayerId(), FriendRelation.NONE)))
                 .toList();
     }
