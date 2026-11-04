@@ -39,6 +39,11 @@ public class InventoryController {
         return inventoryService.synthesizeBatch(authAccount.getPlayerId(), inventoryId);
     }
 
+    @PostMapping("/synthesize/all")
+    public SynthesizeAllResponse synthesizeAll(@AuthenticationPrincipal AuthAccount authAccount) {
+        return inventoryService.synthesizeAll(authAccount.getPlayerId());
+    }
+
     @PostMapping("/{inventoryId}/levelup")
     public LevelUpResponse levelUp(@AuthenticationPrincipal AuthAccount authAccount,
                                    @PathVariable Long inventoryId) {

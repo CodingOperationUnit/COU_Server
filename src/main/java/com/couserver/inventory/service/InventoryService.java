@@ -6,6 +6,7 @@ import com.couserver.common.exception.BusinessException;
 import com.couserver.inventory.dto.*;
 import com.couserver.inventory.entity.EquipSlotType;
 import com.couserver.inventory.entity.Equipment;
+import com.couserver.inventory.entity.ItemGrade;
 import com.couserver.inventory.exception.InventoryErrorCode;
 import com.couserver.inventory.repository.EquipmentRepository;
 import com.couserver.ranking.event.RankingChangedEvent;
@@ -22,7 +23,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -240,6 +245,49 @@ public class InventoryService {
                 tiersGained, allConsumed);
     }
 
+    // 장비 합성 로직(전체 일괄 합성): 낮은 등급부터 같은 장비 3개씩 합성하고, 오른 장비는 다음 등급에서 다시 합성한다
+    @Transactional
+    public SynthesizeAllResponse synthesizeAll(Long playerId) {
+        lockPlayer(playerId);
+        List<Equipment> owned = new ArrayList<>(equipmentRepository.findByPlayerIdOrderByIdAsc(playerId));
+
+        Map<Long, Equipment> synthesized = new LinkedHashMap<>();   // 등급이 오른 장비 (여러 번 올라도 1번)
+        List<Long> allConsumed = new ArrayList<>();
+
+        for (ItemGrade grade : ItemGrade.values()) {
+            if (!grade.canSynthesize()) {
+                continue;
+            }
+
+            // 같은 장비끼리 묶는다. 장착한 장비가 맨 앞(대상)에 오고, 나머지는 ID 순
+            Map<Long, List<Equipment>> groups = owned.stream()
+                    .filter(e -> e.getGrade() == grade)
+                    .sorted(Comparator.comparing(Equipment::isEquipped).reversed())
+                    .collect(Collectors.groupingBy(Equipment::getItemId, LinkedHashMap::new, Collectors.toList()));
+
+            for (List<Equipment> group : groups.values()) {
+                for (int i = 0; i + SYNTHESIS_MATERIAL_COUNT < group.size(); i += SYNTHESIS_MATERIAL_COUNT + 1) {
+                    Equipment target = group.get(i);
+                    List<Equipment> materials = group.subList(i + 1, i + 1 + SYNTHESIS_MATERIAL_COUNT);
+                    allConsumed.addAll(synthesizeOnce(target, materials));
+                    owned.removeAll(materials);
+                    materials.forEach(material -> synthesized.remove(material.getId()));   // 앞 등급에서 오른 뒤 재료가 된 장비
+                    synthesized.put(target.getId(), target);
+                }
+            }
+        }
+
+        if (synthesized.isEmpty()) {                                        // 합성할 묶음이 하나도 없음
+            throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_MATERIAL);
+        }
+
+        if (synthesized.values().stream().anyMatch(Equipment::isEquipped)) publishRankingChanged(playerId);
+
+        return new SynthesizeAllResponse(
+                synthesized.values().stream().map(this::toResponse).toList(),
+                allConsumed);
+    }
+
 
     // 전투력 랭킹 갱신 요청: 트랜잭션이 커밋된 뒤 Redis에 반영된다
     private void publishRankingChanged(Long playerId) {
@@ -253,9 +301,10 @@ public class InventoryService {
                         playerId, target.getItemId(), target.getGrade(), target.getId());
     }
 
-    // 1단계 합성 실행
+    // 1단계 합성 실행: 대상은 세 장비 중 가장 높은 레벨을 이어받는다
     private List<Long> synthesizeOnce(Equipment target, List<Equipment> materials) {
         List<Long> consumedIds = materials.stream().map(Equipment::getId).toList();
+        materials.forEach(material -> target.inheritLevel(material.getLevel()));
         equipmentRepository.deleteAll(materials);
         target.upgradeGrade();
         return consumedIds;

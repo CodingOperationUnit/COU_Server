@@ -63,4 +63,9 @@ public class Equipment {
     }
     public void levelUp() {this.level++;}
 
+    // 합성 재료의 레벨이 더 높으면 이어받는다
+    public void inheritLevel(int level) {
+        this.level = Math.max(this.level, level);
+    }
+
 }
