@@ -4,6 +4,8 @@ import com.couserver.account.entity.PlayerProfile;
 import com.couserver.account.repository.PlayerProfileRepository;
 import com.couserver.audit.entity.SuspiciousActivityType;
 import com.couserver.audit.service.SuspiciousActivityRecorder;
+import com.couserver.chat.repository.ChatMessageRepository;
+import com.couserver.chat.repository.LastReceivedMessage;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.friend.dto.*;
 import com.couserver.friend.entity.FriendRelation;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +36,7 @@ public class FriendService {
     private final RankingRedisRepository rankingRedisRepository;
     private final PresenceService presenceService;
     private final SuspiciousActivityRecorder suspiciousActivityRecorder;
+    private final ChatMessageRepository chatMessageRepository;
 
     // 친구 요청
     @Transactional
@@ -101,7 +105,8 @@ public class FriendService {
 
         PlayerProfile requester = playerProfileRepository.findById(friendship.getRequestedBy())
                 .orElseThrow(() -> new BusinessException(FriendErrorCode.PLAYER_NOT_FOUND));
-        return toFriendResponse(requester, presenceService.isOnline(requester.getPlayerId()));
+        return toFriendResponse(requester, presenceService.isOnline(requester.getPlayerId()),
+                lastReceivedMessageIds(playerId).getOrDefault(requester.getPlayerId(), 0L));
     }
 
     // 거절: 행을 지운다. 그래서 상대가 다시 요청할 수 있다
@@ -117,11 +122,13 @@ public class FriendService {
         List<Long> friendIds = list.stream().map(f -> f.otherOf(playerId)).toList();
         Map<Long, PlayerProfile> profiles = profilesOf(friendIds);
         Set<Long> online = presenceService.onlineAmong(friendIds);
+        Map<Long, Long> lastReceived = lastReceivedMessageIds(playerId);
 
         List<FriendResponse> friends = friendIds.stream()
                 .map(profiles::get)
                 .filter(Objects::nonNull)
-                .map(p -> toFriendResponse(p, online.contains(p.getPlayerId())))
+                .map(p -> toFriendResponse(p, online.contains(p.getPlayerId()),
+                        lastReceived.getOrDefault(p.getPlayerId(), 0L)))
                 .sorted(Comparator.comparing(FriendResponse::online, Comparator.reverseOrder())
                         .thenComparing(FriendResponse::nickname))
                 .toList();
@@ -200,9 +207,16 @@ public class FriendService {
                 .collect(Collectors.toMap(PlayerProfile::getPlayerId, Function.identity()));
     }
 
-    private FriendResponse toFriendResponse(PlayerProfile p, boolean online) {
+    // 친구별로 나에게 보낸 마지막 메시지 ID. 보낸 적이 없는 친구는 맵에 없다
+    private Map<Long, Long> lastReceivedMessageIds(Long playerId) {
+        return Stream.concat(chatMessageRepository.findLastReceivedAsLow(playerId).stream(),
+                        chatMessageRepository.findLastReceivedAsHigh(playerId).stream())
+                .collect(Collectors.toMap(LastReceivedMessage::getSenderId, LastReceivedMessage::getMessageId));
+    }
+
+    private FriendResponse toFriendResponse(PlayerProfile p, boolean online, long lastReceivedMessageId) {
         Long combatPower = rankingRedisRepository.value(RankingRedisRepository.COMBAT_POWER_KEY, p.getPlayerId());
         return new FriendResponse(p.getPlayerId(), p.getPlayerNickname(), p.getAccountLevel(),
-                combatPower == null ? 0L : combatPower, online);
+                combatPower == null ? 0L : combatPower, online, lastReceivedMessageId);
     }
 }
