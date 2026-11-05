@@ -24,6 +24,11 @@ public class InventoryController {
         return inventoryService.equip(authAccount.getPlayerId(), inventoryId);
     }
 
+    @PostMapping("/equip/best")
+    public EquipBestResponse equipBest(@AuthenticationPrincipal AuthAccount authAccount) {
+        return inventoryService.equipBest(authAccount.getPlayerId());
+    }
+
     @PostMapping("/{inventoryId}/unequip")
     public EquipmentResponse unequip(@AuthenticationPrincipal AuthAccount authAccount, @PathVariable Long inventoryId) {
         return inventoryService.unequip(authAccount.getPlayerId(), inventoryId);

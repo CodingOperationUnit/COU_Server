@@ -113,6 +113,42 @@ public class InventoryService {
         return new EquipResponse(toResponse(target), previous == null ? null : toResponse(previous));
     }
 
+    // 최고 장비 일괄 장착: 슬롯마다 등급이 가장 높은 장비를 장착한다. 등급이 같으면 레벨, 그것도 같으면 장착 중인 장비를 남긴다
+    @Transactional
+    public EquipBestResponse equipBest(Long playerId) {
+        lockPlayer(playerId);
+
+        Map<EquipSlotType, List<Equipment>> slots = equipmentRepository.findByPlayerIdOrderByIdAsc(playerId).stream()
+                .collect(Collectors.groupingBy(e -> staticDataService.getItems().get(e.getItemId()).slotType()));
+
+        List<EquipmentResponse> equippedItems = new ArrayList<>();
+        List<EquipmentResponse> unequippedItems = new ArrayList<>();
+
+        for (List<Equipment> group : slots.values()) {
+            Equipment best = group.stream()
+                    .max(Comparator.comparing(Equipment::getGrade)
+                            .thenComparingInt(Equipment::getLevel)
+                            .thenComparing(Equipment::isEquipped))
+                    .orElseThrow();
+            if (best.isEquipped()) {
+                continue;
+            }
+
+            for (Equipment previous : group) {
+                if (previous.isEquipped()) {
+                    previous.unequip();
+                    unequippedItems.add(toResponse(previous));
+                }
+            }
+            best.equip();
+            equippedItems.add(toResponse(best));
+        }
+
+        if (!equippedItems.isEmpty()) publishRankingChanged(playerId);
+
+        return new EquipBestResponse(equippedItems, unequippedItems);
+    }
+
     // 해제
     @Transactional
     public EquipmentResponse unequip(Long playerId, Long inventoryId) {
