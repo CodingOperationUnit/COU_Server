@@ -13,20 +13,11 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.EnumSet;
-import java.util.ArrayList;
-import java.util.EnumMap;
 
 // 시작할 때 data/의 정적 데이터를 읽고 검증해 메모리에 둔다. 원본 JSON은 클라이언트에 그대로 보내기 위해 함께 둔다.
 @Getter
@@ -46,6 +37,8 @@ public class StaticDataService {
     private final Map<MonsterType, List<DropTableEntryData>> dropTables; // key: monsterType
     private final Map<DropItemType, DropItemData> dropItems;            // key: dropItemType
     private final Map<Long, ItemData> items;
+    private final Map<ItemGrade, GradeData> grades;          // 등급 → 배율·드롭 가능 (ItemGrade 순서)
+    private final List<DropRateData> dropRates;              // 계정 레벨 구간 순 (겹침·빈틈 없음, 마지막은 상한 없음)
     private final Map<Long, EquipEffectData> equipEffects;                          // key: effectId
     private final Map<Long, Map<ItemGrade, List<EquipEffectData>>> itemGradeEffects; // key: itemId → 해금 등급, 목록은 시트 행 순서
     private final Map<Integer, ShopProductData> shopProducts;
@@ -170,6 +163,9 @@ public class StaticDataService {
         requireIds("Item", itemRows, ItemData::itemId);
         items = itemRows.stream()
                 .collect(Collectors.toUnmodifiableMap(ItemData::itemId, Function.identity()));
+
+        grades = validateGrades(rows(rowMapper, "Grade", GradeData.class));
+        dropRates = validateDropRates(rows(rowMapper, "DropRate", DropRateData.class), grades);
 
         // 장비 등급 효과: 효과 정의 → 아이템·등급별 연결 순서로 읽는다
         List<EquipEffectData> equipEffectRows = rows(rowMapper, "EquipEffect", EquipEffectData.class);
@@ -318,6 +314,77 @@ public class StaticDataService {
             require(spawnPatterns.containsKey(row.patternId()),
                     "Wave " + row.waveEntryId() + "의 patternId " + row.patternId() + "을(를) SpawnPattern에서 찾을 수 없습니다.");
         }
+    }
+
+    // 계정 레벨에 해당하는 등급 확률 구간. 검사로 1레벨부터 상한 없이 이어짐을 보장하므로 항상 찾는다
+    public DropRateData getDropRateFor(int accountLevel) {
+        return dropRates.stream()
+                .filter(rate -> rate.covers(accountLevel))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("계정 레벨 " + accountLevel + "에 맞는 DropRate 구간이 없습니다."));
+    }
+
+    // Grade 행 검증. 행 수·순서·코드가 ItemGrade와 일치해야 한다 (배율을 ordinal로 찾지 않고 이 맵으로 찾기 위해)
+    public static Map<ItemGrade, GradeData> validateGrades(List<GradeData> rows) {
+        ItemGrade[] expected = ItemGrade.values();
+        require(rows.size() == expected.length,
+                "Grade 데이터는 등급 수(" + expected.length + ")만큼 있어야 합니다: " + rows.size());
+
+        List<GradeData> sorted = rows.stream().sorted(Comparator.comparingInt(GradeData::gradeOrder)).toList();
+        Map<ItemGrade, GradeData> map = new EnumMap<>(ItemGrade.class);
+        for (int i = 0; i < sorted.size(); i++) {
+            GradeData row = sorted.get(i);
+            require(row.gradeOrder() == i + 1,
+                    "Grade의 gradeOrder는 1부터 빠짐없이 이어져야 합니다: " + row.gradeOrder());
+            require(row.grade() == expected[i],
+                    "Grade " + row.gradeOrder() + "번의 grade는 " + expected[i].toClientName() + "이어야 합니다: " + row.grade());
+            require(row.statMultiplier() != null && row.statMultiplier().signum() > 0,
+                    "Grade " + row.grade().toClientName() + "의 statMultiplier는 0보다 커야 합니다.");
+            map.put(row.grade(), row);
+        }
+        require(map.values().stream().anyMatch(GradeData::canDrop), "Grade에 일반 획득 가능(canDrop) 등급이 하나 이상 있어야 합니다.");
+        return Collections.unmodifiableMap(map);
+    }
+
+    // DropRate 행 검증
+    // - 확률은 0 이상이고 다섯 개의 합이 정확히 1
+    // - 일반 획득 불가(canDrop = false) 등급의 확률은 0
+    // - 구간은 1부터 시작해 겹침·빈틈 없이 이어지고, 상한 없음(0)은 마지막 구간에만, 마지막 구간은 반드시 상한 없음
+    public static List<DropRateData> validateDropRates(List<DropRateData> rows, Map<ItemGrade, GradeData> grades) {
+        require(!rows.isEmpty(), "DropRate 데이터가 비어 있습니다.");
+        require(rows.stream().map(DropRateData::dropRateId).distinct().count() == rows.size(),
+                "DropRate의 dropRateId가 중복됩니다.");
+
+        List<DropRateData> sorted = rows.stream().sorted(Comparator.comparingInt(DropRateData::minAccountLevel)).toList();
+        require(sorted.getFirst().minAccountLevel() == 1, "DropRate 첫 구간의 minAccountLevel은 1이어야 합니다.");
+
+        for (int i = 0; i < sorted.size(); i++) {
+            DropRateData row = sorted.get(i);
+            String name = "DropRate " + row.dropRateId();
+
+            BigDecimal sum = BigDecimal.ZERO;
+            for (ItemGrade grade : ItemGrade.values()) {
+                BigDecimal rate = row.rateOf(grade);
+                require(rate != null && rate.signum() >= 0, name + "의 " + grade.toClientName() + " 확률은 0 이상이어야 합니다.");
+                if (!grades.get(grade).canDrop()) {
+                    require(rate.signum() == 0, name + "의 " + grade.toClientName() + "는 일반 획득 불가 등급이라 확률이 0이어야 합니다.");
+                }
+                sum = sum.add(rate);
+            }
+            require(sum.compareTo(BigDecimal.ONE) == 0, name + "의 확률 합계는 1이어야 합니다: " + sum.toPlainString());
+
+            boolean last = i == sorted.size() - 1;
+            if (last) {
+                require(row.isUnlimited(), name + "는 마지막 구간이라 maxAccountLevel이 0(상한 없음)이어야 합니다.");
+            } else {
+                require(!row.isUnlimited(), name + "는 마지막 구간이 아니라 maxAccountLevel을 0으로 둘 수 없습니다.");
+                require(row.maxAccountLevel() >= row.minAccountLevel(), name + "의 maxAccountLevel이 minAccountLevel보다 작습니다.");
+                DropRateData next = sorted.get(i + 1);
+                require(next.minAccountLevel() == row.maxAccountLevel() + 1,
+                        name + " 다음 구간은 " + (row.maxAccountLevel() + 1) + "레벨부터 시작해야 합니다 (겹침·빈틈 금지): " + next.dropRateId());
+            }
+        }
+        return List.copyOf(sorted);
     }
 
     // Shop 행 검증. 기동 시 한 번 호출되고, 단위 테스트에서도 직접 호출한다.
