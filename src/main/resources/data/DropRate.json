@@ -1,0 +1,54 @@
+{
+  "datas": [
+    {
+      "dropRateId": "L01",
+      "minAccountLevel": 1,
+      "maxAccountLevel": 9,
+      "commonRate": 0.7,
+      "uncommonRate": 0.24,
+      "rareRate": 0.05,
+      "epicRate": 0.01,
+      "legendaryRate": 0.0
+    },
+    {
+      "dropRateId": "L02",
+      "minAccountLevel": 10,
+      "maxAccountLevel": 19,
+      "commonRate": 0.65,
+      "uncommonRate": 0.27,
+      "rareRate": 0.065,
+      "epicRate": 0.015,
+      "legendaryRate": 0.0
+    },
+    {
+      "dropRateId": "L03",
+      "minAccountLevel": 20,
+      "maxAccountLevel": 29,
+      "commonRate": 0.6,
+      "uncommonRate": 0.29,
+      "rareRate": 0.09,
+      "epicRate": 0.02,
+      "legendaryRate": 0.0
+    },
+    {
+      "dropRateId": "L04",
+      "minAccountLevel": 30,
+      "maxAccountLevel": 39,
+      "commonRate": 0.55,
+      "uncommonRate": 0.31,
+      "rareRate": 0.11,
+      "epicRate": 0.03,
+      "legendaryRate": 0.0
+    },
+    {
+      "dropRateId": "L05",
+      "minAccountLevel": 40,
+      "maxAccountLevel": 0,
+      "commonRate": 0.5,
+      "uncommonRate": 0.32,
+      "rareRate": 0.14,
+      "epicRate": 0.04,
+      "legendaryRate": 0.0
+    }
+  ]
+}

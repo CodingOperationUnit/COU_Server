@@ -8,6 +8,8 @@ MonsterAttack
 DropTable
 PlayerBaseStat
 Item
+Grade
+DropRate
 EquipEffect
 ItemGradeEffect
 Skill

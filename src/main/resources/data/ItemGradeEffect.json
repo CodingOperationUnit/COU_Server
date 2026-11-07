@@ -3,13 +3,13 @@
     {
       "itemGradeEffectId": 1,
       "itemId": 1001,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70002
     },
     {
       "itemGradeEffectId": 2,
       "itemId": 1001,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70005
     },
     {
@@ -27,13 +27,13 @@
     {
       "itemGradeEffectId": 5,
       "itemId": 1002,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70004
     },
     {
       "itemGradeEffectId": 6,
       "itemId": 1002,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70006
     },
     {
@@ -51,13 +51,13 @@
     {
       "itemGradeEffectId": 9,
       "itemId": 1003,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70005
     },
     {
       "itemGradeEffectId": 10,
       "itemId": 1003,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70007
     },
     {
@@ -75,19 +75,19 @@
     {
       "itemGradeEffectId": 13,
       "itemId": 2001,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70019
     },
     {
       "itemGradeEffectId": 14,
       "itemId": 2001,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70021
     },
     {
       "itemGradeEffectId": 15,
       "itemId": 2001,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70008
     },
     {
@@ -99,19 +99,19 @@
     {
       "itemGradeEffectId": 17,
       "itemId": 2002,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70020
     },
     {
       "itemGradeEffectId": 18,
       "itemId": 2002,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70022
     },
     {
       "itemGradeEffectId": 19,
       "itemId": 2002,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70010
     },
     {
@@ -123,19 +123,19 @@
     {
       "itemGradeEffectId": 21,
       "itemId": 2003,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70021
     },
     {
       "itemGradeEffectId": 22,
       "itemId": 2003,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70023
     },
     {
       "itemGradeEffectId": 23,
       "itemId": 2003,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70013
     },
     {
@@ -151,45 +151,21 @@
       "effectId": 72001
     },
     {
-      "itemGradeEffectId": 26,
-      "itemId": 2004,
-      "grade": "General",
-      "effectId": 70005
-    },
-    {
-      "itemGradeEffectId": 27,
-      "itemId": 2004,
-      "grade": "Super",
-      "effectId": 79001
-    },
-    {
-      "itemGradeEffectId": 28,
-      "itemId": 2004,
-      "grade": "Rare",
-      "effectId": 79002
-    },
-    {
-      "itemGradeEffectId": 29,
-      "itemId": 2004,
-      "grade": "Rare",
-      "effectId": 79003
-    },
-    {
       "itemGradeEffectId": 30,
       "itemId": 3001,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70008
     },
     {
       "itemGradeEffectId": 31,
       "itemId": 3001,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70010
     },
     {
       "itemGradeEffectId": 32,
       "itemId": 3001,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70025
     },
     {
@@ -201,19 +177,19 @@
     {
       "itemGradeEffectId": 34,
       "itemId": 3002,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70009
     },
     {
       "itemGradeEffectId": 35,
       "itemId": 3002,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70012
     },
     {
       "itemGradeEffectId": 36,
       "itemId": 3002,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70026
     },
     {
@@ -225,19 +201,19 @@
     {
       "itemGradeEffectId": 38,
       "itemId": 3003,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70011
     },
     {
       "itemGradeEffectId": 39,
       "itemId": 3003,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70013
     },
     {
       "itemGradeEffectId": 40,
       "itemId": 3003,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70027
     },
     {
@@ -255,19 +231,19 @@
     {
       "itemGradeEffectId": 43,
       "itemId": 4001,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70001
     },
     {
       "itemGradeEffectId": 44,
       "itemId": 4001,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70003
     },
     {
       "itemGradeEffectId": 45,
       "itemId": 4001,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 71002
     },
     {
@@ -279,19 +255,19 @@
     {
       "itemGradeEffectId": 47,
       "itemId": 4002,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70003
     },
     {
       "itemGradeEffectId": 48,
       "itemId": 4002,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70004
     },
     {
       "itemGradeEffectId": 49,
       "itemId": 4002,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 71003
     },
     {
@@ -303,19 +279,19 @@
     {
       "itemGradeEffectId": 51,
       "itemId": 4003,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70004
     },
     {
       "itemGradeEffectId": 52,
       "itemId": 4003,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70005
     },
     {
       "itemGradeEffectId": 53,
       "itemId": 4003,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 71004
     },
     {
@@ -333,19 +309,19 @@
     {
       "itemGradeEffectId": 56,
       "itemId": 5001,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70020
     },
     {
       "itemGradeEffectId": 57,
       "itemId": 5001,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70022
     },
     {
       "itemGradeEffectId": 58,
       "itemId": 5001,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 79004
     },
     {
@@ -357,19 +333,19 @@
     {
       "itemGradeEffectId": 60,
       "itemId": 5002,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70022
     },
     {
       "itemGradeEffectId": 61,
       "itemId": 5002,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70023
     },
     {
       "itemGradeEffectId": 62,
       "itemId": 5002,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 79005
     },
     {
@@ -381,19 +357,19 @@
     {
       "itemGradeEffectId": 64,
       "itemId": 5003,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70023
     },
     {
       "itemGradeEffectId": 65,
       "itemId": 5003,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70024
     },
     {
       "itemGradeEffectId": 66,
       "itemId": 5003,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 79006
     },
     {
@@ -411,19 +387,19 @@
     {
       "itemGradeEffectId": 69,
       "itemId": 6001,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70010
     },
     {
       "itemGradeEffectId": 70,
       "itemId": 6001,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70013
     },
     {
       "itemGradeEffectId": 71,
       "itemId": 6001,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70025
     },
     {
@@ -435,19 +411,19 @@
     {
       "itemGradeEffectId": 73,
       "itemId": 6002,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70012
     },
     {
       "itemGradeEffectId": 74,
       "itemId": 6002,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70014
     },
     {
       "itemGradeEffectId": 75,
       "itemId": 6002,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70026
     },
     {
@@ -459,19 +435,19 @@
     {
       "itemGradeEffectId": 77,
       "itemId": 6003,
-      "grade": "General",
+      "grade": "Common",
       "effectId": 70013
     },
     {
       "itemGradeEffectId": 78,
       "itemId": 6003,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70015
     },
     {
       "itemGradeEffectId": 79,
       "itemId": 6003,
-      "grade": "Super",
+      "grade": "Uncommon",
       "effectId": 70028
     },
     {

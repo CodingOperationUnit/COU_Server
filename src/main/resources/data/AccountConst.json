@@ -7,7 +7,7 @@
       "maxStamina": 60,
       "accountBaseRequiredExp": 100,
       "accountRequiredExpIncrement": 100,
-      "maxAccountLevel": 20,
+      "maxAccountLevel": 100,
       "battleStaminaCost": 5,
       "staminaRecoverySeconds": 300,
       "accountExpPerKill": 1,

@@ -6,12 +6,7 @@
       "stageIllustrationColor": "#4C7A3D",
       "waveId": 1,
       "stageDescription": "버그가 가득한 클라이언트 숲입니다.",
-      "clearAccountExp": 500,
-      "rewardBoxGradeWeights": [
-        100,
-        0,
-        0
-      ]
+      "clearAccountExp": 500
     },
     {
       "stageId": 2,
@@ -19,12 +14,7 @@
       "stageIllustrationColor": "#3A7BD5",
       "waveId": 1,
       "stageDescription": "코드 조각이 떠다니는 구름 위 하늘입니다.",
-      "clearAccountExp": 650,
-      "rewardBoxGradeWeights": [
-        85,
-        15,
-        0
-      ]
+      "clearAccountExp": 650
     },
     {
       "stageId": 3,
@@ -32,12 +22,7 @@
       "stageIllustrationColor": "#4B3A8C",
       "waveId": 1,
       "stageDescription": "데이터가 잠든 깊은 저장소입니다.",
-      "clearAccountExp": 825,
-      "rewardBoxGradeWeights": [
-        70,
-        25,
-        5
-      ]
+      "clearAccountExp": 825
     },
     {
       "stageId": 4,
@@ -45,12 +30,7 @@
       "stageIllustrationColor": "#C2401E",
       "waveId": 1,
       "stageDescription": "과부하로 서버가 불타는 곳입니다.",
-      "clearAccountExp": 1000,
-      "rewardBoxGradeWeights": [
-        55,
-        35,
-        10
-      ]
+      "clearAccountExp": 1000
     },
     {
       "stageId": 5,
@@ -58,12 +38,7 @@
       "stageIllustrationColor": "#B57BE0",
       "waveId": 1,
       "stageDescription": "모든 것이 뒤틀린 글리치 공간입니다.",
-      "clearAccountExp": 1200,
-      "rewardBoxGradeWeights": [
-        40,
-        45,
-        15
-      ]
+      "clearAccountExp": 1200
     }
   ]
 }
