@@ -42,11 +42,11 @@ public class Equipment {
     @Column(nullable = false, updatable = false)
     private LocalDateTime acquiredAt;
 
-    public static Equipment create(Long playerId, ItemData item) {
+    public static Equipment create(Long playerId, ItemData item, ItemGrade grade) {
         Equipment equipment = new Equipment();
         equipment.playerId = playerId;
         equipment.itemId = item.itemId();
-        equipment.grade = item.grade();
+        equipment.grade = grade;
         equipment.acquiredAt = LocalDateTime.now();
         return equipment;
     }

@@ -245,31 +245,28 @@ class InventoryApiTest extends IntegrationTestSupport {
                 .andExpect(jsonPath("$.code").value("NOT_OWNED_INVENTORY"));
     }
 
-    // 테스트 준비용: 장비를 DB에 직접 넣는다 (상점·전투 보상은 무작위라 합성 조건을 맞출 수 없다)
     private long giveEquipment(TestAccount account, ItemData item) {
-        return equipmentRepository.save(Equipment.create(account.playerId(), item)).getId();
+        return equipmentRepository.save(Equipment.create(account.playerId(), item, ItemGrade.COMMON)).getId();
     }
 
     private long giveEquipment(TestAccount account, ItemData item, int level) {
-        Equipment equipment = Equipment.create(account.playerId(), item);
+        Equipment equipment = Equipment.create(account.playerId(), item, ItemGrade.COMMON);
         for (int i = 1; i < level; i++) {
             equipment.levelUp();
         }
         return equipmentRepository.save(equipment).getId();
     }
 
-    // 기본 등급이 General인 장비 중 ID가 가장 작은 것
+    // 장비 중 ID가 가장 작은 것 (모든 아이템은 Common으로 지급)
     private ItemData generalItem() {
         return staticDataService.getItems().values().stream()
-                .filter(item -> item.grade() == ItemGrade.COMMON)
                 .min(Comparator.comparing(ItemData::itemId))
                 .orElseThrow();
     }
 
-    // 기본 등급이 General인 장비를 ID가 작은 순서로 count개
+    // 장비를 ID가 작은 순서로 count개
     private List<ItemData> generalItems(int count) {
         return staticDataService.getItems().values().stream()
-                .filter(item -> item.grade() == ItemGrade.COMMON)
                 .sorted(Comparator.comparing(ItemData::itemId))
                 .limit(count)
                 .toList();

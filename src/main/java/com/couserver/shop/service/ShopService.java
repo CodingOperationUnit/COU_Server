@@ -107,13 +107,10 @@ public class ShopService {
 
     // 등급 범위 안의 장비 중 하나를 뽑아 지급한다. 챕터 보물상자도 같은 규칙으로 뽑는다
     public EquipmentResponse drawEquipment(Long playerId, ShopProductData product) {
-        List<ItemData> candidates = staticDataService.getItems().values().stream()
-                .filter(i -> i.grade().ordinal() >= product.minGrade().ordinal()
-                        && i.grade().ordinal() <= product.maxGrade().ordinal())
-                .toList();
+        List<ItemData> candidates = List.copyOf(staticDataService.getItems().values());
         ItemData picked = candidates.get(ThreadLocalRandom.current().nextInt(candidates.size()));
 
-        Equipment saved = equipmentRepository.save(Equipment.create(playerId, picked));
+        Equipment saved = equipmentRepository.save(Equipment.create(playerId, picked, product.minGrade()));
         return new EquipmentResponse(
                 saved.getId(), saved.getItemId(), saved.getLevel(),
                 saved.getGrade().toClientName(), saved.isEquipped());

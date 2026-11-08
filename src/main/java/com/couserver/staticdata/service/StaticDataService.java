@@ -199,7 +199,7 @@ public class StaticDataService {
 
         Map<Integer, ShopProductData> shopMap = new LinkedHashMap<>();
         for (ShopProductData row : shopRows) {
-            validateShopProduct(row, items.values());
+            validateShopProduct(row, grades);
             shopMap.put(row.productId(), row);
         }
         shopProducts = Collections.unmodifiableMap(shopMap);
@@ -391,7 +391,7 @@ public class StaticDataService {
     // - GEM 상품은 실제 결제(인앱 결제)로 파는 상품이다. 보석 가격이 없고(priceGem 0),
     //   보석 결제 경로(ShopService.purchase)로는 지급하지 않는다
     // - GOLD, RANDOMITEM 상품은 무료로 팔지 않는다. 시트에서 가격이 0으로 내보내지면 기동을 멈춘다
-    public static void validateShopProduct(ShopProductData row, Collection<ItemData> items) {
+    public static void validateShopProduct(ShopProductData row, Map<ItemGrade, GradeData> grades) {
         String name = "Shop " + row.productId();
         require(row.priceGem() >= 0, name + "의 priceGem은 0 이상이어야 합니다.");
         if (row.productType() != ProductType.GEM) {
@@ -401,10 +401,9 @@ public class StaticDataService {
         if (row.productType() == ProductType.RANDOMITEM) {
             require(row.minGrade().ordinal() <= row.maxGrade().ordinal(),
                     name + "의 minGrade가 maxGrade보다 높습니다.");
-            require(items.stream().anyMatch(i ->
-                            i.grade().ordinal() >= row.minGrade().ordinal()
-                                    && i.grade().ordinal() <= row.maxGrade().ordinal()),
-                    name + "의 등급 범위에 해당하는 Item이 없습니다.");
+            // 상품 범위는 DropRate에서 뽑을 등급을 고르는 기준이라, 범위 끝은 일반 획득 가능한 등급이어야 한다
+            require(grades.get(row.minGrade()).canDrop() && grades.get(row.maxGrade()).canDrop(),
+                    name + "의 등급 범위에 일반 획득 불가(canDrop = false) 등급이 들어 있습니다.");
         } else {
             require(row.rewardAmount() >= 1, name + "의 rewardAmount는 1 이상이어야 합니다.");
         }

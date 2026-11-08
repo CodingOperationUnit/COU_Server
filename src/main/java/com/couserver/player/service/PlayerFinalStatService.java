@@ -93,8 +93,8 @@ public class PlayerFinalStatService {
         int level = equipment.getLevel();
         ItemGrade grade = equipment.getGrade();
         return new StatSource(
-                equipmentStatCalculator.scale(item.attackBonus(), level, grade),
-                equipmentStatCalculator.scale(item.hpBonus(), level, grade),
+                equipmentStatCalculator.scale(item.baseAttackBonus(), level, grade),
+                equipmentStatCalculator.scale(item.baseHpBonus(), level, grade),
                 0,
                 0
         );

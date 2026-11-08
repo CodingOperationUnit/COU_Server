@@ -98,12 +98,10 @@ class EquipmentGradeEffectApiTest extends IntegrationTestSupport {
         assertThat(rankingValue(account)).isEqualTo(after);     // 랭킹이 E2와 같은 값
     }
 
-    // 테스트 준비: 1003을 원하는 등급으로 지급한다 (Equipment.create는 아이템 원래 등급 Rare로 만든다)
+    // 테스트 준비: 1003을 원하는 등급으로 지급한다
     private long giveEquipment(TestAccount account, ItemGrade grade) {
-        long id = equipmentRepository.save(
-                Equipment.create(account.playerId(), staticDataService.getItems().get(QUANTUM_SHIELD_ARMOR))).getId();
-        setGrade(id, grade);
-        return id;
+        return equipmentRepository.save(Equipment.create(
+                account.playerId(), staticDataService.getItems().get(QUANTUM_SHIELD_ARMOR), grade)).getId();
     }
 
     private void setGrade(long equipmentId, ItemGrade grade) {

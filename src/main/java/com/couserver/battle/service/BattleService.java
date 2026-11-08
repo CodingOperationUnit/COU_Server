@@ -89,7 +89,6 @@ public class BattleService {
 
     private Map<Integer, StageLimit> stageLimits;           // key: stageId, 스테이지 전체 기준 상한
     private Map<Integer, Double> bossSpawnSeconds;          // key: stageId, 보스가 처음 나오는 시각(초). 보스가 없는 스테이지는 없음          // key: stageId
-    private Map<ItemGrade, List<ItemData>> itemsByGrade;    // 보상상자 장비 후보
     private Map<Integer, PatrolReward> patrolRewards;       // key: stageId, 보스가 있는 스테이지만
 
     // 스테이지 한 판에서 클라이언트가 보낼 수 있는 값의 상한
@@ -113,8 +112,6 @@ public class BattleService {
         patrolRewards = bossSpawnSeconds.entrySet().stream()
                 .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, entry -> computePatrolReward(
                         staticDataService.getStages().get(entry.getKey()), entry.getValue())));
-        itemsByGrade = Map.copyOf(staticDataService.getItems().values().stream()
-                .collect(Collectors.groupingBy(ItemData::grade, Collectors.toUnmodifiableList())));
     }
 
     // 전투 입장: 해금 검증 → 스태미나 회복 계산 → 차감 → 이전 세션 삭제 → 세션 생성
@@ -284,34 +281,16 @@ public class BattleService {
         return max;
     }
 
-    // 상자마다 스테이지 가중치로 등급을 뽑고, 그 등급이 기본 등급인 장비 중 하나를 균등하게 고른다
+    // 상자마다 장비 하나를 균등하게 고른다
+    // TODO(장비 리뉴얼 4단계): 등급을 DropRate(계정 레벨)로 뽑는다. 지금은 임시로 Common
     private List<Equipment> rollRewardBoxes(Long playerId, StageData stage, int count) {
+        List<ItemData> pool = List.copyOf(staticDataService.getItems().values());
         List<Equipment> rewards = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            List<ItemData> pool = itemsByGrade.getOrDefault(rollGrade(stage.rewardBoxGradeWeights()), List.of());
-            if (pool.isEmpty()) {
-                continue;
-            }
-            rewards.add(Equipment.create(playerId, pool.get(ThreadLocalRandom.current().nextInt(pool.size()))));
+            ItemData picked = pool.get(ThreadLocalRandom.current().nextInt(pool.size()));
+            rewards.add(Equipment.create(playerId, picked, ItemGrade.COMMON));
         }
         return rewards;
-    }
-
-    // 클라이언트 StageData.RollRewardBoxGrade와 같은 규칙. 가중치 순서는 ItemGrade 순서
-    private static ItemGrade rollGrade(List<Integer> weights) {
-        int total = weights.stream().mapToInt(Integer::intValue).sum();
-        if (total <= 0) {
-            return ItemGrade.COMMON;
-        }
-
-        int roll = ThreadLocalRandom.current().nextInt(total);
-        for (int i = 0; i < weights.size(); i++) {
-            roll -= weights.get(i);
-            if (roll < 0) {
-                return ItemGrade.values()[i];
-            }
-        }
-        return ItemGrade.COMMON;
     }
 
     // 그 시각까지 나올 수 있는 몬스터로 계산한 상한. 시간 검증을 건너뛰면(dev 도구) 미리 계산해 둔 전체 상한을 쓴다
