@@ -167,4 +167,47 @@ class GradeDropRateValidationTest {
     private static String find(List<DropRateData> rows, int level) {
         return rows.stream().filter(r -> r.covers(level)).findFirst().orElseThrow().dropRateId();
     }
+
+    @Test
+    @DisplayName("계정 레벨 1의 전체 등급 추첨에서 Legendary가 나오지 않는다")
+    void rollGradeNeverDropsLegendary() {
+        DropRateData rate = validRates().get(0);
+
+        assertThat(StaticDataService.selectEquipmentGrade(
+                rate, grades(),
+                ItemGrade.COMMON, ItemGrade.LEGENDARY,
+                0.995
+        )).isEqualTo(ItemGrade.EPIC);
+    }
+
+    @Test
+    @DisplayName("허용 등급 범위 안에서 확률을 재정규화한다")
+    void rollGradeWithinRange() {
+        DropRateData rate = validRates().get(0);
+
+        assertThat(StaticDataService.selectEquipmentGrade(
+                rate, grades(),
+                ItemGrade.UNCOMMON, ItemGrade.RARE,
+                0.80
+        )).isEqualTo(ItemGrade.UNCOMMON);
+
+        assertThat(StaticDataService.selectEquipmentGrade(
+                rate, grades(),
+                ItemGrade.UNCOMMON, ItemGrade.RARE,
+                0.90
+        )).isEqualTo(ItemGrade.RARE);
+    }
+
+    @Test
+    @DisplayName("획득 불가능한 등급만 허용하면 예외가 발생한다")
+    void rollGradeRejectsImpossibleRange() {
+        DropRateData rate = validRates().get(0);
+
+        assertThatThrownBy(() -> StaticDataService.selectEquipmentGrade(
+                rate, grades(),
+                ItemGrade.LEGENDARY, ItemGrade.LEGENDARY,
+                0.5
+        )).isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("획득 가능한 장비가 없습니다");
+    }
 }

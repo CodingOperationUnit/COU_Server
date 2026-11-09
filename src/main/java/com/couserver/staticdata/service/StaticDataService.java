@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.concurrent.ThreadLocalRandom;
 
 // 시작할 때 data/의 정적 데이터를 읽고 검증해 메모리에 둔다. 원본 JSON은 클라이언트에 그대로 보내기 위해 함께 둔다.
 @Getter
@@ -322,6 +323,71 @@ public class StaticDataService {
                 .filter(rate -> rate.covers(accountLevel))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("계정 레벨 " + accountLevel + "에 맞는 DropRate 구간이 없습니다."));
+    }
+
+    // 계정 레벨과 허용 등급 범위를 기준으로 장비 등급을 추첨한다.
+    public ItemGrade rollEquipmentGrade(
+            int accountLevel,
+            ItemGrade minGrade,
+            ItemGrade maxGrade) {
+
+        DropRateData rate = getDropRateFor(accountLevel);
+
+        return selectEquipmentGrade(
+                rate,
+                grades,
+                minGrade,
+                maxGrade,
+                ThreadLocalRandom.current().nextDouble()
+        );
+    }
+
+    // 확률 계산과 추첨을 분리해 결정적인 단위 테스트가 가능하도록 한다.
+    public static ItemGrade selectEquipmentGrade(
+            DropRateData rate,
+            Map<ItemGrade, GradeData> grades,
+            ItemGrade minGrade,
+            ItemGrade maxGrade,
+            double roll) {
+
+        require(rate != null && grades != null,
+                "등급 추첨 데이터가 없습니다.");
+
+        require(minGrade != null && maxGrade != null
+                        && minGrade.ordinal() <= maxGrade.ordinal(),
+                "장비 등급 범위가 올바르지 않습니다.");
+
+        require(Double.isFinite(roll) && roll >= 0 && roll < 1,
+                "추첨 난수는 0 이상 1 미만이어야 합니다.");
+
+        // 허용 범위·드롭 가능 여부·양수 확률을 모두 만족하는 등급만 선택
+        List<ItemGrade> candidates = Arrays.stream(ItemGrade.values())
+                .filter(grade -> grade.ordinal() >= minGrade.ordinal()
+                        && grade.ordinal() <= maxGrade.ordinal())
+                .filter(grade -> grades.containsKey(grade)
+                        && grades.get(grade).canDrop())
+                .filter(grade -> rate.rateOf(grade).signum() > 0)
+                .toList();
+
+        BigDecimal total = candidates.stream()
+                .map(rate::rateOf)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        require(total.signum() > 0,
+                "허용된 등급 범위에 획득 가능한 장비가 없습니다.");
+
+        // 허용된 등급의 확률 합계를 기준으로 재정규화
+        BigDecimal point = total.multiply(BigDecimal.valueOf(roll));
+
+        for (ItemGrade grade : candidates) {
+            point = point.subtract(rate.rateOf(grade));
+
+            if (point.signum() < 0) {
+                return grade;
+            }
+        }
+
+        throw new IllegalStateException("장비 등급 추첨에 실패했습니다.");
     }
 
     // Grade 행 검증. 행 수·순서·코드가 ItemGrade와 일치해야 한다 (배율을 ordinal로 찾지 않고 이 맵으로 찾기 위해)
