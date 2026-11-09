@@ -58,7 +58,7 @@ public class FriendController {
         friendService.removeFriend(authAccount.getPlayerId(), friendPlayerId);
     }
 
-    // 플레이어 검색 (닉네임 또는 플레이어 ID)
+    // 플레이어 검색 (닉네임 또는 계정 ID)
     @GetMapping("/search")
     public List<FriendSearchResponse> search(@AuthenticationPrincipal AuthAccount authAccount,
                                              @RequestParam String keyword) {

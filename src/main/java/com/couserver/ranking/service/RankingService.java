@@ -42,9 +42,9 @@ public class RankingService {
         // 1) 순위 순서는 Redis에서
         List<RankingRedisRepository.Member> members = rankingRedisRepository.top(key, size);
 
-        // 2) 닉네임과 레벨은 MySQL에서 한 번에
+        // 2) 계정 ID, 닉네임, 레벨은 MySQL에서 한 번에
         Map<Long, PlayerProfile> profiles = playerProfileRepository
-                .findAllById(members.stream().map(RankingRedisRepository.Member::playerId).toList())
+                .findByPlayerIdIn(members.stream().map(RankingRedisRepository.Member::playerId).toList())
                 .stream()
                 .collect(Collectors.toMap(PlayerProfile::getPlayerId, Function.identity()));
 
@@ -54,7 +54,8 @@ public class RankingService {
             PlayerProfile profile = profiles.get(member.playerId());
             if (profile == null) continue;   // DB에서 삭제된 플레이어는 건너뜀
             entries.add(new RankingEntryResponse(i + 1, new RankingRow(
-                    profile.getPlayerId(), profile.getPlayerNickname(), profile.getAccountLevel(),
+                    profile.getPlayerId(), profile.getAccount().getAccountLoginId(),
+                    profile.getPlayerNickname(), profile.getAccountLevel(),
                     displayValue(type, member.value()))));
         }
 

@@ -35,7 +35,7 @@
 |---|---|---|
 | AccountConst | `AccountConstData` (행 1개) | initialGold, initialGem, initialStamina, maxStamina, accountBaseRequiredExp, accountRequiredExpIncrement, maxAccountLevel, battleStaminaCost, staminaRecoverySeconds, accountExpPerKill, accountExpPerSecond, luckTrainGoldMax |
 | Stage | `StageData` | stageId, waveId, clearAccountExp, rewardBoxGradeWeights |
-| StageRoster | `StageRosterData` | stageRosterId, stageId, monsterSlot, monsterId, monsterHpScale, monsterDamageScale, patternId |
+| StageRoster | `StageRosterData` | stageRosterId, stageId, monsterSlot, monsterId, monsterHpScale, monsterDamageScale, patternId, expGemType |
 | Wave | `WaveEntryData` | waveEntryId, waveId, patternStartTime, patternDuration, spawnInterval, patternId, monsterSlot |
 | SpawnPattern | `SpawnPatternData` | patternId, spawnCount |
 | Monster | `MonsterData` | monsterId, monsterType |
@@ -224,7 +224,7 @@ public class BattleService {
 | AccountConst, PlayerBaseStat | 행이 정확히 1개 |
 | Stage, StageRoster, Wave, SpawnPattern, Monster, MonsterAttack, DropItem, Item, Shop, Skill, SkillLevel, EquipEffect, ItemGradeEffect | ID가 1 이상이고 중복 없음(SkillLevel은 skillLevelId, ItemGradeEffect는 itemGradeEffectId) |
 | Stage | waveId가 Wave에 있음, 그 웨이브의 monsterSlot이 모두 이 스테이지의 StageRoster에 있음 |
-| StageRoster | stageId가 Stage에, monsterId가 Monster에 있음, 같은 stageId 안에서 monsterSlot 중복 없음, monsterHpScale > 0, monsterDamageScale > 0, patternId가 0이거나 SpawnPattern에 있음 |
+| StageRoster | stageId가 Stage에, monsterId가 Monster에 있음, 같은 stageId 안에서 monsterSlot 중복 없음, monsterHpScale > 0, monsterDamageScale > 0, patternId가 0이거나 SpawnPattern에 있음, expGemType이 ExpGem1~4 또는 None |
 | Wave | patternId가 SpawnPattern에 있음, patternStartTime ≥ 0, patternDuration ≥ 0, patternDuration > 0(반복 행)이면 spawnInterval > 0 |
 | SpawnPattern | spawnCount ≥ 1 |
 | MonsterAttack | monsterId가 Monster에 있음, 그 몬스터의 monsterType이 BOX가 아님, BOSS·MIDBOSS가 아니면 monsterAttackType이 MELEE가 아님 |

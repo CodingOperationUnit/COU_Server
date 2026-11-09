@@ -11,7 +11,10 @@ import java.time.Instant;
 @Getter
 @Entity
 @Table(name = "chat_message",
-        indexes = @Index(name = "idx_chat_pair_id", columnList = "player_low_id, player_high_id, messageId"))
+        indexes = {
+                @Index(name = "idx_chat_pair_id", columnList = "player_low_id, player_high_id, messageId"),
+                @Index(name = "idx_chat_high_id", columnList = "player_high_id, player_low_id, messageId")
+        })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatMessage {
     @Id

@@ -334,7 +334,7 @@ public class BattleService {
                 .min();
     }
 
-    // seconds초까지 나온 웨이브의 모든 스폰을 처치하고, 몬스터 역할별 드롭 테이블마다 가장 많이 나오는 행이 뽑힌 경우를 더한다.
+    // seconds초까지 나온 웨이브의 모든 스폰을 처치하고, 슬롯별 드롭 테이블마다 가장 많이 나오는 행이 뽑힌 경우를 더한다.
     // seconds가 무한대면 스테이지 전체 기준이다
     private StageLimit computeStageLimit(StageData stage, double seconds)  {
         int kills = 0;
@@ -356,7 +356,7 @@ public class BattleService {
                 kills += spawns;
             }
 
-            List<DropTableEntryData> dropTable = staticDataService.getDropTables().get(monsterType);
+            List<DropTableEntryData> dropTable = staticDataService.getDropTables().get(entry.monsterSlot());
             gold += spawns * maxDrop(dropTable, this::goldOf);
             rewardBoxes += spawns * maxDrop(dropTable, row -> countOf(row, DropItemType.REWARDBOX));
             luckyBoxes += spawns * maxDrop(dropTable, row -> countOf(row, DropItemType.LUCKYBOX));
@@ -409,7 +409,7 @@ public class BattleService {
                 kills += spawns;
             }
 
-            List<DropTableEntryData> dropTable = staticDataService.getDropTables().get(monsterType);
+            List<DropTableEntryData> dropTable = staticDataService.getDropTables().get(entry.monsterSlot());
             gold += spawns * averageDrop(dropTable, this::goldOf);
             rewardBoxes += spawns * averageDrop(dropTable, row -> countOf(row, DropItemType.REWARDBOX));
             luckyBoxes += spawns * averageDrop(dropTable, row -> countOf(row, DropItemType.LUCKYBOX));

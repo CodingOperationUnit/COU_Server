@@ -1,7 +1,7 @@
 package com.couserver.ranking.dto;
 
-public record RankingEntryResponse(int rank, Long playerId, String nickname, int accountLevel, int value) {
+public record RankingEntryResponse(int rank, Long playerId, String accountLoginId, String nickname, int accountLevel, int value) {
     public RankingEntryResponse(int rank, RankingRow row) {
-        this(rank, row.playerId(), row.nickname(), row.accountLevel(), row.value());
+        this(rank, row.playerId(), row.accountLoginId(), row.nickname(), row.accountLevel(), row.value());
     }
 }

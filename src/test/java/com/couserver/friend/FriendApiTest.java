@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -18,14 +19,14 @@ class FriendApiTest extends IntegrationTestSupport {
     private static final String REQUESTS_URL = "/api/friends/requests";
 
     @Test
-    @DisplayName("플레이어 ID로 검색하면 상대가 관계 NONE으로 보인다")
-    void searchByPlayerId() throws Exception {
+    @DisplayName("계정 ID로 검색하면 상대가 관계 NONE으로 보인다")
+    void searchByAccountLoginId() throws Exception {
         TestAccount me = createAccount();
         TestAccount target = createAccount();
 
-        getAs(me, FRIENDS_URL + "/search?keyword=" + target.playerId())
+        getAs(me, FRIENDS_URL + "/search?keyword=" + target.loginId())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*].playerId", hasItem(target.playerId().intValue())))
+                .andExpect(jsonPath("$[*].accountLoginId", hasItem(target.loginId())))
                 .andExpect(jsonPath("$[?(@.playerId == %d)].relation", target.playerId())
                         .value(contains("NONE")));
     }
@@ -118,6 +119,70 @@ class FriendApiTest extends IntegrationTestSupport {
 
         getAs(sender, FRIENDS_URL).andExpect(jsonPath("$.friends").isEmpty());
         getAs(receiver, FRIENDS_URL).andExpect(jsonPath("$.friends").isEmpty());
+    }
+
+    @Test
+    @DisplayName("친구가 메시지를 보낸 적이 없으면 lastReceivedMessageId는 0")
+    void lastReceivedMessageIdWithoutMessages() throws Exception {
+        TestAccount me = createAccount();
+        TestAccount friend = createAccount();
+        makeFriends(me, friend);
+
+        expectLastReceived(me, friend, 0);
+    }
+
+    @Test
+    @DisplayName("친구가 보낸 마지막 메시지 ID가 오고, 그 뒤에 내가 보낸 메시지는 세지 않는다")
+    void lastReceivedMessageIdIgnoresMine() throws Exception {
+        TestAccount me = createAccount();
+        TestAccount friend = createAccount();
+        makeFriends(me, friend);
+
+        sendMessage(friend, me);
+        int last = sendMessage(friend, me);
+        sendMessage(me, friend);
+
+        expectLastReceived(me, friend, last);
+    }
+
+    @Test
+    @DisplayName("친구마다 따로 오고, 내 ID가 쌍의 낮은 쪽이든 높은 쪽이든 같다")
+    void lastReceivedMessageIdPerFriend() throws Exception {
+        // 가입 순서대로 ID가 커진다
+        TestAccount lowFriend = createAccount();
+        TestAccount me = createAccount();
+        TestAccount highFriend = createAccount();
+        assertThat(lowFriend.playerId()).isLessThan(me.playerId());
+        assertThat(highFriend.playerId()).isGreaterThan(me.playerId());
+        makeFriends(me, lowFriend);
+        makeFriends(me, highFriend);
+
+        int fromLow = sendMessage(lowFriend, me);
+        int fromHigh = sendMessage(highFriend, me);
+
+        expectLastReceived(me, lowFriend, fromLow);
+        expectLastReceived(me, highFriend, fromHigh);
+    }
+
+    private void makeFriends(TestAccount sender, TestAccount receiver) throws Exception {
+        sendRequest(sender, receiver).andExpect(status().isOk());
+        postAs(receiver, REQUESTS_URL + "/" + firstReceivedRequestId(receiver) + "/accept")
+                .andExpect(status().isOk());
+    }
+
+    // 보낸 메시지의 ID
+    private int sendMessage(TestAccount from, TestAccount to) throws Exception {
+        String body = bodyOf(postAs(from, "/api/chat/" + to.playerId() + "/messages", Map.of("content", "hi"))
+                .andExpect(status().isOk()));
+        Number messageId = JsonPath.read(body, "$.messageId");
+        return messageId.intValue();
+    }
+
+    private void expectLastReceived(TestAccount me, TestAccount friend, int messageId) throws Exception {
+        getAs(me, FRIENDS_URL)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.friends[?(@.playerId == %d)].lastReceivedMessageId", friend.playerId())
+                        .value(contains(messageId)));
     }
 
     private org.springframework.test.web.servlet.ResultActions sendRequest(TestAccount from, TestAccount to)
