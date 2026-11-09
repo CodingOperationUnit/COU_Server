@@ -1,6 +1,7 @@
 package com.couserver.player.service;
 
 import com.couserver.inventory.entity.ItemGrade;
+import com.couserver.staticdata.dto.GradeData;
 import com.couserver.staticdata.service.StaticDataService;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.JsonNode;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Map;
 
 // 장비 1개의 스탯에 레벨·등급 배율을 적용한다 (클라이언트 OwnedItem과 같은 공식)
 // 스탯 = round(값 × (1 + statGrowthPerLevel × (level − 1)) × gradeStatMultiplier[grade])
@@ -19,7 +21,7 @@ public class EquipmentStatCalculator {
     private static final String TABLE_NAME = "ItemConst";
 
     private final BigDecimal statGrowthPerLevel;
-    private final List<BigDecimal> gradeStatMultiplier;
+    private final Map<ItemGrade, GradeData> grades;
 
     public EquipmentStatCalculator(StaticDataService staticDataService) {
         JsonNode table = staticDataService.getTables().get(TABLE_NAME);
@@ -32,19 +34,15 @@ public class EquipmentStatCalculator {
         require(growth != null && growth.isNumber() && growth.decimalValue().signum() >= 0,
                 "ItemConst의 statGrowthPerLevel은 0 이상이어야 합니다.");
 
-        JsonNode multipliers = row.get("gradeStatMultiplier");
-        require(multipliers != null && multipliers.isArray() && multipliers.size() == ItemGrade.values().length,
-                "ItemConst의 gradeStatMultiplier는 등급 수(" + ItemGrade.values().length + ")와 개수가 같아야 합니다.");
-        List<BigDecimal> list = new ArrayList<>();
-        for (int i = 0; i < multipliers.size(); i++) {
-            JsonNode m = multipliers.get(i);
-            require(m.isNumber() && m.decimalValue().signum() > 0,
-                    "ItemConst의 gradeStatMultiplier 값은 0보다 커야 합니다.");
-            list.add(m.decimalValue());
-        }
-
         this.statGrowthPerLevel = growth.decimalValue();
-        this.gradeStatMultiplier = List.copyOf(list);
+        this.grades = staticDataService.getGrades();
+
+        require(
+                grades != null && grades.size() == ItemGrade.values().length,
+                "Grade 데이터가 장비 등급 수("
+                        + ItemGrade.values().length
+                        + ")와 일치하지 않습니다."
+        );
     }
 
     public int scale(int value, int level, ItemGrade grade){
@@ -54,9 +52,16 @@ public class EquipmentStatCalculator {
         BigDecimal levelFactor = BigDecimal.ONE.add(
                 statGrowthPerLevel.multiply(BigDecimal.valueOf(level - 1L))
         );
+        GradeData gradeData = grades.get(grade);
+
+        require(
+                gradeData != null,
+                "Grade에 없는 장비 등급입니다: " + grade
+        );
+
         BigDecimal result = BigDecimal.valueOf(value)
                 .multiply(levelFactor)
-                .multiply(gradeStatMultiplier.get(grade.ordinal()));
+                .multiply(gradeData.statMultiplier());
 
         return result.setScale(0, RoundingMode.HALF_EVEN).intValueExact();
     }
