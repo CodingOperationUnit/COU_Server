@@ -45,6 +45,17 @@
       "monsterAttackDuration": 4.0
     },
     {
+      "monsterAttackId": 110221,
+      "monsterId": 11022,
+      "monsterAttackType": "Ranged",
+      "monsterAttackCooldown": 3.0,
+      "monsterAttackTriggerRange": 6.0,
+      "monsterAttackDamage": 42,
+      "monsterAttackCount": 1,
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
+    },
+    {
       "monsterAttackId": 120091,
       "monsterId": 12009,
       "monsterAttackType": "Ranged",
@@ -75,6 +86,17 @@
       "monsterAttackDamage": 525,
       "monsterAttackCount": 3,
       "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
+    },
+    {
+      "monsterAttackId": 120171,
+      "monsterId": 12017,
+      "monsterAttackType": "Ranged",
+      "monsterAttackCooldown": 3.5,
+      "monsterAttackTriggerRange": 7.0,
+      "monsterAttackDamage": 180,
+      "monsterAttackCount": 3,
+      "monsterAttackAngle": 40.0,
       "monsterAttackDuration": 0.0
     },
     {
@@ -419,6 +441,39 @@
       "monsterAttackDuration": 0.0
     },
     {
+      "monsterAttackId": 130161,
+      "monsterId": 13016,
+      "monsterAttackType": "Ranged",
+      "monsterAttackCooldown": 3.0,
+      "monsterAttackTriggerRange": 7.0,
+      "monsterAttackDamage": 600,
+      "monsterAttackCount": 5,
+      "monsterAttackAngle": 60.0,
+      "monsterAttackDuration": 0.0
+    },
+    {
+      "monsterAttackId": 130162,
+      "monsterId": 13016,
+      "monsterAttackType": "Ranged",
+      "monsterAttackCooldown": 7.0,
+      "monsterAttackTriggerRange": 8.0,
+      "monsterAttackDamage": 500,
+      "monsterAttackCount": 8,
+      "monsterAttackAngle": 360.0,
+      "monsterAttackDuration": 0.0
+    },
+    {
+      "monsterAttackId": 130163,
+      "monsterId": 13016,
+      "monsterAttackType": "Melee",
+      "monsterAttackCooldown": 6.0,
+      "monsterAttackTriggerRange": 4.0,
+      "monsterAttackDamage": 1500,
+      "monsterAttackCount": 0,
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
+    },
+    {
       "monsterAttackId": 150011,
       "monsterId": 15001,
       "monsterAttackType": "Melee",
@@ -564,6 +619,72 @@
     {
       "monsterAttackId": 150053,
       "monsterId": 15005,
+      "monsterAttackType": "Ranged",
+      "monsterAttackCooldown": 7.0,
+      "monsterAttackTriggerRange": 6.0,
+      "monsterAttackDamage": 375,
+      "monsterAttackCount": 8,
+      "monsterAttackAngle": 360.0,
+      "monsterAttackDuration": 0.0
+    },
+    {
+      "monsterAttackId": 150061,
+      "monsterId": 15006,
+      "monsterAttackType": "Trap",
+      "monsterAttackCooldown": 4.0,
+      "monsterAttackTriggerRange": 6.0,
+      "monsterAttackDamage": 420,
+      "monsterAttackCount": 2,
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 5.0
+    },
+    {
+      "monsterAttackId": 150062,
+      "monsterId": 15006,
+      "monsterAttackType": "Area",
+      "monsterAttackCooldown": 7.0,
+      "monsterAttackTriggerRange": 7.0,
+      "monsterAttackDamage": 1575,
+      "monsterAttackCount": 3,
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
+    },
+    {
+      "monsterAttackId": 150063,
+      "monsterId": 15006,
+      "monsterAttackType": "Ranged",
+      "monsterAttackCooldown": 4.0,
+      "monsterAttackTriggerRange": 7.0,
+      "monsterAttackDamage": 630,
+      "monsterAttackCount": 3,
+      "monsterAttackAngle": 30.0,
+      "monsterAttackDuration": 0.0
+    },
+    {
+      "monsterAttackId": 150071,
+      "monsterId": 15007,
+      "monsterAttackType": "Melee",
+      "monsterAttackCooldown": 4.0,
+      "monsterAttackTriggerRange": 6.0,
+      "monsterAttackDamage": 1125,
+      "monsterAttackCount": 0,
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
+    },
+    {
+      "monsterAttackId": 150072,
+      "monsterId": 15007,
+      "monsterAttackType": "Area",
+      "monsterAttackCooldown": 6.5,
+      "monsterAttackTriggerRange": 6.0,
+      "monsterAttackDamage": 1125,
+      "monsterAttackCount": 3,
+      "monsterAttackAngle": 0.0,
+      "monsterAttackDuration": 0.0
+    },
+    {
+      "monsterAttackId": 150073,
+      "monsterId": 15007,
       "monsterAttackType": "Ranged",
       "monsterAttackCooldown": 7.0,
       "monsterAttackTriggerRange": 6.0,

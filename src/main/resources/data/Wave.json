@@ -57,8 +57,8 @@
     {
       "waveEntryId": 7,
       "waveId": 1,
-      "patternStartTime": 260.0,
-      "patternDuration": 120.0,
+      "patternStartTime": 240.0,
+      "patternDuration": 140.0,
       "spawnInterval": 1.0,
       "patternId": 4,
       "monsterSlot": "N4"
