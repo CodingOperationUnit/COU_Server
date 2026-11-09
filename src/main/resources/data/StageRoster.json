@@ -13,9 +13,9 @@
       "stageRosterId": 2,
       "stageId": 1,
       "monsterSlot": "N2",
-      "monsterId": 11018,
-      "monsterHpScale": 0.92,
-      "monsterDamageScale": 0.92,
+      "monsterId": 11008,
+      "monsterHpScale": 2.2,
+      "monsterDamageScale": 2.2,
       "patternId": 0
     },
     {
@@ -23,33 +23,33 @@
       "stageId": 1,
       "monsterSlot": "N3",
       "monsterId": 11003,
-      "monsterHpScale": 0.5,
-      "monsterDamageScale": 0.5,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
       "patternId": 0
     },
     {
       "stageRosterId": 4,
       "stageId": 1,
       "monsterSlot": "N4",
-      "monsterId": 11021,
-      "monsterHpScale": 0.29,
-      "monsterDamageScale": 0.29,
+      "monsterId": 11019,
+      "monsterHpScale": 2.0,
+      "monsterDamageScale": 2.0,
       "patternId": 0
     },
     {
       "stageRosterId": 5,
       "stageId": 1,
       "monsterSlot": "N5",
-      "monsterId": 11019,
-      "monsterHpScale": 1.4,
-      "monsterDamageScale": 1.4,
+      "monsterId": 11020,
+      "monsterHpScale": 3.5,
+      "monsterDamageScale": 5.6,
       "patternId": 0
     },
     {
       "stageRosterId": 6,
       "stageId": 1,
       "monsterSlot": "E1",
-      "monsterId": 12001,
+      "monsterId": 12003,
       "monsterHpScale": 1.0,
       "monsterDamageScale": 1.0,
       "patternId": 0
@@ -59,17 +59,17 @@
       "stageId": 1,
       "monsterSlot": "E2",
       "monsterId": 12002,
-      "monsterHpScale": 1.0,
-      "monsterDamageScale": 1.0,
+      "monsterHpScale": 1.25,
+      "monsterDamageScale": 1.25,
       "patternId": 0
     },
     {
       "stageRosterId": 8,
       "stageId": 1,
       "monsterSlot": "M1",
-      "monsterId": 15001,
-      "monsterHpScale": 0.6,
-      "monsterDamageScale": 0.6,
+      "monsterId": 15004,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
       "patternId": 0
     },
     {
@@ -95,8 +95,8 @@
       "stageId": 2,
       "monsterSlot": "N1",
       "monsterId": 11002,
-      "monsterHpScale": 0.93,
-      "monsterDamageScale": 0.93,
+      "monsterHpScale": 1.3,
+      "monsterDamageScale": 1.3,
       "patternId": 0
     },
     {
@@ -104,17 +104,17 @@
       "stageId": 2,
       "monsterSlot": "N2",
       "monsterId": 11008,
-      "monsterHpScale": 0.65,
-      "monsterDamageScale": 0.65,
+      "monsterHpScale": 2.86,
+      "monsterDamageScale": 2.86,
       "patternId": 8
     },
     {
       "stageRosterId": 13,
       "stageId": 2,
       "monsterSlot": "N3",
-      "monsterId": 11005,
-      "monsterHpScale": 0.47,
-      "monsterDamageScale": 0.47,
+      "monsterId": 11010,
+      "monsterHpScale": 1.3,
+      "monsterDamageScale": 1.3,
       "patternId": 9
     },
     {
@@ -122,35 +122,35 @@
       "stageId": 2,
       "monsterSlot": "N4",
       "monsterId": 11018,
-      "monsterHpScale": 1.08,
-      "monsterDamageScale": 1.08,
+      "monsterHpScale": 2.6,
+      "monsterDamageScale": 2.6,
       "patternId": 0
     },
     {
       "stageRosterId": 15,
       "stageId": 2,
       "monsterSlot": "N5",
-      "monsterId": 11010,
-      "monsterHpScale": 1.3,
-      "monsterDamageScale": 1.3,
+      "monsterId": 11020,
+      "monsterHpScale": 4.55,
+      "monsterDamageScale": 7.28,
       "patternId": 0
     },
     {
       "stageRosterId": 16,
       "stageId": 2,
       "monsterSlot": "E1",
-      "monsterId": 12002,
-      "monsterHpScale": 1.04,
-      "monsterDamageScale": 1.04,
+      "monsterId": 12003,
+      "monsterHpScale": 1.3,
+      "monsterDamageScale": 1.3,
       "patternId": 0
     },
     {
       "stageRosterId": 17,
       "stageId": 2,
       "monsterSlot": "E2",
-      "monsterId": 12003,
-      "monsterHpScale": 1.08,
-      "monsterDamageScale": 1.08,
+      "monsterId": 12001,
+      "monsterHpScale": 1.625,
+      "monsterDamageScale": 1.625,
       "patternId": 0
     },
     {
@@ -158,17 +158,17 @@
       "stageId": 2,
       "monsterSlot": "M1",
       "monsterId": 15002,
-      "monsterHpScale": 0.36,
-      "monsterDamageScale": 0.36,
+      "monsterHpScale": 1.3,
+      "monsterDamageScale": 1.3,
       "patternId": 0
     },
     {
       "stageRosterId": 19,
       "stageId": 2,
       "monsterSlot": "B1",
-      "monsterId": 13002,
-      "monsterHpScale": 1.0,
-      "monsterDamageScale": 1.0,
+      "monsterId": 13004,
+      "monsterHpScale": 1.2,
+      "monsterDamageScale": 1.2,
       "patternId": 0
     },
     {
@@ -185,8 +185,8 @@
       "stageId": 3,
       "monsterSlot": "N1",
       "monsterId": 11017,
-      "monsterHpScale": 1.38,
-      "monsterDamageScale": 1.38,
+      "monsterHpScale": 1.65,
+      "monsterDamageScale": 1.65,
       "patternId": 0
     },
     {
@@ -194,24 +194,24 @@
       "stageId": 3,
       "monsterSlot": "N2",
       "monsterId": 11016,
-      "monsterHpScale": 0.37,
-      "monsterDamageScale": 0.37,
+      "monsterHpScale": 3.63,
+      "monsterDamageScale": 3.63,
       "patternId": 7
     },
     {
       "stageRosterId": 23,
       "stageId": 3,
       "monsterSlot": "N3",
-      "monsterId": 11020,
-      "monsterHpScale": 0.33,
-      "monsterDamageScale": 0.33,
+      "monsterId": 11003,
+      "monsterHpScale": 1.65,
+      "monsterDamageScale": 1.65,
       "patternId": 8
     },
     {
       "stageRosterId": 24,
       "stageId": 3,
       "monsterSlot": "N4",
-      "monsterId": 11001,
+      "monsterId": 11019,
       "monsterHpScale": 3.3,
       "monsterDamageScale": 3.3,
       "patternId": 0
@@ -220,27 +220,27 @@
       "stageRosterId": 25,
       "stageId": 3,
       "monsterSlot": "N5",
-      "monsterId": 11005,
-      "monsterHpScale": 3.3,
-      "monsterDamageScale": 3.3,
+      "monsterId": 11020,
+      "monsterHpScale": 5.775,
+      "monsterDamageScale": 9.24,
       "patternId": 0
     },
     {
       "stageRosterId": 26,
       "stageId": 3,
       "monsterSlot": "E1",
-      "monsterId": 12003,
-      "monsterHpScale": 1.1,
-      "monsterDamageScale": 1.1,
+      "monsterId": 12009,
+      "monsterHpScale": 1.65,
+      "monsterDamageScale": 1.65,
       "patternId": 0
     },
     {
       "stageRosterId": 27,
       "stageId": 3,
       "monsterSlot": "E2",
-      "monsterId": 12009,
-      "monsterHpScale": 0.69,
-      "monsterDamageScale": 0.69,
+      "monsterId": 12002,
+      "monsterHpScale": 2.0625,
+      "monsterDamageScale": 2.0625,
       "patternId": 0
     },
     {
@@ -248,17 +248,17 @@
       "stageId": 3,
       "monsterSlot": "M1",
       "monsterId": 15003,
-      "monsterHpScale": 0.21,
-      "monsterDamageScale": 0.21,
+      "monsterHpScale": 1.65,
+      "monsterDamageScale": 1.65,
       "patternId": 0
     },
     {
       "stageRosterId": 29,
       "stageId": 3,
       "monsterSlot": "B1",
-      "monsterId": 13003,
-      "monsterHpScale": 1.0,
-      "monsterDamageScale": 1.0,
+      "monsterId": 13011,
+      "monsterHpScale": 1.43,
+      "monsterDamageScale": 1.43,
       "patternId": 0
     },
     {
@@ -275,80 +275,80 @@
       "stageId": 4,
       "monsterSlot": "N1",
       "monsterId": 11017,
-      "monsterHpScale": 1.67,
-      "monsterDamageScale": 1.67,
+      "monsterHpScale": 2.0,
+      "monsterDamageScale": 2.0,
       "patternId": 0
     },
     {
       "stageRosterId": 32,
       "stageId": 4,
       "monsterSlot": "N2",
-      "monsterId": 11020,
-      "monsterHpScale": 0.88,
-      "monsterDamageScale": 0.88,
+      "monsterId": 11005,
+      "monsterHpScale": 4.4,
+      "monsterDamageScale": 4.4,
       "patternId": 8
     },
     {
       "stageRosterId": 33,
       "stageId": 4,
       "monsterSlot": "N3",
-      "monsterId": 11008,
-      "monsterHpScale": 0.46,
-      "monsterDamageScale": 0.46,
+      "monsterId": 11010,
+      "monsterHpScale": 2.0,
+      "monsterDamageScale": 2.0,
       "patternId": 10
     },
     {
       "stageRosterId": 34,
       "stageId": 4,
       "monsterSlot": "N4",
-      "monsterId": 11010,
-      "monsterHpScale": 0.71,
-      "monsterDamageScale": 0.71,
+      "monsterId": 11018,
+      "monsterHpScale": 4.0,
+      "monsterDamageScale": 4.0,
       "patternId": 0
     },
     {
       "stageRosterId": 35,
       "stageId": 4,
       "monsterSlot": "N5",
-      "monsterId": 11012,
-      "monsterHpScale": 1.65,
-      "monsterDamageScale": 1.65,
+      "monsterId": 11020,
+      "monsterHpScale": 7.0,
+      "monsterDamageScale": 11.2,
       "patternId": 0
     },
     {
       "stageRosterId": 36,
       "stageId": 4,
       "monsterSlot": "E1",
-      "monsterId": 12003,
-      "monsterHpScale": 1.33,
-      "monsterDamageScale": 1.33,
+      "monsterId": 12012,
+      "monsterHpScale": 2.0,
+      "monsterDamageScale": 2.0,
       "patternId": 0
     },
     {
       "stageRosterId": 37,
       "stageId": 4,
       "monsterSlot": "E2",
-      "monsterId": 12012,
-      "monsterHpScale": 0.67,
-      "monsterDamageScale": 0.67,
+      "monsterId": 12001,
+      "monsterHpScale": 2.5,
+      "monsterDamageScale": 2.5,
       "patternId": 0
     },
     {
       "stageRosterId": 38,
       "stageId": 4,
       "monsterSlot": "M1",
-      "monsterId": 15004,
-      "monsterHpScale": 0.28,
-      "monsterDamageScale": 0.28,
+      "monsterId": 15001,
+      "monsterHpScale": 2.0,
+      "monsterDamageScale": 2.0,
       "patternId": 0
     },
     {
       "stageRosterId": 39,
       "stageId": 4,
       "monsterSlot": "B1",
-      "monsterId": 13004,
-      "monsterHpScale": 1.0,
-      "monsterDamageScale": 1.0,
+      "monsterId": 13002,
+      "monsterHpScale": 1.67,
+      "monsterDamageScale": 1.67,
       "patternId": 0
     },
     {
@@ -364,9 +364,9 @@
       "stageRosterId": 41,
       "stageId": 5,
       "monsterSlot": "N1",
-      "monsterId": 11002,
-      "monsterHpScale": 1.71,
-      "monsterDamageScale": 1.71,
+      "monsterId": 11001,
+      "monsterHpScale": 2.4,
+      "monsterDamageScale": 2.4,
       "patternId": 0
     },
     {
@@ -374,53 +374,53 @@
       "stageId": 5,
       "monsterSlot": "N2",
       "monsterId": 11012,
-      "monsterHpScale": 0.78,
-      "monsterDamageScale": 0.78,
+      "monsterHpScale": 5.28,
+      "monsterDamageScale": 5.28,
       "patternId": 7
     },
     {
       "stageRosterId": 43,
       "stageId": 5,
       "monsterSlot": "N3",
-      "monsterId": 11019,
-      "monsterHpScale": 0.6,
-      "monsterDamageScale": 0.6,
+      "monsterId": 11003,
+      "monsterHpScale": 2.4,
+      "monsterDamageScale": 2.4,
       "patternId": 7
     },
     {
       "stageRosterId": 44,
       "stageId": 5,
       "monsterSlot": "N4",
-      "monsterId": 11003,
-      "monsterHpScale": 2.41,
-      "monsterDamageScale": 2.41,
+      "monsterId": 11019,
+      "monsterHpScale": 4.8,
+      "monsterDamageScale": 4.8,
       "patternId": 0
     },
     {
       "stageRosterId": 45,
       "stageId": 5,
       "monsterSlot": "N5",
-      "monsterId": 11016,
-      "monsterHpScale": 1.37,
-      "monsterDamageScale": 1.37,
+      "monsterId": 11020,
+      "monsterHpScale": 8.4,
+      "monsterDamageScale": 13.44,
       "patternId": 0
     },
     {
       "stageRosterId": 46,
       "stageId": 5,
       "monsterSlot": "E1",
-      "monsterId": 12009,
-      "monsterHpScale": 0.8,
-      "monsterDamageScale": 0.8,
+      "monsterId": 12015,
+      "monsterHpScale": 2.4,
+      "monsterDamageScale": 2.4,
       "patternId": 0
     },
     {
       "stageRosterId": 47,
       "stageId": 5,
       "monsterSlot": "E2",
-      "monsterId": 12012,
-      "monsterHpScale": 0.8,
-      "monsterDamageScale": 0.8,
+      "monsterId": 12002,
+      "monsterHpScale": 3.0,
+      "monsterDamageScale": 3.0,
       "patternId": 0
     },
     {
@@ -428,17 +428,17 @@
       "stageId": 5,
       "monsterSlot": "M1",
       "monsterId": 15005,
-      "monsterHpScale": 0.52,
-      "monsterDamageScale": 0.52,
+      "monsterHpScale": 2.4,
+      "monsterDamageScale": 2.4,
       "patternId": 0
     },
     {
       "stageRosterId": 49,
       "stageId": 5,
       "monsterSlot": "B1",
-      "monsterId": 13005,
-      "monsterHpScale": 1.0,
-      "monsterDamageScale": 1.0,
+      "monsterId": 13003,
+      "monsterHpScale": 1.93,
+      "monsterDamageScale": 1.93,
       "patternId": 0
     },
     {

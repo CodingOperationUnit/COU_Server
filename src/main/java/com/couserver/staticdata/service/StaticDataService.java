@@ -43,7 +43,7 @@ public class StaticDataService {
     private final Map<Integer, SpawnPatternData> spawnPatterns;
     private final Map<Integer, MonsterData> monsters;
     private final Map<Integer, Map<String, StageRosterData>> stageRosters; // key: stageId → monsterSlot
-    private final Map<MonsterType, List<DropTableEntryData>> dropTables; // key: monsterType
+    private final Map<String, List<DropTableEntryData>> dropTables;     // key: monsterSlot
     private final Map<DropItemType, DropItemData> dropItems;            // key: dropItemType
     private final Map<Long, ItemData> items;
     private final Map<Long, EquipEffectData> equipEffects;                          // key: effectId
@@ -127,9 +127,6 @@ public class StaticDataService {
             require(row.monsterDamageScale() > 0, "StageRoster " + row.stageRosterId() + "의 monsterDamageScale은 0보다 커야 합니다.");
             require(row.patternId() == 0 || spawnPatterns.containsKey(row.patternId()),
                     "StageRoster " + row.stageRosterId() + "의 patternId " + row.patternId() + "을(를) SpawnPattern에서 찾을 수 없습니다.");
-            require(EnumSet.of(DropItemType.EXPGEM1, DropItemType.EXPGEM2, DropItemType.EXPGEM3, DropItemType.EXPGEM4,
-                            DropItemType.NONE).contains(row.expGemType()),
-                    "StageRoster " + row.stageRosterId() + "의 expGemType " + row.expGemType() + "은(는) ExpGem1~4 또는 None이어야 합니다.");
             require(rosterMap.computeIfAbsent(row.stageId(), id -> new HashMap<>()).putIfAbsent(row.monsterSlot(), row) == null,
                     "StageRoster " + row.stageRosterId() + ": Stage " + row.stageId() + "의 monsterSlot " + row.monsterSlot() + "이(가) 중복됩니다.");
         }
@@ -152,14 +149,16 @@ public class StaticDataService {
 
         List<DropTableEntryData> dropTableRows = rows(rowMapper, "DropTable", DropTableEntryData.class);
         for (DropTableEntryData row : dropTableRows) {
-            require(row.dropGroup() >= 0, "DropTable " + row.monsterType() + "의 dropGroup은 0 이상이어야 합니다.");
-            require(row.weight() >= 1, "DropTable " + row.monsterType() + "의 weight는 1 이상이어야 합니다.");
-            require(row.count() >= 1, "DropTable " + row.monsterType() + "의 count는 1 이상이어야 합니다.");
+            require(row.dropGroup() >= 0, "DropTable " + row.monsterSlot() + "의 dropGroup은 0 이상이어야 합니다.");
+            require(row.weight() >= 1, "DropTable " + row.monsterSlot() + "의 weight는 1 이상이어야 합니다.");
+            require(row.count() >= 1, "DropTable " + row.monsterSlot() + "의 count는 1 이상이어야 합니다.");
         }
         dropTables = Map.copyOf(dropTableRows.stream()
-                .collect(Collectors.groupingBy(DropTableEntryData::monsterType, Collectors.toUnmodifiableList())));
-        require(dropTables.keySet().containsAll(EnumSet.allOf(MonsterType.class)),
-                "DropTable에는 모든 monsterType(" + EnumSet.allOf(MonsterType.class) + ")의 행이 있어야 합니다.");
+                .collect(Collectors.groupingBy(DropTableEntryData::monsterSlot, Collectors.toUnmodifiableList())));
+        for (StageRosterData row : stageRosterRows) {
+            require(dropTables.containsKey(row.monsterSlot()),
+                    "StageRoster " + row.stageRosterId() + "의 monsterSlot " + row.monsterSlot() + "을(를) DropTable에서 찾을 수 없습니다.");
+        }
 
         List<DropItemData> dropItemRows = rows(rowMapper, "DropItem", DropItemData.class);
         requireIds("DropItem", dropItemRows, DropItemData::dropItemId);

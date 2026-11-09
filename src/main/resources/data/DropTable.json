@@ -1,112 +1,161 @@
 {
   "datas": [
     {
-      "monsterType": "Normal",
+      "monsterSlot": "N1",
       "dropGroup": 0,
       "dropItemType": "ExpGem1",
       "weight": 1,
       "count": 1
     },
     {
-      "monsterType": "Elite",
+      "monsterSlot": "N2",
+      "dropGroup": 0,
+      "dropItemType": "ExpGem2",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "monsterSlot": "N3",
       "dropGroup": 0,
       "dropItemType": "ExpGem1",
       "weight": 1,
       "count": 1
     },
     {
-      "monsterType": "Elite",
-      "dropGroup": 1,
-      "dropItemType": "LuckyBox",
+      "monsterSlot": "N4",
+      "dropGroup": 0,
+      "dropItemType": "ExpGem2",
       "weight": 1,
       "count": 1
     },
     {
-      "monsterType": "Elite",
-      "dropGroup": 2,
-      "dropItemType": "RewardBox",
-      "weight": 1,
-      "count": 2
-    },
-    {
-      "monsterType": "MidBoss",
+      "monsterSlot": "N5",
       "dropGroup": 0,
       "dropItemType": "ExpGem3",
       "weight": 1,
       "count": 1
     },
     {
-      "monsterType": "MidBoss",
+      "monsterSlot": "E1",
+      "dropGroup": 0,
+      "dropItemType": "ExpGem3",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "monsterSlot": "E1",
       "dropGroup": 1,
       "dropItemType": "LuckyBox",
       "weight": 1,
       "count": 1
     },
     {
-      "monsterType": "MidBoss",
+      "monsterSlot": "E1",
+      "dropGroup": 2,
+      "dropItemType": "RewardBox",
+      "weight": 1,
+      "count": 2
+    },
+    {
+      "monsterSlot": "E2",
+      "dropGroup": 0,
+      "dropItemType": "ExpGem3",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "monsterSlot": "E2",
+      "dropGroup": 1,
+      "dropItemType": "LuckyBox",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "monsterSlot": "E2",
+      "dropGroup": 2,
+      "dropItemType": "RewardBox",
+      "weight": 1,
+      "count": 2
+    },
+    {
+      "monsterSlot": "M1",
+      "dropGroup": 0,
+      "dropItemType": "ExpGem4",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "monsterSlot": "M1",
+      "dropGroup": 1,
+      "dropItemType": "LuckyBox",
+      "weight": 1,
+      "count": 1
+    },
+    {
+      "monsterSlot": "M1",
       "dropGroup": 2,
       "dropItemType": "RewardBox",
       "weight": 1,
       "count": 3
     },
     {
-      "monsterType": "Boss",
+      "monsterSlot": "B1",
       "dropGroup": 0,
-      "dropItemType": "ExpGem1",
+      "dropItemType": "ExpGem4",
       "weight": 1,
       "count": 1
     },
     {
-      "monsterType": "Boss",
+      "monsterSlot": "B1",
       "dropGroup": 1,
       "dropItemType": "RewardBox",
       "weight": 1,
       "count": 5
     },
     {
-      "monsterType": "Box",
+      "monsterSlot": "BOX",
       "dropGroup": 0,
       "dropItemType": "Gold1",
       "weight": 31,
       "count": 1
     },
     {
-      "monsterType": "Box",
+      "monsterSlot": "BOX",
       "dropGroup": 0,
       "dropItemType": "Gold2",
       "weight": 5,
       "count": 1
     },
     {
-      "monsterType": "Box",
+      "monsterSlot": "BOX",
       "dropGroup": 0,
       "dropItemType": "Gold3",
       "weight": 3,
       "count": 1
     },
     {
-      "monsterType": "Box",
+      "monsterSlot": "BOX",
       "dropGroup": 0,
       "dropItemType": "Gold4",
       "weight": 1,
       "count": 1
     },
     {
-      "monsterType": "Box",
+      "monsterSlot": "BOX",
       "dropGroup": 0,
       "dropItemType": "Bomb",
       "weight": 20,
       "count": 1
     },
     {
-      "monsterType": "Box",
+      "monsterSlot": "BOX",
       "dropGroup": 0,
       "dropItemType": "Potion",
       "weight": 20,
       "count": 1
     },
     {
-      "monsterType": "Box",
+      "monsterSlot": "BOX",
       "dropGroup": 0,
       "dropItemType": "Magnet",
       "weight": 20,
