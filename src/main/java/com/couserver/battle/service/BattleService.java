@@ -368,6 +368,10 @@ public class BattleService {
             for (DropItemType type : DropItemType.values()) {
                 pickups.merge(type, spawns * maxDrop(dropTable, row -> countOf(row, type)), Integer::sum);
             }
+            // 경험치 잼은 드롭 테이블이 아니라 로스터 행이 정한다 (클라이언트 Enemy.GiveReward)
+            if (rosterRow.expGemType() != DropItemType.NONE) {
+                pickups.merge(rosterRow.expGemType(), spawns, Integer::sum);
+            }
         }
 
         // 행운상자 하나마다 행운열차 한 번: goldMax × 당첨 칸 수

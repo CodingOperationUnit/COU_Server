@@ -127,6 +127,9 @@ public class StaticDataService {
             require(row.monsterDamageScale() > 0, "StageRoster " + row.stageRosterId() + "의 monsterDamageScale은 0보다 커야 합니다.");
             require(row.patternId() == 0 || spawnPatterns.containsKey(row.patternId()),
                     "StageRoster " + row.stageRosterId() + "의 patternId " + row.patternId() + "을(를) SpawnPattern에서 찾을 수 없습니다.");
+            require(EnumSet.of(DropItemType.EXPGEM1, DropItemType.EXPGEM2, DropItemType.EXPGEM3, DropItemType.EXPGEM4,
+                            DropItemType.NONE).contains(row.expGemType()),
+                    "StageRoster " + row.stageRosterId() + "의 expGemType " + row.expGemType() + "은(는) ExpGem1~4 또는 None이어야 합니다.");
             require(rosterMap.computeIfAbsent(row.stageId(), id -> new HashMap<>()).putIfAbsent(row.monsterSlot(), row) == null,
                     "StageRoster " + row.stageRosterId() + ": Stage " + row.stageId() + "의 monsterSlot " + row.monsterSlot() + "이(가) 중복됩니다.");
         }
