@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 // 장비 등급 효과가 최종 스탯(E2)과 전투력 랭킹에 반영되는지 확인한다
-// 기준 아이템: 1003 퀀텀 실드 아머 (General 체력 +10%, Super 체력 +15%, Rare 방어력 +12·받는 피해 감소 8%)
+// 기준 아이템: 1003 해커톤 후드집업 (Common 체력 +10%, Uncommon 체력 +15%, Rare 방어력 +12·받는 피해 감소 8%)
 class EquipmentGradeEffectApiTest extends IntegrationTestSupport {
     private static final String STATS_URL = "/api/players/me/stats";
     private static final String INVENTORY_URL = "/api/inventory";
@@ -29,7 +29,7 @@ class EquipmentGradeEffectApiTest extends IntegrationTestSupport {
     private EquipmentRepository equipmentRepository;
 
     @Test
-    @DisplayName("1003을 Rare·레벨 1로 장착하면 최종 체력은 1438이다 (명세 예시)")
+    @DisplayName("1003을 Rare·레벨 1로 장착하면 최종 체력은 1318이다")
     void rareExample() throws Exception {
         TestAccount account = createAccount();
         long id = giveEquipment(account, ItemGrade.RARE);
@@ -37,12 +37,12 @@ class EquipmentGradeEffectApiTest extends IntegrationTestSupport {
 
         getAs(account, STATS_URL)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.finalHp").value(1438))                       // (1000 + 151) × 125 / 100
-                .andExpect(jsonPath("$.finalAttack").value(114))                    // (100 + 14) × 100 / 100
-                .andExpect(jsonPath("$.finalDefense").value(12))                    // 진화 0 + 방어력 효과 12
-                .andExpect(jsonPath("$.breakdown.equipment.hp").value(151))         // 55 × 2.75, 배율은 고정값에만
+                .andExpect(jsonPath("$.finalHp").value(1318))
+                .andExpect(jsonPath("$.finalAttack").value(101))
+                .andExpect(jsonPath("$.finalDefense").value(12))
+                .andExpect(jsonPath("$.breakdown.equipment.hp").value(55))
                 .andExpect(jsonPath("$.breakdown.equipment.defense").value(12))
-                .andExpect(jsonPath("$.breakdown.bonusPercent.hp").value(25))       // General 10 + Super 15 누적
+                .andExpect(jsonPath("$.breakdown.bonusPercent.hp").value(25))
                 .andExpect(jsonPath("$.breakdown.bonusPercent.attack").value(0));
     }
 
@@ -56,13 +56,13 @@ class EquipmentGradeEffectApiTest extends IntegrationTestSupport {
         getAs(account, STATS_URL)
                 .andExpect(jsonPath("$.breakdown.bonusPercent.hp").value(10))
                 .andExpect(jsonPath("$.breakdown.equipment.defense").value(0))
-                .andExpect(jsonPath("$.finalHp").value(1160));                      // (1000 + 55) × 110 / 100
+                .andExpect(jsonPath("$.finalHp").value(1148));
 
         setGrade(id, ItemGrade.UNCOMMON);
         getAs(account, STATS_URL)
                 .andExpect(jsonPath("$.breakdown.bonusPercent.hp").value(25))
                 .andExpect(jsonPath("$.breakdown.equipment.defense").value(0))
-                .andExpect(jsonPath("$.finalHp").value(1370));                      // (1000 + 96) × 125 / 100
+                .andExpect(jsonPath("$.finalHp").value(1311));
     }
 
     @Test
