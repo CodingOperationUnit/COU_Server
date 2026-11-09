@@ -2,6 +2,9 @@ package com.couserver.shop.service;
 
 import com.couserver.account.entity.Currency;
 import com.couserver.account.repository.CurrencyRepository;
+import com.couserver.account.entity.PlayerProfile;
+import com.couserver.account.repository.PlayerProfileRepository;
+import com.couserver.inventory.entity.ItemGrade;
 import com.couserver.common.exception.BusinessException;
 import com.couserver.inventory.dto.EquipmentResponse;
 import com.couserver.inventory.entity.Equipment;
@@ -33,18 +36,21 @@ public class ShopService {
     private final StaticDataService staticDataService;
     private final CurrencyRepository currencyRepository;
     private final EquipmentRepository equipmentRepository;
+    private final PlayerProfileRepository playerProfileRepository;
     private final CurrencyLedgerService currencyLedger;
     private final boolean devToolsEnabled;
 
     public ShopService(StaticDataService staticDataService,
                        CurrencyRepository currencyRepository,
                        EquipmentRepository equipmentRepository,
+                       PlayerProfileRepository playerProfileRepository,
                        CurrencyLedgerService currencyLedger,
                        @Value("${dev-tools.enabled:false}") boolean devToolsEnabled) {
         this.staticDataService = staticDataService;
         this.currencyRepository = currencyRepository;
         this.equipmentRepository = equipmentRepository;
         this.currencyLedger = currencyLedger;
+        this.playerProfileRepository = playerProfileRepository;
         this.devToolsEnabled = devToolsEnabled;
         if (devToolsEnabled) {
             log.warn("dev 도구가 켜져 있어 보석 상품을 결제 없이 지급합니다. 운영 환경에서는 DEV_TOOLS_ENABLED를 꺼야 합니다.");
@@ -107,13 +113,37 @@ public class ShopService {
 
     // 등급 범위 안의 장비 중 하나를 뽑아 지급한다. 챕터 보물상자도 같은 규칙으로 뽑는다
     public EquipmentResponse drawEquipment(Long playerId, ShopProductData product) {
-        List<ItemData> candidates = List.copyOf(staticDataService.getItems().values());
-        ItemData picked = candidates.get(ThreadLocalRandom.current().nextInt(candidates.size()));
 
-        Equipment saved = equipmentRepository.save(Equipment.create(playerId, picked, product.minGrade()));
+        // 서버 DB에서 현재 계정 레벨 조회
+        PlayerProfile profile = playerProfileRepository.findById(playerId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "플레이어 데이터가 없습니다."));
+
+        // 계정 레벨과 상품 허용 범위에 따른 등급 추첨
+        ItemGrade grade = staticDataService.rollEquipmentGrade(
+                profile.getAccountLevel(),
+                product.minGrade(),
+                product.maxGrade()
+        );
+
+        // 장비 종류는 기존 방식대로 균등 추첨
+        List<ItemData> candidates = List.copyOf(staticDataService.getItems().values());
+        ItemData picked = candidates.get(
+                ThreadLocalRandom.current().nextInt(candidates.size())
+        );
+
+        // 추첨한 등급으로 장비 인스턴스 생성
+        Equipment saved = equipmentRepository.save(
+                Equipment.create(playerId, picked, grade)
+        );
+
         return new EquipmentResponse(
-                saved.getId(), saved.getItemId(), saved.getLevel(),
-                saved.getGrade().toClientName(), saved.isEquipped());
+                saved.getId(),
+                saved.getItemId(),
+                saved.getLevel(),
+                saved.getGrade().toClientName(),
+                saved.isEquipped()
+        );
     }
 
     private ProductResponse toProductResponse(ShopProductData p) {

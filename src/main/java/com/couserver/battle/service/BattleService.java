@@ -209,7 +209,7 @@ public class BattleService {
         record.recordSurvival(seconds);
         stageRecordRepository.save(record);
 
-        List<Equipment> rewards = equipmentRepository.saveAll(rollRewardBoxes(playerId, stage, rewardBoxes));
+        List<Equipment> rewards = equipmentRepository.saveAll(rollRewardBoxes(playerId, profile.getAccountLevel(), rewardBoxes));
 
         session.complete();
         // 랭킹값 변경알림(Redis에 갱신)
@@ -256,7 +256,7 @@ public class BattleService {
         profile.gainExp(reward.exp(), accountConst);
         currencyLedger.addGold(currency, reward.gold(), LedgerReason.PATROL, (long) stageId);
         List<Equipment> rewards = equipmentRepository.saveAll(
-                rollRewardBoxes(playerId, staticDataService.getStages().get(stageId), reward.rewardBoxes()));
+                rollRewardBoxes(playerId, profile.getAccountLevel(), reward.rewardBoxes()));
 
         // 랭킹값 변경알림(Redis에 갱신)
         eventPublisher.publishEvent(new RankingChangedEvent(playerId));
@@ -283,13 +283,31 @@ public class BattleService {
 
     // 상자마다 장비 하나를 균등하게 고른다
     // TODO(장비 리뉴얼 4단계): 등급을 DropRate(계정 레벨)로 뽑는다. 지금은 임시로 Common
-    private List<Equipment> rollRewardBoxes(Long playerId, StageData stage, int count) {
+    private List<Equipment> rollRewardBoxes(
+            Long playerId,
+            int accountLevel,
+            int count) {
+
         List<ItemData> pool = List.copyOf(staticDataService.getItems().values());
         List<Equipment> rewards = new ArrayList<>();
+
         for (int i = 0; i < count; i++) {
-            ItemData picked = pool.get(ThreadLocalRandom.current().nextInt(pool.size()));
-            rewards.add(Equipment.create(playerId, picked, ItemGrade.COMMON));
+
+            // 장비 종류 균등 추첨
+            ItemData picked = pool.get(
+                    ThreadLocalRandom.current().nextInt(pool.size())
+            );
+
+            // 계정 레벨에 따른 등급 추첨
+            ItemGrade grade = staticDataService.rollEquipmentGrade(
+                    accountLevel,
+                    ItemGrade.COMMON,
+                    ItemGrade.LEGENDARY
+            );
+
+            rewards.add(Equipment.create(playerId, picked, grade));
         }
+
         return rewards;
     }
 
