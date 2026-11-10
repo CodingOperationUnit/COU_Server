@@ -151,6 +151,30 @@
       "effectId": 72001
     },
     {
+      "itemGradeEffectId": 26,
+      "itemId": 2004,
+      "grade": "Common",
+      "effectId": 70005
+    },
+    {
+      "itemGradeEffectId": 27,
+      "itemId": 2004,
+      "grade": "Uncommon",
+      "effectId": 79001
+    },
+    {
+      "itemGradeEffectId": 28,
+      "itemId": 2004,
+      "grade": "Rare",
+      "effectId": 79002
+    },
+    {
+      "itemGradeEffectId": 29,
+      "itemId": 2004,
+      "grade": "Rare",
+      "effectId": 79003
+    },
+    {
       "itemGradeEffectId": 30,
       "itemId": 3001,
       "grade": "Common",

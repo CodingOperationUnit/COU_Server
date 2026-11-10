@@ -6,8 +6,8 @@
       "productType": "RandomItem",
       "priceGem": 50,
       "rewardAmount": 0,
-      "minGrade": "Common",
-      "maxGrade": "Uncommon",
+      "minGrade": "General",
+      "maxGrade": "Super",
       "active": true
     },
     {
@@ -16,7 +16,7 @@
       "productType": "RandomItem",
       "priceGem": 150,
       "rewardAmount": 0,
-      "minGrade": "Uncommon",
+      "minGrade": "Super",
       "maxGrade": "Rare",
       "active": true
     },
@@ -26,8 +26,8 @@
       "productType": "Gold",
       "priceGem": 30,
       "rewardAmount": 12000,
-      "minGrade": "Common",
-      "maxGrade": "Common",
+      "minGrade": "General",
+      "maxGrade": "General",
       "active": true
     },
     {
@@ -36,8 +36,8 @@
       "productType": "Gold",
       "priceGem": 90,
       "rewardAmount": 36000,
-      "minGrade": "Common",
-      "maxGrade": "Common",
+      "minGrade": "General",
+      "maxGrade": "General",
       "active": true
     },
     {
@@ -46,8 +46,8 @@
       "productType": "Gold",
       "priceGem": 288,
       "rewardAmount": 144000,
-      "minGrade": "Common",
-      "maxGrade": "Common",
+      "minGrade": "General",
+      "maxGrade": "General",
       "active": true
     },
     {
@@ -56,8 +56,8 @@
       "productType": "Gem",
       "priceGem": 0,
       "rewardAmount": 80,
-      "minGrade": "Common",
-      "maxGrade": "Common",
+      "minGrade": "General",
+      "maxGrade": "General",
       "active": true
     },
     {
@@ -66,8 +66,8 @@
       "productType": "Gem",
       "priceGem": 0,
       "rewardAmount": 500,
-      "minGrade": "Common",
-      "maxGrade": "Common",
+      "minGrade": "General",
+      "maxGrade": "General",
       "active": true
     },
     {
@@ -76,8 +76,8 @@
       "productType": "Gem",
       "priceGem": 0,
       "rewardAmount": 1200,
-      "minGrade": "Common",
-      "maxGrade": "Common",
+      "minGrade": "General",
+      "maxGrade": "General",
       "active": true
     },
     {
@@ -86,8 +86,8 @@
       "productType": "Gem",
       "priceGem": 0,
       "rewardAmount": 2500,
-      "minGrade": "Common",
-      "maxGrade": "Common",
+      "minGrade": "General",
+      "maxGrade": "General",
       "active": true
     },
     {
@@ -96,8 +96,8 @@
       "productType": "Gem",
       "priceGem": 0,
       "rewardAmount": 6500,
-      "minGrade": "Common",
-      "maxGrade": "Common",
+      "minGrade": "General",
+      "maxGrade": "General",
       "active": true
     },
     {
@@ -106,8 +106,8 @@
       "productType": "Gem",
       "priceGem": 0,
       "rewardAmount": 14000,
-      "minGrade": "Common",
-      "maxGrade": "Common",
+      "minGrade": "General",
+      "maxGrade": "General",
       "active": true
     }
   ]
