@@ -98,6 +98,150 @@
       "spawnInterval": 20.0,
       "patternId": 6,
       "monsterSlot": "BOX"
+    },
+    {
+      "waveEntryId": 12,
+      "waveId": 2,
+      "patternStartTime": 0.0,
+      "patternDuration": 240.0,
+      "spawnInterval": 1.0,
+      "patternId": 2,
+      "monsterSlot": "N1"
+    },
+    {
+      "waveEntryId": 13,
+      "waveId": 2,
+      "patternStartTime": 90.0,
+      "patternDuration": 0.0,
+      "spawnInterval": 0.0,
+      "patternId": 1,
+      "monsterSlot": "E1"
+    },
+    {
+      "waveEntryId": 14,
+      "waveId": 2,
+      "patternStartTime": 180.0,
+      "patternDuration": 0.0,
+      "spawnInterval": 0.0,
+      "patternId": 1,
+      "monsterSlot": "E1"
+    },
+    {
+      "waveEntryId": 15,
+      "waveId": 2,
+      "patternStartTime": 100.0,
+      "patternDuration": 0.0,
+      "spawnInterval": 0.0,
+      "patternId": 7,
+      "monsterSlot": "N2"
+    },
+    {
+      "waveEntryId": 16,
+      "waveId": 2,
+      "patternStartTime": 140.0,
+      "patternDuration": 0.0,
+      "spawnInterval": 0.0,
+      "patternId": 7,
+      "monsterSlot": "N2"
+    },
+    {
+      "waveEntryId": 17,
+      "waveId": 2,
+      "patternStartTime": 180.0,
+      "patternDuration": 0.0,
+      "spawnInterval": 0.0,
+      "patternId": 7,
+      "monsterSlot": "N2"
+    },
+    {
+      "waveEntryId": 18,
+      "waveId": 2,
+      "patternStartTime": 220.0,
+      "patternDuration": 0.0,
+      "spawnInterval": 0.0,
+      "patternId": 7,
+      "monsterSlot": "N2"
+    },
+    {
+      "waveEntryId": 19,
+      "waveId": 2,
+      "patternStartTime": 100.0,
+      "patternDuration": 140.0,
+      "spawnInterval": 15.0,
+      "patternId": 10,
+      "monsterSlot": "N3"
+    },
+    {
+      "waveEntryId": 20,
+      "waveId": 2,
+      "patternStartTime": 240.0,
+      "patternDuration": 0.0,
+      "spawnInterval": 0.0,
+      "patternId": 1,
+      "monsterSlot": "M1"
+    },
+    {
+      "waveEntryId": 21,
+      "waveId": 2,
+      "patternStartTime": 240.0,
+      "patternDuration": 140.0,
+      "spawnInterval": 0.7,
+      "patternId": 4,
+      "monsterSlot": "N4"
+    },
+    {
+      "waveEntryId": 22,
+      "waveId": 2,
+      "patternStartTime": 300.0,
+      "patternDuration": 0.0,
+      "spawnInterval": 0.0,
+      "patternId": 1,
+      "monsterSlot": "E2"
+    },
+    {
+      "waveEntryId": 23,
+      "waveId": 2,
+      "patternStartTime": 420.0,
+      "patternDuration": 0.0,
+      "spawnInterval": 0.0,
+      "patternId": 1,
+      "monsterSlot": "E2"
+    },
+    {
+      "waveEntryId": 24,
+      "waveId": 2,
+      "patternStartTime": 380.0,
+      "patternDuration": 100.0,
+      "spawnInterval": 1.0,
+      "patternId": 2,
+      "monsterSlot": "N5"
+    },
+    {
+      "waveEntryId": 25,
+      "waveId": 2,
+      "patternStartTime": 400.0,
+      "patternDuration": 80.0,
+      "spawnInterval": 20.0,
+      "patternId": 10,
+      "monsterSlot": "N3"
+    },
+    {
+      "waveEntryId": 26,
+      "waveId": 2,
+      "patternStartTime": 480.0,
+      "patternDuration": 0.0,
+      "spawnInterval": 0.0,
+      "patternId": 1,
+      "monsterSlot": "B1"
+    },
+    {
+      "waveEntryId": 27,
+      "waveId": 2,
+      "patternStartTime": 10.0,
+      "patternDuration": 470.0,
+      "spawnInterval": 20.0,
+      "patternId": 6,
+      "monsterSlot": "BOX"
     }
   ]
 }

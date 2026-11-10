@@ -67,7 +67,7 @@
     },
     {
       "stageId": 6,
-      "stageName": "2-1 숲",
+      "stageName": "2-1 빛바랜 숲",
       "stageIllustrationColor": "#4C7A3D",
       "waveId": 1,
       "stageDescription": "버그가 가득한 클라이언트 숲입니다.",
@@ -80,7 +80,7 @@
     },
     {
       "stageId": 7,
-      "stageName": "2-2 클라우드",
+      "stageName": "2-2 빛바랜 클라우드",
       "stageIllustrationColor": "#3A7BD5",
       "waveId": 1,
       "stageDescription": "코드 조각이 떠다니는 구름 위 하늘입니다.",
@@ -93,7 +93,7 @@
     },
     {
       "stageId": 8,
-      "stageName": "2-3 데이터베이스",
+      "stageName": "2-3 빛바랜 데이터베이스",
       "stageIllustrationColor": "#4B3A8C",
       "waveId": 1,
       "stageDescription": "데이터가 잠든 깊은 저장소입니다.",
@@ -106,7 +106,7 @@
     },
     {
       "stageId": 9,
-      "stageName": "2-4 과부하",
+      "stageName": "2-4 빛바랜 과부하",
       "stageIllustrationColor": "#C2401E",
       "waveId": 1,
       "stageDescription": "과부하로 서버가 불타는 곳입니다.",
@@ -119,7 +119,7 @@
     },
     {
       "stageId": 10,
-      "stageName": "2-5 글리치",
+      "stageName": "2-5 빛바랜 글리치",
       "stageIllustrationColor": "#B57BE0",
       "waveId": 1,
       "stageDescription": "모든 것이 뒤틀린 글리치 공간입니다.",
@@ -132,9 +132,9 @@
     },
     {
       "stageId": 11,
-      "stageName": "3-1 빛바랜 숲",
+      "stageName": "하드 1-1 숲",
       "stageIllustrationColor": "#4C7A3D",
-      "waveId": 1,
+      "waveId": 2,
       "stageDescription": "버그가 가득한 클라이언트 숲입니다.",
       "clearAccountExp": 2925,
       "rewardBoxGradeWeights": [
@@ -145,9 +145,9 @@
     },
     {
       "stageId": 12,
-      "stageName": "3-2 빛바랜 클라우드",
+      "stageName": "하드 1-2 클라우드",
       "stageIllustrationColor": "#3A7BD5",
-      "waveId": 1,
+      "waveId": 2,
       "stageDescription": "코드 조각이 떠다니는 구름 위 하늘입니다.",
       "clearAccountExp": 3300,
       "rewardBoxGradeWeights": [
@@ -158,9 +158,9 @@
     },
     {
       "stageId": 13,
-      "stageName": "3-3 빛바랜 데이터베이스",
+      "stageName": "하드 1-3 데이터베이스",
       "stageIllustrationColor": "#4B3A8C",
-      "waveId": 1,
+      "waveId": 2,
       "stageDescription": "데이터가 잠든 깊은 저장소입니다.",
       "clearAccountExp": 3700,
       "rewardBoxGradeWeights": [
@@ -171,9 +171,9 @@
     },
     {
       "stageId": 14,
-      "stageName": "3-4 빛바랜 과부하",
+      "stageName": "하드 1-4 과부하",
       "stageIllustrationColor": "#C2401E",
-      "waveId": 1,
+      "waveId": 2,
       "stageDescription": "과부하로 서버가 불타는 곳입니다.",
       "clearAccountExp": 4125,
       "rewardBoxGradeWeights": [
@@ -184,9 +184,9 @@
     },
     {
       "stageId": 15,
-      "stageName": "3-5 빛바랜 글리치",
+      "stageName": "하드 1-5 글리치",
       "stageIllustrationColor": "#B57BE0",
-      "waveId": 1,
+      "waveId": 2,
       "stageDescription": "모든 것이 뒤틀린 글리치 공간입니다.",
       "clearAccountExp": 4575,
       "rewardBoxGradeWeights": [
@@ -197,9 +197,9 @@
     },
     {
       "stageId": 16,
-      "stageName": "4-1 빛바랜 숲",
+      "stageName": "하드 2-1 빛바랜 숲",
       "stageIllustrationColor": "#4C7A3D",
-      "waveId": 1,
+      "waveId": 2,
       "stageDescription": "버그가 가득한 클라이언트 숲입니다.",
       "clearAccountExp": 5050,
       "rewardBoxGradeWeights": [
@@ -210,9 +210,9 @@
     },
     {
       "stageId": 17,
-      "stageName": "4-2 빛바랜 클라우드",
+      "stageName": "하드 2-2 빛바랜 클라우드",
       "stageIllustrationColor": "#3A7BD5",
-      "waveId": 1,
+      "waveId": 2,
       "stageDescription": "코드 조각이 떠다니는 구름 위 하늘입니다.",
       "clearAccountExp": 5550,
       "rewardBoxGradeWeights": [
@@ -223,9 +223,9 @@
     },
     {
       "stageId": 18,
-      "stageName": "4-3 빛바랜 데이터베이스",
+      "stageName": "하드 2-3 빛바랜 데이터베이스",
       "stageIllustrationColor": "#4B3A8C",
-      "waveId": 1,
+      "waveId": 2,
       "stageDescription": "데이터가 잠든 깊은 저장소입니다.",
       "clearAccountExp": 6075,
       "rewardBoxGradeWeights": [
@@ -236,9 +236,9 @@
     },
     {
       "stageId": 19,
-      "stageName": "4-4 빛바랜 과부하",
+      "stageName": "하드 2-4 빛바랜 과부하",
       "stageIllustrationColor": "#C2401E",
-      "waveId": 1,
+      "waveId": 2,
       "stageDescription": "과부하로 서버가 불타는 곳입니다.",
       "clearAccountExp": 6625,
       "rewardBoxGradeWeights": [
@@ -249,9 +249,9 @@
     },
     {
       "stageId": 20,
-      "stageName": "4-5 빛바랜 글리치",
+      "stageName": "하드 2-5 빛바랜 글리치",
       "stageIllustrationColor": "#B57BE0",
-      "waveId": 1,
+      "waveId": 2,
       "stageDescription": "모든 것이 뒤틀린 글리치 공간입니다.",
       "clearAccountExp": 7200,
       "rewardBoxGradeWeights": [
