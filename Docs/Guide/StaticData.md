@@ -38,7 +38,7 @@
 | StageRoster | `StageRosterData` | stageRosterId, stageId, monsterSlot, monsterId, monsterHpScale, monsterDamageScale, patternId, expGemType |
 | Wave | `WaveEntryData` | waveEntryId, waveId, patternStartTime, patternDuration, spawnInterval, patternId, monsterSlot |
 | SpawnPattern | `SpawnPatternData` | patternId, spawnCount |
-| Monster | `MonsterData` | monsterId, monsterType |
+| Monster | `MonsterData` | monsterId, monsterType, monsterAttackSetId |
 | DropTable | `DropTableEntryData` | monsterType, dropGroup, dropItemType, weight, count |
 | DropItem | `DropItemData` | dropItemId, dropItemType, value |
 | Item | `ItemData` | itemId, slotType, grade, hpBonus, attackBonus |
@@ -47,7 +47,7 @@
 | Shop | `ShopProductData` | productId, productType, priceGem, rewardAmount, minGrade, maxGrade, active |
 | Skill | `SkillData` | skillId, skillName, skillCategory, skillTargetType, skillCooldown, skillSpeed, skillDamage, skillRange, skillDescription |
 | SkillLevel | `SkillLevelData` | skillLevelId(PK), skillId(FK → Skill), skillLevel, effect1Type, effect1Value, effect2Type, effect2Value, description |
-| MonsterAttack | `MonsterAttackData` (검사만, 맵 없음) | monsterAttackId, monsterId, monsterAttackType |
+| MonsterAttack | `MonsterAttackData` (검사만, 맵 없음) | monsterAttackId, monsterAttackSetId, monsterAttackType, monsterAttackCooldown, monsterAttackTriggerRange, monsterAttackDamage, monsterAttackCount, monsterAttackAngle, monsterAttackSpeed, monsterAttackDistance, monsterAttackRadius, monsterAttackSpread, monsterAttackDelay, monsterAttackDuration |
 | PlayerBaseStat | `PlayerBaseStatData` (행 1개) | playerBaseAttack, playerBaseHp, playerBaseCriticalDamage, playerBaseCriticalChance, playerBaseSkillDamage, playerBaseMoveSpeed, playerBaseMaxMoveSpeed, playerBaseLootRadius |
 
 ## 3. 요청·응답 예시
@@ -227,7 +227,8 @@ public class BattleService {
 | StageRoster | stageId가 Stage에, monsterId가 Monster에 있음, 같은 stageId 안에서 monsterSlot 중복 없음, monsterHpScale > 0, monsterDamageScale > 0, patternId가 0이거나 SpawnPattern에 있음, expGemType이 ExpGem1~4 또는 None |
 | Wave | patternId가 SpawnPattern에 있음, patternStartTime ≥ 0, patternDuration ≥ 0, patternDuration > 0(반복 행)이면 spawnInterval > 0 |
 | SpawnPattern | spawnCount ≥ 1 |
-| MonsterAttack | monsterId가 Monster에 있음, 그 몬스터의 monsterType이 BOX가 아님, BOSS·MIDBOSS가 아니면 monsterAttackType이 MELEE가 아님 |
+| MonsterAttack | `monsterAttackId / 10 == monsterAttackSetId`이고 `monsterAttackId % 10 ≥ 1`. Cooldown, TriggerRange, Damage > 0. 타입이 쓰는 열은 아래 값, 쓰지 않는 열은 0: Melee는 Speed·Distance·Radius > 0. Ranged는 Count ≥ 1, Speed·Duration > 0, Angle 0~360이고 Count ≥ 2면 Angle > 0. Area는 Count ≥ 1, Radius·Delay > 0, Spread ≥ 0. Trap은 Count ≥ 1, Radius·Duration > 0, Spread ≥ 0 |
+| Monster ↔ MonsterAttack 세트 | monsterAttackSetId가 0이 아니면 MonsterAttack에 그 세트 행이 있음, BOX는 0, BOSS·MIDBOSS가 아니면 세트에 MELEE 행이 없음, MonsterAttack의 모든 세트를 Monster 한 행 이상이 참조함 |
 | DropTable | dropGroup ≥ 0, weight ≥ 1, count ≥ 1, 모든 monsterType(Normal, Elite, MidBoss, Boss, Box)에 행이 있음 |
 | DropItem | dropItemType이 None이 아님 |
 | Shop | priceGem ≥ 0, RANDOMITEM이면 minGrade ≤ maxGrade이고 그 등급 범위의 Item이 있음, 그 밖에는 rewardAmount ≥ 1 |

@@ -137,14 +137,28 @@ public class StaticDataService {
         List<MonsterAttackData> monsterAttackRows = rows(rowMapper, "MonsterAttack", MonsterAttackData.class);
         requireIds("MonsterAttack", monsterAttackRows, MonsterAttackData::monsterAttackId);
         for (MonsterAttackData row : monsterAttackRows) {
-            MonsterData monster = monsters.get(row.monsterId());
-            require(monster != null,
-                    "MonsterAttack " + row.monsterAttackId() + "의 monsterId " + row.monsterId() + "을(를) Monster에서 찾을 수 없습니다.");
+            validateMonsterAttack(row);
+        }
+        Map<Integer, List<MonsterAttackData>> attackSets = monsterAttackRows.stream()
+                .collect(Collectors.groupingBy(MonsterAttackData::monsterAttackSetId));
+        Set<Integer> usedAttackSetIds = new HashSet<>();
+        for (MonsterData monster : monsterRows) {
+            int setId = monster.monsterAttackSetId();
+            if (setId == 0) {
+                continue;
+            }
+            String name = "Monster " + monster.monsterId();
             require(monster.monsterType() != MonsterType.BOX,
-                    "MonsterAttack " + row.monsterAttackId() + ": 상자(monsterId " + row.monsterId() + ")는 공격을 가질 수 없습니다.");
+                    name + ": 상자는 공격을 가질 수 없습니다. monsterAttackSetId를 0으로 두세요.");
+            List<MonsterAttackData> attackSet = attackSets.get(setId);
+            require(attackSet != null, name + "의 monsterAttackSetId " + setId + "을(를) MonsterAttack에서 찾을 수 없습니다.");
             require(monster.monsterType() == MonsterType.BOSS || monster.monsterType() == MonsterType.MIDBOSS
-                            || row.monsterAttackType() != MonsterAttackType.MELEE,
-                    "MonsterAttack " + row.monsterAttackId() + ": 보스·중간 보스가 아닌 몬스터(monsterId " + row.monsterId() + ")는 MELEE를 쓸 수 없습니다.");
+                            || attackSet.stream().noneMatch(row -> row.monsterAttackType() == MonsterAttackType.MELEE),
+                    name + ": 보스·중간 보스가 아닌 몬스터는 MELEE가 있는 세트(" + setId + ")를 쓸 수 없습니다.");
+            usedAttackSetIds.add(setId);
+        }
+        for (int setId : attackSets.keySet()) {
+            require(usedAttackSetIds.contains(setId), "MonsterAttack 세트 " + setId + "을(를) 쓰는 Monster가 없습니다.");
         }
 
         List<DropTableEntryData> dropTableRows = rows(rowMapper, "DropTable", DropTableEntryData.class);
@@ -342,6 +356,59 @@ public class StaticDataService {
                     name + "의 등급 범위에 해당하는 Item이 없습니다.");
         } else {
             require(row.rewardAmount() >= 1, name + "의 rewardAmount는 1 이상이어야 합니다.");
+        }
+    }
+
+    // MonsterAttack 행 검증. 기동 시 한 번 호출되고, 단위 테스트에서도 직접 호출한다.
+    // - monsterAttackId = monsterAttackSetId × 10 + 순번(1~9)
+    // - 열마다 쓰는 타입이 정해져 있다. 쓰는 열은 값이 있어야 하고, 쓰지 않는 열은 0이어야 한다
+    public static void validateMonsterAttack(MonsterAttackData row) {
+        String name = "MonsterAttack " + row.monsterAttackId();
+        require(row.monsterAttackId() / 10 == row.monsterAttackSetId() && row.monsterAttackId() % 10 >= 1,
+                name + "의 monsterAttackId는 monsterAttackSetId(" + row.monsterAttackSetId() + ") × 10 + 순번(1~9)이어야 합니다.");
+        require(row.monsterAttackType() != null, name + "의 monsterAttackType이 비어 있습니다.");
+        require(row.monsterAttackCooldown() > 0, name + "의 monsterAttackCooldown은 0보다 커야 합니다.");
+        require(row.monsterAttackTriggerRange() > 0, name + "의 monsterAttackTriggerRange는 0보다 커야 합니다.");
+        require(row.monsterAttackDamage() > 0, name + "의 monsterAttackDamage는 0보다 커야 합니다.");
+
+        MonsterAttackType type = row.monsterAttackType();
+        boolean melee = type == MonsterAttackType.MELEE;
+        boolean ranged = type == MonsterAttackType.RANGED;
+        boolean area = type == MonsterAttackType.AREA;
+        boolean trap = type == MonsterAttackType.TRAP;
+        requireAttackColumn(name, type, "monsterAttackCount", row.monsterAttackCount(), !melee);
+        requireAttackColumn(name, type, "monsterAttackSpeed", row.monsterAttackSpeed(), melee || ranged);
+        requireAttackColumn(name, type, "monsterAttackDistance", row.monsterAttackDistance(), melee);
+        requireAttackColumn(name, type, "monsterAttackRadius", row.monsterAttackRadius(), !ranged);
+        requireAttackColumn(name, type, "monsterAttackDelay", row.monsterAttackDelay(), area);
+        requireAttackColumn(name, type, "monsterAttackDuration", row.monsterAttackDuration(), ranged || trap);
+
+        // 흩뿌림은 0(모두 한 자리)도 허용한다
+        if (area || trap) {
+            require(row.monsterAttackSpread() >= 0, name + "의 monsterAttackSpread는 0 이상이어야 합니다.");
+        } else {
+            require(row.monsterAttackSpread() == 0,
+                    name + "(" + type + ")은(는) monsterAttackSpread를 쓰지 않으므로 0이어야 합니다: " + row.monsterAttackSpread());
+        }
+
+        // 2발 이상이면 퍼질 각도가 있어야 한다
+        if (ranged) {
+            require(row.monsterAttackAngle() >= 0 && row.monsterAttackAngle() <= 360,
+                    name + "의 monsterAttackAngle은 0 이상 360 이하여야 합니다.");
+            require(row.monsterAttackCount() < 2 || row.monsterAttackAngle() > 0,
+                    name + "은(는) 2발 이상이라 monsterAttackAngle이 0보다 커야 합니다.");
+        } else {
+            require(row.monsterAttackAngle() == 0,
+                    name + "(" + type + ")은(는) monsterAttackAngle을 쓰지 않으므로 0이어야 합니다: " + row.monsterAttackAngle());
+        }
+    }
+
+    // 공격 타입이 쓰는 열은 0보다 크고, 쓰지 않는 열은 0이어야 한다
+    private static void requireAttackColumn(String name, MonsterAttackType type, String column, double value, boolean used) {
+        if (used) {
+            require(value > 0, name + "(" + type + ")의 " + column + "은(는) 0보다 커야 합니다.");
+        } else {
+            require(value == 0, name + "(" + type + ")은(는) " + column + "을(를) 쓰지 않으므로 0이어야 합니다: " + value);
         }
     }
 
