@@ -13,6 +13,7 @@ import com.couserver.battle.service.StageUnlockPolicy;
 import com.couserver.chapterchest.entity.ChapterChestClaim;
 import com.couserver.chapterchest.repository.ChapterChestClaimRepository;
 import com.couserver.inventory.entity.Equipment;
+import com.couserver.inventory.entity.ItemGrade;
 import com.couserver.inventory.repository.EquipmentRepository;
 import com.couserver.player.dto.PlayerStatResponse;
 import com.couserver.player.dto.PlayerStatSaveRequest;
@@ -76,7 +77,7 @@ public class PlayerService {
         if (starterItem == null) {
             throw new IllegalStateException("시작 장비 아이템이 정적 데이터에 없습니다: " + STARTER_WEAPON_ITEM_ID);
         }
-        Equipment starter = Equipment.create(playerId, starterItem);
+        Equipment starter = Equipment.create(playerId, starterItem, ItemGrade.COMMON);   // 시작 무기는 Common
         starter.equip();
         equipmentRepository.save(starter);
     }

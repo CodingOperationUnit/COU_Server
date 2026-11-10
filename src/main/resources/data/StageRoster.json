@@ -103,7 +103,7 @@
       "stageRosterId": 12,
       "stageId": 2,
       "monsterSlot": "N2",
-      "monsterId": 11008,
+      "monsterId": 11022,
       "monsterHpScale": 2.86,
       "monsterDamageScale": 2.86,
       "patternId": 8
@@ -130,7 +130,7 @@
       "stageRosterId": 15,
       "stageId": 2,
       "monsterSlot": "N5",
-      "monsterId": 11020,
+      "monsterId": 11023,
       "monsterHpScale": 4.55,
       "monsterDamageScale": 7.28,
       "patternId": 0
@@ -139,7 +139,7 @@
       "stageRosterId": 16,
       "stageId": 2,
       "monsterSlot": "E1",
-      "monsterId": 12003,
+      "monsterId": 12016,
       "monsterHpScale": 1.3,
       "monsterDamageScale": 1.3,
       "patternId": 0
@@ -157,7 +157,7 @@
       "stageRosterId": 18,
       "stageId": 2,
       "monsterSlot": "M1",
-      "monsterId": 15002,
+      "monsterId": 15006,
       "monsterHpScale": 1.3,
       "monsterDamageScale": 1.3,
       "patternId": 0
@@ -166,7 +166,7 @@
       "stageRosterId": 19,
       "stageId": 2,
       "monsterSlot": "B1",
-      "monsterId": 13004,
+      "monsterId": 13016,
       "monsterHpScale": 1.2,
       "monsterDamageScale": 1.2,
       "patternId": 0
@@ -184,7 +184,7 @@
       "stageRosterId": 21,
       "stageId": 3,
       "monsterSlot": "N1",
-      "monsterId": 11017,
+      "monsterId": 11024,
       "monsterHpScale": 1.65,
       "monsterDamageScale": 1.65,
       "patternId": 0
@@ -202,7 +202,7 @@
       "stageRosterId": 23,
       "stageId": 3,
       "monsterSlot": "N3",
-      "monsterId": 11003,
+      "monsterId": 11025,
       "monsterHpScale": 1.65,
       "monsterDamageScale": 1.65,
       "patternId": 8
@@ -211,7 +211,7 @@
       "stageRosterId": 24,
       "stageId": 3,
       "monsterSlot": "N4",
-      "monsterId": 11019,
+      "monsterId": 11026,
       "monsterHpScale": 3.3,
       "monsterDamageScale": 3.3,
       "patternId": 0
@@ -220,7 +220,7 @@
       "stageRosterId": 25,
       "stageId": 3,
       "monsterSlot": "N5",
-      "monsterId": 11020,
+      "monsterId": 11027,
       "monsterHpScale": 5.775,
       "monsterDamageScale": 9.24,
       "patternId": 0
@@ -229,7 +229,7 @@
       "stageRosterId": 26,
       "stageId": 3,
       "monsterSlot": "E1",
-      "monsterId": 12009,
+      "monsterId": 12017,
       "monsterHpScale": 1.65,
       "monsterDamageScale": 1.65,
       "patternId": 0
@@ -238,7 +238,7 @@
       "stageRosterId": 27,
       "stageId": 3,
       "monsterSlot": "E2",
-      "monsterId": 12002,
+      "monsterId": 12018,
       "monsterHpScale": 2.0625,
       "monsterDamageScale": 2.0625,
       "patternId": 0
@@ -274,7 +274,7 @@
       "stageRosterId": 31,
       "stageId": 4,
       "monsterSlot": "N1",
-      "monsterId": 11017,
+      "monsterId": 11028,
       "monsterHpScale": 2.0,
       "monsterDamageScale": 2.0,
       "patternId": 0
@@ -292,7 +292,7 @@
       "stageRosterId": 33,
       "stageId": 4,
       "monsterSlot": "N3",
-      "monsterId": 11010,
+      "monsterId": 11029,
       "monsterHpScale": 2.0,
       "monsterDamageScale": 2.0,
       "patternId": 10
@@ -301,7 +301,7 @@
       "stageRosterId": 34,
       "stageId": 4,
       "monsterSlot": "N4",
-      "monsterId": 11018,
+      "monsterId": 11030,
       "monsterHpScale": 4.0,
       "monsterDamageScale": 4.0,
       "patternId": 0
@@ -310,7 +310,7 @@
       "stageRosterId": 35,
       "stageId": 4,
       "monsterSlot": "N5",
-      "monsterId": 11020,
+      "monsterId": 11031,
       "monsterHpScale": 7.0,
       "monsterDamageScale": 11.2,
       "patternId": 0
@@ -328,7 +328,7 @@
       "stageRosterId": 37,
       "stageId": 4,
       "monsterSlot": "E2",
-      "monsterId": 12001,
+      "monsterId": 12019,
       "monsterHpScale": 2.5,
       "monsterDamageScale": 2.5,
       "patternId": 0
@@ -364,7 +364,7 @@
       "stageRosterId": 41,
       "stageId": 5,
       "monsterSlot": "N1",
-      "monsterId": 11001,
+      "monsterId": 11032,
       "monsterHpScale": 2.4,
       "monsterDamageScale": 2.4,
       "patternId": 0
@@ -382,7 +382,7 @@
       "stageRosterId": 43,
       "stageId": 5,
       "monsterSlot": "N3",
-      "monsterId": 11003,
+      "monsterId": 11033,
       "monsterHpScale": 2.4,
       "monsterDamageScale": 2.4,
       "patternId": 7
@@ -391,7 +391,7 @@
       "stageRosterId": 44,
       "stageId": 5,
       "monsterSlot": "N4",
-      "monsterId": 11019,
+      "monsterId": 11034,
       "monsterHpScale": 4.8,
       "monsterDamageScale": 4.8,
       "patternId": 0
@@ -400,7 +400,7 @@
       "stageRosterId": 45,
       "stageId": 5,
       "monsterSlot": "N5",
-      "monsterId": 11020,
+      "monsterId": 11035,
       "monsterHpScale": 8.4,
       "monsterDamageScale": 13.44,
       "patternId": 0
@@ -418,7 +418,7 @@
       "stageRosterId": 47,
       "stageId": 5,
       "monsterSlot": "E2",
-      "monsterId": 12002,
+      "monsterId": 12020,
       "monsterHpScale": 3.0,
       "monsterDamageScale": 3.0,
       "patternId": 0
@@ -427,7 +427,7 @@
       "stageRosterId": 48,
       "stageId": 5,
       "monsterSlot": "M1",
-      "monsterId": 15005,
+      "monsterId": 15007,
       "monsterHpScale": 2.4,
       "monsterDamageScale": 2.4,
       "patternId": 0
@@ -444,6 +444,1356 @@
     {
       "stageRosterId": 50,
       "stageId": 5,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 51,
+      "stageId": 6,
+      "monsterSlot": "N1",
+      "monsterId": 11036,
+      "monsterHpScale": 2.85,
+      "monsterDamageScale": 2.85,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 52,
+      "stageId": 6,
+      "monsterSlot": "N2",
+      "monsterId": 11037,
+      "monsterHpScale": 6.27,
+      "monsterDamageScale": 6.27,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 53,
+      "stageId": 6,
+      "monsterSlot": "N3",
+      "monsterId": 11038,
+      "monsterHpScale": 2.85,
+      "monsterDamageScale": 2.85,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 54,
+      "stageId": 6,
+      "monsterSlot": "N4",
+      "monsterId": 11039,
+      "monsterHpScale": 5.7,
+      "monsterDamageScale": 5.7,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 55,
+      "stageId": 6,
+      "monsterSlot": "N5",
+      "monsterId": 11040,
+      "monsterHpScale": 9.975,
+      "monsterDamageScale": 15.96,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 56,
+      "stageId": 6,
+      "monsterSlot": "E1",
+      "monsterId": 12021,
+      "monsterHpScale": 2.85,
+      "monsterDamageScale": 2.85,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 57,
+      "stageId": 6,
+      "monsterSlot": "E2",
+      "monsterId": 12022,
+      "monsterHpScale": 3.5625,
+      "monsterDamageScale": 3.5625,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 58,
+      "stageId": 6,
+      "monsterSlot": "M1",
+      "monsterId": 15008,
+      "monsterHpScale": 5.089,
+      "monsterDamageScale": 3.568,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 59,
+      "stageId": 6,
+      "monsterSlot": "B1",
+      "monsterId": 13017,
+      "monsterHpScale": 3.108,
+      "monsterDamageScale": 2.22,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 60,
+      "stageId": 6,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 61,
+      "stageId": 7,
+      "monsterSlot": "N1",
+      "monsterId": 11041,
+      "monsterHpScale": 3.35,
+      "monsterDamageScale": 3.35,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 62,
+      "stageId": 7,
+      "monsterSlot": "N2",
+      "monsterId": 11042,
+      "monsterHpScale": 7.37,
+      "monsterDamageScale": 7.37,
+      "patternId": 8
+    },
+    {
+      "stageRosterId": 63,
+      "stageId": 7,
+      "monsterSlot": "N3",
+      "monsterId": 11043,
+      "monsterHpScale": 3.35,
+      "monsterDamageScale": 3.35,
+      "patternId": 9
+    },
+    {
+      "stageRosterId": 64,
+      "stageId": 7,
+      "monsterSlot": "N4",
+      "monsterId": 11044,
+      "monsterHpScale": 6.7,
+      "monsterDamageScale": 6.7,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 65,
+      "stageId": 7,
+      "monsterSlot": "N5",
+      "monsterId": 11045,
+      "monsterHpScale": 11.725,
+      "monsterDamageScale": 18.76,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 66,
+      "stageId": 7,
+      "monsterSlot": "E1",
+      "monsterId": 12023,
+      "monsterHpScale": 3.35,
+      "monsterDamageScale": 3.35,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 67,
+      "stageId": 7,
+      "monsterSlot": "E2",
+      "monsterId": 12024,
+      "monsterHpScale": 4.1875,
+      "monsterDamageScale": 4.1875,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 68,
+      "stageId": 7,
+      "monsterSlot": "M1",
+      "monsterId": 15009,
+      "monsterHpScale": 5.234,
+      "monsterDamageScale": 2.177,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 69,
+      "stageId": 7,
+      "monsterSlot": "B1",
+      "monsterId": 13018,
+      "monsterHpScale": 3.556,
+      "monsterDamageScale": 2.54,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 70,
+      "stageId": 7,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 71,
+      "stageId": 8,
+      "monsterSlot": "N1",
+      "monsterId": 11046,
+      "monsterHpScale": 3.9,
+      "monsterDamageScale": 3.9,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 72,
+      "stageId": 8,
+      "monsterSlot": "N2",
+      "monsterId": 11047,
+      "monsterHpScale": 8.58,
+      "monsterDamageScale": 8.58,
+      "patternId": 7
+    },
+    {
+      "stageRosterId": 73,
+      "stageId": 8,
+      "monsterSlot": "N3",
+      "monsterId": 11048,
+      "monsterHpScale": 3.9,
+      "monsterDamageScale": 3.9,
+      "patternId": 8
+    },
+    {
+      "stageRosterId": 74,
+      "stageId": 8,
+      "monsterSlot": "N4",
+      "monsterId": 11049,
+      "monsterHpScale": 7.8,
+      "monsterDamageScale": 7.8,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 75,
+      "stageId": 8,
+      "monsterSlot": "N5",
+      "monsterId": 11050,
+      "monsterHpScale": 13.65,
+      "monsterDamageScale": 21.84,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 76,
+      "stageId": 8,
+      "monsterSlot": "E1",
+      "monsterId": 12025,
+      "monsterHpScale": 3.9,
+      "monsterDamageScale": 3.9,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 77,
+      "stageId": 8,
+      "monsterSlot": "E2",
+      "monsterId": 12026,
+      "monsterHpScale": 4.875,
+      "monsterDamageScale": 4.875,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 78,
+      "stageId": 8,
+      "monsterSlot": "M1",
+      "monsterId": 15010,
+      "monsterHpScale": 4.875,
+      "monsterDamageScale": 3.716,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 79,
+      "stageId": 8,
+      "monsterSlot": "B1",
+      "monsterId": 13019,
+      "monsterHpScale": 3.793,
+      "monsterDamageScale": 3.042,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 80,
+      "stageId": 8,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 81,
+      "stageId": 9,
+      "monsterSlot": "N1",
+      "monsterId": 11051,
+      "monsterHpScale": 4.5,
+      "monsterDamageScale": 4.5,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 82,
+      "stageId": 9,
+      "monsterSlot": "N2",
+      "monsterId": 11052,
+      "monsterHpScale": 9.9,
+      "monsterDamageScale": 9.9,
+      "patternId": 8
+    },
+    {
+      "stageRosterId": 83,
+      "stageId": 9,
+      "monsterSlot": "N3",
+      "monsterId": 11053,
+      "monsterHpScale": 4.5,
+      "monsterDamageScale": 4.5,
+      "patternId": 10
+    },
+    {
+      "stageRosterId": 84,
+      "stageId": 9,
+      "monsterSlot": "N4",
+      "monsterId": 11054,
+      "monsterHpScale": 9.0,
+      "monsterDamageScale": 9.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 85,
+      "stageId": 9,
+      "monsterSlot": "N5",
+      "monsterId": 11055,
+      "monsterHpScale": 15.75,
+      "monsterDamageScale": 25.2,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 86,
+      "stageId": 9,
+      "monsterSlot": "E1",
+      "monsterId": 12027,
+      "monsterHpScale": 4.5,
+      "monsterDamageScale": 4.5,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 87,
+      "stageId": 9,
+      "monsterSlot": "E2",
+      "monsterId": 12028,
+      "monsterHpScale": 5.625,
+      "monsterDamageScale": 5.625,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 88,
+      "stageId": 9,
+      "monsterSlot": "M1",
+      "monsterId": 15011,
+      "monsterHpScale": 4.091,
+      "monsterDamageScale": 4.528,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 89,
+      "stageId": 9,
+      "monsterSlot": "B1",
+      "monsterId": 13020,
+      "monsterHpScale": 3.522,
+      "monsterDamageScale": 3.27,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 90,
+      "stageId": 9,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 91,
+      "stageId": 10,
+      "monsterSlot": "N1",
+      "monsterId": 11056,
+      "monsterHpScale": 5.15,
+      "monsterDamageScale": 5.15,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 92,
+      "stageId": 10,
+      "monsterSlot": "N2",
+      "monsterId": 11057,
+      "monsterHpScale": 11.33,
+      "monsterDamageScale": 11.33,
+      "patternId": 7
+    },
+    {
+      "stageRosterId": 93,
+      "stageId": 10,
+      "monsterSlot": "N3",
+      "monsterId": 11058,
+      "monsterHpScale": 5.15,
+      "monsterDamageScale": 5.15,
+      "patternId": 7
+    },
+    {
+      "stageRosterId": 94,
+      "stageId": 10,
+      "monsterSlot": "N4",
+      "monsterId": 11059,
+      "monsterHpScale": 10.3,
+      "monsterDamageScale": 10.3,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 95,
+      "stageId": 10,
+      "monsterSlot": "N5",
+      "monsterId": 11060,
+      "monsterHpScale": 18.025,
+      "monsterDamageScale": 28.84,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 96,
+      "stageId": 10,
+      "monsterSlot": "E1",
+      "monsterId": 12029,
+      "monsterHpScale": 5.15,
+      "monsterDamageScale": 5.15,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 97,
+      "stageId": 10,
+      "monsterSlot": "E2",
+      "monsterId": 12030,
+      "monsterHpScale": 6.4375,
+      "monsterDamageScale": 6.4375,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 98,
+      "stageId": 10,
+      "monsterSlot": "M1",
+      "monsterId": 15012,
+      "monsterHpScale": 5.255,
+      "monsterDamageScale": 4.416,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 99,
+      "stageId": 10,
+      "monsterSlot": "B1",
+      "monsterId": 13021,
+      "monsterHpScale": 3.68,
+      "monsterDamageScale": 5.811,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 100,
+      "stageId": 10,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 101,
+      "stageId": 11,
+      "monsterSlot": "N1",
+      "monsterId": 11001,
+      "monsterHpScale": 5.85,
+      "monsterDamageScale": 5.85,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 102,
+      "stageId": 11,
+      "monsterSlot": "N2",
+      "monsterId": 11008,
+      "monsterHpScale": 12.87,
+      "monsterDamageScale": 12.87,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 103,
+      "stageId": 11,
+      "monsterSlot": "N3",
+      "monsterId": 11003,
+      "monsterHpScale": 5.85,
+      "monsterDamageScale": 5.85,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 104,
+      "stageId": 11,
+      "monsterSlot": "N4",
+      "monsterId": 11019,
+      "monsterHpScale": 11.7,
+      "monsterDamageScale": 11.7,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 105,
+      "stageId": 11,
+      "monsterSlot": "N5",
+      "monsterId": 11020,
+      "monsterHpScale": 20.475,
+      "monsterDamageScale": 32.76,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 106,
+      "stageId": 11,
+      "monsterSlot": "E1",
+      "monsterId": 12003,
+      "monsterHpScale": 5.85,
+      "monsterDamageScale": 5.85,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 107,
+      "stageId": 11,
+      "monsterSlot": "E2",
+      "monsterId": 12002,
+      "monsterHpScale": 7.3125,
+      "monsterDamageScale": 7.3125,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 108,
+      "stageId": 11,
+      "monsterSlot": "M1",
+      "monsterId": 15004,
+      "monsterHpScale": 10.446,
+      "monsterDamageScale": 6.621,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 109,
+      "stageId": 11,
+      "monsterSlot": "B1",
+      "monsterId": 13001,
+      "monsterHpScale": 5.768,
+      "monsterDamageScale": 4.12,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 110,
+      "stageId": 11,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 111,
+      "stageId": 12,
+      "monsterSlot": "N1",
+      "monsterId": 11002,
+      "monsterHpScale": 6.6,
+      "monsterDamageScale": 6.6,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 112,
+      "stageId": 12,
+      "monsterSlot": "N2",
+      "monsterId": 11022,
+      "monsterHpScale": 14.52,
+      "monsterDamageScale": 14.52,
+      "patternId": 8
+    },
+    {
+      "stageRosterId": 113,
+      "stageId": 12,
+      "monsterSlot": "N3",
+      "monsterId": 11010,
+      "monsterHpScale": 6.6,
+      "monsterDamageScale": 6.6,
+      "patternId": 9
+    },
+    {
+      "stageRosterId": 114,
+      "stageId": 12,
+      "monsterSlot": "N4",
+      "monsterId": 11018,
+      "monsterHpScale": 13.2,
+      "monsterDamageScale": 13.2,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 115,
+      "stageId": 12,
+      "monsterSlot": "N5",
+      "monsterId": 11023,
+      "monsterHpScale": 23.1,
+      "monsterDamageScale": 36.96,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 116,
+      "stageId": 12,
+      "monsterSlot": "E1",
+      "monsterId": 12016,
+      "monsterHpScale": 6.6,
+      "monsterDamageScale": 6.6,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 117,
+      "stageId": 12,
+      "monsterSlot": "E2",
+      "monsterId": 12001,
+      "monsterHpScale": 8.25,
+      "monsterDamageScale": 8.25,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 118,
+      "stageId": 12,
+      "monsterSlot": "M1",
+      "monsterId": 15006,
+      "monsterHpScale": 10.312,
+      "monsterDamageScale": 3.934,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 119,
+      "stageId": 12,
+      "monsterSlot": "B1",
+      "monsterId": 13016,
+      "monsterHpScale": 6.426,
+      "monsterDamageScale": 4.59,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 120,
+      "stageId": 12,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 121,
+      "stageId": 13,
+      "monsterSlot": "N1",
+      "monsterId": 11024,
+      "monsterHpScale": 7.4,
+      "monsterDamageScale": 7.4,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 122,
+      "stageId": 13,
+      "monsterSlot": "N2",
+      "monsterId": 11016,
+      "monsterHpScale": 16.28,
+      "monsterDamageScale": 16.28,
+      "patternId": 7
+    },
+    {
+      "stageRosterId": 123,
+      "stageId": 13,
+      "monsterSlot": "N3",
+      "monsterId": 11025,
+      "monsterHpScale": 7.4,
+      "monsterDamageScale": 7.4,
+      "patternId": 8
+    },
+    {
+      "stageRosterId": 124,
+      "stageId": 13,
+      "monsterSlot": "N4",
+      "monsterId": 11026,
+      "monsterHpScale": 14.8,
+      "monsterDamageScale": 14.8,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 125,
+      "stageId": 13,
+      "monsterSlot": "N5",
+      "monsterId": 11027,
+      "monsterHpScale": 25.9,
+      "monsterDamageScale": 41.44,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 126,
+      "stageId": 13,
+      "monsterSlot": "E1",
+      "monsterId": 12017,
+      "monsterHpScale": 7.4,
+      "monsterDamageScale": 7.4,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 127,
+      "stageId": 13,
+      "monsterSlot": "E2",
+      "monsterId": 12018,
+      "monsterHpScale": 9.25,
+      "monsterDamageScale": 9.25,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 128,
+      "stageId": 13,
+      "monsterSlot": "M1",
+      "monsterId": 15003,
+      "monsterHpScale": 9.25,
+      "monsterDamageScale": 6.544,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 129,
+      "stageId": 13,
+      "monsterSlot": "B1",
+      "monsterId": 13011,
+      "monsterHpScale": 6.681,
+      "monsterDamageScale": 5.358,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 130,
+      "stageId": 13,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 131,
+      "stageId": 14,
+      "monsterSlot": "N1",
+      "monsterId": 11028,
+      "monsterHpScale": 8.25,
+      "monsterDamageScale": 8.25,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 132,
+      "stageId": 14,
+      "monsterSlot": "N2",
+      "monsterId": 11005,
+      "monsterHpScale": 18.15,
+      "monsterDamageScale": 18.15,
+      "patternId": 8
+    },
+    {
+      "stageRosterId": 133,
+      "stageId": 14,
+      "monsterSlot": "N3",
+      "monsterId": 11029,
+      "monsterHpScale": 8.25,
+      "monsterDamageScale": 8.25,
+      "patternId": 10
+    },
+    {
+      "stageRosterId": 134,
+      "stageId": 14,
+      "monsterSlot": "N4",
+      "monsterId": 11030,
+      "monsterHpScale": 16.5,
+      "monsterDamageScale": 16.5,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 135,
+      "stageId": 14,
+      "monsterSlot": "N5",
+      "monsterId": 11031,
+      "monsterHpScale": 28.875,
+      "monsterDamageScale": 46.2,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 136,
+      "stageId": 14,
+      "monsterSlot": "E1",
+      "monsterId": 12012,
+      "monsterHpScale": 8.25,
+      "monsterDamageScale": 8.25,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 137,
+      "stageId": 14,
+      "monsterSlot": "E2",
+      "monsterId": 12019,
+      "monsterHpScale": 10.3125,
+      "monsterDamageScale": 10.3125,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 138,
+      "stageId": 14,
+      "monsterSlot": "M1",
+      "monsterId": 15001,
+      "monsterHpScale": 7.5,
+      "monsterDamageScale": 7.782,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 139,
+      "stageId": 14,
+      "monsterSlot": "B1",
+      "monsterId": 13002,
+      "monsterHpScale": 6.052,
+      "monsterDamageScale": 5.62,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 140,
+      "stageId": 14,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 141,
+      "stageId": 15,
+      "monsterSlot": "N1",
+      "monsterId": 11032,
+      "monsterHpScale": 9.15,
+      "monsterDamageScale": 9.15,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 142,
+      "stageId": 15,
+      "monsterSlot": "N2",
+      "monsterId": 11012,
+      "monsterHpScale": 20.13,
+      "monsterDamageScale": 20.13,
+      "patternId": 7
+    },
+    {
+      "stageRosterId": 143,
+      "stageId": 15,
+      "monsterSlot": "N3",
+      "monsterId": 11033,
+      "monsterHpScale": 9.15,
+      "monsterDamageScale": 9.15,
+      "patternId": 7
+    },
+    {
+      "stageRosterId": 144,
+      "stageId": 15,
+      "monsterSlot": "N4",
+      "monsterId": 11034,
+      "monsterHpScale": 18.3,
+      "monsterDamageScale": 18.3,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 145,
+      "stageId": 15,
+      "monsterSlot": "N5",
+      "monsterId": 11035,
+      "monsterHpScale": 32.025,
+      "monsterDamageScale": 51.24,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 146,
+      "stageId": 15,
+      "monsterSlot": "E1",
+      "monsterId": 12015,
+      "monsterHpScale": 9.15,
+      "monsterDamageScale": 9.15,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 147,
+      "stageId": 15,
+      "monsterSlot": "E2",
+      "monsterId": 12020,
+      "monsterHpScale": 11.4375,
+      "monsterDamageScale": 11.4375,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 148,
+      "stageId": 15,
+      "monsterSlot": "M1",
+      "monsterId": 15007,
+      "monsterHpScale": 9.337,
+      "monsterDamageScale": 7.416,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 149,
+      "stageId": 15,
+      "monsterSlot": "B1",
+      "monsterId": 13003,
+      "monsterHpScale": 6.18,
+      "monsterDamageScale": 9.758,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 150,
+      "stageId": 15,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 151,
+      "stageId": 16,
+      "monsterSlot": "N1",
+      "monsterId": 11036,
+      "monsterHpScale": 10.1,
+      "monsterDamageScale": 10.1,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 152,
+      "stageId": 16,
+      "monsterSlot": "N2",
+      "monsterId": 11037,
+      "monsterHpScale": 22.22,
+      "monsterDamageScale": 22.22,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 153,
+      "stageId": 16,
+      "monsterSlot": "N3",
+      "monsterId": 11038,
+      "monsterHpScale": 10.1,
+      "monsterDamageScale": 10.1,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 154,
+      "stageId": 16,
+      "monsterSlot": "N4",
+      "monsterId": 11039,
+      "monsterHpScale": 20.2,
+      "monsterDamageScale": 20.2,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 155,
+      "stageId": 16,
+      "monsterSlot": "N5",
+      "monsterId": 11040,
+      "monsterHpScale": 35.35,
+      "monsterDamageScale": 56.56,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 156,
+      "stageId": 16,
+      "monsterSlot": "E1",
+      "monsterId": 12021,
+      "monsterHpScale": 10.1,
+      "monsterDamageScale": 10.1,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 157,
+      "stageId": 16,
+      "monsterSlot": "E2",
+      "monsterId": 12022,
+      "monsterHpScale": 12.625,
+      "monsterDamageScale": 12.625,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 158,
+      "stageId": 16,
+      "monsterSlot": "M1",
+      "monsterId": 15008,
+      "monsterHpScale": 18.036,
+      "monsterDamageScale": 10.88,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 159,
+      "stageId": 16,
+      "monsterSlot": "B1",
+      "monsterId": 13017,
+      "monsterHpScale": 9.478,
+      "monsterDamageScale": 6.77,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 160,
+      "stageId": 16,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 161,
+      "stageId": 17,
+      "monsterSlot": "N1",
+      "monsterId": 11041,
+      "monsterHpScale": 11.1,
+      "monsterDamageScale": 11.1,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 162,
+      "stageId": 17,
+      "monsterSlot": "N2",
+      "monsterId": 11042,
+      "monsterHpScale": 24.42,
+      "monsterDamageScale": 24.42,
+      "patternId": 8
+    },
+    {
+      "stageRosterId": 163,
+      "stageId": 17,
+      "monsterSlot": "N3",
+      "monsterId": 11043,
+      "monsterHpScale": 11.1,
+      "monsterDamageScale": 11.1,
+      "patternId": 9
+    },
+    {
+      "stageRosterId": 164,
+      "stageId": 17,
+      "monsterSlot": "N4",
+      "monsterId": 11044,
+      "monsterHpScale": 22.2,
+      "monsterDamageScale": 22.2,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 165,
+      "stageId": 17,
+      "monsterSlot": "N5",
+      "monsterId": 11045,
+      "monsterHpScale": 38.85,
+      "monsterDamageScale": 62.16,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 166,
+      "stageId": 17,
+      "monsterSlot": "E1",
+      "monsterId": 12023,
+      "monsterHpScale": 11.1,
+      "monsterDamageScale": 11.1,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 167,
+      "stageId": 17,
+      "monsterSlot": "E2",
+      "monsterId": 12024,
+      "monsterHpScale": 13.875,
+      "monsterDamageScale": 13.875,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 168,
+      "stageId": 17,
+      "monsterSlot": "M1",
+      "monsterId": 15009,
+      "monsterHpScale": 17.344,
+      "monsterDamageScale": 6.334,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 169,
+      "stageId": 17,
+      "monsterSlot": "B1",
+      "monsterId": 13018,
+      "monsterHpScale": 10.346,
+      "monsterDamageScale": 7.39,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 170,
+      "stageId": 17,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 171,
+      "stageId": 18,
+      "monsterSlot": "N1",
+      "monsterId": 11046,
+      "monsterHpScale": 12.15,
+      "monsterDamageScale": 12.15,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 172,
+      "stageId": 18,
+      "monsterSlot": "N2",
+      "monsterId": 11047,
+      "monsterHpScale": 26.73,
+      "monsterDamageScale": 26.73,
+      "patternId": 7
+    },
+    {
+      "stageRosterId": 173,
+      "stageId": 18,
+      "monsterSlot": "N3",
+      "monsterId": 11048,
+      "monsterHpScale": 12.15,
+      "monsterDamageScale": 12.15,
+      "patternId": 8
+    },
+    {
+      "stageRosterId": 174,
+      "stageId": 18,
+      "monsterSlot": "N4",
+      "monsterId": 11049,
+      "monsterHpScale": 24.3,
+      "monsterDamageScale": 24.3,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 175,
+      "stageId": 18,
+      "monsterSlot": "N5",
+      "monsterId": 11050,
+      "monsterHpScale": 42.525,
+      "monsterDamageScale": 68.04,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 176,
+      "stageId": 18,
+      "monsterSlot": "E1",
+      "monsterId": 12025,
+      "monsterHpScale": 12.15,
+      "monsterDamageScale": 12.15,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 177,
+      "stageId": 18,
+      "monsterSlot": "E2",
+      "monsterId": 12026,
+      "monsterHpScale": 15.1875,
+      "monsterDamageScale": 15.1875,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 178,
+      "stageId": 18,
+      "monsterSlot": "M1",
+      "monsterId": 15010,
+      "monsterHpScale": 15.188,
+      "monsterDamageScale": 10.337,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 179,
+      "stageId": 18,
+      "monsterSlot": "B1",
+      "monsterId": 13019,
+      "monsterHpScale": 10.552,
+      "monsterDamageScale": 8.463,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 180,
+      "stageId": 18,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 181,
+      "stageId": 19,
+      "monsterSlot": "N1",
+      "monsterId": 11051,
+      "monsterHpScale": 13.25,
+      "monsterDamageScale": 13.25,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 182,
+      "stageId": 19,
+      "monsterSlot": "N2",
+      "monsterId": 11052,
+      "monsterHpScale": 29.15,
+      "monsterDamageScale": 29.15,
+      "patternId": 8
+    },
+    {
+      "stageRosterId": 183,
+      "stageId": 19,
+      "monsterSlot": "N3",
+      "monsterId": 11053,
+      "monsterHpScale": 13.25,
+      "monsterDamageScale": 13.25,
+      "patternId": 10
+    },
+    {
+      "stageRosterId": 184,
+      "stageId": 19,
+      "monsterSlot": "N4",
+      "monsterId": 11054,
+      "monsterHpScale": 26.5,
+      "monsterDamageScale": 26.5,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 185,
+      "stageId": 19,
+      "monsterSlot": "N5",
+      "monsterId": 11055,
+      "monsterHpScale": 46.375,
+      "monsterDamageScale": 74.2,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 186,
+      "stageId": 19,
+      "monsterSlot": "E1",
+      "monsterId": 12027,
+      "monsterHpScale": 13.25,
+      "monsterDamageScale": 13.25,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 187,
+      "stageId": 19,
+      "monsterSlot": "E2",
+      "monsterId": 12028,
+      "monsterHpScale": 16.5625,
+      "monsterDamageScale": 16.5625,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 188,
+      "stageId": 19,
+      "monsterSlot": "M1",
+      "monsterId": 15011,
+      "monsterHpScale": 12.045,
+      "monsterDamageScale": 12.074,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 189,
+      "stageId": 19,
+      "monsterSlot": "B1",
+      "monsterId": 13020,
+      "monsterHpScale": 9.391,
+      "monsterDamageScale": 8.72,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 190,
+      "stageId": 19,
+      "monsterSlot": "BOX",
+      "monsterId": 14001,
+      "monsterHpScale": 1.0,
+      "monsterDamageScale": 1.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 191,
+      "stageId": 20,
+      "monsterSlot": "N1",
+      "monsterId": 11056,
+      "monsterHpScale": 14.4,
+      "monsterDamageScale": 14.4,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 192,
+      "stageId": 20,
+      "monsterSlot": "N2",
+      "monsterId": 11057,
+      "monsterHpScale": 31.68,
+      "monsterDamageScale": 31.68,
+      "patternId": 7
+    },
+    {
+      "stageRosterId": 193,
+      "stageId": 20,
+      "monsterSlot": "N3",
+      "monsterId": 11058,
+      "monsterHpScale": 14.4,
+      "monsterDamageScale": 14.4,
+      "patternId": 7
+    },
+    {
+      "stageRosterId": 194,
+      "stageId": 20,
+      "monsterSlot": "N4",
+      "monsterId": 11059,
+      "monsterHpScale": 28.8,
+      "monsterDamageScale": 28.8,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 195,
+      "stageId": 20,
+      "monsterSlot": "N5",
+      "monsterId": 11060,
+      "monsterHpScale": 50.4,
+      "monsterDamageScale": 80.64,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 196,
+      "stageId": 20,
+      "monsterSlot": "E1",
+      "monsterId": 12029,
+      "monsterHpScale": 14.4,
+      "monsterDamageScale": 14.4,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 197,
+      "stageId": 20,
+      "monsterSlot": "E2",
+      "monsterId": 12030,
+      "monsterHpScale": 18.0,
+      "monsterDamageScale": 18.0,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 198,
+      "stageId": 20,
+      "monsterSlot": "M1",
+      "monsterId": 15012,
+      "monsterHpScale": 14.694,
+      "monsterDamageScale": 11.316,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 199,
+      "stageId": 20,
+      "monsterSlot": "B1",
+      "monsterId": 13021,
+      "monsterHpScale": 9.43,
+      "monsterDamageScale": 14.889,
+      "patternId": 0
+    },
+    {
+      "stageRosterId": 200,
+      "stageId": 20,
       "monsterSlot": "BOX",
       "monsterId": 14001,
       "monsterHpScale": 1.0,

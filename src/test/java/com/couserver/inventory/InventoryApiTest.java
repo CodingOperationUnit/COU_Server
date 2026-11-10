@@ -93,7 +93,7 @@ class InventoryApiTest extends IntegrationTestSupport {
         postAs(account, INVENTORY_URL + "/" + targetId + "/synthesize")
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.inventoryId").value(targetId))
-                .andExpect(jsonPath("$.inventoryItemGrade").value(ItemGrade.SUPER.toClientName()))
+                .andExpect(jsonPath("$.inventoryItemGrade").value(ItemGrade.UNCOMMON.toClientName()))
                 .andExpect(jsonPath("$.consumedInventoryIds",
                         containsInAnyOrder((int) material1, (int) material2)));
 
@@ -187,7 +187,7 @@ class InventoryApiTest extends IntegrationTestSupport {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.synthesizedItems.length()").value(1))
                 .andExpect(jsonPath("$.synthesizedItems[0].inventoryId").value(equippedId))
-                .andExpect(jsonPath("$.synthesizedItems[0].inventoryItemGrade").value(ItemGrade.SUPER.toClientName()))
+                .andExpect(jsonPath("$.synthesizedItems[0].inventoryItemGrade").value(ItemGrade.UNCOMMON.toClientName()))
                 .andExpect(jsonPath("$.synthesizedItems[0].isEquipped").value(true));
     }
 
@@ -245,31 +245,80 @@ class InventoryApiTest extends IntegrationTestSupport {
                 .andExpect(jsonPath("$.code").value("NOT_OWNED_INVENTORY"));
     }
 
-    // 테스트 준비용: 장비를 DB에 직접 넣는다 (상점·전투 보상은 무작위라 합성 조건을 맞출 수 없다)
+    @Test
+    @DisplayName("Epic 장비 3개를 합성하면 Legendary 장비 1개가 된다")
+    void epicToLegendary() throws Exception {
+        TestAccount account = createAccount();
+        ItemData item = generalItem();
+
+        long targetId = giveEquipmentWithGrade(
+                account, item, ItemGrade.EPIC);
+
+        giveEquipmentWithGrade(account, item, ItemGrade.EPIC);
+        giveEquipmentWithGrade(account, item, ItemGrade.EPIC);
+
+        postAs(account, INVENTORY_URL + "/" + targetId + "/synthesize")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.inventoryId").value(targetId))
+                .andExpect(jsonPath("$.inventoryItemGrade").value("Legendary"))
+                .andExpect(jsonPath("$.consumedInventoryIds.length()").value(2));
+
+        getAs(account, INVENTORY_URL)
+                .andExpect(jsonPath("$.items.length()").value(1))
+                .andExpect(jsonPath("$.items[0].inventoryItemGrade")
+                        .value("Legendary"));
+    }
+
+    @Test
+    @DisplayName("Legendary 장비는 추가 합성할 수 없다")
+    void legendaryCannotSynthesize() throws Exception {
+        TestAccount account = createAccount();
+        ItemData item = generalItem();
+
+        long targetId = giveEquipmentWithGrade(
+                account, item, ItemGrade.LEGENDARY);
+
+        postAs(account, INVENTORY_URL + "/" + targetId + "/synthesize")
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code")
+                        .value("CANNOT_SYNTHESIZE_MAX_GRADE"));
+    }
+
     private long giveEquipment(TestAccount account, ItemData item) {
-        return equipmentRepository.save(Equipment.create(account.playerId(), item)).getId();
+        return equipmentRepository.save(Equipment.create(account.playerId(), item, ItemGrade.COMMON)).getId();
     }
 
     private long giveEquipment(TestAccount account, ItemData item, int level) {
-        Equipment equipment = Equipment.create(account.playerId(), item);
+        Equipment equipment = Equipment.create(account.playerId(), item, ItemGrade.COMMON);
         for (int i = 1; i < level; i++) {
             equipment.levelUp();
         }
         return equipmentRepository.save(equipment).getId();
     }
 
-    // 기본 등급이 General인 장비 중 ID가 가장 작은 것
+    private long giveEquipmentWithGrade(
+            TestAccount account,
+            ItemData item,
+            ItemGrade grade) {
+
+        Equipment equipment = Equipment.create(
+                account.playerId(),
+                item,
+                grade);
+
+        return equipmentRepository.save(equipment).getId();
+    }
+
+    // 장비 중 ID가 가장 작은 것 (모든 아이템은 Common으로 지급)
     private ItemData generalItem() {
         return staticDataService.getItems().values().stream()
-                .filter(item -> item.grade() == ItemGrade.GENERAL)
                 .min(Comparator.comparing(ItemData::itemId))
                 .orElseThrow();
     }
 
-    // 기본 등급이 General인 장비를 ID가 작은 순서로 count개
+    // 장비를 ID가 작은 순서로 count개
     private List<ItemData> generalItems(int count) {
         return staticDataService.getItems().values().stream()
-                .filter(item -> item.grade() == ItemGrade.GENERAL)
                 .sorted(Comparator.comparing(ItemData::itemId))
                 .limit(count)
                 .toList();

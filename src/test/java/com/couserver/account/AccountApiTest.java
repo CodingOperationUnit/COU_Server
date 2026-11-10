@@ -34,7 +34,7 @@ class AccountApiTest extends IntegrationTestSupport{
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items.length()").value(1))
                 .andExpect(jsonPath("$.items[0].itemId").value(6001))
-                .andExpect(jsonPath("$.items[0].inventoryItemGrade").value("General"))
+                .andExpect(jsonPath("$.items[0].inventoryItemGrade").value("Common"))
                 .andExpect(jsonPath("$.items[0].inventoryItemLevel").value(1))
                 .andExpect(jsonPath("$.items[0].isEquipped").value(true));
     }

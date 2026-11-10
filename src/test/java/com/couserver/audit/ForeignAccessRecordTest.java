@@ -119,10 +119,9 @@ class ForeignAccessRecordTest extends IntegrationTestSupport {
 
     private long giveEquipment(TestAccount account) {
         ItemData item = staticDataService.getItems().values().stream()
-                .filter(i -> i.grade() == ItemGrade.GENERAL)
                 .min(Comparator.comparing(ItemData::itemId))
                 .orElseThrow();
-        return equipmentRepository.save(Equipment.create(account.playerId(), item)).getId();
+        return equipmentRepository.save(Equipment.create(account.playerId(), item, ItemGrade.COMMON)).getId();
     }
 
     private List<String> details(TestAccount account) {

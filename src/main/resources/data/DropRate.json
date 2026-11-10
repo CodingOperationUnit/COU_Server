@@ -1,0 +1,64 @@
+{
+  "datas": [
+    {
+      "dropRateId": "L01",
+      "minAccountLevel": 1,
+      "maxAccountLevel": 9,
+      "commonRate": 70.0,
+      "uncommonRate": 24.0,
+      "rareRate": 5.0,
+      "epicRate": 1.0,
+      "legendaryRate": 0.0,
+      "totalRate": 100.0,
+      "status": "가안"
+    },
+    {
+      "dropRateId": "L02",
+      "minAccountLevel": 10,
+      "maxAccountLevel": 19,
+      "commonRate": 65.0,
+      "uncommonRate": 27.0,
+      "rareRate": 6.5,
+      "epicRate": 1.5,
+      "legendaryRate": 0.0,
+      "totalRate": 100.0,
+      "status": "가안"
+    },
+    {
+      "dropRateId": "L03",
+      "minAccountLevel": 20,
+      "maxAccountLevel": 29,
+      "commonRate": 60.0,
+      "uncommonRate": 29.0,
+      "rareRate": 9.0,
+      "epicRate": 2.0,
+      "legendaryRate": 0.0,
+      "totalRate": 100.0,
+      "status": "가안"
+    },
+    {
+      "dropRateId": "L04",
+      "minAccountLevel": 30,
+      "maxAccountLevel": 39,
+      "commonRate": 55.0,
+      "uncommonRate": 31.0,
+      "rareRate": 11.0,
+      "epicRate": 3.0,
+      "legendaryRate": 0.0,
+      "totalRate": 100.0,
+      "status": "가안"
+    },
+    {
+      "dropRateId": "L05",
+      "minAccountLevel": 40,
+      "maxAccountLevel": 100,
+      "commonRate": 50.0,
+      "uncommonRate": 32.0,
+      "rareRate": 14.0,
+      "epicRate": 4.0,
+      "legendaryRate": 0.0,
+      "totalRate": 100.0,
+      "status": "가안"
+    }
+  ]
+}
