@@ -11,6 +11,7 @@ import com.couserver.ledger.repository.CurrencyLedgerRepository;
 import com.couserver.ledger.service.CurrencyLedgerService;
 import com.couserver.shop.exception.ShopErrorCode;
 import com.couserver.shop.service.ShopService;
+import com.couserver.account.repository.PlayerProfileRepository;
 import com.couserver.staticdata.dto.ProductType;
 import com.couserver.staticdata.dto.ShopProductData;
 import com.couserver.staticdata.service.StaticDataService;
@@ -37,7 +38,7 @@ class ShopServiceGemGuardTest {
     private static final long PLAYER_ID = 1L;
     private static final int GEM_PRODUCT_ID = 50021;
     private static final ShopProductData GEM_PRODUCT = new ShopProductData(
-            GEM_PRODUCT_ID, ProductType.GEM, 0, 80, ItemGrade.GENERAL, ItemGrade.GENERAL, true);
+            GEM_PRODUCT_ID, ProductType.GEM, 0, 80, ItemGrade.COMMON, ItemGrade.COMMON, true);
 
     @Mock
     private StaticDataService staticDataService;
@@ -50,6 +51,9 @@ class ShopServiceGemGuardTest {
 
     @Mock
     private CurrencyLedgerRepository ledgerRepository;
+
+    @Mock
+    private PlayerProfileRepository playerProfileRepository;
 
     @Test
     @DisplayName("dev 도구가 꺼져 있으면 보석 상품을 거부하고 재화는 조회하지도 않는다")
@@ -83,6 +87,13 @@ class ShopServiceGemGuardTest {
     // 단위 테스트에는 프록시가 없어 원장 서비스의 트랜잭션 검사 없이 동작한다. 저장소만 가짜로 둔다
     private ShopService shopService(boolean devToolsEnabled) {
         CurrencyLedgerService ledger = new CurrencyLedgerService(ledgerRepository, Clock.systemUTC());
-        return new ShopService(staticDataService, currencyRepository, equipmentRepository, ledger, devToolsEnabled);
+        return new ShopService(
+                staticDataService,
+                currencyRepository,
+                equipmentRepository,
+                playerProfileRepository,
+                ledger,
+                devToolsEnabled
+        );
     }
 }

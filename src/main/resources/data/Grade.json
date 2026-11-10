@@ -1,0 +1,49 @@
+{
+  "datas": [
+    {
+      "gradeOrder": 1,
+      "grade": "Common",
+      "gradeName": "일반",
+      "statMultiplier": 1.0,
+      "canDrop": true,
+      "acquisitionMethod": "일반 획득",
+      "gradeColor": "#9CA3AF"
+    },
+    {
+      "gradeOrder": 2,
+      "grade": "Uncommon",
+      "gradeName": "고급",
+      "statMultiplier": 1.12,
+      "canDrop": true,
+      "acquisitionMethod": "일반 획득",
+      "gradeColor": "#22C55E"
+    },
+    {
+      "gradeOrder": 3,
+      "grade": "Rare",
+      "gradeName": "희귀",
+      "statMultiplier": 1.25,
+      "canDrop": true,
+      "acquisitionMethod": "일반 획득",
+      "gradeColor": "#3B82F6"
+    },
+    {
+      "gradeOrder": 4,
+      "grade": "Epic",
+      "gradeName": "영웅",
+      "statMultiplier": 1.45,
+      "canDrop": true,
+      "acquisitionMethod": "일반 획득",
+      "gradeColor": "#A855F7"
+    },
+    {
+      "gradeOrder": 5,
+      "grade": "Legendary",
+      "gradeName": "전설",
+      "statMultiplier": 1.7,
+      "canDrop": false,
+      "acquisitionMethod": "합성 전용",
+      "gradeColor": "#F59E0B"
+    }
+  ]
+}

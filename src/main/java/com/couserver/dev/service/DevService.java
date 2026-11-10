@@ -7,6 +7,7 @@ import com.couserver.common.exception.BusinessException;
 import com.couserver.dev.exception.DevErrorCode;
 import com.couserver.inventory.dto.EquipmentResponse;
 import com.couserver.inventory.entity.Equipment;
+import com.couserver.inventory.entity.ItemGrade;
 import com.couserver.inventory.repository.EquipmentRepository;
 import com.couserver.staticdata.dto.ItemData;
 import com.couserver.staticdata.service.StaticDataService;
@@ -50,7 +51,7 @@ public class DevService {
 
         List<Equipment> created = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            created.add(Equipment.create(playerId, item));
+            created.add(Equipment.create(playerId, item, ItemGrade.COMMON));
         }
 
         return equipmentRepository.saveAll(created).stream()

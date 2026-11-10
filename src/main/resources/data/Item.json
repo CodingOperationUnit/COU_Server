@@ -2,260 +2,153 @@
   "datas": [
     {
       "itemId": 1001,
-      "itemName": "구형 방호 슈트",
-      "description": "규격은 낡았지만 기본 방호 성능은 살아 있다",
+      "itemName": "회색 후드티",
+      "description": "밤샘 작업의 흔적이 남아 있는 개발자의 애착 후드티",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Armor/Armor_00",
       "slotType": "Armor",
-      "grade": "General",
-      "hpBonus": 20,
-      "attackBonus": 0,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "최대 체력 +5%",
-        "최대 체력 +10%",
-        "방어력 +5· 피격 시 5% 확률로 피해 무효"
-      ]
+      "baseHpBonus": 40,
+      "baseAttackBonus": 0,
+      "baseMoveSpeedBonus": 0
     },
     {
       "itemId": 1002,
-      "itemName": "나노 메시 아머",
-      "description": "나노 섬유가 촘촘하게 몸을 감싼다",
+      "itemName": "체크무늬 셔츠",
+      "description": "개발자의 옷장에서 한 번쯤 발견할 수 있는 체크무늬 셔츠",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Armor/Armor_01",
       "slotType": "Armor",
-      "grade": "Super",
-      "hpBonus": 35,
-      "attackBonus": 0,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "최대 체력 +8%",
-        "최대 체력 +12%",
-        "방어력 +8· 받는 피해 5% 감소"
-      ]
+      "baseHpBonus": 42,
+      "baseAttackBonus": 0,
+      "baseMoveSpeedBonus": 0
     },
     {
       "itemId": 1003,
-      "itemName": "퀀텀 실드 아머",
-      "description": "에너지 장벽이 웬만한 공격을 튕겨낸다",
+      "itemName": "해커톤 후드집업",
+      "description": "치열한 밤샘 해커톤을 완주한 참가자에게 지급된 기념 후드집업",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Armor/Armor_02",
       "slotType": "Armor",
-      "grade": "Rare",
-      "hpBonus": 55,
-      "attackBonus": 5,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "최대 체력 +10%",
-        "최대 체력 +15%",
-        "방어력 +12· 받는 피해 8% 감소"
-      ]
+      "baseHpBonus": 44,
+      "baseAttackBonus": 1,
+      "baseMoveSpeedBonus": 0
     },
     {
       "itemId": 2001,
-      "itemName": "유틸리티 벨트",
-      "description": "장비를 걸 수 있어 움직임이 가볍다",
+      "itemName": "손목밴드 -> 수정",
+      "description": "오래된 개발 행사에서 받은 기념 손목밴드",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Belt/Belt_00",
       "slotType": "Belt",
-      "grade": "General",
-      "hpBonus": 5,
-      "attackBonus": 2,
-      "moveSpeedBonus": 3,
-      "gradeSkills": [
-        "이동속도 +3%",
-        "이동속도 +5%· 공격력 +5%",
-        "회피율 +3%"
-      ]
+      "baseHpBonus": 8,
+      "baseAttackBonus": 2,
+      "baseMoveSpeedBonus": 3
     },
     {
       "itemId": 2002,
-      "itemName": "서보 고정 벨트",
-      "description": "서보 모터가 허리를 단단히 고정해준다",
+      "itemName": "LED 손목밴드",
+      "description": "은은한 LED 조명으로 손목을 화려하게 꾸며준다",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Belt/Belt_01",
       "slotType": "Belt",
-      "grade": "Super",
-      "hpBonus": 10,
-      "attackBonus": 4,
-      "moveSpeedBonus": 4,
-      "gradeSkills": [
-        "이동속도 +4%",
-        "이동속도 +6%· 공격력 +8%",
-        "회피율 +4%"
-      ]
+      "baseHpBonus": 9,
+      "baseAttackBonus": 2,
+      "baseMoveSpeedBonus": 3
     },
     {
       "itemId": 2003,
-      "itemName": "에너지 코어 벨트",
-      "description": "은은하게 빛나는 에너지 코어가 내장된 벨트",
-      "iconPath": "Equip/Inven/Item/Equip/Icon/Belt/Belt_02",
-      "slotType": "Belt",
-      "grade": "Rare",
-      "hpBonus": 15,
-      "attackBonus": 8,
-      "moveSpeedBonus": 5,
-      "gradeSkills": [
-        "이동속도 +5%",
-        "이동속도 +8%· 공격력 +12%",
-        "회피율 +5%· 회피 성공 시 다음 공격 피해 +10%"
-      ]
-    },
-    {
-      "itemId": 2004,
-      "itemName": "구형 군수 벨트",
-      "description": "평범한 설계로 군에서 흔히 지급된다",
+      "itemName": "스마트워치",
+      "description": "쉴 새 없이 울리는 알림으로 개발자의 일정을 관리해준다",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Belt/Belt_00",
       "slotType": "Belt",
-      "grade": "General",
-      "hpBonus": 38,
-      "attackBonus": 0,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "HP +10%",
-        "레어/보스를 처치하면 사기를 회복하고 히어로에게 1 즉시 지급",
-        "레벨업 발동 시 3초 동안 무적 상태 획득: 피해 감소 및 이동속도 +100%· 모든 쿨타임 감소 최대화",
-        "HP +15%"
-      ]
+      "baseHpBonus": 10,
+      "baseAttackBonus": 2,
+      "baseMoveSpeedBonus": 4
     },
     {
       "itemId": 3001,
-      "itemName": "기본 전술 장갑",
-      "description": "손에 익은 낡은 장갑",
+      "itemName": "손목 보호대",
+      "description": "장시간 타이핑으로 지친 손목을 부드럽게 감싸준다",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Gloves/Gloves_00",
       "slotType": "Gloves",
-      "grade": "General",
-      "hpBonus": 0,
-      "attackBonus": 5,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "공격력 +5%",
-        "공격력 +8%· 치명타 확률 +3%",
-        "치명타 피해 +10%"
-      ]
+      "baseHpBonus": 2,
+      "baseAttackBonus": 8,
+      "baseMoveSpeedBonus": 0
     },
     {
       "itemId": 3002,
-      "itemName": "서보 건틀릿",
-      "description": "서보 모터가 주먹에 힘을 싣는다",
+      "itemName": "온열 손목 보호대",
+      "description": "차갑게 굳은 손목을 따뜻하게 감싸주는 보호대",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Gloves/Gloves_01",
       "slotType": "Gloves",
-      "grade": "Super",
-      "hpBonus": 0,
-      "attackBonus": 9,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "공격력 +7%",
-        "공격력 +10%· 치명타 확률 +5%",
-        "치명타 피해 +15%"
-      ]
+      "baseHpBonus": 2,
+      "baseAttackBonus": 9,
+      "baseMoveSpeedBonus": 0
     },
     {
       "itemId": 3003,
-      "itemName": "모노와이어 클로",
-      "description": "초고장력 와이어 칼날을 덧댄 전투용 장갑",
+      "itemName": "인체공학 손목 보호대",
+      "description": "손목의 움직임을 안정적으로 지지하도록 설계된 고급 보호대",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Gloves/Gloves_02",
       "slotType": "Gloves",
-      "grade": "Rare",
-      "hpBonus": 3,
-      "attackBonus": 14,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "공격력 +9%",
-        "공격력 +12%· 치명타 확률 +7%",
-        "치명타 피해 +20%· 적 처치 시 짧은 시간 공격속도 증가"
-      ]
+      "baseHpBonus": 3,
+      "baseAttackBonus": 10,
+      "baseMoveSpeedBonus": 0
     },
     {
       "itemId": 4001,
-      "itemName": "냉각 칩 펜던트",
-      "description": "은은한 냉기가 흐르는 구형 칩 펜던트",
+      "itemName": "USB",
+      "description": "중요한 자료가 담겨 있다는 오래된 USB 메모리",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Necklace/Necklace_00",
       "slotType": "Necklace",
-      "grade": "General",
-      "hpBonus": 8,
-      "attackBonus": 3,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "최대 체력 +4%",
-        "최대 체력 +6%· 3초마다 최대 체력의 1% 회복",
-        "받는 치유량 +10%"
-      ]
+      "baseHpBonus": 12,
+      "baseAttackBonus": 4,
+      "baseMoveSpeedBonus": 0
     },
     {
       "itemId": 4002,
-      "itemName": "방화벽 펜던트",
-      "description": "침입과 오류를 막아준다는 오래된 보호 칩",
+      "itemName": "뿔테 안경",
+      "description": "개발자 특유의 지적인 분위기를 완성해주는 안경",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Necklace/Necklace_01",
       "slotType": "Necklace",
-      "grade": "Super",
-      "hpBonus": 15,
-      "attackBonus": 5,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "최대 체력 +6%",
-        "최대 체력 +8%· 3초마다 최대 체력의 1.5% 회복",
-        "받는 치유량 +15%"
-      ]
+      "baseHpBonus": 13,
+      "baseAttackBonus": 4,
+      "baseMoveSpeedBonus": 0
     },
     {
       "itemId": 4003,
-      "itemName": "특이점 코어 펜던트",
-      "description": "압축된 특이점 조각으로 만든 펜던트",
+      "itemName": "핸드폰 거치대",
+      "description": "작업 중에도 스마트폰 화면을 편하게 확인할 수 있다",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Necklace/Necklace_02",
       "slotType": "Necklace",
-      "grade": "Rare",
-      "hpBonus": 20,
-      "attackBonus": 10,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "최대 체력 +8%",
-        "최대 체력 +10%· 3초마다 최대 체력의 2% 회복",
-        "받는 치유량 +20%· 체력 30% 이하 시 회복량 2배"
-      ]
+      "baseHpBonus": 14,
+      "baseAttackBonus": 5,
+      "baseMoveSpeedBonus": 0
     },
     {
       "itemId": 5001,
-      "itemName": "충격흡수 부츠",
-      "description": "발에 착 감기는 낡은 부츠",
+      "itemName": "삼선 슬리퍼",
+      "description": "편안한 착용감을 자랑하는 개발자의 필수품",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Shoes/Shoes_00",
       "slotType": "Shoes",
-      "grade": "General",
-      "hpBonus": 10,
-      "attackBonus": 0,
-      "moveSpeedBonus": 4,
-      "gradeSkills": [
-        "이동속도 +4%",
-        "이동속도 +6%· 조이스틱 반응속도 +5%",
-        "이동 중 회피율 +3%"
-      ]
+      "baseHpBonus": 10,
+      "baseAttackBonus": 0,
+      "baseMoveSpeedBonus": 4
     },
     {
       "itemId": 5002,
-      "itemName": "전술 보행 부츠",
-      "description": "튼튼하게 발목을 지지해준다",
+      "itemName": "브랜드 운동화",
+      "description": "큰맘 먹고 장만한 유명 브랜드의 운동화",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Shoes/Shoes_01",
       "slotType": "Shoes",
-      "grade": "Super",
-      "hpBonus": 18,
-      "attackBonus": 2,
-      "moveSpeedBonus": 6,
-      "gradeSkills": [
-        "이동속도 +6%",
-        "이동속도 +8%· 조이스틱 반응속도 +8%",
-        "이동 중 회피율 +5%"
-      ]
+      "baseHpBonus": 11,
+      "baseAttackBonus": 0,
+      "baseMoveSpeedBonus": 5
     },
     {
       "itemId": 5003,
-      "itemName": "그래비티 부스터",
-      "description": "중력 제어로 떠 있는 듯 가벼운 신발",
+      "itemName": "폼 클로그",
+      "description": "가벼운 무게와 푹신한 착용감이 특징인 구멍 뚫린 신발",
       "iconPath": "Equip/Inven/Item/Equip/Icon/Shoes/Shoes_02",
       "slotType": "Shoes",
-      "grade": "Rare",
-      "hpBonus": 25,
-      "attackBonus": 4,
-      "moveSpeedBonus": 8,
-      "gradeSkills": [
-        "이동속도 +8%",
-        "이동속도 +10%· 조이스틱 반응속도 +10%",
-        "이동 중 회피율 +8%· 피격 후 0.5초간 이동속도 +20%"
-      ]
+      "baseHpBonus": 12,
+      "baseAttackBonus": 1,
+      "baseMoveSpeedBonus": 5
     },
     {
       "itemId": 6001,
@@ -263,15 +156,9 @@
       "description": "오래됐지만 아직 에너지 날은 살아 있다",
       "iconPath": "Equip/Inven/Item/Weapon/Icon/Sword",
       "slotType": "Weapon",
-      "grade": "General",
-      "hpBonus": 0,
-      "attackBonus": 8,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "공격력 +8%",
-        "공격력 +12%· 치명타 확률 +3%",
-        "치명타 피해 +15%"
-      ]
+      "baseHpBonus": 0,
+      "baseAttackBonus": 12,
+      "baseMoveSpeedBonus": 0
     },
     {
       "itemId": 6002,
@@ -279,15 +166,9 @@
       "description": "손에 익으면 눈 깜짝할 새 연타할 수 있다",
       "iconPath": "Equip/Inven/Item/Weapon/Icon/Gun",
       "slotType": "Weapon",
-      "grade": "Super",
-      "hpBonus": 0,
-      "attackBonus": 14,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "공격력 +10%",
-        "공격력 +15%· 치명타 확률 +5%",
-        "치명타 피해 +20%"
-      ]
+      "baseHpBonus": 0,
+      "baseAttackBonus": 13,
+      "baseMoveSpeedBonus": 0
     },
     {
       "itemId": 6003,
@@ -295,15 +176,9 @@
       "description": "홀로그램 화면이 적의 약점을 비춰 정확히 꿰뚫는다",
       "iconPath": "Equip/Inven/Item/Weapon/Icon/kunai",
       "slotType": "Weapon",
-      "grade": "Rare",
-      "hpBonus": 5,
-      "attackBonus": 22,
-      "moveSpeedBonus": 0,
-      "gradeSkills": [
-        "공격력 +12%",
-        "공격력 +18%· 치명타 확률 +8%",
-        "치명타 피해 +25%· 적 처치 시 짧은 시간 공격력 +10%"
-      ]
+      "baseHpBonus": 1,
+      "baseAttackBonus": 14,
+      "baseMoveSpeedBonus": 0
     }
   ]
 }
