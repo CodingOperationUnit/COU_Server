@@ -8,8 +8,6 @@ MonsterAttack
 DropTable
 PlayerBaseStat
 Item
-Grade
-DropRate
 EquipEffect
 ItemGradeEffect
 Skill
@@ -20,3 +18,5 @@ ItemConst
 Evolution
 Achievement
 CombatPower
+DropRate
+Grade

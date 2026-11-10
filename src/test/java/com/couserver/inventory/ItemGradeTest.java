@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ItemGradeTest {
 
@@ -16,20 +17,19 @@ class ItemGradeTest {
     }
 
     @Test
-    @DisplayName("다음 등급은 한 단계 위다")
-    void next() {
-        assertThat(ItemGrade.COMMON.next()).isEqualTo(ItemGrade.UNCOMMON);
-        assertThat(ItemGrade.RARE.next()).isEqualTo(ItemGrade.EPIC);
-        assertThat(ItemGrade.EPIC.next()).isEqualTo(ItemGrade.LEGENDARY);
+    @DisplayName("Legendary에서는 다음 등급으로 승급할 수 없다")
+    void legendaryCannotUpgrade() {
+        assertThatThrownBy(ItemGrade.LEGENDARY::next)
+                .isInstanceOf(IllegalStateException.class);
     }
 
     @Test
-    @DisplayName("Common~Rare만 합성할 수 있다 (Epic 이상은 임시 차단)")
+    @DisplayName("Common부터 Epic까지 합성할 수 있고 Legendary는 합성할 수 없다")
     void canSynthesize() {
         assertThat(ItemGrade.COMMON.canSynthesize()).isTrue();
         assertThat(ItemGrade.UNCOMMON.canSynthesize()).isTrue();
         assertThat(ItemGrade.RARE.canSynthesize()).isTrue();
-        assertThat(ItemGrade.EPIC.canSynthesize()).isFalse();
+        assertThat(ItemGrade.EPIC.canSynthesize()).isTrue();
         assertThat(ItemGrade.LEGENDARY.canSynthesize()).isFalse();
     }
 

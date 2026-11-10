@@ -245,6 +245,45 @@ class InventoryApiTest extends IntegrationTestSupport {
                 .andExpect(jsonPath("$.code").value("NOT_OWNED_INVENTORY"));
     }
 
+    @Test
+    @DisplayName("Epic 장비 3개를 합성하면 Legendary 장비 1개가 된다")
+    void epicToLegendary() throws Exception {
+        TestAccount account = createAccount();
+        ItemData item = generalItem();
+
+        long targetId = giveEquipmentWithGrade(
+                account, item, ItemGrade.EPIC);
+
+        giveEquipmentWithGrade(account, item, ItemGrade.EPIC);
+        giveEquipmentWithGrade(account, item, ItemGrade.EPIC);
+
+        postAs(account, INVENTORY_URL + "/" + targetId + "/synthesize")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.inventoryId").value(targetId))
+                .andExpect(jsonPath("$.inventoryItemGrade").value("Legendary"))
+                .andExpect(jsonPath("$.consumedInventoryIds.length()").value(2));
+
+        getAs(account, INVENTORY_URL)
+                .andExpect(jsonPath("$.items.length()").value(1))
+                .andExpect(jsonPath("$.items[0].inventoryItemGrade")
+                        .value("Legendary"));
+    }
+
+    @Test
+    @DisplayName("Legendary 장비는 추가 합성할 수 없다")
+    void legendaryCannotSynthesize() throws Exception {
+        TestAccount account = createAccount();
+        ItemData item = generalItem();
+
+        long targetId = giveEquipmentWithGrade(
+                account, item, ItemGrade.LEGENDARY);
+
+        postAs(account, INVENTORY_URL + "/" + targetId + "/synthesize")
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code")
+                        .value("CANNOT_SYNTHESIZE_MAX_GRADE"));
+    }
+
     private long giveEquipment(TestAccount account, ItemData item) {
         return equipmentRepository.save(Equipment.create(account.playerId(), item, ItemGrade.COMMON)).getId();
     }
@@ -254,6 +293,19 @@ class InventoryApiTest extends IntegrationTestSupport {
         for (int i = 1; i < level; i++) {
             equipment.levelUp();
         }
+        return equipmentRepository.save(equipment).getId();
+    }
+
+    private long giveEquipmentWithGrade(
+            TestAccount account,
+            ItemData item,
+            ItemGrade grade) {
+
+        Equipment equipment = Equipment.create(
+                account.playerId(),
+                item,
+                grade);
+
         return equipmentRepository.save(equipment).getId();
     }
 
