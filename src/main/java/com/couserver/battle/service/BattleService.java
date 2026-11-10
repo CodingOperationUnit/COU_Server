@@ -282,7 +282,7 @@ public class BattleService {
     }
 
     // 상자마다 장비 하나를 균등하게 고른다
-    // TODO(장비 리뉴얼 4단계): 등급을 DropRate(계정 레벨)로 뽑는다. 지금은 임시로 Common
+    // 장비 종류는 균등 추첨하고, 등급은 계정 레벨에 따른 DropRate 확률을 적용한다.
     private List<Equipment> rollRewardBoxes(
             Long playerId,
             int accountLevel,
