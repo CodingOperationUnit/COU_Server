@@ -52,6 +52,18 @@ public class PlayerProfile {
         nicknameChangeTicketCount--;
     }
 
+    public void addNicknameChangeTickets(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException(
+                    "닉네임 변경권 지급 수량은 1 이상이어야 합니다."
+            );
+        }
+
+        this.nicknameChangeTicketCount = Math.addExact(
+                this.nicknameChangeTicketCount,
+                amount
+        );
+    }
 
     // 경험치는 현재 레벨 기준으로 저장한다. 필요 경험치를 채울 때마다 빼고 레벨을 올리며, 최대 레벨에서는 경험치만 쌓인다
     public void gainExp(int amount, AccountConstData accountConst) {

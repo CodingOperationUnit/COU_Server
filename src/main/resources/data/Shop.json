@@ -109,6 +109,17 @@
       "minGrade": "Common",
       "maxGrade": "Common",
       "active": true
+    },
+    {
+      "productId": 50031,
+      "productName": "닉네임 변경권",
+      "productType": "NicknameChangeTicket",
+      "priceGem": 100,
+      "rewardAmount": 1,
+      "minGrade": "Common",
+      "maxGrade": "Common",
+      "active": true
     }
+
   ]
 }
