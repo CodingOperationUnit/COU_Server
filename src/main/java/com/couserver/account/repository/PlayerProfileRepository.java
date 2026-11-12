@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface PlayerProfileRepository  extends JpaRepository<PlayerProfile, Long> {
     boolean existsByPlayerNickname(String playerNickname);
+    boolean existsByPlayerNicknameIgnoreCase(String playerNickname);
     Optional<PlayerProfile> findByAccount_AccountId(Integer accountId);
 
     // 계정 ID 검색 (친구 추가용)

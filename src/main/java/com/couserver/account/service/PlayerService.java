@@ -25,7 +25,6 @@ import com.couserver.staticdata.dto.ItemData;
 import com.couserver.staticdata.service.StaticDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +38,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PlayerService {
-    private static final String NICKNAME_IN_USE = "이미 사용 중인 닉네임입니다.";
     // 신규 계정에 지급·장착하는 시작 장비: 펄스 키보드(Weapon / General). 클라이언트 시작 공격 스킬이 장착 무기에서 정해진다
     private static final long STARTER_WEAPON_ITEM_ID = 6001L;
 
@@ -55,6 +53,7 @@ public class PlayerService {
     private final SuspiciousActivityRecorder suspiciousActivityRecorder;
     private final ApplicationEventPublisher eventPublisher;
     private final Clock clock;
+    private final NicknamePolicy nicknamePolicy;
 
     @Transactional
     public void createInitialData(Account account, String playerNickname) {
@@ -114,8 +113,8 @@ public class PlayerService {
         );
     }
 
-    // 세이브: 닉네임 변경과 현재 스테이지 선택만 반영한다.
-    // 재화, 레벨, 경험치, 진화 스탯, 최고 클리어 스테이지는 각자의 서버 API만 바꿀 수 있으므로 요청 값을 무시한다
+    // 세이브: 현재 스테이지 선택만 반영한다.
+    // 닉네임 변경은 전용 API에서 처리한다.
     @Transactional
     public PlayerSaveDataResponse save(Long playerId, PlayerSaveRequest request) {
         // 전투·상점·진화·인벤토리와 같은 플레이어 단위 잠금.
@@ -127,36 +126,26 @@ public class PlayerService {
 
         recordIgnoredValueMismatch(playerId, request, profile, currency, stageProgress);
 
-        // 1) 닉네임: 바꿨을 때만 중복 검사
-        String newNickname = request.getProfile().getPlayerNickname();
-        boolean nicknameChanged = !newNickname.equals(profile.getPlayerNickname());
-        if (nicknameChanged && playerProfileRepository.existsByPlayerNickname(newNickname)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, NICKNAME_IN_USE);
-        }
+        // 닉네임은 전용 API에서만 변경한다.
+        // 기존 클라이언트 호환을 위해 요청 필드는 유지하지만,
+        // 이 API에서는 전달된 닉네임을 저장하지 않는다.
 
-        // 2) 스테이지: 서버에 저장된 진행도로 해금 여부를 판정한다
+        // 서버에 저장된 진행도로 스테이지 해금 여부 판정
         int currentStageId = request.getStageProgress().getCurrentStageId();
+
         if (!stageUnlockPolicy.isUnlocked(currentStageId, stageProgress.getMaxClearedStageId())) {
-            suspiciousActivityRecorder.record(playerId, SuspiciousActivityType.SAVE_LOCKED_STAGE,
-                    "currentStageId=" + currentStageId
-                            + " serverMaxClearedStageId=" + stageProgress.getMaxClearedStageId());
+            suspiciousActivityRecorder.record(
+                    playerId,
+                    SuspiciousActivityType.SAVE_LOCKED_STAGE,
+                        "currentStageId=" + currentStageId +
+                            " serverMaxClearedStageId=" + stageProgress.getMaxClearedStageId()
+            );
+
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "해금되지 않은 스테이지입니다.");
         }
 
-        // 3) 검사를 모두 통과한 뒤에 반영
-        if (nicknameChanged) {
-            profile.changeNickname(newNickname);
-            try {
-                playerProfileRepository.flush();
-            } catch (DataIntegrityViolationException e) {
-                // 중복 검사와 저장 사이에 다른 계정이 같은 닉네임을 가져간 경우 (unique 제약 위반)
-                throw new ResponseStatusException(HttpStatus.CONFLICT, NICKNAME_IN_USE);
-            }
-        }
         stageProgress.selectStage(currentStageId);
 
-        // 랭킹 값(레벨, 최고 스테이지, 전투력)이 바뀌지 않으므로 랭킹 이벤트를 발행하지 않는다.
-        // 랭킹 응답의 닉네임은 Redis가 아니라 DB에서 읽으므로 닉네임이 바뀌어도 갱신할 필요가 없다
         return loadSave(playerId);
     }
 
@@ -236,4 +225,24 @@ public class PlayerService {
                 .map(PlayerProfile::getPlayerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "플레이어 데이터가 없습니다."));
     }
+
+    @Transactional(readOnly = true)
+    public boolean isNicknameAvailable(Long playerId, String nickname) {
+
+        PlayerProfile profile = getProfile(playerId);
+
+        // 현재 사용 중인 닉네임으로 변경하는 것은 허용하지 않는다
+        if (nickname != null &&
+                nickname.equalsIgnoreCase(profile.getPlayerNickname())) {
+            return false;
+        }
+
+        // 닉네임 규칙 검사
+        nicknamePolicy.validate(nickname);
+
+        // 대소문자를 구분하지 않고 중복 검사
+        return !playerProfileRepository
+                .existsByPlayerNicknameIgnoreCase(nickname);
+    }
+
 }

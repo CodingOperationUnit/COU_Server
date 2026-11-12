@@ -1,6 +1,7 @@
 package com.couserver.account.controller;
 
 import com.couserver.account.dto.AuthAccount;
+import com.couserver.account.dto.NicknameAvailabilityResponse;
 import com.couserver.account.dto.PlayerSaveDataResponse;
 import com.couserver.account.dto.PlayerSaveRequest;
 import com.couserver.account.service.PlayerService;
@@ -28,4 +29,18 @@ public class PlayerController {
     ) {
         return ResponseEntity.ok(playerService.save(authAccount.getPlayerId(), request));
     }
+
+
+    @GetMapping("/nickname-availability")
+    public ResponseEntity<NicknameAvailabilityResponse> checkNicknameAvailability(
+            @AuthenticationPrincipal AuthAccount authAccount,
+            @RequestParam String nickname
+    ) {
+        boolean available = playerService.isNicknameAvailable(authAccount.getPlayerId(), nickname);
+
+        return ResponseEntity.ok(
+                new NicknameAvailabilityResponse(available)
+        );
+    }
+
 }
