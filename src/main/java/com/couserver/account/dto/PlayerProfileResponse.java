@@ -11,6 +11,8 @@ public class PlayerProfileResponse {
     private final String playerNickname;
     private final int accountLevel;
     private final int accountExp;
+    private final int nicknameChangeTicketCount;
+
 
     public PlayerProfileResponse(PlayerProfile profile) {
         this.playerId = profile.getPlayerId();
@@ -18,5 +20,6 @@ public class PlayerProfileResponse {
         this.playerNickname = profile.getPlayerNickname();
         this.accountLevel = profile.getAccountLevel();
         this.accountExp = profile.getAccountExp();
+        this.nicknameChangeTicketCount = profile.getNicknameChangeTicketCount();
     }
 }

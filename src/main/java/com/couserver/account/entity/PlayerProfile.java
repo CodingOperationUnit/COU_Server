@@ -28,6 +28,12 @@ public class PlayerProfile {
     @Column(nullable = false)
     private int accountExp = 0;
 
+    @Column(name = "nickname_change_ticket_count",
+            nullable = false,
+            columnDefinition = "INT DEFAULT 1")
+    private int nicknameChangeTicketCount = 1;
+
+
     public PlayerProfile(Account account, String playerNickname) {
         this.account = account;
         this.playerNickname = playerNickname;
