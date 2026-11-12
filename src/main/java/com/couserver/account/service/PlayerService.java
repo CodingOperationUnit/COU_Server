@@ -219,6 +219,65 @@ public class PlayerService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "스탯 데이터가 없습니다."));
     }
 
+    @Transactional
+    public ChangeNicknameResponse changeNickname(
+            Long playerId,
+            String newNickname
+    ) {
+        // 1. 플레이어 단위 잠금
+        currencyRepository.findForUpdate(playerId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "재화 데이터가 없습니다."
+                ));
+
+        // 2. 플레이어 정보 조회
+        PlayerProfile profile = getProfile(playerId);
+
+        // 3. 변경권 보유 수량 확인
+        if (profile.getNicknameChangeTicketCount() <= 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "닉네임 변경권이 부족합니다."
+            );
+        }
+
+        // 4. 현재 닉네임과 동일한지 확인
+        if (newNickname != null &&
+                profile.getPlayerNickname().equalsIgnoreCase(newNickname)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "현재 사용 중인 닉네임입니다."
+            );
+        }
+
+        // 5. 닉네임 규칙 검사
+        nicknamePolicy.validate(newNickname);
+
+        // 6. 닉네임 중복 검사
+        if (playerProfileRepository
+                .existsByPlayerNicknameIgnoreCase(newNickname)) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "이미 사용 중인 닉네임입니다."
+            );
+        }
+
+        // 7. 닉네임 변경 및 변경권 차감
+        profile.changeNickname(newNickname);
+        profile.consumeNicknameChangeTicket();
+
+        // 8. DB 반영 및 고유 제약조건 확인
+        playerProfileRepository.flush();
+
+        // 9. 변경 결과 반환
+        return new ChangeNicknameResponse(
+                profile.getPlayerNickname(),
+                profile.getNicknameChangeTicketCount()
+        );
+    }
+
+
     @Transactional(readOnly = true)
     public Long getPlayerId(int accountId) {
         return playerProfileRepository.findByAccount_AccountId(accountId)
