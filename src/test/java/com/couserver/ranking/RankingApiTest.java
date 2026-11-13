@@ -1,5 +1,6 @@
 package com.couserver.ranking;
 
+import com.couserver.ranking.service.RankingRedisSyncService;
 import com.couserver.staticdata.service.StaticDataService;
 import com.couserver.support.IntegrationTestSupport;
 import com.couserver.support.TestAccount;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Collections;
 import java.util.Map;
 
+import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,6 +22,9 @@ class RankingApiTest extends IntegrationTestSupport {
 
     @Autowired
     private StaticDataService staticDataService;
+
+    @Autowired
+    private RankingRedisSyncService rankingRedisSyncService;
 
     @Test
     @DisplayName("신규 계정도 계정 레벨 랭킹에 레벨 1로 올라 있다")
@@ -51,6 +56,26 @@ class RankingApiTest extends IntegrationTestSupport {
                 .andExpect(jsonPath("$.stageId").value(firstStageId))
                 .andExpect(jsonPath("$.myRank").isNumber())
                 .andExpect(jsonPath("$.myValue").value(BATTLE_SECONDS));
+    }
+
+    @Test
+    @DisplayName("테스트 계정은 랭킹에 오르지 않는다")
+    void testAccountIsNotRanked() throws Exception {
+        TestAccount account = createAccount();
+        jdbcTemplate.update("UPDATE account a JOIN player_profile p ON p.account_id = a.account_id "
+                + "SET a.account_type = 'TEST' WHERE p.player_id = ?", account.playerId());
+
+        // 전투 결과 반영(syncPlayer)에서 빠진다
+        clearStage(account, staticDataService.getFirstStageId(), 0, BATTLE_SECONDS, Map.of());
+        getAs(account, RANKING_URL + "?type=MAX_STAGE")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.myRank").value(nullValue()));
+
+        // 서버 시작 때의 백필(rebuildAll)에서도 빠진다
+        rankingRedisSyncService.rebuildAll();
+        getAs(account, RANKING_URL + "?type=ACCOUNT_LEVEL")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.myRank").value(nullValue()));
     }
 
     @Test

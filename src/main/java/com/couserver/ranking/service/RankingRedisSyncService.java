@@ -1,5 +1,6 @@
 package com.couserver.ranking.service;
 
+import com.couserver.account.entity.AccountType;
 import com.couserver.account.entity.PlayerProfile;
 import com.couserver.account.entity.StageProgress;
 import com.couserver.account.repository.PlayerProfileRepository;
@@ -13,6 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -32,7 +36,11 @@ public class RankingRedisSyncService {
 
         int levelCount = 0;
         int combatPowerCount = 0;
-        for (PlayerProfile p : playerProfileRepository.findAll()) {
+        Set<Long> rankedPlayerIds = new HashSet<>();
+        for (PlayerProfile p : playerProfileRepository.findAllWithAccount()) {
+            if (!p.getAccount().getAccountType().isRanked()) continue;   // 테스트 계정 등은 제외
+            rankedPlayerIds.add(p.getPlayerId());
+
             redisRepository.put(RankingRedisRepository.ACCOUNT_LEVEL_KEY, p.getPlayerId(),
                     RankingRedisRepository.accountLevelValue(p.getAccountLevel(), p.getAccountExp()));
             levelCount++;
@@ -42,6 +50,7 @@ public class RankingRedisSyncService {
 
         int stageCount = 0;
         for (StageProgress s : stageProgressRepository.findAll()) {
+            if (!rankedPlayerIds.contains(s.getPlayerId())) continue;
             if (s.getMaxClearedStageId() == null) continue;   // 클리어 이력 없으면 제외
             redisRepository.put(RankingRedisRepository.MAX_STAGE_KEY, s.getPlayerId(), s.getMaxClearedStageId());
             stageCount++;
@@ -49,6 +58,7 @@ public class RankingRedisSyncService {
 
         int survivalCount = 0;
         for (StageRecord r : stageRecordRepository.findAll()) {
+            if (!rankedPlayerIds.contains(r.getPlayerId())) continue;
             if (r.getBestSurvivalSeconds() <= 0) continue;    // 기록 없으면 제외
             redisRepository.put(RankingRedisRepository.stageSurvivalKey(r.getStageId()), r.getPlayerId(),
                     r.getBestSurvivalSeconds());
@@ -62,6 +72,8 @@ public class RankingRedisSyncService {
     // 한 플레이어의 랭킹 값을 DB 기준으로 Redis에 다시 반영한다
     @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
     public void syncPlayer(Long playerId) {
+        if (!isRanked(playerId)) return;
+
         playerProfileRepository.findById(playerId).ifPresent(p ->
                 redisRepository.put(RankingRedisRepository.ACCOUNT_LEVEL_KEY, playerId,
                         RankingRedisRepository.accountLevelValue(p.getAccountLevel(), p.getAccountExp())));
@@ -82,7 +94,16 @@ public class RankingRedisSyncService {
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void syncCombatPower(Long playerId) {
+        if (!isRanked(playerId)) return;
+
         putCombatPower(playerId);
+    }
+
+    // 랭킹에 올리는 계정인지. 플레이어가 없으면 올리지 않는다
+    private boolean isRanked(Long playerId) {
+        return playerProfileRepository.findAccountTypeByPlayerId(playerId)
+                .map(AccountType::isRanked)
+                .orElse(false);
     }
 
     // 전투력은 DB에 저장하지 않고 장착 장비와 진화 스탯으로 계산한 값을 Redis에 넣는다

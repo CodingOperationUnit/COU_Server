@@ -16,7 +16,8 @@ class EnumColumnTypeTest extends IntegrationTestSupport {
             "currency_ledger, currency_type",
             "currency_ledger, reason",
             "social_link, social_link_provider",
-            "equipment, grade"
+            "equipment, grade",
+            "account, account_type"
     })
     @DisplayName("값이 늘어날 수 있는 enum 컬럼은 varchar로 만들어진다")
     void enumColumnsAreVarchar(String table, String column) {
