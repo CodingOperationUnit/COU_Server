@@ -58,8 +58,8 @@
       "waveEntryId": 7,
       "waveId": 1,
       "patternStartTime": 240.0,
-      "patternDuration": 140.0,
-      "spawnInterval": 1.0,
+      "patternDuration": 120.0,
+      "spawnInterval": 0.15,
       "patternId": 4,
       "monsterSlot": "N4"
     },
@@ -75,7 +75,7 @@
     {
       "waveEntryId": 9,
       "waveId": 1,
-      "patternStartTime": 380.0,
+      "patternStartTime": 360.0,
       "patternDuration": 100.0,
       "spawnInterval": 1.5,
       "patternId": 2,
@@ -104,7 +104,7 @@
       "waveId": 2,
       "patternStartTime": 0.0,
       "patternDuration": 240.0,
-      "spawnInterval": 1.0,
+      "spawnInterval": 0.05,
       "patternId": 2,
       "monsterSlot": "N1"
     },
@@ -185,7 +185,7 @@
       "waveId": 2,
       "patternStartTime": 240.0,
       "patternDuration": 140.0,
-      "spawnInterval": 0.7,
+      "spawnInterval": 0.1,
       "patternId": 4,
       "monsterSlot": "N4"
     },

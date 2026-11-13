@@ -4,5 +4,7 @@ package com.couserver.staticdata.dto;
 public enum SkillTargetType {
     NEAREST,
     FORWARD,
-    NONE
+    NONE,
+    RANDOM,
+    HIGHESTHEALTH
 }

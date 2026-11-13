@@ -6,11 +6,11 @@
       "skillDisplayName": "텀블러",
       "skillCategory": 0,
       "skillTargetType": "Nearest",
-      "skillCooldown": 1.0,
+      "skillCooldown": 2.0,
       "skillSpeed": 4.0,
       "skillDamage": 1.0,
       "skillRange": 5.0,
-      "skillDescription": "적에게 텀블러를 던집니다. "
+      "skillDescription": "주변에 텀블러를 던져 불 장판을 만듭니다. 장판 위의 적은 계속 피해를 입습니다."
     },
     {
       "skillId": 20020,
@@ -46,7 +46,7 @@
       "skillSpeed": 120.0,
       "skillDamage": 0.8,
       "skillRange": 2.0,
-      "skillDescription": "캐릭터 주변을 빙빙 도는 소리구슬을 소환합니다. 소리구슬에 닿은 적은 피해를 입습니다."
+      "skillDescription": "캐릭터 주변을 도는 소리구슬을 소환합니다. 구슬은 적을 밀어내고 적의 탄을 되돌려 보냅니다."
     },
     {
       "skillId": 20050,
@@ -66,11 +66,11 @@
       "skillDisplayName": "키보드",
       "skillCategory": 0,
       "skillTargetType": "Nearest",
-      "skillCooldown": 0.75,
+      "skillCooldown": 1.0,
       "skillSpeed": 0.0,
-      "skillDamage": 2.0,
+      "skillDamage": 1.0,
       "skillRange": 2.3,
-      "skillDescription": "키보드를 휘둘러 적을 공격합니다."
+      "skillDescription": "가까운 적 한 명을 연달아 벱니다. 적이 쓰러지면 다음 적을 벱니다."
     },
     {
       "skillId": 20070,
@@ -106,7 +106,55 @@
       "skillSpeed": 4.0,
       "skillDamage": 1.0,
       "skillRange": 5.0,
-      "skillDescription": "실행취소 부메랑을 던집니다. 적에게 피해를 주고 돌아오면 다시 던집니다."
+      "skillDescription": "실행취소 부메랑을 던집니다. 적을 한 번에 쓰러뜨린 부메랑만 돌아오고, 돌아온 만큼 다음에 하나씩 더 던집니다."
+    },
+    {
+      "skillId": 20100,
+      "skillName": "Coffee",
+      "skillDisplayName": "커피",
+      "skillCategory": 0,
+      "skillTargetType": "Random",
+      "skillCooldown": 1.5,
+      "skillSpeed": 0.0,
+      "skillDamage": 0.4,
+      "skillRange": 6.0,
+      "skillDescription": "사거리 안의 무작위 적 위로 커피잔을 연달아 떨어뜨립니다. 커피가 쏟아지며 범위 피해를 줍니다."
+    },
+    {
+      "skillId": 20110,
+      "skillName": "Router",
+      "skillDisplayName": "공유기",
+      "skillCategory": 0,
+      "skillTargetType": "None",
+      "skillCooldown": 0.0,
+      "skillSpeed": 30.0,
+      "skillDamage": 0.6,
+      "skillRange": 11.0,
+      "skillDescription": "먼 거리에서 캐릭터 둘레를 도는 와이파이 파동을 소환합니다. 파동에 닿은 적은 피해를 입습니다."
+    },
+    {
+      "skillId": 20120,
+      "skillName": "Laptop",
+      "skillDisplayName": "노트북",
+      "skillCategory": 0,
+      "skillTargetType": "None",
+      "skillCooldown": 0.0,
+      "skillSpeed": 4.0,
+      "skillDamage": 1.5,
+      "skillRange": 0.0,
+      "skillDescription": "화면 안을 튕기며 돌아다니다 멈춰서 열리는 노트북을 소환합니다. 열리면 주변 적에게 범위 피해를 줍니다."
+    },
+    {
+      "skillId": 20130,
+      "skillName": "PostIt",
+      "skillDisplayName": "포스트잇",
+      "skillCategory": 0,
+      "skillTargetType": "HighestHealth",
+      "skillCooldown": 3.0,
+      "skillSpeed": 0.0,
+      "skillDamage": 1.0,
+      "skillRange": 7.0,
+      "skillDescription": "사거리 안에서 체력이 가장 높은 적에게 붙어 지속 피해를 줍니다. 체력이 같으면 가장 먼 적에게 붙습니다."
     },
     {
       "skillId": 21010,
@@ -215,6 +263,54 @@
       "skillDamage": 0.0,
       "skillRange": 0.0,
       "skillDescription": "치명타 확률이 늘어납니다."
+    },
+    {
+      "skillId": 21100,
+      "skillName": "CoffeeBeans",
+      "skillDisplayName": "커피원두",
+      "skillCategory": 1,
+      "skillTargetType": "None",
+      "skillCooldown": 0.0,
+      "skillSpeed": 0.0,
+      "skillDamage": 0.0,
+      "skillRange": 0.0,
+      "skillDescription": "스킬 범위가 늘어납니다."
+    },
+    {
+      "skillId": 21110,
+      "skillName": "SignalBooster",
+      "skillDisplayName": "신호증폭기",
+      "skillCategory": 1,
+      "skillTargetType": "None",
+      "skillCooldown": 0.0,
+      "skillSpeed": 0.0,
+      "skillDamage": 0.0,
+      "skillRange": 0.0,
+      "skillDescription": "스킬이 더 빨라지고 더 커집니다."
+    },
+    {
+      "skillId": 21120,
+      "skillName": "Charger",
+      "skillDisplayName": "충전기",
+      "skillCategory": 1,
+      "skillTargetType": "None",
+      "skillCooldown": 0.0,
+      "skillSpeed": 0.0,
+      "skillDamage": 0.0,
+      "skillRange": 0.0,
+      "skillDescription": "스킬이 더 빨라집니다."
+    },
+    {
+      "skillId": 21130,
+      "skillName": "Highlighter",
+      "skillDisplayName": "형광펜",
+      "skillCategory": 1,
+      "skillTargetType": "None",
+      "skillCooldown": 0.0,
+      "skillSpeed": 0.0,
+      "skillDamage": 0.0,
+      "skillRange": 0.0,
+      "skillDescription": "스킬 피해량이 증가합니다."
     }
   ]
 }
