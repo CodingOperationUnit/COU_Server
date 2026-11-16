@@ -89,26 +89,60 @@ public class ShopService {
             throw new BusinessException(ShopErrorCode.NOT_ENOUGH_CURRENCY);
         }
 
+        // 구매 보상 반영을 위한 플레이어 정보 조회
+        PlayerProfile profile = playerProfileRepository.findById(playerId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "플레이어 데이터가 없습니다."
+                ));
+
+
 
         long refId = product.productId();
         currencyLedger.spendGem(currency, product.priceGem(), LedgerReason.SHOP_PURCHASE, refId);
 
         List<EquipmentResponse> rewardedItems = new ArrayList<>();
         switch (product.productType()) {
-            case GOLD -> currencyLedger.addGold(currency, product.rewardAmount(), LedgerReason.SHOP_PURCHASE, refId);
+            case GOLD -> currencyLedger.addGold(
+                    currency,
+                    product.rewardAmount(),
+                    LedgerReason.SHOP_PURCHASE,
+                    refId
+            );
             case GEM -> {
                 if (ThreadLocalRandom.current().nextBoolean()) {
-                    currencyLedger.addGem(currency, product.rewardAmount(), LedgerReason.SHOP_PURCHASE, refId);
+                    currencyLedger.addGem(
+                            currency,
+                            product.rewardAmount(),
+                            LedgerReason.SHOP_PURCHASE,
+                            refId
+                    );
                 } else {
-                    currencyLedger.spendGem(currency, product.rewardAmount(), LedgerReason.SHOP_PURCHASE, refId);
+                    currencyLedger.spendGem(
+                            currency,
+                            product.rewardAmount(),
+                            LedgerReason.SHOP_PURCHASE,
+                            refId
+                    );
                 }
             }
-            case RANDOMITEM -> rewardedItems.add(drawEquipment(playerId, product));
+            case RANDOMITEM -> rewardedItems.add(
+                    drawEquipment(playerId, product)
+            );
+            case NICKNAMECHANGETICKET -> profile.addNicknameChangeTickets(
+                    product.rewardAmount()
+            );
         }
 
         return new PurchaseResponse(
-                product.productId(), product.priceGem(),
-                currency.getCurrencyGold(), currency.getCurrencyGem(), rewardedItems);
+                product.productId(),
+                product.priceGem(),
+                currency.getCurrencyGold(),
+                currency.getCurrencyGem(),
+                rewardedItems,
+                profile.getNicknameChangeTicketCount()
+        );
+
     }
 
     // 등급 범위 안의 장비 중 하나를 뽑아 지급한다. 챕터 보물상자도 같은 규칙으로 뽑는다
@@ -159,6 +193,8 @@ public class ShopService {
             case GOLD -> "Gold";
             case GEM -> "Gem";
             case RANDOMITEM -> "RandomItem";
+            case NICKNAMECHANGETICKET -> "NicknameChangeTicket";
         };
     }
+
 }
