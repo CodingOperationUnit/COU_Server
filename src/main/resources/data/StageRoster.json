@@ -32,7 +32,7 @@
       "stageId": 1,
       "monsterSlot": "N4",
       "monsterId": 11019,
-      "monsterHpScale": 2.0,
+      "monsterHpScale": 1.0,
       "monsterDamageScale": 2.0,
       "patternId": 0
     },
@@ -41,7 +41,7 @@
       "stageId": 1,
       "monsterSlot": "N5",
       "monsterId": 11020,
-      "monsterHpScale": 3.5,
+      "monsterHpScale": 11.2,
       "monsterDamageScale": 5.6,
       "patternId": 0
     },
@@ -122,7 +122,7 @@
       "stageId": 2,
       "monsterSlot": "N4",
       "monsterId": 11018,
-      "monsterHpScale": 2.6,
+      "monsterHpScale": 1.3,
       "monsterDamageScale": 2.6,
       "patternId": 0
     },
@@ -131,7 +131,7 @@
       "stageId": 2,
       "monsterSlot": "N5",
       "monsterId": 11023,
-      "monsterHpScale": 4.55,
+      "monsterHpScale": 14.56,
       "monsterDamageScale": 7.28,
       "patternId": 0
     },
@@ -212,7 +212,7 @@
       "stageId": 3,
       "monsterSlot": "N4",
       "monsterId": 11026,
-      "monsterHpScale": 3.3,
+      "monsterHpScale": 1.65,
       "monsterDamageScale": 3.3,
       "patternId": 0
     },
@@ -221,7 +221,7 @@
       "stageId": 3,
       "monsterSlot": "N5",
       "monsterId": 11027,
-      "monsterHpScale": 5.775,
+      "monsterHpScale": 18.48,
       "monsterDamageScale": 9.24,
       "patternId": 0
     },
@@ -302,7 +302,7 @@
       "stageId": 4,
       "monsterSlot": "N4",
       "monsterId": 11030,
-      "monsterHpScale": 4.0,
+      "monsterHpScale": 2.0,
       "monsterDamageScale": 4.0,
       "patternId": 0
     },
@@ -311,7 +311,7 @@
       "stageId": 4,
       "monsterSlot": "N5",
       "monsterId": 11031,
-      "monsterHpScale": 7.0,
+      "monsterHpScale": 22.4,
       "monsterDamageScale": 11.2,
       "patternId": 0
     },
@@ -392,7 +392,7 @@
       "stageId": 5,
       "monsterSlot": "N4",
       "monsterId": 11034,
-      "monsterHpScale": 4.8,
+      "monsterHpScale": 2.4,
       "monsterDamageScale": 4.8,
       "patternId": 0
     },
@@ -401,7 +401,7 @@
       "stageId": 5,
       "monsterSlot": "N5",
       "monsterId": 11035,
-      "monsterHpScale": 8.4,
+      "monsterHpScale": 26.88,
       "monsterDamageScale": 13.44,
       "patternId": 0
     },
@@ -482,7 +482,7 @@
       "stageId": 6,
       "monsterSlot": "N4",
       "monsterId": 11039,
-      "monsterHpScale": 5.7,
+      "monsterHpScale": 2.85,
       "monsterDamageScale": 5.7,
       "patternId": 0
     },
@@ -491,7 +491,7 @@
       "stageId": 6,
       "monsterSlot": "N5",
       "monsterId": 11040,
-      "monsterHpScale": 9.975,
+      "monsterHpScale": 31.92,
       "monsterDamageScale": 15.96,
       "patternId": 0
     },
@@ -572,7 +572,7 @@
       "stageId": 7,
       "monsterSlot": "N4",
       "monsterId": 11044,
-      "monsterHpScale": 6.7,
+      "monsterHpScale": 3.35,
       "monsterDamageScale": 6.7,
       "patternId": 0
     },
@@ -581,7 +581,7 @@
       "stageId": 7,
       "monsterSlot": "N5",
       "monsterId": 11045,
-      "monsterHpScale": 11.725,
+      "monsterHpScale": 37.52,
       "monsterDamageScale": 18.76,
       "patternId": 0
     },
@@ -662,7 +662,7 @@
       "stageId": 8,
       "monsterSlot": "N4",
       "monsterId": 11049,
-      "monsterHpScale": 7.8,
+      "monsterHpScale": 3.9,
       "monsterDamageScale": 7.8,
       "patternId": 0
     },
@@ -671,7 +671,7 @@
       "stageId": 8,
       "monsterSlot": "N5",
       "monsterId": 11050,
-      "monsterHpScale": 13.65,
+      "monsterHpScale": 43.68,
       "monsterDamageScale": 21.84,
       "patternId": 0
     },
@@ -752,7 +752,7 @@
       "stageId": 9,
       "monsterSlot": "N4",
       "monsterId": 11054,
-      "monsterHpScale": 9.0,
+      "monsterHpScale": 4.5,
       "monsterDamageScale": 9.0,
       "patternId": 0
     },
@@ -761,7 +761,7 @@
       "stageId": 9,
       "monsterSlot": "N5",
       "monsterId": 11055,
-      "monsterHpScale": 15.75,
+      "monsterHpScale": 50.4,
       "monsterDamageScale": 25.2,
       "patternId": 0
     },
@@ -842,7 +842,7 @@
       "stageId": 10,
       "monsterSlot": "N4",
       "monsterId": 11059,
-      "monsterHpScale": 10.3,
+      "monsterHpScale": 5.15,
       "monsterDamageScale": 10.3,
       "patternId": 0
     },
@@ -851,7 +851,7 @@
       "stageId": 10,
       "monsterSlot": "N5",
       "monsterId": 11060,
-      "monsterHpScale": 18.025,
+      "monsterHpScale": 57.68,
       "monsterDamageScale": 28.84,
       "patternId": 0
     },
@@ -932,7 +932,7 @@
       "stageId": 11,
       "monsterSlot": "N4",
       "monsterId": 11019,
-      "monsterHpScale": 11.7,
+      "monsterHpScale": 5.85,
       "monsterDamageScale": 11.7,
       "patternId": 0
     },
@@ -941,7 +941,7 @@
       "stageId": 11,
       "monsterSlot": "N5",
       "monsterId": 11020,
-      "monsterHpScale": 20.475,
+      "monsterHpScale": 65.52,
       "monsterDamageScale": 32.76,
       "patternId": 0
     },
@@ -1022,7 +1022,7 @@
       "stageId": 12,
       "monsterSlot": "N4",
       "monsterId": 11018,
-      "monsterHpScale": 13.2,
+      "monsterHpScale": 6.6,
       "monsterDamageScale": 13.2,
       "patternId": 0
     },
@@ -1031,7 +1031,7 @@
       "stageId": 12,
       "monsterSlot": "N5",
       "monsterId": 11023,
-      "monsterHpScale": 23.1,
+      "monsterHpScale": 73.92,
       "monsterDamageScale": 36.96,
       "patternId": 0
     },
@@ -1112,7 +1112,7 @@
       "stageId": 13,
       "monsterSlot": "N4",
       "monsterId": 11026,
-      "monsterHpScale": 14.8,
+      "monsterHpScale": 7.4,
       "monsterDamageScale": 14.8,
       "patternId": 0
     },
@@ -1121,7 +1121,7 @@
       "stageId": 13,
       "monsterSlot": "N5",
       "monsterId": 11027,
-      "monsterHpScale": 25.9,
+      "monsterHpScale": 82.88,
       "monsterDamageScale": 41.44,
       "patternId": 0
     },
@@ -1202,7 +1202,7 @@
       "stageId": 14,
       "monsterSlot": "N4",
       "monsterId": 11030,
-      "monsterHpScale": 16.5,
+      "monsterHpScale": 8.25,
       "monsterDamageScale": 16.5,
       "patternId": 0
     },
@@ -1211,7 +1211,7 @@
       "stageId": 14,
       "monsterSlot": "N5",
       "monsterId": 11031,
-      "monsterHpScale": 28.875,
+      "monsterHpScale": 92.4,
       "monsterDamageScale": 46.2,
       "patternId": 0
     },
@@ -1292,7 +1292,7 @@
       "stageId": 15,
       "monsterSlot": "N4",
       "monsterId": 11034,
-      "monsterHpScale": 18.3,
+      "monsterHpScale": 9.15,
       "monsterDamageScale": 18.3,
       "patternId": 0
     },
@@ -1301,7 +1301,7 @@
       "stageId": 15,
       "monsterSlot": "N5",
       "monsterId": 11035,
-      "monsterHpScale": 32.025,
+      "monsterHpScale": 102.48,
       "monsterDamageScale": 51.24,
       "patternId": 0
     },
@@ -1382,7 +1382,7 @@
       "stageId": 16,
       "monsterSlot": "N4",
       "monsterId": 11039,
-      "monsterHpScale": 20.2,
+      "monsterHpScale": 10.1,
       "monsterDamageScale": 20.2,
       "patternId": 0
     },
@@ -1391,7 +1391,7 @@
       "stageId": 16,
       "monsterSlot": "N5",
       "monsterId": 11040,
-      "monsterHpScale": 35.35,
+      "monsterHpScale": 113.12,
       "monsterDamageScale": 56.56,
       "patternId": 0
     },
@@ -1472,7 +1472,7 @@
       "stageId": 17,
       "monsterSlot": "N4",
       "monsterId": 11044,
-      "monsterHpScale": 22.2,
+      "monsterHpScale": 11.1,
       "monsterDamageScale": 22.2,
       "patternId": 0
     },
@@ -1481,7 +1481,7 @@
       "stageId": 17,
       "monsterSlot": "N5",
       "monsterId": 11045,
-      "monsterHpScale": 38.85,
+      "monsterHpScale": 124.32,
       "monsterDamageScale": 62.16,
       "patternId": 0
     },
@@ -1562,7 +1562,7 @@
       "stageId": 18,
       "monsterSlot": "N4",
       "monsterId": 11049,
-      "monsterHpScale": 24.3,
+      "monsterHpScale": 12.15,
       "monsterDamageScale": 24.3,
       "patternId": 0
     },
@@ -1571,7 +1571,7 @@
       "stageId": 18,
       "monsterSlot": "N5",
       "monsterId": 11050,
-      "monsterHpScale": 42.525,
+      "monsterHpScale": 136.08,
       "monsterDamageScale": 68.04,
       "patternId": 0
     },
@@ -1652,7 +1652,7 @@
       "stageId": 19,
       "monsterSlot": "N4",
       "monsterId": 11054,
-      "monsterHpScale": 26.5,
+      "monsterHpScale": 13.25,
       "monsterDamageScale": 26.5,
       "patternId": 0
     },
@@ -1661,7 +1661,7 @@
       "stageId": 19,
       "monsterSlot": "N5",
       "monsterId": 11055,
-      "monsterHpScale": 46.375,
+      "monsterHpScale": 148.4,
       "monsterDamageScale": 74.2,
       "patternId": 0
     },
@@ -1742,7 +1742,7 @@
       "stageId": 20,
       "monsterSlot": "N4",
       "monsterId": 11059,
-      "monsterHpScale": 28.8,
+      "monsterHpScale": 14.4,
       "monsterDamageScale": 28.8,
       "patternId": 0
     },
@@ -1751,7 +1751,7 @@
       "stageId": 20,
       "monsterSlot": "N5",
       "monsterId": 11060,
-      "monsterHpScale": 50.4,
+      "monsterHpScale": 161.28,
       "monsterDamageScale": 80.64,
       "patternId": 0
     },
