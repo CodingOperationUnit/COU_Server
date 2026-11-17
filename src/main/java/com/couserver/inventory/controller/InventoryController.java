@@ -7,6 +7,9 @@ import com.couserver.inventory.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/inventory")
 @RequiredArgsConstructor
@@ -35,8 +38,11 @@ public class InventoryController {
     }
 
     @PostMapping("/{inventoryId}/synthesize")
-    public SynthesizeResponse synthesize(@AuthenticationPrincipal AuthAccount authAccount,@PathVariable Long inventoryId) {
-        return inventoryService.synthesize(authAccount.getPlayerId(), inventoryId);
+    public SynthesizeResponse synthesize(@AuthenticationPrincipal AuthAccount authAccount,
+                                         @PathVariable Long inventoryId,
+                                         @RequestBody(required = false) SynthesizeRequest request) {
+        List<Long> materialInventoryIds = request == null ? null : request.materialInventoryIds();
+        return inventoryService.synthesize(authAccount.getPlayerId(), inventoryId, materialInventoryIds);
     }
 
     @PostMapping("/{inventoryId}/synthesize/batch")

@@ -24,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -225,7 +226,7 @@ public class InventoryService {
 
     // 장비 합성 로직(단일 합성)
     @Transactional
-    public SynthesizeResponse synthesize(Long playerId, Long inventoryId) {
+    public SynthesizeResponse synthesize(Long playerId, Long inventoryId, List<Long> materialInventoryIds) {
         lockPlayer(playerId);
         Equipment target = getOwned(playerId, inventoryId);
 
@@ -233,9 +234,14 @@ public class InventoryService {
             throw new BusinessException(InventoryErrorCode.CANNOT_SYNTHESIZE_MAX_GRADE);
         }
 
-        List<Equipment> materials = findMaterials(playerId, target);
-        if (materials.size() < SYNTHESIS_MATERIAL_COUNT) {
-            throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_MATERIAL);
+        List<Equipment> materials;
+        if (materialInventoryIds == null) {
+            materials = findMaterials(playerId, target);                    // 재료 미지정: 서버 자동 선택
+            if (materials.size() < SYNTHESIS_MATERIAL_COUNT) {
+                throw new BusinessException(InventoryErrorCode.NOT_ENOUGH_MATERIAL);
+            }
+        } else {
+            materials = findSelectedMaterials(playerId, target, materialInventoryIds);   // 재료 지정: 전부 검증
         }
 
         List<Long> consumedIds = synthesizeOnce(target, materials);
@@ -335,6 +341,31 @@ public class InventoryService {
         return equipmentRepository
                 .findTop2ByPlayerIdAndItemIdAndGradeAndEquippedFalseAndIdNotOrderByIdAsc(
                         playerId, target.getItemId(), target.getGrade(), target.getId());
+    }
+
+    // 사용자가 지정한 재료 검증: 하나라도 어긋나면 예외를 던지고, 검증 중에는 아무것도 변경하지 않는다
+    private List<Equipment> findSelectedMaterials(Long playerId, Equipment target, List<Long> materialIds) {
+        if (materialIds.size() != SYNTHESIS_MATERIAL_COUNT
+                || materialIds.contains(null)
+                || new HashSet<>(materialIds).size() != materialIds.size()) {
+            throw new BusinessException(InventoryErrorCode.INVALID_MATERIAL_SELECTION);   // 개수 오류, null, 중복
+        }
+
+        List<Equipment> materials = new ArrayList<>();
+        for (Long materialId : materialIds) {
+            Equipment material = getOwned(playerId, materialId);            // 존재, 본인 소유
+            if (material.getId().equals(target.getId())) {
+                throw new BusinessException(InventoryErrorCode.MATERIAL_IS_TARGET);
+            }
+            if (!material.getItemId().equals(target.getItemId()) || material.getGrade() != target.getGrade()) {
+                throw new BusinessException(InventoryErrorCode.MATERIAL_MISMATCH);
+            }
+            if (material.isEquipped()) {
+                throw new BusinessException(InventoryErrorCode.MATERIAL_EQUIPPED);
+            }
+            materials.add(material);
+        }
+        return materials;
     }
 
     // 1단계 합성 실행: 대상은 세 장비 중 가장 높은 레벨을 이어받는다
