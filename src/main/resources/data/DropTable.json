@@ -54,7 +54,7 @@
       "dropGroup": 2,
       "dropItemType": "RewardBox",
       "weight": 1,
-      "count": 2
+      "count": 1
     },
     {
       "monsterSlot": "E2",
@@ -75,7 +75,7 @@
       "dropGroup": 2,
       "dropItemType": "RewardBox",
       "weight": 1,
-      "count": 2
+      "count": 1
     },
     {
       "monsterSlot": "M1",
@@ -96,13 +96,6 @@
       "dropGroup": 2,
       "dropItemType": "RewardBox",
       "weight": 1,
-      "count": 3
-    },
-    {
-      "monsterSlot": "B1",
-      "dropGroup": 0,
-      "dropItemType": "ExpGem4",
-      "weight": 1,
       "count": 1
     },
     {
@@ -110,7 +103,7 @@
       "dropGroup": 1,
       "dropItemType": "RewardBox",
       "weight": 1,
-      "count": 5
+      "count": 2
     },
     {
       "monsterSlot": "BOX",
