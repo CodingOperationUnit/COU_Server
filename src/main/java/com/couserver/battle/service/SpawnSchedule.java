@@ -3,7 +3,8 @@ package com.couserver.battle.service;
 import com.couserver.staticdata.dto.SpawnPatternData;
 import com.couserver.staticdata.dto.WaveEntryData;
 
-// 웨이브 시각표 계산. 클라이언트 WaveManager와 같은 규칙으로, 웨이브는 처치 여부와 무관하게 시각에 맞춰 나온다
+// 웨이브 시각표 계산. 클라이언트 WaveManager와 같은 규칙으로, 웨이브는 웨이브 시각에 맞춰 나온다.
+// 웨이브 시계는 보스전 동안 멈추므로, 전투 경과로 세면 실제 스폰 수 이상(상한)이 나온다
 public final class SpawnSchedule {
     private static final double MIN_SPAWN_INTERVAL = 0.1;   // 클라이언트 WaveManager.minRepeatInterval
 
