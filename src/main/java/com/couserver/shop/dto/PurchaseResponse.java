@@ -1,7 +1,6 @@
 package com.couserver.shop.dto;
 
 import com.couserver.inventory.dto.EquipmentResponse;
-
 import java.util.List;
 
 public record PurchaseResponse(
@@ -9,5 +8,7 @@ public record PurchaseResponse(
         int spentGem,
         int currencyGold,
         int currencyGem,
-        List<EquipmentResponse> rewardedItems) {
+        List<EquipmentResponse> rewardedItems,
+        int nicknameChangeTicketCount
+) {
 }
